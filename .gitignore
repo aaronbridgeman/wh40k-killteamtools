@@ -36,3 +36,8 @@ pnpm-debug.log*
 tmp/
 temp/
 *.tmp
+
+# Local source PDFs for rule extraction (not shipped to site)
+# Keep the folder and metadata in the repo, but ignore any PDF uploads.
+tools/rule-sources/*.pdf
+tools/rule-sources/**/*.pdf
