@@ -41,9 +41,16 @@ describe('WeaponRulesPage', () => {
 
   it('renders all weapon rules from the data', () => {
     render(<WeaponRulesPage />);
-    
-    // The weapon-rules.json has 22 rules
-    const ruleCards = screen.getAllByText(/x\+?|critical|attack|damage|operatives?/i);
-    expect(ruleCards.length).toBeGreaterThan(10);
+
+    // Verify we have the expected weapon rules by checking for specific rule names
+    expect(screen.getByText('Balanced')).toBeInTheDocument();
+    expect(screen.getByText('Lethal x+')).toBeInTheDocument();
+    expect(screen.getByText('Piercing x')).toBeInTheDocument();
+    expect(screen.getByText('Brutal')).toBeInTheDocument();
+    expect(screen.getByText('Relentless')).toBeInTheDocument();
+
+    // Check for multiple rule headings (level 3 headings are used for each rule)
+    const ruleHeadings = screen.getAllByRole('heading', { level: 3 });
+    expect(ruleHeadings.length).toBe(22); // 22 weapon rules in the data
   });
 });
