@@ -19,7 +19,7 @@ describe('ruleExpander', () => {
     });
 
     it('should expand a rule with value', () => {
-      const result = expandWeaponRule('Piercing', 1);
+      const result = expandWeaponRule('AP', 1);
       expect(result).not.toBeNull();
       expect(result?.name).toBe('Armour Penetration (AP) 1');
       expect(result?.description).toContain('1');

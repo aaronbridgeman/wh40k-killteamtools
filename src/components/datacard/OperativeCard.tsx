@@ -26,7 +26,7 @@ export function OperativeCard({ operative }: OperativeCardProps) {
       <div className={styles.stats}>
         <div className={styles.stat}>
           <span className={styles.statLabel}>M</span>
-          <span className={styles.statValue}>{stats.movement}"</span>
+          <span className={styles.statValue}>{stats.movement}&quot;</span>
         </div>
         <div className={styles.stat}>
           <span className={styles.statLabel}>APL</span>

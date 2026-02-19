@@ -24,7 +24,13 @@ export async function loadFaction(factionId: FactionId): Promise<Faction> {
     );
     return factionModule.default as Faction;
   } catch (error) {
-    throw new Error(`Failed to load faction: ${factionId}`, { cause: error });
+    const message = `Failed to load faction: ${factionId}`;
+    const err = new Error(message);
+    if (error instanceof Error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (err as any).cause = error;
+    }
+    throw err;
   }
 }
 
