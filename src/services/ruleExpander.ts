@@ -2,12 +2,38 @@
  * Service for expanding weapon rule abbreviations
  */
 
-import rulesGlossary from '@/data/weapons/rules-glossary.json';
+import weaponRules from '@/data/weapons/weapon-rules.json';
+
+type WeaponRuleSection = {
+  category: string;
+  rules: Array<{ name: string; description: string }>;
+};
 
 export interface RuleExpansion {
   name: string;
   description: string;
 }
+
+const normalizeRuleKey = (name: string) =>
+  name.replace(/\s+[xX]\+?$/, '').trim();
+
+const applyPlaceholder = (text: string, value: number | string) => {
+  const v = String(value);
+  // First replace x+ (keep the plus), then any remaining x placeholders.
+  return text.replace(/x\+/gi, `${v}+`).replace(/x/gi, v);
+};
+
+const ruleMap: Record<string, RuleExpansion> =
+  (weaponRules as WeaponRuleSection[]).reduce((acc, section) => {
+    section.rules.forEach((rule) => {
+      const key = normalizeRuleKey(rule.name);
+      acc[key] = {
+        name: rule.name,
+        description: rule.description,
+      };
+    });
+    return acc;
+  }, {} as Record<string, RuleExpansion>);
 
 /**
  * Expand a weapon rule abbreviation to its full description
@@ -16,7 +42,8 @@ export function expandWeaponRule(
   ruleName: string,
   value?: number | string
 ): RuleExpansion | null {
-  const baseRule = rulesGlossary[ruleName as keyof typeof rulesGlossary];
+  const normalized = normalizeRuleKey(ruleName);
+  const baseRule = ruleMap[normalized];
 
   if (!baseRule) {
     return null;
@@ -25,11 +52,11 @@ export function expandWeaponRule(
   // Replace X with the actual value if provided
   let description = baseRule.description;
   if (value !== undefined) {
-    description = description.replace(/X/g, String(value));
+    description = applyPlaceholder(description, value);
   }
 
   return {
-    name: value !== undefined ? `${baseRule.name} ${value}` : baseRule.name,
+    name: value !== undefined ? applyPlaceholder(baseRule.name, value) : baseRule.name,
     description,
   };
 }
@@ -38,16 +65,7 @@ export function expandWeaponRule(
  * Get all available weapon rules
  */
 export function getAllWeaponRules(): Record<string, RuleExpansion> {
-  return Object.entries(rulesGlossary).reduce(
-    (acc, [key, value]) => {
-      acc[key] = {
-        name: value.name,
-        description: value.description,
-      };
-      return acc;
-    },
-    {} as Record<string, RuleExpansion>
-  );
+  return { ...ruleMap };
 }
 
 /**
@@ -55,7 +73,7 @@ export function getAllWeaponRules(): Record<string, RuleExpansion> {
  */
 export function searchWeaponRules(query: string): RuleExpansion[] {
   const lowerQuery = query.toLowerCase();
-  return Object.values(rulesGlossary)
+  return Object.values(ruleMap)
     .filter(
       (rule) =>
         rule.name.toLowerCase().includes(lowerQuery) ||

@@ -19,9 +19,9 @@ describe('ruleExpander', () => {
     });
 
     it('should expand a rule with value', () => {
-      const result = expandWeaponRule('AP', 1);
+      const result = expandWeaponRule('Piercing', 1);
       expect(result).not.toBeNull();
-      expect(result?.name).toBe('Armour Penetration (AP) 1');
+      expect(result?.name).toBe('Piercing 1');
       expect(result?.description).toContain('1');
     });
 
@@ -33,7 +33,7 @@ describe('ruleExpander', () => {
     it('should handle Lethal with value', () => {
       const result = expandWeaponRule('Lethal', 5);
       expect(result).not.toBeNull();
-      expect(result?.name).toBe('Lethal 5');
+      expect(result?.name).toBe('Lethal 5+');
       expect(result?.description).toContain('5');
     });
   });

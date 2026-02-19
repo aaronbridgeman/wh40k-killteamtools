@@ -1,0 +1,95 @@
+[
+  {
+    "category": "Weapon Rules",
+    "rules": [
+      {
+        "name": "Accurate x",
+        "description": "You can retain up to x attack dice as normal successes without rolling them[cite: 136]. If a weapon has multiple instances, treat it as Accurate 2[cite: 137]."
+      },
+      {
+        "name": "Balanced",
+        "description": "You can re-roll one of your attack dice[cite: 138]."
+      },
+      {
+        "name": "Blast x",
+        "description": "After shooting the primary target, shoot against each secondary target visible to and within x of the primary target (e.g., Blast 2\")[cite: 139, 140, 141]. Secondary targets are valid regardless of a Conceal order[cite: 142]."
+      },
+      {
+        "name": "Brutal",
+        "description": "Your opponent can only block with critical successes[cite: 143]."
+      },
+      {
+        "name": "Ceaseless",
+        "description": "You can re-roll any of your attack dice results of one specific result (e.g., all results of 2)[cite: 143]."
+      },
+      {
+        "name": "Devastating x",
+        "description": "Each retained critical success immediately inflicts x damage on the operative[cite: 144]. If the rule includes a distance (e.g., 1\" Devastating x), inflict that damage on the target and every other operative visible within that distance[cite: 145]."
+      },
+      {
+        "name": "Heavy",
+        "description": "An operative cannot move in the same activation or counteraction it uses this weapon, and vice versa[cite: 146]. If specified as 'Heavy (x only)', only that specific move action is allowed[cite: 147]."
+      },
+      {
+        "name": "Hot",
+        "description": "After using this weapon, roll one D6: if the result is lower than the weapon's Hit stat, the operative takes damage equal to the result multiplied by two[cite: 149]."
+      },
+      {
+        "name": "Lethal x+",
+        "description": "Attack dice results equal to or greater than x are critical successes (e.g., Lethal 5+)[cite: 151]."
+      },
+      {
+        "name": "Limited x",
+        "description": "The weapon can only be used a number of times equal to x during the battle[cite: 152]."
+      },
+      {
+        "name": "Piercing x",
+        "description": "The defender rolls x fewer defence dice[cite: 154]. 'Piercing Crits x' only applies if you retain critical successes[cite: 155]."
+      },
+      {
+        "name": "Punishing",
+        "description": "If you retain any critical successes, you can retain one failed die as a normal success instead of discarding it[cite: 156]."
+      },
+      {
+        "name": "Range x",
+        "description": "Only operatives within distance x of the active operative can be valid targets[cite: 157]."
+      },
+      {
+        "name": "Relentless",
+        "description": "You can re-roll any of your attack dice[cite: 158]."
+      },
+      {
+        "name": "Rending",
+        "description": "If you retain any critical successes, you can change one retained normal success into a critical success[cite: 159]."
+      },
+      {
+        "name": "Saturate",
+        "description": "The defender cannot retain cover saves against this weapon[cite: 160]."
+      },
+      {
+        "name": "Seek",
+        "description": "When selecting targets, operatives with a Conceal order cannot use terrain for cover[cite: 161]. 'Seek Light' only ignores Light terrain for cover[cite: 162]."
+      },
+      {
+        "name": "Severe",
+        "description": "If you do not retain any critical successes, you can change one normal success into a critical success[cite: 164]."
+      },
+      {
+        "name": "Shock",
+        "description": "The first time you strike with a critical success in a sequence, discard one of the opponent's unresolved normal successes (or a critical if no normal successes remain)[cite: 166]."
+      },
+      {
+        "name": "Silent",
+        "description": "The operative can perform a Shoot action with this weapon even while it has a Conceal order[cite: 167]."
+      },
+      {
+        "name": "Stun",
+        "description": "If you retain any critical successes, subtract 1 from the target operative's APL stat until the end of its next activation[cite: 168]."
+      },
+      {
+        "name": "Torrent x",
+        "description": "Select a primary target, then shoot against any number of other valid targets within distance x of that target (but not within control range of your friendly operatives)[cite: 169, 170]."
+      }
+    ]
+  }
+]
