@@ -4,20 +4,26 @@ import path from 'path';
 import fs from 'fs';
 
 // Plugin to create .nojekyll file for GitHub Pages
-function createNoJekyllPlugin() {
+function createNoJekyllPlugin(outDir: string) {
   return {
     name: 'create-nojekyll',
     closeBundle() {
-      const outDir = 'docs';
-      const nojekyllPath = path.resolve(__dirname, outDir, '.nojekyll');
-      fs.writeFileSync(nojekyllPath, '');
+      try {
+        const nojekyllPath = path.resolve(__dirname, outDir, '.nojekyll');
+        // Ensure the directory exists before writing
+        if (fs.existsSync(path.resolve(__dirname, outDir))) {
+          fs.writeFileSync(nojekyllPath, '');
+        }
+      } catch (error) {
+        console.warn('Warning: Failed to create .nojekyll file:', error);
+      }
     },
   };
 }
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), createNoJekyllPlugin()],
+  plugins: [react(), createNoJekyllPlugin('docs')],
   base: '/wh40k-killteamtools/',
   build: {
     outDir: 'docs',
