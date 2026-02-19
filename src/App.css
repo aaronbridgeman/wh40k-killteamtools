@@ -1,0 +1,106 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0.5rem 0 0 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.loading,
+.error,
+.info-message {
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.loading {
+  background-color: var(--surface-color);
+  color: var(--text-secondary);
+}
+
+.error {
+  background-color: var(--error-background);
+  color: var(--error-color);
+}
+
+.info-message {
+  background-color: var(--surface-color);
+  color: var(--text-secondary);
+  border: 2px dashed var(--border-color);
+}
+
+.operatives-section {
+  margin-top: 2rem;
+}
+
+.operatives-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+.operatives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.app-footer {
+  background-color: var(--surface-color);
+  color: var(--text-secondary);
+  padding: 1.5rem;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .operatives-grid {
+    grid-template-columns: 1fr;
+  }
+}

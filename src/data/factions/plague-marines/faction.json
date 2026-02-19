@@ -1,0 +1,29 @@
+{
+  "id": "plague-marines",
+  "name": "Plague Marines",
+  "description": "Resilient Death Guard warriors corrupted by Nurgle's pestilent gifts",
+  "rules": [
+    {
+      "id": "disgustingly-resilient",
+      "name": "Disgustingly Resilient",
+      "description": "Each time a Plague Marine operative would lose a wound, roll one D6. On a 5+, that wound is not lost",
+      "type": "passive"
+    }
+  ],
+  "operatives": [],
+  "weapons": [],
+  "abilities": [],
+  "restrictions": {
+    "maxOperatives": 6,
+    "minOperatives": 6,
+    "fireTeamRules": [
+      "Must include 1 Leader operative",
+      "Can include specialists as per fire team composition"
+    ]
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "source": "Kill Team Core Book",
+    "lastUpdated": "2024-01-01"
+  }
+}

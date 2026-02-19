@@ -1,0 +1,29 @@
+{
+  "id": "angels-of-death",
+  "name": "Angels of Death",
+  "description": "Elite Space Marine operatives representing the finest warriors of the Adeptus Astartes",
+  "rules": [
+    {
+      "id": "and-they-shall-know-no-fear",
+      "name": "And They Shall Know No Fear",
+      "description": "Space Marine operatives can re-roll one failed save roll per activation",
+      "type": "passive"
+    }
+  ],
+  "operatives": [],
+  "weapons": [],
+  "abilities": [],
+  "restrictions": {
+    "maxOperatives": 6,
+    "minOperatives": 6,
+    "fireTeamRules": [
+      "Must include 1 Leader operative",
+      "Can include specialists as per fire team composition"
+    ]
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "source": "Kill Team Core Book",
+    "lastUpdated": "2024-01-01"
+  }
+}

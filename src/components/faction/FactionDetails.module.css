@@ -1,0 +1,72 @@
+.container {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  color: var(--text-primary);
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+.description {
+  margin: 1rem 0;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.rulesSection {
+  margin: 2rem 0;
+}
+
+.sectionTitle {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.rule {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: var(--card-background);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 4px;
+}
+
+.ruleName {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.ruleType {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.ruleDescription {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.metadata {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.metadata p {
+  margin: 0.5rem 0;
+}
