@@ -57,6 +57,10 @@ export interface Operative {
   weapon_options?: WeaponOptions;
   /** Special abilities */
   abilities?: string[]; // References to ability IDs
+  /** Weapon rules that apply to this operative */
+  weapon_rules?: string[];
+  /** Unique actions available to this operative */
+  unique_actions?: string[];
   /** Operative keywords */
   keywords?: string[];
   /** Points cost or fire team slots */

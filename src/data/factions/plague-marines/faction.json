@@ -2,97 +2,146 @@
   "id": "plague-marines",
   "name": "Plague Marines",
   "description": "Resilient Death Guard warriors corrupted by Nurgle's pestilent gifts",
+  "faction_keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE"],
+  "global_rules": {
+    "astartes_multi_action": "Can perform 2 Shoot actions (if one is a bolt/psychic weapon) or 2 Fight actions.",
+    "disgustingly_resilient": "When taking 3+ damage, roll D6; on 4+, subtract 1 from that damage.",
+    "poison_mechanic": "Successes with Poison weapons inflict a Poison token. Operatives with tokens take 1 damage upon activation."
+  },
   "rules": [
     {
       "id": "disgustingly-resilient",
       "name": "Disgustingly Resilient",
-      "description": "Each time a Plague Marine operative would lose a wound, roll one D6. On a 5+, that wound is not lost",
+      "description": "When taking 3+ damage, roll D6; on 4+, subtract 1 from that damage.",
+      "type": "passive"
+    },
+    {
+      "id": "astartes-multi-action",
+      "name": "Astartes Multi-Action",
+      "description": "Can perform 2 Shoot actions (if one is a bolt/psychic weapon) or 2 Fight actions.",
       "type": "passive"
     }
   ],
   "operatives": [
     {
-      "id": "pm-plague-marine-warrior",
-      "name": "Plague Marine Warrior",
-      "type": "Trooper",
+      "id": "pm-plague-marine-champion",
+      "name": "Plague Marine Champion",
+      "type": "Leader",
       "stats": {
-        "movement": 6,
+        "movement": 5,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 15
+      },
+      "fixed_loadout": ["Plasma pistol", "Plague sword"],
+      "abilities": ["Grandfather's Blessing"],
+      "weapon_rules": ["Toxic"],
+      "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "LEADER"],
+      "cost": 1
+    },
+    {
+      "id": "pm-plague-marine-bombardier",
+      "name": "Plague Marine Bombardier",
+      "type": "Operative",
+      "stats": {
+        "movement": 5,
         "actionPointLimit": 2,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
-        "wounds": 18
+        "wounds": 14
       },
-      "weapons": [
-        "pm-plague-knife",
-        "pm-boltgun"
-      ],
-      "abilities": [],
-      "keywords": ["Death Guard", "Infantry", "Plague Marine"],
+      "fixed_loadout": ["Boltgun", "Fists"],
+      "abilities": ["Grenadier (Blight and Krak grenades)"],
+      "weapon_rules": ["Toxic"],
+      "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "BOMBARDIER"],
       "cost": 1
     },
     {
       "id": "pm-plague-marine-fighter",
       "name": "Plague Marine Fighter",
-      "type": "Fighter",
+      "type": "Operative",
       "stats": {
-        "movement": 6,
+        "movement": 5,
         "actionPointLimit": 2,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
-        "wounds": 18
+        "wounds": 14
       },
-      "weapons": [
-        "pm-plague-knife",
-        "pm-plaguesword",
-        "pm-bolt-pistol"
-      ],
-      "abilities": [],
-      "keywords": ["Death Guard", "Infantry", "Plague Marine"],
+      "fixed_loadout": ["Flail of Corruption"],
+      "unique_actions": ["Flail (Area damage and Poison)"],
+      "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "FIGHTER"],
       "cost": 1
     },
     {
-      "id": "pm-plague-marine-gunner",
-      "name": "Plague Marine Gunner",
-      "type": "Heavy Gunner",
+      "id": "pm-plague-marine-heavy-gunner",
+      "name": "Plague Marine Heavy Gunner",
+      "type": "Operative",
       "stats": {
-        "movement": 6,
+        "movement": 5,
         "actionPointLimit": 2,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
-        "wounds": 18
+        "wounds": 14
       },
-      "weapons": [
-        "pm-plague-knife",
-        "pm-plague-belcher",
-        "pm-blight-launcher"
-      ],
-      "abilities": [],
-      "keywords": ["Death Guard", "Infantry", "Plague Marine", "Gunner"],
+      "fixed_loadout": ["Plague spewer", "Fists"],
+      "weapon_rules": ["Torrent 2\"", "Poison"],
+      "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "GUNNER"],
       "cost": 1
     },
     {
-      "id": "pm-plague-champion",
-      "name": "Plague Champion",
-      "type": "Leader",
+      "id": "pm-plague-marine-icon-bearer",
+      "name": "Plague Marine Icon Bearer",
+      "type": "Operative",
       "stats": {
-        "movement": 6,
+        "movement": 5,
         "actionPointLimit": 2,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
-        "wounds": 18
+        "wounds": 14
       },
-      "weapons": [
-        "pm-plague-knife",
-        "pm-plaguesword",
-        "pm-plasma-pistol",
-        "pm-boltgun"
-      ],
-      "abilities": [],
-      "keywords": ["Death Guard", "Infantry", "Leader", "Plague Champion"],
+      "fixed_loadout": ["Bolt pistol", "Plague knife"],
+      "abilities": ["Icon Bearer (APL Control)", "Icon of Contagion (Ploy Discount)"],
+      "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "ICON BEARER"],
+      "cost": 1
+    },
+    {
+      "id": "pm-malignant-plaguecaster",
+      "name": "Malignant Plaguecaster",
+      "type": "Operative",
+      "stats": {
+        "movement": 5,
+        "actionPointLimit": 2,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 14
+      },
+      "fixed_loadout": ["Entropy", "Plague wind", "Corrupted staff"],
+      "unique_actions": ["Poisonous Miasma (Psychic)", "Putrescent Vitality (Psychic)"],
+      "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "PSYKER"],
+      "cost": 1
+    },
+    {
+      "id": "pm-plague-marine-warrior",
+      "name": "Plague Marine Warrior",
+      "type": "Operative",
+      "stats": {
+        "movement": 5,
+        "actionPointLimit": 2,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 14
+      },
+      "fixed_loadout": ["Boltgun", "Plague knife"],
+      "abilities": ["Repulsive Fortitude (5+ Critical Saves)"],
+      "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "WARRIOR"],
       "cost": 1
     }
   ],
@@ -119,7 +168,7 @@
     },
     {
       "id": "pm-bolt-pistol",
-      "name": "Bolt Pistol",
+      "name": "Bolt pistol",
       "type": "ranged",
       "profiles": [
         {
@@ -132,60 +181,6 @@
               "name": "Range",
               "value": "6\"",
               "description": "Only operatives within distance 6\" of the active operative can be valid targets"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "pm-plague-belcher",
-      "name": "Plague Belcher",
-      "type": "ranged",
-      "profiles": [
-        {
-          "attacks": 5,
-          "ballisticSkill": 3,
-          "damage": 3,
-          "criticalDamage": 4,
-          "specialRules": [
-            {
-              "name": "Range",
-              "value": "6\"",
-              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
-            },
-            {
-              "name": "Torrent",
-              "value": "2\"",
-              "description": "Select a primary target, then shoot against any number of other valid targets within distance 2\" of that target"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "pm-blight-launcher",
-      "name": "Blight Launcher",
-      "type": "ranged",
-      "profiles": [
-        {
-          "attacks": 4,
-          "ballisticSkill": 3,
-          "damage": 4,
-          "criticalDamage": 5,
-          "specialRules": [
-            {
-              "name": "Range",
-              "value": "6\"",
-              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
-            },
-            {
-              "name": "Heavy",
-              "description": "An operative cannot move in the same activation or counteraction it uses this weapon, and vice versa"
-            },
-            {
-              "name": "Lethal",
-              "value": "5+",
-              "description": "Attack dice results equal to or greater than 5 are critical successes"
             }
           ]
         }
@@ -193,7 +188,7 @@
     },
     {
       "id": "pm-plasma-pistol",
-      "name": "Plasma Pistol",
+      "name": "Plasma pistol",
       "type": "ranged",
       "profiles": [
         {
@@ -241,8 +236,78 @@
       ]
     },
     {
+      "id": "pm-plague-spewer",
+      "name": "Plague spewer",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 6,
+          "ballisticSkill": 2,
+          "damage": 2,
+          "criticalDamage": 3,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            },
+            {
+              "name": "Torrent",
+              "value": "2\"",
+              "description": "Select a primary target, then shoot against any number of other valid targets within distance 2\" of that target"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-entropy",
+      "name": "Entropy",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 5,
+          "ballisticSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-plague-wind",
+      "name": "Plague wind",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 5,
+          "ballisticSkill": 3,
+          "damage": 2,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            },
+            {
+              "name": "Blast",
+              "value": "2\"",
+              "description": "After shooting the primary target, shoot against each secondary target visible to and within 2\" of the primary target"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "pm-plague-knife",
-      "name": "Plague Knife",
+      "name": "Plague knife",
       "type": "melee",
       "profiles": [
         {
@@ -261,8 +326,8 @@
       ]
     },
     {
-      "id": "pm-plaguesword",
-      "name": "Plaguesword",
+      "id": "pm-plague-sword",
+      "name": "Plague sword",
       "type": "melee",
       "profiles": [
         {
@@ -279,20 +344,109 @@
           ]
         }
       ]
+    },
+    {
+      "id": "pm-flail-of-corruption",
+      "name": "Flail of Corruption",
+      "type": "melee",
+      "profiles": [
+        {
+          "attacks": 5,
+          "weaponSkill": 4,
+          "damage": 4,
+          "criticalDamage": 5,
+          "specialRules": [
+            {
+              "name": "Blast",
+              "value": "2\"",
+              "description": "After shooting the primary target, shoot against each secondary target visible to and within 2\" of the primary target"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-corrupted-staff",
+      "name": "Corrupted staff",
+      "type": "melee",
+      "profiles": [
+        {
+          "attacks": 4,
+          "weaponSkill": 4,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": []
+        }
+      ]
+    },
+    {
+      "id": "pm-fists",
+      "name": "Fists",
+      "type": "melee",
+      "profiles": [
+        {
+          "attacks": 3,
+          "weaponSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": []
+        }
+      ]
     }
   ],
-  "abilities": [],
+  "abilities": [
+    {
+      "id": "grandfathers-blessing",
+      "name": "Grandfather's Blessing",
+      "description": "Special ability for the Plague Marine Champion",
+      "cost": 0
+    },
+    {
+      "id": "grenadier",
+      "name": "Grenadier (Blight and Krak grenades)",
+      "description": "Can use Blight and Krak grenades",
+      "cost": 0
+    },
+    {
+      "id": "icon-bearer",
+      "name": "Icon Bearer (APL Control)",
+      "description": "Provides APL control benefits to nearby operatives",
+      "cost": 0
+    },
+    {
+      "id": "icon-of-contagion",
+      "name": "Icon of Contagion (Ploy Discount)",
+      "description": "Reduces the cost of ploys",
+      "cost": 0
+    },
+    {
+      "id": "repulsive-fortitude",
+      "name": "Repulsive Fortitude (5+ Critical Saves)",
+      "description": "Can make critical saves on 5+",
+      "cost": 0
+    }
+  ],
   "restrictions": {
     "maxOperatives": 6,
     "minOperatives": 6,
+    "composition": {
+      "total_operatives": 6,
+      "selection_limits": {
+        "leader_count": 1,
+        "non_leader_count": 5,
+        "max_unique_operatives": 1,
+        "note": "Your kill team can only include each operative on the selection list once."
+      }
+    },
     "fireTeamRules": [
-      "Must include 1 Leader operative",
-      "Can include specialists as per fire team composition"
+      "Must include exactly 1 Leader operative",
+      "Can include up to 5 non-leader operatives",
+      "Each unique operative can only be taken once"
     ]
   },
   "metadata": {
-    "version": "1.0.0",
-    "source": "Kill Team Core Book",
-    "lastUpdated": "2024-01-01"
+    "version": "2.0.0",
+    "source": "Kill Team Core Book - Updated Selection Rules",
+    "lastUpdated": "2026-02-20"
   }
 }
