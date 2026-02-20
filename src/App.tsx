@@ -93,6 +93,7 @@ function App() {
                         <OperativeCard
                           key={operative.id}
                           operative={operative}
+                          weapons={faction.weapons}
                         />
                       ))}
                     </div>
