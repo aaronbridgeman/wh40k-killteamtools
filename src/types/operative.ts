@@ -32,7 +32,12 @@ export interface WeaponOptions {
   /** Firing profiles for different firing modes */
   firing_profiles?: string[];
   /** Direct slot definitions for weapon choices */
-  [key: string]: string | string[] | Array<Record<string, string | string[]>> | Array<{ fixed: string[] }> | undefined;
+  [key: string]:
+    | string
+    | string[]
+    | Array<Record<string, string | string[]>>
+    | Array<{ fixed: string[] }>
+    | undefined;
 }
 
 export interface Operative {
