@@ -2,11 +2,15 @@ import { useState } from 'react';
 import { FactionSelector } from './components/faction/FactionSelector';
 import { FactionDetails } from './components/faction/FactionDetails';
 import { OperativeCard } from './components/datacard/OperativeCard';
+import { WeaponRulesPage } from './components/rules/WeaponRulesPage';
 import { loadFaction, FactionId } from './services/dataLoader';
 import { Faction } from './types';
 import './App.css';
 
+type ViewMode = 'home' | 'weapon-rules';
+
 function App() {
+  const [viewMode, setViewMode] = useState<ViewMode>('home');
   const [selectedFactionId, setSelectedFactionId] = useState<
     FactionId | undefined
   >();
@@ -35,38 +39,61 @@ function App() {
       <header className="app-header">
         <h1>Kill Team Dataslate</h1>
         <p className="subtitle">Warhammer 40,000 Kill Team Reference Tool</p>
+        <nav className="nav-buttons">
+          <button
+            className={`nav-button ${viewMode === 'home' ? 'active' : ''}`}
+            onClick={() => setViewMode('home')}
+          >
+            Home
+          </button>
+          <button
+            className={`nav-button ${viewMode === 'weapon-rules' ? 'active' : ''}`}
+            onClick={() => setViewMode('weapon-rules')}
+          >
+            Weapon Rules
+          </button>
+        </nav>
       </header>
 
       <main className="app-main">
-        <FactionSelector
-          selectedFactionId={selectedFactionId}
-          onFactionSelect={handleFactionSelect}
-        />
-
-        {loading && <div className="loading">Loading faction data...</div>}
-
-        {error && <div className="error">Error: {error}</div>}
-
-        {faction && (
+        {viewMode === 'home' ? (
           <>
-            <FactionDetails faction={faction} />
+            <FactionSelector
+              selectedFactionId={selectedFactionId}
+              onFactionSelect={handleFactionSelect}
+            />
 
-            {faction.operatives.length > 0 ? (
-              <section className="operatives-section">
-                <h2>Operatives</h2>
-                <div className="operatives-grid">
-                  {faction.operatives.map((operative) => (
-                    <OperativeCard key={operative.id} operative={operative} />
-                  ))}
-                </div>
-              </section>
-            ) : (
-              <div className="info-message">
-                No operative data available yet. Operative datacards will be
-                added in future updates.
-              </div>
+            {loading && <div className="loading">Loading faction data...</div>}
+
+            {error && <div className="error">Error: {error}</div>}
+
+            {faction && (
+              <>
+                <FactionDetails faction={faction} />
+
+                {faction.operatives.length > 0 ? (
+                  <section className="operatives-section">
+                    <h2>Operatives</h2>
+                    <div className="operatives-grid">
+                      {faction.operatives.map((operative) => (
+                        <OperativeCard
+                          key={operative.id}
+                          operative={operative}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                ) : (
+                  <div className="info-message">
+                    No operative data available yet. Operative datacards will be
+                    added in future updates.
+                  </div>
+                )}
+              </>
             )}
           </>
+        ) : (
+          <WeaponRulesPage />
         )}
       </main>
 

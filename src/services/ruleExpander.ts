@@ -23,8 +23,10 @@ const applyPlaceholder = (text: string, value: number | string) => {
   return text.replace(/x\+/gi, `${v}+`).replace(/x/gi, v);
 };
 
-const ruleMap: Record<string, RuleExpansion> =
-  (weaponRules as WeaponRuleSection[]).reduce((acc, section) => {
+const ruleMap: Record<string, RuleExpansion> = (
+  weaponRules as WeaponRuleSection[]
+).reduce(
+  (acc, section) => {
     section.rules.forEach((rule) => {
       const key = normalizeRuleKey(rule.name);
       acc[key] = {
@@ -33,7 +35,9 @@ const ruleMap: Record<string, RuleExpansion> =
       };
     });
     return acc;
-  }, {} as Record<string, RuleExpansion>);
+  },
+  {} as Record<string, RuleExpansion>
+);
 
 /**
  * Expand a weapon rule abbreviation to its full description
@@ -56,7 +60,10 @@ export function expandWeaponRule(
   }
 
   return {
-    name: value !== undefined ? applyPlaceholder(baseRule.name, value) : baseRule.name,
+    name:
+      value !== undefined
+        ? applyPlaceholder(baseRule.name, value)
+        : baseRule.name,
     description,
   };
 }

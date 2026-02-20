@@ -5,7 +5,11 @@
 }
 
 .app-header {
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--accent-color)
+  );
   color: white;
   padding: 2rem 1rem;
   text-align: center;
@@ -22,6 +26,41 @@
   margin: 0.5rem 0 0 0;
   font-size: 1.1rem;
   opacity: 0.9;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.nav-button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.nav-button.active {
+  background-color: white;
+  color: var(--primary-color);
+  border-color: white;
+}
+
+.nav-button.active:hover {
+  transform: none;
 }
 
 .app-main {
@@ -98,6 +137,16 @@
 
   .subtitle {
     font-size: 1rem;
+  }
+
+  .nav-buttons {
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .nav-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
   }
 
   .operatives-grid {
