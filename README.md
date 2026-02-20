@@ -124,6 +124,19 @@ If you're setting up this repository for the first time or if deployments are fa
 2. Set **Source** to `GitHub Actions`
 3. Save and push to `main` branch
 
+## 🧹 Repository Maintenance
+
+### Branch Cleanup
+
+The repository includes automated tools for cleaning up merged branches:
+- **Automated workflow**: Runs weekly to delete merged branches (see `.github/workflows/cleanup-branches.yml`)
+- **Manual script**: Run `./scripts/cleanup-branches.sh` to clean up branches on-demand
+- See [BRANCH_CLEANUP.md](./BRANCH_CLEANUP.md) for detailed documentation
+
+To prevent branch accumulation:
+1. Enable "Automatically delete head branches" in repository settings
+2. Or manually trigger the cleanup workflow from the Actions tab
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please ensure:
@@ -145,5 +158,7 @@ MIT License - see LICENSE file for details
 ## 🔗 Links
 
 - [Technical Specification](./SPEC.md)
+- [Branch Cleanup Documentation](./BRANCH_CLEANUP.md)
+- [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md)
 - [GitHub Repository](https://github.com/aaronbridgeman/wh40k-killteamtools)
 - [Live Application](https://aaronbridgeman.github.io/wh40k-killteamtools/)
