@@ -18,11 +18,12 @@ import { Faction, TeamState, SelectedOperative, Operative } from './types';
 import './App.css';
 
 type ViewMode = 'home' | 'weapon-rules' | 'actions' | 'general-rules';
-type TeamViewMode = 'general' | 'selected';
+type TeamViewMode = 'faction-info' | 'team-selection';
 
 function App() {
   const [viewMode, setViewMode] = useState<ViewMode>('home');
-  const [teamViewMode, setTeamViewMode] = useState<TeamViewMode>('general');
+  const [teamViewMode, setTeamViewMode] =
+    useState<TeamViewMode>('faction-info');
   const [selectedFactionId, setSelectedFactionId] = useState<
     FactionId | undefined
   >();
@@ -164,20 +165,20 @@ function App() {
               <>
                 <div className="team-view-toggle">
                   <button
-                    className={`toggle-button ${teamViewMode === 'general' ? 'active' : ''}`}
-                    onClick={() => setTeamViewMode('general')}
+                    className={`toggle-button ${teamViewMode === 'faction-info' ? 'active' : ''}`}
+                    onClick={() => setTeamViewMode('faction-info')}
                   >
-                    General View
+                    Faction & Operative Info
                   </button>
                   <button
-                    className={`toggle-button ${teamViewMode === 'selected' ? 'active' : ''}`}
-                    onClick={() => setTeamViewMode('selected')}
+                    className={`toggle-button ${teamViewMode === 'team-selection' ? 'active' : ''}`}
+                    onClick={() => setTeamViewMode('team-selection')}
                   >
-                    Selected Team
+                    Team Selection
                   </button>
                 </div>
 
-                {teamViewMode === 'general' ? (
+                {teamViewMode === 'faction-info' ? (
                   <>
                     <FactionDetails faction={faction} />
 
@@ -185,7 +186,16 @@ function App() {
                       <section className="operatives-section">
                         <h2>Operatives</h2>
                         <div className="operatives-grid">
-                          {faction.operatives.map((operative) => (
+                          {/* Filter operatives if team has selections, otherwise show all */}
+                          {(teamState.selectedOperatives.length > 0
+                            ? faction.operatives.filter((operative) =>
+                                teamState.selectedOperatives.some(
+                                  (selected) =>
+                                    selected.operative.id === operative.id
+                                )
+                              )
+                            : faction.operatives
+                          ).map((operative) => (
                             <OperativeCard
                               key={operative.id}
                               operative={operative}
@@ -203,12 +213,6 @@ function App() {
                   </>
                 ) : (
                   <>
-                    <SelectedTeamView
-                      selectedOperatives={teamState.selectedOperatives}
-                      faction={faction}
-                      onClearTeam={handleClearTeam}
-                    />
-
                     <OperativeSelector
                       operatives={faction.operatives}
                       weapons={faction.weapons}
@@ -216,6 +220,12 @@ function App() {
                       onAddOperative={handleAddOperative}
                       onRemoveOperative={handleRemoveOperative}
                       maxOperatives={faction.restrictions.maxOperatives}
+                    />
+
+                    <SelectedTeamView
+                      selectedOperatives={teamState.selectedOperatives}
+                      faction={faction}
+                      onClearTeam={handleClearTeam}
                     />
 
                     <FactionRulesSelector
