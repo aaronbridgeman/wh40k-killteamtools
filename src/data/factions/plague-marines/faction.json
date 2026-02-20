@@ -10,8 +10,277 @@
       "type": "passive"
     }
   ],
-  "operatives": [],
-  "weapons": [],
+  "operatives": [
+    {
+      "id": "pm-plague-marine-warrior",
+      "name": "Plague Marine Warrior",
+      "type": "Trooper",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 2,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 18
+      },
+      "weapons": [
+        "pm-plague-knife",
+        "pm-boltgun"
+      ],
+      "abilities": [],
+      "keywords": ["Death Guard", "Infantry", "Plague Marine"],
+      "cost": 1
+    },
+    {
+      "id": "pm-plague-marine-fighter",
+      "name": "Plague Marine Fighter",
+      "type": "Fighter",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 2,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 18
+      },
+      "weapons": [
+        "pm-plague-knife",
+        "pm-plaguesword",
+        "pm-bolt-pistol"
+      ],
+      "abilities": [],
+      "keywords": ["Death Guard", "Infantry", "Plague Marine"],
+      "cost": 1
+    },
+    {
+      "id": "pm-plague-marine-gunner",
+      "name": "Plague Marine Gunner",
+      "type": "Heavy Gunner",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 2,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 18
+      },
+      "weapons": [
+        "pm-plague-knife",
+        "pm-plague-belcher",
+        "pm-blight-launcher"
+      ],
+      "abilities": [],
+      "keywords": ["Death Guard", "Infantry", "Plague Marine", "Gunner"],
+      "cost": 1
+    },
+    {
+      "id": "pm-plague-champion",
+      "name": "Plague Champion",
+      "type": "Leader",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 2,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 18
+      },
+      "weapons": [
+        "pm-plague-knife",
+        "pm-plaguesword",
+        "pm-plasma-pistol",
+        "pm-boltgun"
+      ],
+      "abilities": [],
+      "keywords": ["Death Guard", "Infantry", "Leader", "Plague Champion"],
+      "cost": 1
+    }
+  ],
+  "weapons": [
+    {
+      "id": "pm-boltgun",
+      "name": "Boltgun",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-bolt-pistol",
+      "name": "Bolt Pistol",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-plague-belcher",
+      "name": "Plague Belcher",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 5,
+          "ballisticSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            },
+            {
+              "name": "Torrent",
+              "value": "2\"",
+              "description": "Select a primary target, then shoot against any number of other valid targets within distance 2\" of that target"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-blight-launcher",
+      "name": "Blight Launcher",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 4,
+          "criticalDamage": 5,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            },
+            {
+              "name": "Heavy",
+              "description": "An operative cannot move in the same activation or counteraction it uses this weapon, and vice versa"
+            },
+            {
+              "name": "Lethal",
+              "value": "5+",
+              "description": "Attack dice results equal to or greater than 5 are critical successes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-plasma-pistol",
+      "name": "Plasma Pistol",
+      "type": "ranged",
+      "profiles": [
+        {
+          "name": "Standard",
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 4,
+          "criticalDamage": 5,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            },
+            {
+              "name": "Piercing",
+              "value": 1,
+              "description": "The defender rolls 1 fewer defence dice"
+            }
+          ]
+        },
+        {
+          "name": "Supercharge",
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 5,
+          "criticalDamage": 6,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+            },
+            {
+              "name": "Piercing",
+              "value": 1,
+              "description": "The defender rolls 1 fewer defence dice"
+            },
+            {
+              "name": "Hot",
+              "description": "After using this weapon, roll one D6: if the result is lower than the weapon's Ballistic Skill value, the operative takes damage equal to the result multiplied by two"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-plague-knife",
+      "name": "Plague Knife",
+      "type": "melee",
+      "profiles": [
+        {
+          "attacks": 4,
+          "weaponSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Lethal",
+              "value": "5+",
+              "description": "Attack dice results equal to or greater than 5 are critical successes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pm-plaguesword",
+      "name": "Plaguesword",
+      "type": "melee",
+      "profiles": [
+        {
+          "attacks": 4,
+          "weaponSkill": 3,
+          "damage": 4,
+          "criticalDamage": 5,
+          "specialRules": [
+            {
+              "name": "Lethal",
+              "value": "5+",
+              "description": "Attack dice results equal to or greater than 5 are critical successes"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "abilities": [],
   "restrictions": {
     "maxOperatives": 6,
