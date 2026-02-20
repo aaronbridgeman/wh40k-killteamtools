@@ -44,7 +44,7 @@
       },
       {
         "name": "Piercing x",
-        "description": "The defender rolls x fewer defence dice 'Piercing Crits x' only applies if you retain critical successes."
+        "description": "The defender rolls x fewer defence dice. 'Piercing Crits x' only applies if you retain critical successes."
       },
       {
         "name": "Punishing",
@@ -68,7 +68,7 @@
       },
       {
         "name": "Seek",
-        "description": "When selecting targets, operatives with a Conceal order cannot use terrain for cover 'Seek Light' only ignores Light terrain for cover."
+        "description": "When selecting targets, operatives with a Conceal order cannot use terrain for cover. 'Seek Light' only ignores Light terrain for cover."
       },
       {
         "name": "Severe",
