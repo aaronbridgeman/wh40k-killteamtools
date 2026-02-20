@@ -84,6 +84,7 @@ export function SelectedTeamView({
               key={selected.selectionId}
               operative={selected.operative}
               weapons={faction.weapons}
+              selectedWeaponIds={selected.selectedWeaponIds}
             />
           ))}
         </div>

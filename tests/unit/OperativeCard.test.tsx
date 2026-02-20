@@ -198,4 +198,64 @@ describe('OperativeCard', () => {
     expect(screen.getByText('Standard')).toBeInTheDocument();
     expect(screen.getByText('Supercharge')).toBeInTheDocument();
   });
+
+  describe('equipped loadout', () => {
+    it('shows only selected weapons when selectedWeaponIds is provided', () => {
+      render(
+        <OperativeCard
+          operative={mockOperative}
+          weapons={mockWeapons}
+          selectedWeaponIds={['test-boltgun']}
+        />,
+      );
+      expect(screen.getByText('Test Boltgun')).toBeInTheDocument();
+      expect(screen.queryByText('Test Knife')).not.toBeInTheDocument();
+      expect(screen.queryByText('Unused Weapon')).not.toBeInTheDocument();
+    });
+
+    it('shows "Equipped Loadout" header when selectedWeaponIds is provided', () => {
+      render(
+        <OperativeCard
+          operative={mockOperative}
+          weapons={mockWeapons}
+          selectedWeaponIds={['test-boltgun']}
+        />,
+      );
+      expect(screen.getByText('⚔️ Equipped Loadout')).toBeInTheDocument();
+      expect(screen.queryByText('Weapons')).not.toBeInTheDocument();
+    });
+
+    it('shows "Weapons" header when selectedWeaponIds is not provided', () => {
+      render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
+      expect(screen.getByText('Weapons')).toBeInTheDocument();
+      expect(screen.queryByText('⚔️ Equipped Loadout')).not.toBeInTheDocument();
+    });
+
+    it('shows multiple selected weapons', () => {
+      render(
+        <OperativeCard
+          operative={mockOperative}
+          weapons={mockWeapons}
+          selectedWeaponIds={['test-boltgun', 'test-knife']}
+        />,
+      );
+      expect(screen.getByText('Test Boltgun')).toBeInTheDocument();
+      expect(screen.getByText('Test Knife')).toBeInTheDocument();
+      expect(screen.queryByText('Unused Weapon')).not.toBeInTheDocument();
+    });
+
+    it('shows no weapons when selectedWeaponIds is empty array', () => {
+      render(
+        <OperativeCard
+          operative={mockOperative}
+          weapons={mockWeapons}
+          selectedWeaponIds={[]}
+        />,
+      );
+      expect(screen.queryByText('Weapons')).not.toBeInTheDocument();
+      expect(screen.queryByText('⚔️ Equipped Loadout')).not.toBeInTheDocument();
+      expect(screen.queryByText('Test Boltgun')).not.toBeInTheDocument();
+      expect(screen.queryByText('Test Knife')).not.toBeInTheDocument();
+    });
+  });
 });

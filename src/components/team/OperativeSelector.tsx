@@ -37,8 +37,16 @@ export function OperativeSelector({
   };
 
   const handleConfirmWeapons = (weaponNames: string[]) => {
+    // Convert weapon names to IDs
+    const weaponIds = weaponNames
+      .map((name) => {
+        const weapon = weapons.find((w) => w.name === name);
+        return weapon?.id;
+      })
+      .filter((id): id is string => id !== undefined);
+
     if (selectingOperative) {
-      onAddOperative(selectingOperative, weaponNames);
+      onAddOperative(selectingOperative, weaponIds);
       setSelectingOperative(null);
     } else if (editingSelection) {
       // For editing, we'd need a new callback - for now just close

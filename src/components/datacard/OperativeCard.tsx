@@ -9,15 +9,28 @@ import styles from './OperativeCard.module.css';
 interface OperativeCardProps {
   operative: Operative;
   weapons: Weapon[];
+  /** Optional: show only these specific weapons (for equipped loadout) */
+  selectedWeaponIds?: string[];
 }
 
-export function OperativeCard({ operative, weapons }: OperativeCardProps) {
+export function OperativeCard({
+  operative,
+  weapons,
+  selectedWeaponIds,
+}: OperativeCardProps) {
   const { stats } = operative;
 
   // Get weapons for this operative
+  // selectedWeaponIds contains weapon IDs when showing equipped loadout
+  // operative.weapons contains weapon IDs for backward compatibility
+  const weaponIds = selectedWeaponIds ?? operative.weapons ?? [];
   const operativeWeapons = weapons.filter((weapon) =>
-    operative.weapons?.includes(weapon.id)
+    weaponIds.includes(weapon.id)
   );
+
+  // Check if we're showing a specific loadout
+  const isEquippedLoadout =
+    selectedWeaponIds !== undefined && selectedWeaponIds.length > 0;
 
   return (
     <div className={styles.card}>
@@ -59,7 +72,9 @@ export function OperativeCard({ operative, weapons }: OperativeCardProps) {
 
       {operativeWeapons.length > 0 && (
         <div className={styles.weapons}>
-          <h4 className={styles.weaponsTitle}>Weapons</h4>
+          <h4 className={styles.weaponsTitle}>
+            {isEquippedLoadout ? '⚔️ Equipped Loadout' : 'Weapons'}
+          </h4>
           {operativeWeapons.map((weapon) => (
             <div key={weapon.id} className={styles.weapon}>
               <div className={styles.weaponHeader}>
