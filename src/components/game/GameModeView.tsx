@@ -21,7 +21,7 @@ type TeamViewMode = 'faction-info' | 'team-selection';
 type ActiveTab = 'alpha' | 'bravo' | 'game-management';
 
 export function GameModeView() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('alpha');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('game-management');
   const [teamViewMode, setTeamViewMode] =
     useState<TeamViewMode>('faction-info');
   const [gameModeState, setGameModeState] = useState<GameModeState>(
@@ -180,6 +180,12 @@ export function GameModeView() {
     <div className="game-mode-view">
       <div className="team-tabs">
         <button
+          className={`team-tab ${activeTab === 'game-management' ? 'active' : ''}`}
+          onClick={() => setActiveTab('game-management')}
+        >
+          <span className="team-label">Game Management</span>
+        </button>
+        <button
           className={`team-tab ${activeTab === 'alpha' ? 'active' : ''}`}
           onClick={() => setActiveTab('alpha')}
         >
@@ -196,12 +202,6 @@ export function GameModeView() {
           {gameModeState.bravo.factionId && bravoFaction && (
             <span className="team-faction">{bravoFaction.name}</span>
           )}
-        </button>
-        <button
-          className={`team-tab ${activeTab === 'game-management' ? 'active' : ''}`}
-          onClick={() => setActiveTab('game-management')}
-        >
-          <span className="team-label">Game Management</span>
         </button>
       </div>
 
