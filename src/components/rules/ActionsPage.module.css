@@ -54,7 +54,7 @@
 .ruleName {
   font-size: 1.3rem;
   font-weight: 600;
-  color: var(--primary-color);
+  color: var(--accent-color);
   margin: 0;
 }
 
