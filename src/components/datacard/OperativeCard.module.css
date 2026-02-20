@@ -91,23 +91,23 @@
 
 /* Specific stat type highlighting */
 .stat[data-stat='M'] .statValue {
-  color: #4ecdc4;
+  color: var(--stat-movement-color);
 }
 
 .stat[data-stat='APL'] .statValue {
-  color: #ffe66d;
+  color: var(--stat-apl-color);
 }
 
 .stat[data-stat='GA'] .statValue {
-  color: #95e1d3;
+  color: var(--stat-ga-color);
 }
 
 .stat[data-stat='DF'] .statValue {
-  color: #ff6b6b;
+  color: var(--stat-df-color);
 }
 
 .stat[data-stat='SV'] .statValue {
-  color: #a8dadc;
+  color: var(--stat-sv-color);
 }
 
 .stat[data-stat='W'] .statValue {

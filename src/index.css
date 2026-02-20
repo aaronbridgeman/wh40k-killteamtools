@@ -24,6 +24,13 @@
   /* Border Colors */
   --border-color: #404040;
 
+  /* Stat Colors */
+  --stat-movement-color: #4ecdc4;
+  --stat-apl-color: #ffe66d;
+  --stat-ga-color: #95e1d3;
+  --stat-df-color: #ff6b6b;
+  --stat-sv-color: #a8dadc;
+
   /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
