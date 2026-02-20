@@ -27,7 +27,7 @@ export function OperativeSelector({
 
   const handleAddOperative = (operative: Operative) => {
     // Default to all available weapons for the operative
-    onAddOperative(operative, operative.weapons);
+    onAddOperative(operative, operative.weapons || []);
   };
 
   const getWeaponName = (weaponId: string): string => {

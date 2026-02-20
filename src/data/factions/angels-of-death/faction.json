@@ -2,147 +2,222 @@
   "id": "angels-of-death",
   "name": "Angels of Death",
   "description": "Elite Space Marine operatives representing the finest warriors of the Adeptus Astartes",
+  "faction_keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "ANGEL OF DEATH"],
+  "global_rules": {
+    "bolt_weapon_definition": "Any ranged weapon with 'bolt' in its name",
+    "astartes_multi_action": "Can perform 2 Shoot actions if using bolt weapons, or 2 Fight actions",
+    "and_they_shall_know_no_fear": "Ignore all stat penalties from being injured"
+  },
   "rules": [
     {
       "id": "and-they-shall-know-no-fear",
       "name": "And They Shall Know No Fear",
-      "description": "Space Marine operatives can re-roll one failed save roll per activation",
+      "description": "Ignore all stat penalties from being injured",
+      "type": "passive"
+    },
+    {
+      "id": "astartes-multi-action",
+      "name": "Astartes Multi-Action",
+      "description": "Can perform 2 Shoot actions if using bolt weapons, or 2 Fight actions",
       "type": "passive"
     }
   ],
   "operatives": [
     {
-      "id": "aod-tactical-marine",
-      "name": "Tactical Marine",
-      "type": "Trooper",
-      "stats": {
-        "movement": 6,
-        "actionPointLimit": 2,
-        "groupActivation": 1,
-        "defense": 3,
-        "save": 3,
-        "wounds": 18
-      },
-      "weapons": [
-        "aod-boltgun",
-        "aod-fists"
-      ],
-      "abilities": [],
-      "keywords": ["Adeptus Astartes", "Infantry", "Tactical Marine"],
-      "cost": 1
-    },
-    {
-      "id": "aod-assault-marine",
-      "name": "Assault Marine",
-      "type": "Fighter",
-      "stats": {
-        "movement": 6,
-        "actionPointLimit": 2,
-        "groupActivation": 1,
-        "defense": 3,
-        "save": 3,
-        "wounds": 18
-      },
-      "weapons": [
-        "aod-bolt-pistol",
-        "aod-chainsword",
-        "aod-fists"
-      ],
-      "abilities": [],
-      "keywords": ["Adeptus Astartes", "Infantry", "Assault Marine"],
-      "cost": 1
-    },
-    {
-      "id": "aod-heavy-gunner",
-      "name": "Heavy Gunner",
-      "type": "Heavy Gunner",
-      "stats": {
-        "movement": 6,
-        "actionPointLimit": 2,
-        "groupActivation": 1,
-        "defense": 3,
-        "save": 3,
-        "wounds": 18
-      },
-      "weapons": [
-        "aod-heavy-bolter",
-        "aod-fists"
-      ],
-      "abilities": [],
-      "keywords": ["Adeptus Astartes", "Infantry", "Heavy Gunner"],
-      "cost": 1
-    },
-    {
-      "id": "aod-sergeant",
-      "name": "Sergeant",
+      "id": "aod-assault-intercessor-sergeant",
+      "name": "Assault Intercessor Sergeant",
       "type": "Leader",
       "stats": {
         "movement": 6,
-        "actionPointLimit": 2,
+        "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
-        "wounds": 18
+        "wounds": 14
       },
-      "weapons": [
-        "aod-boltgun",
-        "aod-plasma-pistol",
-        "aod-power-sword",
-        "aod-fists"
-      ],
-      "abilities": [],
-      "keywords": ["Adeptus Astartes", "Infantry", "Leader", "Sergeant"],
+      "weapon_options": {
+        "standard_loadout_groups": [
+          {
+            "slot_1_pistol": ["Hand flamer", "Heavy bolt pistol"],
+            "slot_2_melee": ["Chainsword", "Power fist", "Power weapon", "Thunder hammer"]
+          }
+        ],
+        "alternative_loadouts": [
+          {
+            "fixed": ["Plasma pistol", "Chainsword"]
+          }
+        ]
+      },
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "LEADER"],
+      "cost": 1
+    },
+    {
+      "id": "aod-intercessor-sergeant",
+      "name": "Intercessor Sergeant",
+      "type": "Leader",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 14
+      },
+      "weapon_options": {
+        "slot_1_rifle": ["Auto bolt rifle", "Bolt rifle", "Stalker bolt rifle"],
+        "slot_2_melee": ["Chainsword", "Fists", "Power fist", "Power weapon", "Thunder hammer"]
+      },
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "LEADER"],
+      "cost": 1
+    },
+    {
+      "id": "aod-space-marine-captain",
+      "name": "Space Marine Captain",
+      "type": "Leader",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 15
+      },
+      "fixed_loadout": ["Plasma pistol", "Power fist"],
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "CAPTAIN", "LEADER"],
+      "cost": 1
+    },
+    {
+      "id": "aod-assault-intercessor-grenadier",
+      "name": "Assault Intercessor Grenadier",
+      "type": "Operative",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 14
+      },
+      "fixed_loadout": ["Heavy bolt pistol", "Chainsword"],
+      "abilities": ["Frag Grenade", "Krak Grenade"],
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "GRENADIER"],
+      "cost": 1
+    },
+    {
+      "id": "aod-eliminator-sniper",
+      "name": "Eliminator Sniper",
+      "type": "Operative",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 14
+      },
+      "weapon_options": {
+        "slot_1_rifle": "Bolt sniper rifle",
+        "ammo_profiles": ["Executioner", "Hyperfrag", "Mortis"],
+        "slot_2_pistol": "Bolt pistol",
+        "slot_3_melee": "Fists"
+      },
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "PHOBOS", "ELIMINATOR"],
+      "cost": 1
+    },
+    {
+      "id": "aod-heavy-intercessor-gunner",
+      "name": "Heavy Intercessor Gunner",
+      "type": "Operative",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 15
+      },
+      "weapon_options": {
+        "slot_1_heavy": "Heavy bolter",
+        "firing_profiles": ["Focused", "Sweeping"],
+        "slot_2_pistol": "Bolt pistol",
+        "slot_3_melee": "Fists"
+      },
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "HEAVY INTERCESSOR", "GUNNER"],
+      "cost": 1
+    },
+    {
+      "id": "aod-intercessor-gunner",
+      "name": "Intercessor Gunner",
+      "type": "Operative",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 14
+      },
+      "weapon_options": {
+        "slot_1_rifle": ["Auto bolt rifle", "Bolt rifle", "Stalker bolt rifle"],
+        "fixed_secondary": "Auxiliary grenade launcher",
+        "slot_2_melee": "Fists"
+      },
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "GUNNER"],
+      "cost": 1
+    },
+    {
+      "id": "aod-intercessor-warrior",
+      "name": "Intercessor Warrior",
+      "type": "Operative",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 14
+      },
+      "weapon_options": {
+        "slot_1_rifle": ["Auto bolt rifle", "Bolt rifle", "Stalker bolt rifle"],
+        "slot_2_melee": "Fists"
+      },
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "WARRIOR"],
       "cost": 1
     }
   ],
   "weapons": [
     {
-      "id": "aod-boltgun",
-      "name": "Boltgun",
-      "type": "ranged",
-      "profiles": [
-        {
-          "attacks": 4,
-          "ballisticSkill": 3,
-          "damage": 3,
-          "criticalDamage": 4,
-          "specialRules": [
-            {
-              "name": "Range",
-              "value": "6\"",
-              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "aod-bolt-pistol",
-      "name": "Bolt Pistol",
-      "type": "ranged",
-      "profiles": [
-        {
-          "attacks": 4,
-          "ballisticSkill": 3,
-          "damage": 3,
-          "criticalDamage": 4,
-          "specialRules": [
-            {
-              "name": "Range",
-              "value": "6\"",
-              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "aod-heavy-bolter",
-      "name": "Heavy Bolter",
+      "id": "aod-hand-flamer",
+      "name": "Hand flamer",
       "type": "ranged",
       "profiles": [
         {
           "attacks": 5,
+          "ballisticSkill": 2,
+          "damage": 2,
+          "criticalDamage": 3,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Torrent",
+              "value": "2\"",
+              "description": "Select a primary target, then shoot against any number of other valid targets within distance 2\" of that target"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-heavy-bolt-pistol",
+      "name": "Heavy bolt pistol",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 4,
           "ballisticSkill": 3,
           "damage": 4,
           "criticalDamage": 5,
@@ -150,15 +225,27 @@
             {
               "name": "Range",
               "value": "6\"",
-              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
-            },
+              "description": "Only operatives within distance 6\" can be valid targets"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-bolt-pistol",
+      "name": "Bolt pistol",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
             {
-              "name": "Heavy",
-              "description": "An operative cannot move in the same activation or counteraction it uses this weapon, and vice versa"
-            },
-            {
-              "name": "Ceaseless",
-              "description": "You can re-roll any of your attack dice results of one specific result"
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
             }
           ]
         }
@@ -166,7 +253,7 @@
     },
     {
       "id": "aod-plasma-pistol",
-      "name": "Plasma Pistol",
+      "name": "Plasma pistol",
       "type": "ranged",
       "profiles": [
         {
@@ -179,7 +266,7 @@
             {
               "name": "Range",
               "value": "6\"",
-              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+              "description": "Only operatives within distance 6\" can be valid targets"
             },
             {
               "name": "Piercing",
@@ -198,7 +285,7 @@
             {
               "name": "Range",
               "value": "6\"",
-              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+              "description": "Only operatives within distance 6\" can be valid targets"
             },
             {
               "name": "Piercing",
@@ -208,6 +295,239 @@
             {
               "name": "Hot",
               "description": "After using this weapon, roll one D6: if the result is lower than the weapon's Ballistic Skill value, the operative takes damage equal to the result multiplied by two"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-auto-bolt-rifle",
+      "name": "Auto bolt rifle",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 5,
+          "ballisticSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Ceaseless",
+              "description": "You can re-roll any of your attack dice results of one specific result"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-bolt-rifle",
+      "name": "Bolt rifle",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-stalker-bolt-rifle",
+      "name": "Stalker bolt rifle",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 4,
+          "ballisticSkill": 2,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Heavy",
+              "description": "An operative cannot move in the same activation it uses this weapon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-bolt-sniper-rifle",
+      "name": "Bolt sniper rifle",
+      "type": "ranged",
+      "profiles": [
+        {
+          "name": "Executioner",
+          "attacks": 4,
+          "ballisticSkill": 2,
+          "damage": 4,
+          "criticalDamage": 5,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Heavy",
+              "description": "An operative cannot move in the same activation it uses this weapon"
+            },
+            {
+              "name": "Silent",
+              "description": "The operative can perform a Shoot action with this weapon even while it has a Conceal order"
+            }
+          ]
+        },
+        {
+          "name": "Hyperfrag",
+          "attacks": 4,
+          "ballisticSkill": 2,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Heavy",
+              "description": "An operative cannot move in the same activation it uses this weapon"
+            },
+            {
+              "name": "Blast",
+              "value": "2\"",
+              "description": "After shooting the primary target, shoot against each secondary target visible to and within 2\" of the primary target"
+            },
+            {
+              "name": "Silent",
+              "description": "The operative can perform a Shoot action with this weapon even while it has a Conceal order"
+            }
+          ]
+        },
+        {
+          "name": "Mortis",
+          "attacks": 4,
+          "ballisticSkill": 2,
+          "damage": 3,
+          "criticalDamage": 5,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Heavy",
+              "description": "An operative cannot move in the same activation it uses this weapon"
+            },
+            {
+              "name": "Piercing",
+              "value": 1,
+              "description": "The defender rolls 1 fewer defence dice"
+            },
+            {
+              "name": "Silent",
+              "description": "The operative can perform a Shoot action with this weapon even while it has a Conceal order"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-heavy-bolter",
+      "name": "Heavy bolter",
+      "type": "ranged",
+      "profiles": [
+        {
+          "name": "Focused",
+          "attacks": 5,
+          "ballisticSkill": 3,
+          "damage": 5,
+          "criticalDamage": 6,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Heavy",
+              "description": "An operative cannot move in the same activation it uses this weapon"
+            },
+            {
+              "name": "Piercing",
+              "value": 1,
+              "description": "The defender rolls 1 fewer defence dice"
+            }
+          ]
+        },
+        {
+          "name": "Sweeping",
+          "attacks": 6,
+          "ballisticSkill": 3,
+          "damage": 4,
+          "criticalDamage": 5,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Heavy",
+              "description": "An operative cannot move in the same activation it uses this weapon"
+            },
+            {
+              "name": "Ceaseless",
+              "description": "You can re-roll any of your attack dice results of one specific result"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-auxiliary-grenade-launcher",
+      "name": "Auxiliary grenade launcher",
+      "type": "ranged",
+      "profiles": [
+        {
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 4,
+          "criticalDamage": 5,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Blast",
+              "value": "2\"",
+              "description": "After shooting the primary target, shoot against each secondary target visible to and within 2\" of the primary target"
+            },
+            {
+              "name": "Limited",
+              "value": 1,
+              "description": "The weapon can only be used once during the battle"
             }
           ]
         }
@@ -233,8 +553,27 @@
       ]
     },
     {
-      "id": "aod-power-sword",
-      "name": "Power Sword",
+      "id": "aod-power-fist",
+      "name": "Power fist",
+      "type": "melee",
+      "profiles": [
+        {
+          "attacks": 4,
+          "weaponSkill": 4,
+          "damage": 5,
+          "criticalDamage": 6,
+          "specialRules": [
+            {
+              "name": "Brutal",
+              "description": "Your opponent can only block with critical successes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-power-weapon",
+      "name": "Power weapon",
       "type": "melee",
       "profiles": [
         {
@@ -247,6 +586,25 @@
               "name": "Lethal",
               "value": "5+",
               "description": "Attack dice results equal to or greater than 5 are critical successes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aod-thunder-hammer",
+      "name": "Thunder hammer",
+      "type": "melee",
+      "profiles": [
+        {
+          "attacks": 4,
+          "weaponSkill": 4,
+          "damage": 6,
+          "criticalDamage": 7,
+          "specialRules": [
+            {
+              "name": "Stun",
+              "description": "If you retain any critical successes, subtract 1 from the target operative's APL stat until the end of its next activation"
             }
           ]
         }
@@ -267,18 +625,42 @@
       ]
     }
   ],
-  "abilities": [],
+  "abilities": [
+    {
+      "id": "frag-grenade",
+      "name": "Frag Grenade",
+      "description": "Once per battle, this operative can perform a Shoot action with this weapon",
+      "cost": 0
+    },
+    {
+      "id": "krak-grenade",
+      "name": "Krak Grenade",
+      "description": "Once per battle, this operative can perform a Shoot action with this weapon",
+      "cost": 0
+    }
+  ],
   "restrictions": {
     "maxOperatives": 6,
     "minOperatives": 6,
+    "composition": {
+      "total_operatives": 6,
+      "selection_limits": {
+        "leader_count": 1,
+        "non_leader_count": 5,
+        "max_unique_operatives": 1,
+        "exception": "Warrior operatives can be taken multiple times"
+      }
+    },
     "fireTeamRules": [
-      "Must include 1 Leader operative",
-      "Can include specialists as per fire team composition"
+      "Must include exactly 1 Leader operative",
+      "Can include up to 5 non-leader operatives",
+      "Each unique operative (except Warriors) can only be taken once",
+      "Intercessor Warriors can be taken multiple times"
     ]
   },
   "metadata": {
-    "version": "1.0.0",
-    "source": "Kill Team Core Book",
-    "lastUpdated": "2024-01-01"
+    "version": "2.0.0",
+    "source": "Kill Team Core Book - Updated Selection Rules",
+    "lastUpdated": "2026-02-20"
   }
 }
