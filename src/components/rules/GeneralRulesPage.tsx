@@ -16,7 +16,8 @@ export function GeneralRulesPage() {
       <div className={styles.header}>
         <h2>General Rules Reference</h2>
         <p className={styles.subtitle}>
-          Complete reference for Kill Team game rules - click categories to jump to sections
+          Complete reference for Kill Team game rules - click categories to jump
+          to sections
         </p>
       </div>
 
