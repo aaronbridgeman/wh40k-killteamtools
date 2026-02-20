@@ -70,7 +70,7 @@ export function OperativeCard({ operative, weapons }: OperativeCardProps) {
               </div>
               {weapon.profiles.map((profile, idx) => (
                 <div
-                  key={idx}
+                  key={`${weapon.id}-profile-${profile.name || idx}`}
                   className={styles.weaponProfile}
                 >
                   {profile.name && (
@@ -115,9 +115,9 @@ export function OperativeCard({ operative, weapons }: OperativeCardProps) {
                   {profile.specialRules.length > 0 && (
                     <div className={styles.specialRules}>
                       <span className={styles.specialRulesLabel}>Rules:</span>
-                      {profile.specialRules.map((rule, ruleIdx) => (
+                      {profile.specialRules.map((rule) => (
                         <RuleTooltip
-                          key={ruleIdx}
+                          key={`${weapon.id}-${rule.name}-${rule.value || ''}`}
                           ruleName={rule.name}
                           value={rule.value}
                         />

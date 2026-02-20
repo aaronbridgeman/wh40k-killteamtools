@@ -161,7 +161,7 @@ describe('OperativeCard', () => {
     expect(screen.queryByText('Weapons')).not.toBeInTheDocument();
   });
 
-  it('handles weapons with multiple profiles', () => {
+  it('renders all profiles for weapons with multiple firing modes', () => {
     const weaponWithMultipleProfiles: Weapon = {
       id: 'plasma-pistol',
       name: 'Plasma Pistol',
