@@ -16,7 +16,7 @@ export function OperativeCard({ operative, weapons }: OperativeCardProps) {
 
   // Get weapons for this operative
   const operativeWeapons = weapons.filter((weapon) =>
-    operative.weapons.includes(weapon.id),
+    operative.weapons.includes(weapon.id)
   );
 
   return (
