@@ -45,7 +45,7 @@ export function validateTeamComposition(
  * Calculate total team cost
  */
 export function calculateTeamCost(operatives: Operative[]): number {
-  return operatives.reduce((total, op) => total + op.cost, 0);
+  return operatives.reduce((total, op) => total + (op.cost || 0), 0);
 }
 
 /**

@@ -18,7 +18,7 @@ export function SelectedTeamView({
   onClearTeam,
 }: SelectedTeamViewProps) {
   const totalCost = selectedOperatives.reduce(
-    (sum, selected) => sum + selected.operative.cost,
+    (sum, selected) => sum + (selected.operative.cost || 0),
     0
   );
 

@@ -16,7 +16,7 @@ export function OperativeCard({ operative, weapons }: OperativeCardProps) {
 
   // Get weapons for this operative
   const operativeWeapons = weapons.filter((weapon) =>
-    operative.weapons.includes(weapon.id)
+    operative.weapons?.includes(weapon.id)
   );
 
   return (
@@ -131,7 +131,7 @@ export function OperativeCard({ operative, weapons }: OperativeCardProps) {
         </div>
       )}
 
-      {operative.keywords.length > 0 && (
+      {operative.keywords && operative.keywords.length > 0 && (
         <div className={styles.keywords}>
           <span className={styles.keywordsLabel}>Keywords:</span>
           {operative.keywords.map((keyword, idx) => (
