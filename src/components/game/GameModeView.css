@@ -35,9 +35,9 @@
 }
 
 .team-tab.active {
-  border-color: var(--primary-color);
-  background-color: var(--primary-light);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: var(--accent-color);
+  background-color: var(--surface-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .team-label {
@@ -47,7 +47,7 @@
 }
 
 .team-tab.active .team-label {
-  color: var(--primary-color);
+  color: var(--accent-color);
 }
 
 .team-faction {
@@ -57,7 +57,7 @@
 }
 
 .team-tab.active .team-faction {
-  color: var(--primary-color);
+  color: var(--accent-color);
   font-weight: 600;
 }
 
