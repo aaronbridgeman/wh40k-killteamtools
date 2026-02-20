@@ -3,7 +3,11 @@
  * Displays all actions with their associated AP costs
  */
 
-import { getActionRules, extractAPCost } from '@/services/rulesDataService';
+import {
+  getActionRules,
+  extractAPCost,
+  extractActionName,
+} from '@/services/rulesDataService';
 import styles from './ActionsPage.module.css';
 
 export function ActionsPage() {
@@ -21,7 +25,7 @@ export function ActionsPage() {
       <div className={styles.rulesGrid}>
         {actions.map((action) => {
           const apCost = extractAPCost(action.name);
-          const actionName = action.name.replace(/\s*\(\d+AP\)/, '');
+          const actionName = extractActionName(action.name);
 
           return (
             <div key={action.name} className={styles.ruleCard}>

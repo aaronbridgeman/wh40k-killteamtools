@@ -36,6 +36,19 @@ export function GeneralRulesPage() {
               element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
               setActiveCategory(category.category);
             }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const element = document.getElementById(
+                  `category-${category.category}`
+                );
+                element?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+                setActiveCategory(category.category);
+              }
+            }}
           >
             {category.category}
           </button>

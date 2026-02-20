@@ -49,3 +49,11 @@ export function extractAPCost(ruleName: string): string | null {
   const match = ruleName.match(/\((\d+AP)\)/);
   return match ? match[1] : null;
 }
+
+/**
+ * Extract action name without AP cost
+ * E.g., "Reposition (1AP)" -> "Reposition"
+ */
+export function extractActionName(ruleName: string): string {
+  return ruleName.replace(/\s*\(\d+AP\)/, '');
+}
