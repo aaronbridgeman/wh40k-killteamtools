@@ -6,12 +6,12 @@
 .ruleName {
   padding: 0.25rem 0.5rem;
   background-color: var(--rule-background);
-  color: var(--primary-color);
+  color: var(--text-primary);
   border-radius: 3px;
   font-weight: 600;
   cursor: help;
   transition: background-color 0.2s;
-  border-bottom: 2px dotted var(--primary-color);
+  border-bottom: 2px dotted var(--text-primary);
 }
 
 .ruleName:hover {
