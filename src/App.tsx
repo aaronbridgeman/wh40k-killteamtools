@@ -185,26 +185,22 @@ function App() {
                       <section className="operatives-section">
                         <h2>Operatives</h2>
                         <div className="operatives-grid">
-                          {(() => {
-                            // Filter operatives if team has selections
-                            const operativesToShow =
-                              teamState.selectedOperatives.length > 0
-                                ? faction.operatives.filter((operative) =>
-                                    teamState.selectedOperatives.some(
-                                      (selected) =>
-                                        selected.operative.id === operative.id
-                                    )
-                                  )
-                                : faction.operatives;
-
-                            return operativesToShow.map((operative) => (
-                              <OperativeCard
-                                key={operative.id}
-                                operative={operative}
-                                weapons={faction.weapons}
-                              />
-                            ));
-                          })()}
+                          {/* Filter operatives if team has selections, otherwise show all */}
+                          {(teamState.selectedOperatives.length > 0
+                            ? faction.operatives.filter((operative) =>
+                                teamState.selectedOperatives.some(
+                                  (selected) =>
+                                    selected.operative.id === operative.id
+                                )
+                              )
+                            : faction.operatives
+                          ).map((operative) => (
+                            <OperativeCard
+                              key={operative.id}
+                              operative={operative}
+                              weapons={faction.weapons}
+                            />
+                          ))}
                         </div>
                       </section>
                     ) : (
