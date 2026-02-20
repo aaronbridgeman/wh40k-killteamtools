@@ -132,7 +132,7 @@ function App() {
             className={`nav-button ${viewMode === 'home' ? 'active' : ''}`}
             onClick={() => setViewMode('home')}
           >
-            Home
+            Single Team
           </button>
           <button
             className={`nav-button ${viewMode === 'game-mode' ? 'active' : ''}`}
