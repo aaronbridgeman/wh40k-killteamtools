@@ -20,6 +20,7 @@ echo "Default branch: $DEFAULT_BRANCH"
 echo ""
 
 # List of branches that have been merged (based on PR analysis)
+# Note: Includes PR #15 which was closed without merge (superseded by #16)
 BRANCHES_TO_DELETE=(
   "copilot/add-actions-costs-and-rules-page"
   "copilot/add-available-attacks-display"

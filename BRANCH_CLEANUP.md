@@ -18,7 +18,7 @@ The following branches were identified for deletion as they have been merged int
 | copilot/add-available-attacks-display | #8 | Merged |
 | copilot/add-dual-team-selection-ui | #13 | Merged |
 | copilot/add-game-management-tab | #14 | Merged |
-| copilot/add-game-management-tab-again | #15 | Closed (not merged) |
+| copilot/add-game-management-tab-again | #15 | Closed without merge (superseded by #16) |
 | copilot/add-team-view-toggle | #11 | Merged |
 | copilot/add-weapon-rule-reference-page | #3 | Merged |
 | copilot/build-to-docs-folder | #5 | Merged |
@@ -53,6 +53,9 @@ To trigger manually:
 A bash script is available at `scripts/cleanup-branches.sh`:
 
 ```bash
+# Make script executable (if needed)
+chmod +x scripts/cleanup-branches.sh
+
 # Run the script
 ./scripts/cleanup-branches.sh
 ```
@@ -61,6 +64,8 @@ The script will:
 1. List all branches to be deleted
 2. Ask for confirmation
 3. Delete the branches from the remote repository
+
+Note: The script has execute permissions by default in the repository.
 
 ### Method 3: Manual Git Commands
 
