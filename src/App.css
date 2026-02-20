@@ -5,11 +5,7 @@
 }
 
 .app-header {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--accent-color)
-  );
+  background: linear-gradient(135deg, #1a1a1a, #ff6b35);
   color: white;
   padding: 2rem 1rem;
   text-align: center;
@@ -55,7 +51,7 @@
 
 .nav-button.active {
   background-color: white;
-  color: var(--primary-color);
+  color: #ff6b35;
   border-color: white;
 }
 
@@ -97,7 +93,7 @@
 }
 
 .toggle-button:hover {
-  background-color: rgba(74, 158, 255, 0.1);
+  background-color: rgba(255, 107, 53, 0.1);
   color: var(--accent-color);
 }
 
@@ -107,7 +103,7 @@
 }
 
 .toggle-button.active:hover {
-  background-color: var(--primary-color);
+  background-color: #ff8c42;
 }
 
 .loading,
@@ -144,7 +140,7 @@
   font-size: 2rem;
   margin-bottom: 1rem;
   color: var(--text-primary);
-  border-bottom: 3px solid var(--primary-color);
+  border-bottom: 3px solid var(--accent-color);
   padding-bottom: 0.5rem;
 }
 
