@@ -5,20 +5,23 @@ import { OperativeCard } from '../datacard/OperativeCard';
 import { OperativeSelector } from '../team/OperativeSelector';
 import { SelectedTeamView } from '../team/SelectedTeamView';
 import { FactionRulesSelector } from '../team/FactionRulesSelector';
+import { GameManagement } from './GameManagement';
 import { loadFaction, FactionId } from '@/services/dataLoader';
 import {
   saveGameModeState,
   loadGameModeState,
   getInitialGameModeState,
+  getInitialGameTrackingState,
 } from '@/services/teamStorage';
 import { Faction, GameModeState, SelectedOperative, Operative } from '@/types';
+import { GameTrackingState } from '@/types/game';
 import './GameModeView.css';
 
 type TeamViewMode = 'faction-info' | 'team-selection';
-type ActiveTeam = 'alpha' | 'bravo';
+type ActiveTab = 'alpha' | 'bravo' | 'game-management';
 
 export function GameModeView() {
-  const [activeTeam, setActiveTeam] = useState<ActiveTeam>('alpha');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('alpha');
   const [teamViewMode, setTeamViewMode] =
     useState<TeamViewMode>('faction-info');
   const [gameModeState, setGameModeState] = useState<GameModeState>(
@@ -33,6 +36,10 @@ export function GameModeView() {
   useEffect(() => {
     const savedState = loadGameModeState();
     if (savedState) {
+      // Ensure game tracking exists
+      if (!savedState.gameTracking) {
+        savedState.gameTracking = getInitialGameTrackingState();
+      }
       setGameModeState(savedState);
       // Load factions if they exist
       if (savedState.alpha.factionId) {
@@ -51,7 +58,7 @@ export function GameModeView() {
 
   const handleFactionSelect = async (
     factionId: FactionId,
-    team: ActiveTeam
+    team: 'alpha' | 'bravo'
   ) => {
     setLoading(true);
     setError(null);
@@ -95,7 +102,7 @@ export function GameModeView() {
   const handleAddOperative = (
     operative: Operative,
     weaponIds: string[],
-    team: ActiveTeam
+    team: 'alpha' | 'bravo'
   ) => {
     const newSelection: SelectedOperative = {
       selectionId: `${operative.id}-${Date.now()}-${Math.random()}`,
@@ -111,7 +118,7 @@ export function GameModeView() {
     }));
   };
 
-  const handleRemoveOperative = (selectionId: string, team: ActiveTeam) => {
+  const handleRemoveOperative = (selectionId: string, team: 'alpha' | 'bravo') => {
     setGameModeState((prev) => ({
       ...prev,
       [team]: {
@@ -123,7 +130,7 @@ export function GameModeView() {
     }));
   };
 
-  const handleClearTeam = (team: ActiveTeam) => {
+  const handleClearTeam = (team: 'alpha' | 'bravo') => {
     setGameModeState((prev) => ({
       ...prev,
       [team]: {
@@ -137,7 +144,7 @@ export function GameModeView() {
   const handleRuleChoiceChange = (
     category: string,
     ruleId: string,
-    team: ActiveTeam
+    team: 'alpha' | 'bravo'
   ) => {
     setGameModeState((prev) => ({
       ...prev,
@@ -154,6 +161,14 @@ export function GameModeView() {
     }));
   };
 
+  const handleUpdateGameTracking = (gameTracking: GameTrackingState) => {
+    setGameModeState((prev) => ({
+      ...prev,
+      gameTracking,
+    }));
+  };
+
+  const activeTeam = activeTab === 'alpha' || activeTab === 'bravo' ? activeTab : 'alpha';
   const currentTeamState = gameModeState[activeTeam];
   const currentFaction = activeTeam === 'alpha' ? alphaFaction : bravoFaction;
 
@@ -161,8 +176,8 @@ export function GameModeView() {
     <div className="game-mode-view">
       <div className="team-tabs">
         <button
-          className={`team-tab ${activeTeam === 'alpha' ? 'active' : ''}`}
-          onClick={() => setActiveTeam('alpha')}
+          className={`team-tab ${activeTab === 'alpha' ? 'active' : ''}`}
+          onClick={() => setActiveTab('alpha')}
         >
           <span className="team-label">Kill Team Alpha</span>
           {gameModeState.alpha.factionId && alphaFaction && (
@@ -170,104 +185,121 @@ export function GameModeView() {
           )}
         </button>
         <button
-          className={`team-tab ${activeTeam === 'bravo' ? 'active' : ''}`}
-          onClick={() => setActiveTeam('bravo')}
+          className={`team-tab ${activeTab === 'bravo' ? 'active' : ''}`}
+          onClick={() => setActiveTab('bravo')}
         >
           <span className="team-label">Kill Team Bravo</span>
           {gameModeState.bravo.factionId && bravoFaction && (
             <span className="team-faction">{bravoFaction.name}</span>
           )}
         </button>
+        <button
+          className={`team-tab ${activeTab === 'game-management' ? 'active' : ''}`}
+          onClick={() => setActiveTab('game-management')}
+        >
+          <span className="team-label">Game Management</span>
+        </button>
       </div>
 
-      <FactionSelector
-        selectedFactionId={currentTeamState.factionId as FactionId | undefined}
-        onFactionSelect={(factionId) =>
-          handleFactionSelect(factionId, activeTeam)
-        }
-      />
-
-      {loading && <div className="loading">Loading faction data...</div>}
-
-      {error && <div className="error">Error: {error}</div>}
-
-      {currentFaction && (
+      {activeTab === 'game-management' ? (
+        <GameManagement
+          gameTracking={gameModeState.gameTracking || getInitialGameTrackingState()}
+          alphaOperatives={gameModeState.alpha.selectedOperatives}
+          bravoOperatives={gameModeState.bravo.selectedOperatives}
+          onUpdateGameTracking={handleUpdateGameTracking}
+        />
+      ) : (
         <>
-          <div className="team-view-toggle">
-            <button
-              className={`toggle-button ${teamViewMode === 'faction-info' ? 'active' : ''}`}
-              onClick={() => setTeamViewMode('faction-info')}
-            >
-              Faction & Operative Info
-            </button>
-            <button
-              className={`toggle-button ${teamViewMode === 'team-selection' ? 'active' : ''}`}
-              onClick={() => setTeamViewMode('team-selection')}
-            >
-              Team Selection
-            </button>
-          </div>
+          <FactionSelector
+            selectedFactionId={currentTeamState.factionId as FactionId | undefined}
+            onFactionSelect={(factionId) =>
+              handleFactionSelect(factionId, activeTeam)
+            }
+          />
 
-          {teamViewMode === 'faction-info' ? (
+          {loading && <div className="loading">Loading faction data...</div>}
+
+          {error && <div className="error">Error: {error}</div>}
+
+          {currentFaction && (
             <>
-              <FactionDetails faction={currentFaction} />
+              <div className="team-view-toggle">
+                <button
+                  className={`toggle-button ${teamViewMode === 'faction-info' ? 'active' : ''}`}
+                  onClick={() => setTeamViewMode('faction-info')}
+                >
+                  Faction & Operative Info
+                </button>
+                <button
+                  className={`toggle-button ${teamViewMode === 'team-selection' ? 'active' : ''}`}
+                  onClick={() => setTeamViewMode('team-selection')}
+                >
+                  Team Selection
+                </button>
+              </div>
 
-              {currentFaction.operatives.length > 0 ? (
-                <section className="operatives-section">
-                  <h2>Operatives</h2>
-                  <div className="operatives-grid">
-                    {/* Filter operatives if team has selections, otherwise show all */}
-                    {(currentTeamState.selectedOperatives.length > 0
-                      ? currentFaction.operatives.filter((operative) =>
-                          currentTeamState.selectedOperatives.some(
-                            (selected) => selected.operative.id === operative.id
-                          )
-                        )
-                      : currentFaction.operatives
-                    ).map((operative) => (
-                      <OperativeCard
-                        key={operative.id}
-                        operative={operative}
-                        weapons={currentFaction.weapons}
-                      />
-                    ))}
-                  </div>
-                </section>
+              {teamViewMode === 'faction-info' ? (
+                <>
+                  <FactionDetails faction={currentFaction} />
+
+                  {currentFaction.operatives.length > 0 ? (
+                    <section className="operatives-section">
+                      <h2>Operatives</h2>
+                      <div className="operatives-grid">
+                        {/* Filter operatives if team has selections, otherwise show all */}
+                        {(currentTeamState.selectedOperatives.length > 0
+                          ? currentFaction.operatives.filter((operative) =>
+                              currentTeamState.selectedOperatives.some(
+                                (selected) => selected.operative.id === operative.id
+                              )
+                            )
+                          : currentFaction.operatives
+                        ).map((operative) => (
+                          <OperativeCard
+                            key={operative.id}
+                            operative={operative}
+                            weapons={currentFaction.weapons}
+                          />
+                        ))}
+                      </div>
+                    </section>
+                  ) : (
+                    <div className="info-message">
+                      No operative data available yet. Operative datacards will be
+                      added in future updates.
+                    </div>
+                  )}
+                </>
               ) : (
-                <div className="info-message">
-                  No operative data available yet. Operative datacards will be
-                  added in future updates.
-                </div>
+                <>
+                  <OperativeSelector
+                    operatives={currentFaction.operatives}
+                    weapons={currentFaction.weapons}
+                    selectedOperatives={currentTeamState.selectedOperatives}
+                    onAddOperative={(operative, weaponIds) =>
+                      handleAddOperative(operative, weaponIds, activeTeam)
+                    }
+                    onRemoveOperative={(selectionId) =>
+                      handleRemoveOperative(selectionId, activeTeam)
+                    }
+                    maxOperatives={currentFaction.restrictions.maxOperatives}
+                  />
+
+                  <SelectedTeamView
+                    selectedOperatives={currentTeamState.selectedOperatives}
+                    faction={currentFaction}
+                    onClearTeam={() => handleClearTeam(activeTeam)}
+                  />
+
+                  <FactionRulesSelector
+                    faction={currentFaction}
+                    ruleChoices={currentTeamState.ruleChoices}
+                    onRuleChoiceChange={(category, ruleId) =>
+                      handleRuleChoiceChange(category, ruleId, activeTeam)
+                    }
+                  />
+                </>
               )}
-            </>
-          ) : (
-            <>
-              <OperativeSelector
-                operatives={currentFaction.operatives}
-                weapons={currentFaction.weapons}
-                selectedOperatives={currentTeamState.selectedOperatives}
-                onAddOperative={(operative, weaponIds) =>
-                  handleAddOperative(operative, weaponIds, activeTeam)
-                }
-                onRemoveOperative={(selectionId) =>
-                  handleRemoveOperative(selectionId, activeTeam)
-                }
-                maxOperatives={currentFaction.restrictions.maxOperatives}
-              />
-
-              <SelectedTeamView
-                selectedOperatives={currentTeamState.selectedOperatives}
-                faction={currentFaction}
-                onClearTeam={() => handleClearTeam(activeTeam)}
-              />
-
-              <FactionRulesSelector
-                faction={currentFaction}
-                ruleChoices={currentTeamState.ruleChoices}
-                onRuleChoiceChange={(category, ruleId) =>
-                  handleRuleChoiceChange(category, ruleId, activeTeam)
-                }
-              />
             </>
           )}
         </>

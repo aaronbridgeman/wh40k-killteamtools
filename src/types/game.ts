@@ -1,5 +1,5 @@
 /**
- * Type definitions for game state (future iterations)
+ * Type definitions for game state
  */
 
 export interface GameState {
@@ -32,4 +32,32 @@ export interface OperativeState {
   statusEffects: string[];
 }
 
-// This file is a placeholder for future iterations
+/**
+ * Tracking state for a single operative's wounds
+ */
+export interface OperativeWoundState {
+  /** Selection ID of the operative (from SelectedOperative) */
+  selectionId: string;
+  /** Current wounds remaining */
+  currentWounds: number;
+  /** Maximum wounds (from operative profile) */
+  maxWounds: number;
+}
+
+/**
+ * Game tracking state for game management
+ */
+export interface GameTrackingState {
+  /** Current turning point (1-4) */
+  turningPoint: number;
+  /** Which team has initiative ('alpha' | 'bravo') */
+  initiative: 'alpha' | 'bravo' | null;
+  /** Command points for Alpha team */
+  alphaCommandPoints: number;
+  /** Command points for Bravo team */
+  bravoCommandPoints: number;
+  /** Wound tracking for Alpha team operatives */
+  alphaOperativeWounds: OperativeWoundState[];
+  /** Wound tracking for Bravo team operatives */
+  bravoOperativeWounds: OperativeWoundState[];
+}

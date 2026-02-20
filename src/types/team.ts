@@ -3,6 +3,7 @@
  */
 
 import { Operative } from './operative';
+import { GameTrackingState } from './game';
 
 /**
  * Represents a selected operative with weapon choices
@@ -46,4 +47,6 @@ export interface GameModeState {
   alpha: TeamState;
   /** Kill Team Bravo state */
   bravo: TeamState;
+  /** Game tracking state (turning point, initiative, CP, wounds) */
+  gameTracking?: GameTrackingState;
 }
