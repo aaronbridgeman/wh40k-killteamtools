@@ -1,0 +1,282 @@
+/* Modal overlay */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+/* Modal content box */
+.modalContent {
+  background: #1a1a2e;
+  border: 2px solid #4a5568;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #4a5568;
+  background: #252540;
+}
+
+.header h3 {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 1.25rem;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #cbd5e0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Body */
+.body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Loadout toggle */
+.loadoutToggle {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #252540;
+  border-radius: 6px;
+  border: 1px solid #4a5568;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: #cbd5e0;
+  font-weight: 500;
+}
+
+.toggleLabel input[type='radio'] {
+  cursor: pointer;
+}
+
+/* Fixed loadout */
+.fixedLoadout,
+.alternativeLoadout,
+.fixedWeapons {
+  margin-bottom: 1.5rem;
+}
+
+.fixedLoadout h4,
+.alternativeLoadout h4,
+.fixedWeapons h4,
+.weaponSlots h4,
+.summary h4 {
+  color: #e2e8f0;
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.weaponList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.weaponItem {
+  padding: 0.5rem 0.75rem;
+  background: #252540;
+  border: 1px solid #4a5568;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  color: #cbd5e0;
+}
+
+.noWeapons {
+  color: #718096;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Weapon slots */
+.weaponSlots {
+  margin-bottom: 1.5rem;
+}
+
+.slot {
+  margin-bottom: 1.25rem;
+}
+
+.slotLabel {
+  display: block;
+  color: #e2e8f0;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.slotOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.optionLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #252540;
+  border: 2px solid #4a5568;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #cbd5e0;
+}
+
+.optionLabel:hover {
+  border-color: #667eea;
+  background: #2d2d4a;
+}
+
+.optionLabel input[type='radio'] {
+  cursor: pointer;
+}
+
+.optionLabel input[type='radio']:checked + span {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.optionLabel:has(input[type='radio']:checked) {
+  border-color: #667eea;
+  background: #2d2d4a;
+}
+
+/* Summary */
+.summary {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #4a5568;
+}
+
+.summary .weaponList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.summary .weaponItem {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Footer */
+.footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #4a5568;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background: #252540;
+}
+
+.cancelButton,
+.confirmButton {
+  padding: 0.625rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+
+.cancelButton {
+  background: #4a5568;
+  color: #e2e8f0;
+}
+
+.cancelButton:hover {
+  background: #5a6578;
+}
+
+.confirmButton {
+  background: #667eea;
+  color: white;
+}
+
+.confirmButton:hover {
+  background: #5568d3;
+}
+
+.confirmButton:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .modal {
+    padding: 0.5rem;
+  }
+
+  .modalContent {
+    max-width: 100%;
+  }
+
+  .header {
+    padding: 0.75rem 1rem;
+  }
+
+  .body {
+    padding: 1rem;
+  }
+
+  .footer {
+    padding: 0.75rem 1rem;
+  }
+
+  .loadoutToggle {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

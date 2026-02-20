@@ -2,7 +2,9 @@
  * Component for selecting operatives and their weapon loadouts
  */
 
+import { useState } from 'react';
 import { Operative, Weapon, SelectedOperative } from '@/types';
+import { WeaponLoadoutSelector } from './WeaponLoadoutSelector';
 import styles from './OperativeSelector.module.css';
 
 interface OperativeSelectorProps {
@@ -22,12 +24,31 @@ export function OperativeSelector({
   onRemoveOperative,
   maxOperatives,
 }: OperativeSelectorProps) {
+  const [selectingOperative, setSelectingOperative] =
+    useState<Operative | null>(null);
+  const [editingSelection, setEditingSelection] =
+    useState<SelectedOperative | null>(null);
+
   const canAddMore =
     !maxOperatives || selectedOperatives.length < maxOperatives;
 
   const handleAddOperative = (operative: Operative) => {
-    // Default to all available weapons for the operative
-    onAddOperative(operative, operative.weapons || []);
+    setSelectingOperative(operative);
+  };
+
+  const handleConfirmWeapons = (weaponNames: string[]) => {
+    if (selectingOperative) {
+      onAddOperative(selectingOperative, weaponNames);
+      setSelectingOperative(null);
+    } else if (editingSelection) {
+      // For editing, we'd need a new callback - for now just close
+      setEditingSelection(null);
+    }
+  };
+
+  const handleCancelWeaponSelection = () => {
+    setSelectingOperative(null);
+    setEditingSelection(null);
   };
 
   const getWeaponName = (weaponId: string): string => {
@@ -97,6 +118,24 @@ export function OperativeSelector({
           </div>
         )}
       </div>
+
+      {/* Weapon selection modal */}
+      {selectingOperative && (
+        <WeaponLoadoutSelector
+          operative={selectingOperative}
+          onConfirm={handleConfirmWeapons}
+          onCancel={handleCancelWeaponSelection}
+        />
+      )}
+
+      {editingSelection && (
+        <WeaponLoadoutSelector
+          operative={editingSelection.operative}
+          initialSelection={editingSelection.selectedWeaponIds}
+          onConfirm={handleConfirmWeapons}
+          onCancel={handleCancelWeaponSelection}
+        />
+      )}
     </div>
   );
 }
