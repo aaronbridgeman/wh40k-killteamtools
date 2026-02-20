@@ -37,3 +37,13 @@ export interface TeamState {
   /** Faction-specific rule choices */
   ruleChoices: FactionRuleChoices | null;
 }
+
+/**
+ * Game mode state with two teams
+ */
+export interface GameModeState {
+  /** Kill Team Alpha state */
+  alpha: TeamState;
+  /** Kill Team Bravo state */
+  bravo: TeamState;
+}
