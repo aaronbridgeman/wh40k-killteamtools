@@ -129,16 +129,16 @@ function App() {
         <p className="subtitle">Warhammer 40,000 Kill Team Reference Tool</p>
         <nav className="nav-buttons">
           <button
+            className={`nav-button ${viewMode === 'home' ? 'active' : ''}`}
+            onClick={() => setViewMode('home')}
+          >
+            Single Team
+          </button>
+          <button
             className={`nav-button ${viewMode === 'game-mode' ? 'active' : ''}`}
             onClick={() => setViewMode('game-mode')}
           >
             Game Mode
-          </button>
-          <button
-            className={`nav-button ${viewMode === 'home' ? 'active' : ''}`}
-            onClick={() => setViewMode('home')}
-          >
-            Home
           </button>
           <button
             className={`nav-button ${viewMode === 'actions' ? 'active' : ''}`}
