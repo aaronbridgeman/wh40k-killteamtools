@@ -115,6 +115,15 @@ The application is automatically deployed to GitHub Pages when changes are pushe
 4. Builds the application
 5. Deploys to GitHub Pages
 
+### First-Time Setup
+
+If you're setting up this repository for the first time or if deployments are failing with a 404 error, GitHub Pages needs to be enabled in the repository settings. See [GITHUB_PAGES_SETUP.md](./GITHUB_PAGES_SETUP.md) for detailed setup instructions.
+
+**Quick Setup:**
+1. Go to [Repository Settings → Pages](https://github.com/aaronbridgeman/wh40k-killteamtools/settings/pages)
+2. Set **Source** to `GitHub Actions`
+3. Save and push to `main` branch
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please ensure:
