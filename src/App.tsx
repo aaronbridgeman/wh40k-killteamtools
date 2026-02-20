@@ -22,7 +22,8 @@ type TeamViewMode = 'faction-info' | 'team-selection';
 
 function App() {
   const [viewMode, setViewMode] = useState<ViewMode>('home');
-  const [teamViewMode, setTeamViewMode] = useState<TeamViewMode>('faction-info');
+  const [teamViewMode, setTeamViewMode] =
+    useState<TeamViewMode>('faction-info');
   const [selectedFactionId, setSelectedFactionId] = useState<
     FactionId | undefined
   >();
