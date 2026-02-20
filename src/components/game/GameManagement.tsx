@@ -30,7 +30,10 @@ export function GameManagement({
     });
   };
 
-  const handleCommandPointsChange = (team: 'alpha' | 'bravo', delta: number) => {
+  const handleCommandPointsChange = (
+    team: 'alpha' | 'bravo',
+    delta: number
+  ) => {
     const key = team === 'alpha' ? 'alphaCommandPoints' : 'bravoCommandPoints';
     const newCP = Math.max(0, gameTracking[key] + delta);
     onUpdateGameTracking({
@@ -47,9 +50,9 @@ export function GameManagement({
     const woundsKey =
       team === 'alpha' ? 'alphaOperativeWounds' : 'bravoOperativeWounds';
     const operatives = team === 'alpha' ? alphaOperatives : bravoOperatives;
-    
+
     // Find the operative to get max wounds
-    const operative = operatives.find(op => op.selectionId === selectionId);
+    const operative = operatives.find((op) => op.selectionId === selectionId);
     if (!operative) return;
 
     const maxWounds = operative.operative.stats.wounds;
@@ -220,7 +223,10 @@ export function GameManagement({
                     selected.operative.stats.wounds
                   );
                   return (
-                    <div key={selected.selectionId} className="operative-wound-tracker">
+                    <div
+                      key={selected.selectionId}
+                      className="operative-wound-tracker"
+                    >
                       <span className="operative-name">
                         {selected.operative.name}
                       </span>
@@ -228,7 +234,11 @@ export function GameManagement({
                         <button
                           className="control-button small"
                           onClick={() =>
-                            handleWoundsChange('alpha', selected.selectionId, -1)
+                            handleWoundsChange(
+                              'alpha',
+                              selected.selectionId,
+                              -1
+                            )
                           }
                           disabled={currentWounds <= 0}
                           aria-label={`Decrease wounds for ${selected.operative.name}`}
@@ -243,7 +253,9 @@ export function GameManagement({
                           onClick={() =>
                             handleWoundsChange('alpha', selected.selectionId, 1)
                           }
-                          disabled={currentWounds >= selected.operative.stats.wounds}
+                          disabled={
+                            currentWounds >= selected.operative.stats.wounds
+                          }
                           aria-label={`Increase wounds for ${selected.operative.name}`}
                         >
                           +
@@ -270,7 +282,10 @@ export function GameManagement({
                     selected.operative.stats.wounds
                   );
                   return (
-                    <div key={selected.selectionId} className="operative-wound-tracker">
+                    <div
+                      key={selected.selectionId}
+                      className="operative-wound-tracker"
+                    >
                       <span className="operative-name">
                         {selected.operative.name}
                       </span>
@@ -278,7 +293,11 @@ export function GameManagement({
                         <button
                           className="control-button small"
                           onClick={() =>
-                            handleWoundsChange('bravo', selected.selectionId, -1)
+                            handleWoundsChange(
+                              'bravo',
+                              selected.selectionId,
+                              -1
+                            )
                           }
                           disabled={currentWounds <= 0}
                           aria-label={`Decrease wounds for ${selected.operative.name}`}
@@ -293,7 +312,9 @@ export function GameManagement({
                           onClick={() =>
                             handleWoundsChange('bravo', selected.selectionId, 1)
                           }
-                          disabled={currentWounds >= selected.operative.stats.wounds}
+                          disabled={
+                            currentWounds >= selected.operative.stats.wounds
+                          }
                           aria-label={`Increase wounds for ${selected.operative.name}`}
                         >
                           +

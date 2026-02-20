@@ -118,7 +118,10 @@ export function GameModeView() {
     }));
   };
 
-  const handleRemoveOperative = (selectionId: string, team: 'alpha' | 'bravo') => {
+  const handleRemoveOperative = (
+    selectionId: string,
+    team: 'alpha' | 'bravo'
+  ) => {
     setGameModeState((prev) => ({
       ...prev,
       [team]: {
@@ -168,7 +171,8 @@ export function GameModeView() {
     }));
   };
 
-  const activeTeam = activeTab === 'alpha' || activeTab === 'bravo' ? activeTab : 'alpha';
+  const activeTeam =
+    activeTab === 'alpha' || activeTab === 'bravo' ? activeTab : 'alpha';
   const currentTeamState = gameModeState[activeTeam];
   const currentFaction = activeTeam === 'alpha' ? alphaFaction : bravoFaction;
 
@@ -203,7 +207,9 @@ export function GameModeView() {
 
       {activeTab === 'game-management' ? (
         <GameManagement
-          gameTracking={gameModeState.gameTracking || getInitialGameTrackingState()}
+          gameTracking={
+            gameModeState.gameTracking || getInitialGameTrackingState()
+          }
           alphaOperatives={gameModeState.alpha.selectedOperatives}
           bravoOperatives={gameModeState.bravo.selectedOperatives}
           onUpdateGameTracking={handleUpdateGameTracking}
@@ -211,7 +217,9 @@ export function GameModeView() {
       ) : (
         <>
           <FactionSelector
-            selectedFactionId={currentTeamState.factionId as FactionId | undefined}
+            selectedFactionId={
+              currentTeamState.factionId as FactionId | undefined
+            }
             onFactionSelect={(factionId) =>
               handleFactionSelect(factionId, activeTeam)
             }
@@ -250,7 +258,8 @@ export function GameModeView() {
                         {(currentTeamState.selectedOperatives.length > 0
                           ? currentFaction.operatives.filter((operative) =>
                               currentTeamState.selectedOperatives.some(
-                                (selected) => selected.operative.id === operative.id
+                                (selected) =>
+                                  selected.operative.id === operative.id
                               )
                             )
                           : currentFaction.operatives
@@ -265,8 +274,8 @@ export function GameModeView() {
                     </section>
                   ) : (
                     <div className="info-message">
-                      No operative data available yet. Operative datacards will be
-                      added in future updates.
+                      No operative data available yet. Operative datacards will
+                      be added in future updates.
                     </div>
                   )}
                 </>
