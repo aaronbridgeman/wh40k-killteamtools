@@ -21,7 +21,7 @@
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--accent-color);
 }
 
 .name {
@@ -50,9 +50,10 @@
   grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
   margin: 1rem 0;
-  padding: 1rem;
+  padding: 0.75rem;
   background-color: var(--stats-background);
   border-radius: 4px;
+  border: 1px solid var(--border-color);
 }
 
 .stat {
@@ -60,20 +61,61 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding: 0.4rem 0.25rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  transition: all 0.2s ease;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.stat:hover {
+  background-color: rgba(255, 107, 53, 0.1);
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
 }
 
 .statLabel {
   font-weight: 700;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
+  font-size: 0.7rem;
+  color: var(--accent-color);
   text-transform: uppercase;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .statValue {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
+  line-height: 1.2;
+}
+
+/* Specific stat type highlighting */
+.stat[data-stat='M'] .statValue {
+  color: var(--stat-movement-color);
+}
+
+.stat[data-stat='APL'] .statValue {
+  color: var(--stat-apl-color);
+}
+
+.stat[data-stat='GA'] .statValue {
+  color: var(--stat-ga-color);
+}
+
+.stat[data-stat='DF'] .statValue {
+  color: var(--stat-df-color);
+}
+
+.stat[data-stat='SV'] .statValue {
+  color: var(--stat-sv-color);
+}
+
+.stat[data-stat='W'] .statValue {
+  color: var(--accent-color);
 }
 
 .keywords {

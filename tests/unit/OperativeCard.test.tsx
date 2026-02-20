@@ -81,9 +81,9 @@ describe('OperativeCard', () => {
 
   it('renders operative stats', () => {
     render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
-    expect(screen.getByText('M')).toBeInTheDocument();
+    expect(screen.getByText('🏃 M')).toBeInTheDocument();
     expect(screen.getByText('6"')).toBeInTheDocument();
-    expect(screen.getByText('APL')).toBeInTheDocument();
+    expect(screen.getByText('⚡ APL')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
   });
 

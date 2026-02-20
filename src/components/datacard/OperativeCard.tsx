@@ -31,28 +31,28 @@ export function OperativeCard({ operative, weapons }: OperativeCardProps) {
       )}
 
       <div className={styles.stats}>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>M</span>
+        <div className={styles.stat} data-stat="M">
+          <span className={styles.statLabel}>🏃 M</span>
           <span className={styles.statValue}>{stats.movement}&quot;</span>
         </div>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>APL</span>
+        <div className={styles.stat} data-stat="APL">
+          <span className={styles.statLabel}>⚡ APL</span>
           <span className={styles.statValue}>{stats.actionPointLimit}</span>
         </div>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>GA</span>
+        <div className={styles.stat} data-stat="GA">
+          <span className={styles.statLabel}>👥 GA</span>
           <span className={styles.statValue}>{stats.groupActivation}</span>
         </div>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>DF</span>
+        <div className={styles.stat} data-stat="DF">
+          <span className={styles.statLabel}>🛡️ DF</span>
           <span className={styles.statValue}>{stats.defense}</span>
         </div>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>SV</span>
+        <div className={styles.stat} data-stat="SV">
+          <span className={styles.statLabel}>💾 SV</span>
           <span className={styles.statValue}>{stats.save}+</span>
         </div>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>W</span>
+        <div className={styles.stat} data-stat="W">
+          <span className={styles.statLabel}>❤️ W</span>
           <span className={styles.statValue}>{stats.wounds}</span>
         </div>
       </div>
