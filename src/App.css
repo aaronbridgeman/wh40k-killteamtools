@@ -71,6 +71,45 @@
   padding: 2rem 1rem;
 }
 
+.team-view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin: 1.5rem 0;
+  background-color: var(--surface-color);
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+}
+
+.toggle-button {
+  flex: 1;
+  max-width: 200px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+  background-color: rgba(74, 158, 255, 0.1);
+  color: var(--accent-color);
+}
+
+.toggle-button.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.toggle-button.active:hover {
+  background-color: var(--primary-color);
+}
+
 .loading,
 .error,
 .info-message {

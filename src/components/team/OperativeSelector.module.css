@@ -1,0 +1,145 @@
+.container {
+  background: var(--card-bg, #2a2a2a);
+  border: 1px solid var(--border-color, #444);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color, #444);
+}
+
+.header h3 {
+  margin: 0;
+  color: var(--text-primary, #fff);
+}
+
+.count {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--accent-color, #4a9eff);
+}
+
+.availableOperatives,
+.selectedOperatives {
+  margin-top: 1.5rem;
+}
+
+.availableOperatives h4,
+.selectedOperatives h4 {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary, #ccc);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.operativesList,
+.selectedList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.operativeItem,
+.selectedItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: var(--item-bg, #1a1a1a);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.operativeItem:hover,
+.selectedItem:hover {
+  background: var(--item-hover-bg, #252525);
+}
+
+.operativeInfo,
+.selectedInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.operativeInfo strong,
+.selectedInfo strong {
+  color: var(--text-primary, #fff);
+  font-size: 1rem;
+}
+
+.operativeType {
+  font-size: 0.875rem;
+  color: var(--text-tertiary, #888);
+}
+
+.weapons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.weaponBadge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: var(--badge-bg, #3a3a3a);
+  border: 1px solid var(--badge-border, #555);
+  border-radius: 3px;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #ccc);
+}
+
+.addButton,
+.removeButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addButton {
+  background: var(--success-color, #4caf50);
+  color: white;
+}
+
+.addButton:hover:not(:disabled) {
+  background: var(--success-hover, #45a049);
+  transform: translateY(-1px);
+}
+
+.addButton:disabled {
+  background: var(--disabled-bg, #555);
+  color: var(--disabled-text, #888);
+  cursor: not-allowed;
+}
+
+.removeButton {
+  background: var(--danger-color, #f44336);
+  color: white;
+}
+
+.removeButton:hover {
+  background: var(--danger-hover, #da190b);
+  transform: translateY(-1px);
+}
+
+.emptyMessage {
+  color: var(--text-tertiary, #888);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+}

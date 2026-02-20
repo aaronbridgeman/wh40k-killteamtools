@@ -1,0 +1,95 @@
+.container {
+  background: var(--card-bg, #2a2a2a);
+  border: 1px solid var(--border-color, #444);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color, #444);
+}
+
+.header h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary, #fff);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--text-secondary, #ccc);
+  font-size: 0.875rem;
+}
+
+.infoMessage {
+  color: var(--text-tertiary, #888);
+  font-style: italic;
+  padding: 1rem;
+  text-align: center;
+}
+
+.ruleCategory {
+  margin-top: 1.5rem;
+}
+
+.ruleCategory h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--accent-color, #4a9eff);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.categoryNote {
+  margin: 0 0 1rem 0;
+  color: var(--text-tertiary, #888);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.rulesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ruleItem {
+  padding: 1rem;
+  background: var(--item-bg, #1a1a1a);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 4px;
+}
+
+.ruleItem strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #fff);
+  font-size: 1rem;
+}
+
+.ruleItem p {
+  margin: 0;
+  color: var(--text-secondary, #ccc);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--info-bg, #1a2a3a);
+  border: 1px solid var(--info-border, #4a9eff);
+  border-radius: 4px;
+}
+
+.note p {
+  margin: 0;
+  color: var(--info-text, #81c4ff);
+  font-size: 0.875rem;
+}
+
+.note strong {
+  color: var(--accent-color, #4a9eff);
+}
