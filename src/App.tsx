@@ -8,6 +8,7 @@ import { GeneralRulesPage } from './components/rules/GeneralRulesPage';
 import { OperativeSelector } from './components/team/OperativeSelector';
 import { SelectedTeamView } from './components/team/SelectedTeamView';
 import { FactionRulesSelector } from './components/team/FactionRulesSelector';
+import { GameModeView } from './components/game/GameModeView';
 import { loadFaction, FactionId } from './services/dataLoader';
 import {
   saveTeamState,
@@ -17,7 +18,12 @@ import {
 import { Faction, TeamState, SelectedOperative, Operative } from './types';
 import './App.css';
 
-type ViewMode = 'home' | 'weapon-rules' | 'actions' | 'general-rules';
+type ViewMode =
+  | 'home'
+  | 'weapon-rules'
+  | 'actions'
+  | 'general-rules'
+  | 'game-mode';
 type TeamViewMode = 'faction-info' | 'team-selection';
 
 function App() {
@@ -127,6 +133,12 @@ function App() {
             onClick={() => setViewMode('home')}
           >
             Home
+          </button>
+          <button
+            className={`nav-button ${viewMode === 'game-mode' ? 'active' : ''}`}
+            onClick={() => setViewMode('game-mode')}
+          >
+            Game Mode
           </button>
           <button
             className={`nav-button ${viewMode === 'actions' ? 'active' : ''}`}
@@ -239,6 +251,7 @@ function App() {
             )}
           </>
         )}
+        {viewMode === 'game-mode' && <GameModeView />}
         {viewMode === 'actions' && <ActionsPage />}
         {viewMode === 'general-rules' && <GeneralRulesPage />}
         {viewMode === 'weapon-rules' && <WeaponRulesPage />}

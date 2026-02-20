@@ -1,0 +1,73 @@
+.game-mode-view {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.team-tabs {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+  padding: 0 1rem;
+  justify-content: center;
+}
+
+.team-tab {
+  flex: 1;
+  max-width: 400px;
+  background-color: var(--surface-color);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.team-tab:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.team-tab.active {
+  border-color: var(--primary-color);
+  background-color: var(--primary-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.team-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.team-tab.active .team-label {
+  color: var(--primary-color);
+}
+
+.team-faction {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.team-tab.active .team-faction {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .team-tabs {
+    flex-direction: column;
+  }
+
+  .team-tab {
+    max-width: 100%;
+  }
+}
