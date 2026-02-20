@@ -112,7 +112,7 @@ describe('OperativeSelector', () => {
     expect(screen.getByText('No operatives selected yet')).toBeInTheDocument();
   });
 
-  it('calls onAddOperative when add button clicked', () => {
+  it('opens weapon selection modal when add button clicked', () => {
     const onAdd = vi.fn();
     const onRemove = vi.fn();
 
@@ -129,8 +129,11 @@ describe('OperativeSelector', () => {
     const addButtons = screen.getAllByRole('button', { name: /Add/ });
     fireEvent.click(addButtons[0]);
 
-    expect(onAdd).toHaveBeenCalledTimes(1);
-    expect(onAdd).toHaveBeenCalledWith(mockOperatives[0], ['weapon-1']);
+    // Should open the weapon selection modal
+    expect(screen.getByText(/Tactical Marine - Trooper/)).toBeInTheDocument();
+    
+    // onAdd should not be called yet (modal is open)
+    expect(onAdd).not.toHaveBeenCalled();
   });
 
   it('displays selected operatives', () => {
