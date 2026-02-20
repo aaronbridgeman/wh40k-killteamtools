@@ -207,7 +207,7 @@
             },
             {
               "name": "Hot",
-              "description": "After using this weapon, roll one D6: if the result is lower than the weapon's Hit stat, the operative takes damage equal to the result multiplied by two"
+              "description": "After using this weapon, roll one D6: if the result is lower than the weapon's Ballistic Skill value, the operative takes damage equal to the result multiplied by two"
             }
           ]
         }

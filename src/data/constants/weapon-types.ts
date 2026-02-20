@@ -41,6 +41,16 @@ export const WEAPON_RULES = {
 
 /**
  * Type exports for type safety
+ * These extract the literal string values from the constants for type-safe usage in faction data
+ */
+
+/**
+ * Weapon type - extracts "melee" | "ranged" from WEAPON_TYPES constant
  */
 export type WeaponType = (typeof WEAPON_TYPES)[keyof typeof WEAPON_TYPES];
+
+/**
+ * Weapon rule name - extracts literal rule names from WEAPON_RULES constant
+ * Use these values in weapon profile special rules to ensure consistency
+ */
 export type WeaponRuleName = (typeof WEAPON_RULES)[keyof typeof WEAPON_RULES];
