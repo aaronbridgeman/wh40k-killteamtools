@@ -4,11 +4,11 @@
     "rules": [
       {
         "name": "Introduction",
-        "description": "Kill Team is a tactical combat miniatures game set in the 41st Millennium where two rival teams of operatives battle to complete objectives. [cite: 4, 5]"
+        "description": "Kill Team is a tactical combat miniatures game set in the 41st Millennium where two rival teams of operatives battle to complete objectives."
       },
       {
         "name": "Game Structure",
-        "description": "A battle typically lasts four turning points, each consisting of a Strategy phase and a Firefight phase. [cite: 38]"
+        "description": "A battle typically lasts four turning points, each consisting of a Strategy phase and a Firefight phase."
       }
     ]
   },
@@ -17,15 +17,15 @@
     "rules": [
       {
         "name": "Requirements",
-        "description": "Players need a kill team of Citadel miniatures, free online rules, a 30\"x22\" game board, terrain, measuring device, 10 D6 dice, and tokens. [cite: 10]"
+        "description": "Players need a kill team of Citadel miniatures, free online rules, a 30\"x22\" game board, terrain, measuring device, 10 D6 dice, and tokens."
       },
       {
         "name": "Deployment",
-        "description": "Determine initiative randomly. The player with initiative selects a drop zone (within 3\" of their edge). Players alternate setting up one third of their team at a time. [cite: 11, 14, 15]"
+        "description": "Determine initiative randomly. The player with initiative selects a drop zone (within 3\" of their edge). Players alternate setting up one third of their team at a time."
       },
       {
         "name": "Initial Orders",
-        "description": "When an operative is set up, it must be wholly within its drop zone and given a Conceal order. [cite: 16]"
+        "description": "When an operative is set up, it must be wholly within its drop zone and given a Conceal order."
       }
     ]
   },
@@ -34,15 +34,15 @@
     "rules": [
       {
         "name": "Initiative",
-        "description": "Players roll one D6; the highest roll decides who has initiative. On a tie, the player who currently lacks initiative decides. [cite: 40, 41]"
+        "description": "Players roll one D6; the highest roll decides who has initiative. On a tie, the player who currently lacks initiative decides."
       },
       {
         "name": "Command Points (CP)",
-        "description": "Players start with 2CP. In the first Strategy phase, both gain 1CP. In subsequent phases, the player with initiative gains 1CP while the other gains 2CP. [cite: 42, 43]"
+        "description": "Players start with 2CP. In the first Strategy phase, both gain 1CP. In subsequent phases, the player with initiative gains 1CP while the other gains 2CP."
       },
       {
         "name": "Strategic Gambits",
-        "description": "Players alternate using a Strategic Gambit (which includes strategy ploys) or passing. Each gambit can only be used once per turning point and costs 1CP. [cite: 44, 46, 47]"
+        "description": "Players alternate using a Strategic Gambit (which includes strategy ploys) or passing. Each gambit can only be used once per turning point and costs 1CP."
       }
     ]
   },
@@ -51,15 +51,15 @@
     "rules": [
       {
         "name": "Activation",
-        "description": "Players alternate activating ready friendly operatives. Upon activation, select an Engage or Conceal order. [cite: 50, 51]"
+        "description": "Players alternate activating ready friendly operatives. Upon activation, select an Engage or Conceal order."
       },
       {
         "name": "Action Points (APL)",
-        "description": "Operatives perform actions costing AP. Total AP spent cannot exceed the operative's APL stat. [cite: 53]"
+        "description": "Operatives perform actions costing AP. Total AP spent cannot exceed the operative's APL stat."
       },
       {
         "name": "Counteract",
-        "description": "If all your operatives are expended but your opponent's are not, one expended friendly operative with an Engage order can perform a 1AP action for free (max move 2\"). [cite: 22, 23]"
+        "description": "If all your operatives are expended but your opponent's are not, one expended friendly operative with an Engage order can perform a 1AP action for free (max move 2\")."
       }
     ]
   },
@@ -68,27 +68,27 @@
     "rules": [
       {
         "name": "Reposition (1AP)",
-        "description": "Move the operative up to its Move stat. Cannot move within control range of enemies. [cite: 26, 27, 28]"
+        "description": "Move the operative up to its Move stat. Cannot move within control range of enemies."
       },
       {
         "name": "Dash (1AP)",
-        "description": "Move up to 3\". Cannot climb or move within enemy control range. [cite: 33, 61]"
+        "description": "Move up to 3\". Cannot climb or move within enemy control range."
       },
       {
         "name": "Charge (1AP)",
-        "description": "Move up to Move stat + 2\". Can move within and must finish in enemy control range. [cite: 68, 69]"
+        "description": "Move up to Move stat + 2\". Can move within and must finish in enemy control range."
       },
       {
         "name": "Fall Back (2AP)",
-        "description": "Move like a Reposition; can move within enemy control range but cannot finish there. [cite: 63, 64]"
+        "description": "Move like a Reposition; can move within enemy control range but cannot finish there."
       },
       {
         "name": "Shoot (1AP)",
-        "description": "Perform a ranged attack. Cannot be done with a Conceal order or within enemy control range. [cite: 71, 73, 74]"
+        "description": "Perform a ranged attack. Cannot be done with a Conceal order or within enemy control range."
       },
       {
         "name": "Fight (1AP)",
-        "description": "Perform a melee attack against an enemy within control range. [cite: 75, 77, 78]"
+        "description": "Perform a melee attack against an enemy within control range."
       }
     ]
   },
@@ -97,15 +97,15 @@
     "rules": [
       {
         "name": "Shooting Sequence",
-        "description": "1. Select weapon. 2. Select valid target. 3. Roll attack dice. 4. Defender rolls 3 defense dice (can retain 1 for cover). 5. Block successes. 6. Inflict damage. [cite: 84-95]"
+        "description": "1. Select weapon. 2. Select valid target. 3. Roll attack dice. 4. Defender rolls 3 defense dice (can retain 1 for cover). 5. Block successes. 6. Inflict damage."
       },
       {
         "name": "Fighting Sequence",
-        "description": "1. Select target in control range. 2. Both select melee weapons. 3. Both roll attack dice. 4. Alternate resolving dice by striking or blocking. [cite: 102-108]"
+        "description": "1. Select target in control range. 2. Both select melee weapons. 3. Both roll attack dice. 4. Alternate resolving dice by striking or blocking."
       },
       {
         "name": "Success Types",
-        "description": "Rolling a 6 is a critical success. Results meeting or beating the Hit/Save stat are normal successes. Rolling a 1 is always a fail. [cite: 82, 83, 87, 89]"
+        "description": "Rolling a 6 is a critical success. Results meeting or beating the Hit/Save stat are normal successes. Rolling a 1 is always a fail."
       }
     ]
   },
@@ -114,15 +114,15 @@
     "rules": [
       {
         "name": "Control Range",
-        "description": "Visible targets within 1\" are in control range. This range is mutual. [cite: 116, 117]"
+        "description": "Visible targets within 1\" are in control range. This range is mutual."
       },
       {
         "name": "Cover",
-        "description": "An operative is in cover if there is intervening terrain within its control range, unless it is within 2\" of the attacker. [cite: 125, 126]"
+        "description": "An operative is in cover if there is intervening terrain within its control range, unless it is within 2\" of the attacker."
       },
       {
         "name": "Damage and Injuries",
-        "description": "Wounded operatives have fewer than starting wounds. Injured operatives (fewer than half wounds) subtract 2\" from Move and worsen Hit stats by 1. [cite: 114, 115]"
+        "description": "Wounded operatives have fewer than starting wounds. Injured operatives (fewer than half wounds) subtract 2\" from Move and worsen Hit stats by 1."
       }
     ]
   }
