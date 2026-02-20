@@ -126,7 +126,7 @@
   background-color: var(--surface-color);
   border-color: var(--accent-color);
   color: var(--accent-color);
-  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Command Points */

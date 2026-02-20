@@ -37,7 +37,7 @@
 .team-tab.active {
   border-color: var(--accent-color);
   background-color: var(--surface-color);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .team-label {
