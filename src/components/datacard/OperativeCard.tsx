@@ -21,16 +21,12 @@ export function OperativeCard({
   const { stats } = operative;
 
   // Get weapons for this operative
-  // If selectedWeaponIds is provided, use those; otherwise use all operative weapons
+  // selectedWeaponIds contains weapon IDs when showing equipped loadout
+  // operative.weapons contains weapon IDs for backward compatibility
   const weaponIds = selectedWeaponIds ?? operative.weapons ?? [];
-  const operativeWeapons = weapons.filter((weapon) => {
-    // When selectedWeaponIds is provided, it contains weapon names (not IDs)
-    // Otherwise, operative.weapons contains weapon IDs
-    if (selectedWeaponIds) {
-      return weaponIds.includes(weapon.name);
-    }
-    return weaponIds.includes(weapon.id);
-  });
+  const operativeWeapons = weapons.filter((weapon) =>
+    weaponIds.includes(weapon.id)
+  );
 
   // Check if we're showing a specific loadout
   const isEquippedLoadout =
