@@ -3,6 +3,7 @@
  */
 
 import { TeamState, GameModeState } from '@/types';
+import { GameTrackingState } from '@/types/game';
 
 const STORAGE_KEY = 'kill-team-selected-team';
 const GAME_MODE_STORAGE_KEY = 'kill-team-game-mode';
@@ -103,5 +104,20 @@ export function getInitialGameModeState(): GameModeState {
   return {
     alpha: getInitialTeamState(),
     bravo: getInitialTeamState(),
+    gameTracking: getInitialGameTrackingState(),
+  };
+}
+
+/**
+ * Get initial game tracking state
+ */
+export function getInitialGameTrackingState(): GameTrackingState {
+  return {
+    turningPoint: 1,
+    initiative: null,
+    alphaCommandPoints: 0,
+    bravoCommandPoints: 0,
+    alphaOperativeWounds: [],
+    bravoOperativeWounds: [],
   };
 }
