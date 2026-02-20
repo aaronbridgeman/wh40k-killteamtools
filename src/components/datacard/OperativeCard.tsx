@@ -13,18 +13,28 @@ interface OperativeCardProps {
   selectedWeaponIds?: string[];
 }
 
-export function OperativeCard({ operative, weapons, selectedWeaponIds }: OperativeCardProps) {
+export function OperativeCard({
+  operative,
+  weapons,
+  selectedWeaponIds,
+}: OperativeCardProps) {
   const { stats } = operative;
 
   // Get weapons for this operative
   // If selectedWeaponIds is provided, use those; otherwise use all operative weapons
   const weaponIds = selectedWeaponIds ?? operative.weapons ?? [];
-  const operativeWeapons = weapons.filter((weapon) =>
-    weaponIds.includes(weapon.id)
-  );
-  
+  const operativeWeapons = weapons.filter((weapon) => {
+    // When selectedWeaponIds is provided, it contains weapon names (not IDs)
+    // Otherwise, operative.weapons contains weapon IDs
+    if (selectedWeaponIds) {
+      return weaponIds.includes(weapon.name);
+    }
+    return weaponIds.includes(weapon.id);
+  });
+
   // Check if we're showing a specific loadout
-  const isEquippedLoadout = selectedWeaponIds !== undefined && selectedWeaponIds.length > 0;
+  const isEquippedLoadout =
+    selectedWeaponIds !== undefined && selectedWeaponIds.length > 0;
 
   return (
     <div className={styles.card}>

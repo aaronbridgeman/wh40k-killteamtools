@@ -205,7 +205,7 @@ describe('OperativeCard', () => {
         <OperativeCard
           operative={mockOperative}
           weapons={mockWeapons}
-          selectedWeaponIds={['test-boltgun']}
+          selectedWeaponIds={['Test Boltgun']}
         />,
       );
       expect(screen.getByText('Test Boltgun')).toBeInTheDocument();
@@ -218,7 +218,7 @@ describe('OperativeCard', () => {
         <OperativeCard
           operative={mockOperative}
           weapons={mockWeapons}
-          selectedWeaponIds={['test-boltgun']}
+          selectedWeaponIds={['Test Boltgun']}
         />,
       );
       expect(screen.getByText('⚔️ Equipped Loadout')).toBeInTheDocument();
@@ -236,7 +236,7 @@ describe('OperativeCard', () => {
         <OperativeCard
           operative={mockOperative}
           weapons={mockWeapons}
-          selectedWeaponIds={['test-boltgun', 'test-knife']}
+          selectedWeaponIds={['Test Boltgun', 'Test Knife']}
         />,
       );
       expect(screen.getByText('Test Boltgun')).toBeInTheDocument();
