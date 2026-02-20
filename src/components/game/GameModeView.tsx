@@ -248,9 +248,10 @@ export function GameModeView() {
                       <h2>Operatives</h2>
                       <div className="operatives-grid">
                         {/* Filter operatives if team has selections, otherwise show all */}
-                        {(currentTeamState!.selectedOperatives.length > 0
+                        {(currentTeamState &&
+                        currentTeamState.selectedOperatives.length > 0
                           ? currentFaction.operatives.filter((operative) =>
-                              currentTeamState!.selectedOperatives.some(
+                              currentTeamState.selectedOperatives.some(
                                 (selected) =>
                                   selected.operative.id === operative.id
                               )
@@ -277,7 +278,9 @@ export function GameModeView() {
                   <OperativeSelector
                     operatives={currentFaction.operatives}
                     weapons={currentFaction.weapons}
-                    selectedOperatives={currentTeamState!.selectedOperatives}
+                    selectedOperatives={
+                      currentTeamState?.selectedOperatives || []
+                    }
                     onAddOperative={(operative, weaponIds) =>
                       handleAddOperative(
                         operative,
@@ -295,7 +298,9 @@ export function GameModeView() {
                   />
 
                   <SelectedTeamView
-                    selectedOperatives={currentTeamState!.selectedOperatives}
+                    selectedOperatives={
+                      currentTeamState?.selectedOperatives || []
+                    }
                     faction={currentFaction}
                     onClearTeam={() =>
                       handleClearTeam(activeTab as 'alpha' | 'bravo')
@@ -304,7 +309,7 @@ export function GameModeView() {
 
                   <FactionRulesSelector
                     faction={currentFaction}
-                    ruleChoices={currentTeamState!.ruleChoices}
+                    ruleChoices={currentTeamState?.ruleChoices || null}
                     onRuleChoiceChange={(category, ruleId) =>
                       handleRuleChoiceChange(
                         category,
