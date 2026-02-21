@@ -173,9 +173,17 @@ function App() {
               onFactionSelect={handleFactionSelect}
             />
 
-            {loading && <div className="loading">Loading faction data...</div>}
+            {loading && (
+              <div className="loading" role="status" aria-live="polite">
+                Loading faction data...
+              </div>
+            )}
 
-            {error && <div className="error">Error: {error}</div>}
+            {error && (
+              <div className="error" role="alert">
+                <strong>Error:</strong> {error}
+              </div>
+            )}
 
             {faction && (
               <>

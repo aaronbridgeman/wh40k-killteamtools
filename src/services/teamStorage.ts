@@ -4,9 +4,10 @@
 
 import { TeamState, GameModeState } from '@/types';
 import { GameTrackingState } from '@/types/game';
+import { STORAGE_KEYS, ERROR_MESSAGES } from '@/constants';
 
-const STORAGE_KEY = 'kill-team-selected-team';
-const GAME_MODE_STORAGE_KEY = 'kill-team-game-mode';
+const STORAGE_KEY = STORAGE_KEYS.TEAM_STATE;
+const GAME_MODE_STORAGE_KEY = STORAGE_KEYS.GAME_MODE_STATE;
 
 /**
  * Save team state to localStorage
@@ -16,12 +17,25 @@ export function saveTeamState(teamState: TeamState): void {
     const serialized = JSON.stringify(teamState);
     localStorage.setItem(STORAGE_KEY, serialized);
   } catch (error) {
-    console.error('Failed to save team state:', error);
+    // Handle QuotaExceededError or other storage errors
+    if (error instanceof Error) {
+      if (error.name === 'QuotaExceededError') {
+        console.error(ERROR_MESSAGES.STORAGE_QUOTA_EXCEEDED, error);
+      } else {
+        console.error('Failed to save team state:', error.message);
+      }
+    }
+    // Attempt to clear corrupted data
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Ignore cleanup errors
+    }
   }
 }
 
 /**
- * Load team state from localStorage
+ * Load team state from localStorage with validation
  */
 export function loadTeamState(): TeamState | null {
   try {
@@ -29,9 +43,31 @@ export function loadTeamState(): TeamState | null {
     if (!serialized) {
       return null;
     }
-    return JSON.parse(serialized) as TeamState;
+
+    const parsed = JSON.parse(serialized);
+
+    // Basic validation - ensure required structure exists
+    if (
+      parsed &&
+      typeof parsed === 'object' &&
+      'selectedOperatives' in parsed &&
+      Array.isArray(parsed.selectedOperatives)
+    ) {
+      return parsed as TeamState;
+    }
+
+    // Invalid structure - clear corrupted data
+    console.warn(ERROR_MESSAGES.INVALID_DATA);
+    localStorage.removeItem(STORAGE_KEY);
+    return null;
   } catch (error) {
     console.error('Failed to load team state:', error);
+    // Clear corrupted data on parse error
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Ignore cleanup errors
+    }
     return null;
   }
 }
@@ -66,12 +102,25 @@ export function saveGameModeState(gameModeState: GameModeState): void {
     const serialized = JSON.stringify(gameModeState);
     localStorage.setItem(GAME_MODE_STORAGE_KEY, serialized);
   } catch (error) {
-    console.error('Failed to save game mode state:', error);
+    // Handle QuotaExceededError or other storage errors
+    if (error instanceof Error) {
+      if (error.name === 'QuotaExceededError') {
+        console.error(ERROR_MESSAGES.STORAGE_QUOTA_EXCEEDED, error);
+      } else {
+        console.error('Failed to save game mode state:', error.message);
+      }
+    }
+    // Attempt to clear corrupted data
+    try {
+      localStorage.removeItem(GAME_MODE_STORAGE_KEY);
+    } catch {
+      // Ignore cleanup errors
+    }
   }
 }
 
 /**
- * Load game mode state from localStorage
+ * Load game mode state from localStorage with validation
  */
 export function loadGameModeState(): GameModeState | null {
   try {
@@ -79,9 +128,36 @@ export function loadGameModeState(): GameModeState | null {
     if (!serialized) {
       return null;
     }
-    return JSON.parse(serialized) as GameModeState;
+
+    const parsed = JSON.parse(serialized);
+
+    // Basic validation - ensure required structure exists
+    // gameTracking is optional
+    if (
+      parsed &&
+      typeof parsed === 'object' &&
+      'alpha' in parsed &&
+      'bravo' in parsed &&
+      parsed.alpha &&
+      parsed.bravo &&
+      typeof parsed.alpha === 'object' &&
+      typeof parsed.bravo === 'object'
+    ) {
+      return parsed as GameModeState;
+    }
+
+    // Invalid structure - clear corrupted data
+    console.warn(ERROR_MESSAGES.INVALID_DATA);
+    localStorage.removeItem(GAME_MODE_STORAGE_KEY);
+    return null;
   } catch (error) {
     console.error('Failed to load game mode state:', error);
+    // Clear corrupted data on parse error
+    try {
+      localStorage.removeItem(GAME_MODE_STORAGE_KEY);
+    } catch {
+      // Ignore cleanup errors
+    }
     return null;
   }
 }
