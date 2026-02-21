@@ -3,6 +3,7 @@
  */
 
 import { SelectedOperative, Faction } from '@/types';
+import { validateTeamComposition } from '@/services/teamBuilder';
 import { OperativeCard } from '../datacard/OperativeCard';
 import styles from './SelectedTeamView.module.css';
 
@@ -22,12 +23,9 @@ export function SelectedTeamView({
     0
   );
 
+  const currentTeam = selectedOperatives.map((s) => s.operative);
+  const validation = validateTeamComposition(faction, currentTeam);
   const maxOperatives = faction.restrictions.maxOperatives;
-  const minOperatives = faction.restrictions.minOperatives;
-
-  const isValidCount =
-    (!minOperatives || selectedOperatives.length >= minOperatives) &&
-    (!maxOperatives || selectedOperatives.length <= maxOperatives);
 
   return (
     <div className={styles.container}>
@@ -36,7 +34,7 @@ export function SelectedTeamView({
           <h2>Your Team: {faction.name}</h2>
           <div className={styles.stats}>
             <span
-              className={`${styles.operativeCount} ${!isValidCount ? styles.invalid : ''}`}
+              className={`${styles.operativeCount} ${!validation.valid ? styles.invalid : ''}`}
             >
               Operatives: {selectedOperatives.length}
               {maxOperatives && ` / ${maxOperatives}`}
@@ -49,14 +47,11 @@ export function SelectedTeamView({
         </button>
       </div>
 
-      {!isValidCount && (
+      {!validation.valid && validation.errors.length > 0 && (
         <div className={styles.warning}>
-          {minOperatives && selectedOperatives.length < minOperatives && (
-            <p>⚠️ Team needs at least {minOperatives} operatives</p>
-          )}
-          {maxOperatives && selectedOperatives.length > maxOperatives && (
-            <p>⚠️ Team exceeds maximum of {maxOperatives} operatives</p>
-          )}
+          {validation.errors.map((error, index) => (
+            <p key={index}>⚠️ {error}</p>
+          ))}
         </div>
       )}
 

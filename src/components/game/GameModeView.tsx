@@ -291,7 +291,7 @@ export function GameModeView() {
                     onRemoveOperative={(selectionId) =>
                       handleRemoveOperative(selectionId, activeTeam)
                     }
-                    maxOperatives={currentFaction.restrictions.maxOperatives}
+                    faction={currentFaction}
                   />
 
                   <SelectedTeamView

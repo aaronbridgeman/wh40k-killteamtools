@@ -37,6 +37,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [teamState, setTeamState] = useState<TeamState>(getInitialTeamState());
+  const [selectedOperativeFilter, setSelectedOperativeFilter] = useState<
+    string | 'all'
+  >('all');
 
   // Load team state from localStorage on mount
   useEffect(() => {
@@ -196,25 +199,54 @@ function App() {
 
                     {faction.operatives.length > 0 ? (
                       <section className="operatives-section">
-                        <h2>Operatives</h2>
+                        <div className="operatives-header">
+                          <h2>Operatives</h2>
+                          <div className="operative-filter">
+                            <label htmlFor="operative-select">
+                              Jump to Operative:
+                            </label>
+                            <select
+                              id="operative-select"
+                              value={selectedOperativeFilter}
+                              onChange={(e) =>
+                                setSelectedOperativeFilter(e.target.value)
+                              }
+                              className="operative-selector"
+                            >
+                              <option value="all">Show All Operatives</option>
+                              {faction.operatives.map((operative) => (
+                                <option key={operative.id} value={operative.id}>
+                                  {operative.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
                         <div className="operatives-grid">
-                          {/* Show selected operatives with their loadouts, or all operatives if none selected */}
-                          {teamState.selectedOperatives.length > 0
-                            ? teamState.selectedOperatives.map((selected) => (
-                                <OperativeCard
-                                  key={selected.selectionId}
-                                  operative={selected.operative}
-                                  weapons={faction.weapons}
-                                  selectedWeaponIds={selected.selectedWeaponIds}
-                                />
-                              ))
-                            : faction.operatives.map((operative) => (
+                          {faction.operatives
+                            .filter(
+                              (operative) =>
+                                selectedOperativeFilter === 'all' ||
+                                operative.id === selectedOperativeFilter
+                            )
+                            .map((operative) => {
+                              // Find if this operative is in the selected team
+                              const selectedVersion =
+                                teamState.selectedOperatives.find(
+                                  (s) => s.operative.id === operative.id
+                                );
+
+                              return (
                                 <OperativeCard
                                   key={operative.id}
                                   operative={operative}
                                   weapons={faction.weapons}
+                                  selectedWeaponIds={
+                                    selectedVersion?.selectedWeaponIds
+                                  }
                                 />
-                              ))}
+                              );
+                            })}
                         </div>
                       </section>
                     ) : (
@@ -232,7 +264,7 @@ function App() {
                       selectedOperatives={teamState.selectedOperatives}
                       onAddOperative={handleAddOperative}
                       onRemoveOperative={handleRemoveOperative}
-                      maxOperatives={faction.restrictions.maxOperatives}
+                      faction={faction}
                     />
 
                     <SelectedTeamView
