@@ -239,9 +239,7 @@ describe('Plague Marines Faction Integration', () => {
         (op) => op.name === 'Plague Marine Fighter'
       );
       expect(fighter?.unique_actions).toBeDefined();
-      expect(fighter?.unique_actions?.length).toBeGreaterThan(0);
-      expect(fighter?.unique_actions?.[0]).toContain('Flail');
-      expect(fighter?.unique_actions?.[0]).toContain('D3+2');
+      expect(fighter?.unique_actions?.[0]).toMatch(/Flail.*D3\+2.*2"/);
     });
 
     it('should have unique_actions for Plaguecaster', () => {
