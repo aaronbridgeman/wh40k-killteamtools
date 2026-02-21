@@ -2,7 +2,7 @@
  * Rule expansion tooltip component with keyboard accessibility
  */
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { expandWeaponRule } from '@/services/ruleExpander';
 import styles from './RuleTooltip.module.css';
 
@@ -22,7 +22,7 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
   const expansion = expandWeaponRule(ruleName, value);
 
   // Position tooltip near the click
-  const positionTooltip = () => {
+  const positionTooltip = useCallback(() => {
     if (!buttonRef.current || !tooltipRef.current) return;
 
     const buttonRect = buttonRef.current.getBoundingClientRect();
@@ -54,7 +54,7 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
     } else {
       setTooltipPosition({ top, left });
     }
-  };
+  }, []);
 
   // Position on mount and when shown
   useEffect(() => {
@@ -62,7 +62,7 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
       // Small delay to ensure tooltip is rendered
       setTimeout(positionTooltip, 10);
     }
-  }, [showTooltip]);
+  }, [showTooltip, positionTooltip]);
 
   // Close tooltip on Escape key
   useEffect(() => {
