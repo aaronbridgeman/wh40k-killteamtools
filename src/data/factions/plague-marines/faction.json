@@ -72,7 +72,7 @@
         "wounds": 14
       },
       "fixed_loadout": ["Flail of Corruption"],
-      "unique_actions": ["Flail: Inflicts D3+2 damage on all operatives within 2\". Treat as Fight action for restriction purposes"],
+      "unique_actions": ["flail"],
       "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "FIGHTER"],
       "cost": 1
     },
@@ -123,7 +123,7 @@
         "wounds": 14
       },
       "fixed_loadout": ["Entropy", "Plague wind", "Corrupted staff"],
-      "unique_actions": ["Poisonous Miasma (Psychic)", "Putrescent Vitality (Psychic)"],
+      "unique_actions": ["poisonous-miasma", "putrescent-vitality"],
       "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "PSYKER"],
       "cost": 1
     },
@@ -435,6 +435,26 @@
       "name": "Repulsive Fortitude",
       "description": "Defence dice results of 5 are critical successes when being shot at",
       "cost": 0
+    }
+  ],
+  "unique_actions": [
+    {
+      "id": "flail",
+      "name": "Flail",
+      "description": "Inflicts D3+2 damage on all operatives within 2\". Treat as Fight action for restriction purposes",
+      "cost": "1AP"
+    },
+    {
+      "id": "poisonous-miasma",
+      "name": "Poisonous Miasma",
+      "description": "Psychic action that affects enemy operatives",
+      "cost": "1AP"
+    },
+    {
+      "id": "putrescent-vitality",
+      "name": "Putrescent Vitality",
+      "description": "Psychic action that enhances friendly operatives",
+      "cost": "1AP"
     }
   ],
   "ploys": [

@@ -250,6 +250,7 @@ function App() {
                                   key={operative.id}
                                   operative={operative}
                                   weapons={faction.weapons}
+                                  uniqueActions={faction.unique_actions}
                                   selectedWeaponIds={
                                     selectedVersion?.selectedWeaponIds
                                   }

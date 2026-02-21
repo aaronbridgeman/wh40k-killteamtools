@@ -18,3 +18,16 @@ export interface Ability {
   /** Usage restrictions */
   restrictions?: string[];
 }
+
+export interface UniqueAction {
+  /** Unique identifier */
+  id: string;
+  /** Display name */
+  name: string;
+  /** Action Point cost (e.g., "1AP", "2AP", or "0AP") */
+  cost: string;
+  /** Full action description */
+  description: string;
+  /** Usage restrictions */
+  restrictions?: string[];
+}

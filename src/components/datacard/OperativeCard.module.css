@@ -176,6 +176,34 @@
   line-height: 1.5;
 }
 
+.actionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.actionName {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.actionCost {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(255, 107, 53, 0.1);
+  border-radius: 3px;
+}
+
+.actionDescription {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
 .keywords {
   margin-top: 1rem;
   display: flex;

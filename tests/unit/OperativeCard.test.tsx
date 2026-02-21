@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { OperativeCard } from '@/components/datacard/OperativeCard';
-import { Operative, Weapon } from '@/types';
+import { Operative, Weapon, UniqueAction } from '@/types';
 
 describe('OperativeCard', () => {
   const mockOperative: Operative = {
@@ -18,7 +18,7 @@ describe('OperativeCard', () => {
     },
     weapons: ['test-boltgun', 'test-knife'],
     abilities: ['Test Ability 1', 'Test Ability 2'],
-    unique_actions: ['Test Action 1', 'Test Action 2'],
+    unique_actions: ['test-action-1', 'test-action-2'],
     keywords: ['Test', 'Infantry'],
     cost: 1,
   };
@@ -71,6 +71,21 @@ describe('OperativeCard', () => {
           specialRules: [],
         },
       ],
+    },
+  ];
+
+  const mockUniqueActions: UniqueAction[] = [
+    {
+      id: 'test-action-1',
+      name: 'Test Action 1',
+      description: 'Description for test action 1',
+      cost: '1AP',
+    },
+    {
+      id: 'test-action-2',
+      name: 'Test Action 2',
+      description: 'Description for test action 2',
+      cost: '2AP',
     },
   ];
 
@@ -305,10 +320,20 @@ describe('OperativeCard', () => {
 
   describe('unique actions', () => {
     it('renders unique actions section when operative has unique actions', () => {
-      render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
+      render(
+        <OperativeCard
+          operative={mockOperative}
+          weapons={mockWeapons}
+          uniqueActions={mockUniqueActions}
+        />,
+      );
       expect(screen.getByText('⚡ Unique Actions')).toBeInTheDocument();
       expect(screen.getByText('Test Action 1')).toBeInTheDocument();
       expect(screen.getByText('Test Action 2')).toBeInTheDocument();
+      expect(screen.getByText('Description for test action 1')).toBeInTheDocument();
+      expect(screen.getByText('Description for test action 2')).toBeInTheDocument();
+      expect(screen.getByText('1AP')).toBeInTheDocument();
+      expect(screen.getByText('2AP')).toBeInTheDocument();
     });
 
     it('does not render unique actions section when operative has no unique actions', () => {
