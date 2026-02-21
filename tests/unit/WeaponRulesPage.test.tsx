@@ -53,6 +53,6 @@ describe('WeaponRulesPage', () => {
 
     // Check for multiple rule headings (level 3 headings are used for each rule)
     const ruleHeadings = screen.getAllByRole('heading', { level: 3 });
-    expect(ruleHeadings.length).toBe(24); // 24 weapon rules in the data (includes Poison and Toxic)
+    expect(ruleHeadings.length).toBe(25); // 25 weapon rules in the data (includes Poison, Toxic, and Piercing Crits)
   });
 });

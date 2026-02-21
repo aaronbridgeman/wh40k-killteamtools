@@ -58,6 +58,11 @@
         "source": "Default Rules"
       },
       {
+        "name": "Piercing Crits x",
+        "description": "The defender rolls x fewer defence dice. This only applies if you retain critical successes.",
+        "source": "Default Rules"
+      },
+      {
         "name": "Punishing",
         "description": "If you retain any critical successes, you can retain one failed die as a normal success instead of discarding it.",
         "source": "Default Rules"
