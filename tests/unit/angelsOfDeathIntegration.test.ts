@@ -209,24 +209,25 @@ describe('Angels of Death Faction Integration', () => {
   describe('Abilities', () => {
     it('should have all required abilities', () => {
       const abilityNames = faction.abilities.map(a => a.name);
-      expect(abilityNames).toContain('Frag Grenade');
-      expect(abilityNames).toContain('Krak Grenade');
-      expect(abilityNames).toContain('Optics');
+      expect(abilityNames).toContain('Heroic Leader');
+      expect(abilityNames).toContain('Iron Halo');
+      expect(abilityNames).toContain('Grenadier');
+      expect(abilityNames).toContain('Camo Cloak');
       expect(abilityNames).toContain('Unyielding');
       expect(abilityNames).toContain('Chapter Veteran');
       expect(abilityNames).toContain('Doctrine Warfare (Assault/Tactical)');
       expect(abilityNames).toContain('Doctrine Warfare (Devastator/Tactical)');
     });
 
-    it('should assign grenades to Assault Intercessor Grenadier', () => {
+    it('should assign Grenadier to Assault Intercessor Grenadier', () => {
       const grenadier = faction.operatives.find(op => op.name === 'Assault Intercessor Grenadier');
-      expect(grenadier?.abilities).toContain('Frag Grenade');
-      expect(grenadier?.abilities).toContain('Krak Grenade');
+      expect(grenadier?.abilities).toContain('Grenadier');
     });
 
-    it('should assign Optics to Eliminator Sniper', () => {
+    it('should assign Camo Cloak ability and Optics unique action to Eliminator Sniper', () => {
       const sniper = faction.operatives.find(op => op.name === 'Eliminator Sniper');
-      expect(sniper?.abilities).toContain('Optics');
+      expect(sniper?.abilities).toContain('Camo Cloak');
+      expect(sniper?.unique_actions).toContain('optics');
     });
 
     it('should assign Unyielding to Heavy Intercessor Gunner', () => {
@@ -244,6 +245,26 @@ describe('Angels of Death Faction Integration', () => {
       const sergeant = faction.operatives.find(op => op.name === 'Intercessor Sergeant');
       expect(sergeant?.abilities).toContain('Chapter Veteran');
       expect(sergeant?.abilities).toContain('Doctrine Warfare (Devastator/Tactical)');
+    });
+
+    it('should assign Heroic Leader and Iron Halo to Space Marine Captain', () => {
+      const captain = faction.operatives.find(op => op.name === 'Space Marine Captain');
+      expect(captain?.abilities).toContain('Heroic Leader');
+      expect(captain?.abilities).toContain('Iron Halo');
+    });
+  });
+
+  describe('Unique Actions', () => {
+    it('should have Optics unique action defined', () => {
+      const uniqueAction = faction.unique_actions?.find(ua => ua.id === 'optics');
+      expect(uniqueAction).toBeDefined();
+      expect(uniqueAction?.name).toBe('Optics');
+      expect(uniqueAction?.cost).toBe('1AP');
+    });
+
+    it('should assign Optics unique action to Eliminator Sniper', () => {
+      const sniper = faction.operatives.find(op => op.name === 'Eliminator Sniper');
+      expect(sniper?.unique_actions).toContain('optics');
     });
   });
 
