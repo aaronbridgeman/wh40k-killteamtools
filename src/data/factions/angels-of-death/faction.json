@@ -85,6 +85,7 @@
         "wounds": 15
       },
       "fixed_loadout": ["Plasma pistol", "Power fist"],
+      "abilities": ["Heroic Leader", "Iron Halo"],
       "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "CAPTAIN", "LEADER"],
       "cost": 1
     },
@@ -101,7 +102,7 @@
         "wounds": 14
       },
       "fixed_loadout": ["Heavy bolt pistol", "Chainsword"],
-      "abilities": ["Frag Grenade", "Krak Grenade"],
+      "abilities": ["Grenadier"],
       "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "GRENADIER"],
       "cost": 1
     },
@@ -139,7 +140,8 @@
         "slot_2_pistol": "Bolt pistol",
         "slot_3_melee": "Fists"
       },
-      "abilities": ["Optics"],
+      "abilities": ["Camo Cloak"],
+      "unique_actions": ["optics"],
       "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "PHOBOS", "ELIMINATOR"],
       "cost": 1
     },
@@ -691,46 +693,60 @@
   ],
   "abilities": [
     {
-      "id": "frag-grenade",
-      "name": "Frag Grenade",
-      "description": "Once per battle, this operative can perform a Shoot action with this weapon",
+      "id": "heroic-leader",
+      "name": "Heroic Leader",
+      "description": "Once per turning point, you can: use a firefight ploy for 0CP (if specified operative), use the Combat Doctrine strategy ploy for CP when activating a friendly operative (if not in enemy control range and not already used), or use Adjust Doctrine firefight ploy for 0CP (if not in enemy control range).",
       "cost": 0
     },
     {
-      "id": "krak-grenade",
-      "name": "Krak Grenade",
-      "description": "Once per battle, this operative can perform a Shoot action with this weapon",
+      "id": "iron-halo",
+      "name": "Iron Halo",
+      "description": "Once per battle, when an attack dice inflicts Normal Dmg on this operative, you can ignore that damage.",
       "cost": 0
     },
     {
-      "id": "optics",
-      "name": "Optics",
-      "description": "1 AP: Enemy cannot be obscured for this operative until its next activation",
-      "cost": 1
+      "id": "chapter-veteran",
+      "name": "Chapter Veteran",
+      "description": "If selected for deployment, select one additional CHAPTER TACTIC for this operative for the battle.",
+      "cost": 0
+    },
+    {
+      "id": "doctrine-warfare-assault-tactical",
+      "name": "Doctrine Warfare (Assault/Tactical)",
+      "description": "Once per battle, when using Combat Doctrine strategy ploy to select Assault or Tactical, if this operative is in the killzone, it costs 0CP.",
+      "cost": 0
+    },
+    {
+      "id": "doctrine-warfare-devastator-tactical",
+      "name": "Doctrine Warfare (Devastator/Tactical)",
+      "description": "Once per battle, when using Combat Doctrine strategy ploy to select Devastator or Tactical, if this operative is in the killzone, it costs 0CP.",
+      "cost": 0
+    },
+    {
+      "id": "grenadier",
+      "name": "Grenadier",
+      "description": "This operative can use frag and krak grenades without counting towards limited uses. Improve the Hit stat by 1 when doing so.",
+      "cost": 0
+    },
+    {
+      "id": "camo-cloak",
+      "name": "Camo Cloak",
+      "description": "Ignore the Saturate weapon rule when being shot. Has the Stealthy Chapter Tactic; if that tactic was already selected, retain two cover saves (one normal, one critical).",
+      "cost": 0
     },
     {
       "id": "unyielding",
       "name": "Unyielding",
       "description": "Ignore movement penalties from injuries",
       "cost": 0
-    },
+    }
+  ],
+  "unique_actions": [
     {
-      "id": "chapter-veteran",
-      "name": "Chapter Veteran",
-      "description": "Select one additional Chapter Tactic for this operative",
-      "cost": 0
-    },
-    {
-      "id": "doctrine-warfare-assault-tactical",
-      "name": "Doctrine Warfare (Assault/Tactical)",
-      "description": "Once per battle, Assault or Tactical doctrine costs 0CP",
-      "cost": 0
-    },
-    {
-      "id": "doctrine-warfare-devastator-tactical",
-      "name": "Doctrine Warfare (Devastator/Tactical)",
-      "description": "Once per battle, Devastator or Tactical doctrine costs 0CP",
-      "cost": 0
+      "id": "optics",
+      "name": "Optics",
+      "description": "Until the start of the next activation, enemy operatives cannot be obscured from this operative's shooting. Cannot perform within enemy control range.",
+      "cost": "1AP"
     }
   ],
   "restrictions": {

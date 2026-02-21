@@ -409,31 +409,31 @@
     {
       "id": "grandfathers-blessing",
       "name": "Grandfather's Blessing",
-      "description": "Special ability for the Plague Marine Champion",
+      "description": "Whenever an enemy with a Poison token loses wounds within 7\" of this operative, this operative regains that many wounds (max 3 per turning point).",
       "cost": 0
     },
     {
       "id": "grenadier",
       "name": "Grenadier",
-      "description": "Improve Hit stat of grenades by 1; Blight grenades gain the Toxic rule",
+      "description": "Can use blight and krak grenades without counting towards limited uses. Improve Hit stat by 1; blight grenades gain the Toxic rule.",
       "cost": 0
     },
     {
       "id": "icon-bearer",
       "name": "Icon Bearer",
-      "description": "+1 to APL for determining objective control",
+      "description": "Treat APL stat as 1 higher when determining control of a marker.",
       "cost": 0
     },
     {
       "id": "icon-of-contagion",
       "name": "Icon of Contagion",
-      "description": "Contagion strategy ploy costs 0CP when in enemy territory",
+      "description": "The Contagion strategy ploy costs 0CP while this operative is within the opponent's territory.",
       "cost": 0
     },
     {
       "id": "repulsive-fortitude",
       "name": "Repulsive Fortitude",
-      "description": "Defence dice results of 5 are critical successes when being shot at",
+      "description": "Defence dice results of 5+ are critical successes when being shot.",
       "cost": 0
     }
   ],
@@ -441,19 +441,19 @@
     {
       "id": "flail",
       "name": "Flail",
-      "description": "Inflicts D3+2 damage on all operatives within 2\". Treat as Fight action for restriction purposes",
+      "description": "Inflict D3+2 damage on each other operative visible within 2\". Enemy operatives gain a Poison token if the D3 result is 3. Treated as a Fight action.",
       "cost": "1AP"
     },
     {
       "id": "poisonous-miasma",
       "name": "Poisonous Miasma",
-      "description": "Psychic action that affects enemy operatives",
+      "description": "Psychic. Select enemy within 7\" or valid target; they gain a Poison token. If they already have one, inflict 3 damage instead. Cannot use within enemy control range.",
       "cost": "1AP"
     },
     {
       "id": "putrescent-vitality",
       "name": "Putrescent Vitality",
-      "description": "Psychic action that enhances friendly operatives",
+      "description": "Psychic. Select friendly within 3\"; roll 2D6. If result is 7, regain 7 wounds; otherwise regain highest D6 result. Limit once per turning point.",
       "cost": "1AP"
     }
   ],
