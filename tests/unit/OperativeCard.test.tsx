@@ -103,6 +103,21 @@ describe('OperativeCard', () => {
     expect(screen.getByText('2')).toBeInTheDocument();
   });
 
+  it('does not render DF stat', () => {
+    render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
+    expect(screen.queryByText('🛡️ DF')).not.toBeInTheDocument();
+    expect(screen.queryByText('DF')).not.toBeInTheDocument();
+  });
+
+  it('renders SV stat with shield emoji', () => {
+    const { container } = render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
+    expect(screen.getByText('🛡️ SV')).toBeInTheDocument();
+    // Check for SV value within the stats section
+    const statsSection = container.querySelector('[data-stat="SV"]');
+    expect(statsSection).toBeInTheDocument();
+    expect(statsSection?.textContent).toContain('3+');
+  });
+
   it('does not render GA stat', () => {
     render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
     expect(screen.queryByText('👥 GA')).not.toBeInTheDocument();
