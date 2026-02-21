@@ -5,7 +5,7 @@
   "description": "A client-side web application for Warhammer 40K Kill Team gameplay assistance",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "node scripts/generate-version.js && tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -16,7 +16,8 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\"",
     "type-check": "tsc --noEmit",
     "validate": "npm run type-check && npm run lint && npm run format:check && npm run test",
-    "extract-rules": "node scripts/extract-rules.js"
+    "extract-rules": "node scripts/extract-rules.js",
+    "version:increment-minor": "node scripts/increment-minor.js"
   },
   "dependencies": {
     "react": "^18.2.0",

@@ -40,3 +40,6 @@ temp/
 # Keep the folder and metadata in the repo, but ignore any PDF uploads.
 tools/rule-sources/*.pdf
 tools/rule-sources/**/*.pdf
+
+# Auto-generated version file
+src/version.ts
