@@ -316,4 +316,59 @@ describe('Angels of Death Faction Integration', () => {
       expect(mobile?.criticalDamage).toBe(4);
     });
   });
+
+  describe('Ploys', () => {
+    it('should have 8 ploys', () => {
+      expect(faction.ploys).toBeDefined();
+      expect(faction.ploys).toHaveLength(8);
+    });
+
+    it('should have 4 strategy ploys', () => {
+      const strategyPloys = faction.ploys?.filter(p => p.type === 'strategy');
+      expect(strategyPloys).toHaveLength(4);
+      expect(strategyPloys?.map(p => p.name)).toContain('Combat Doctrine');
+      expect(strategyPloys?.map(p => p.name)).toContain('And They Shall Know No Fear');
+      expect(strategyPloys?.map(p => p.name)).toContain('Adaptive Tactics');
+      expect(strategyPloys?.map(p => p.name)).toContain('Indomitus');
+    });
+
+    it('should have 4 firefight ploys', () => {
+      const firefightPloys = faction.ploys?.filter(p => p.type === 'firefight');
+      expect(firefightPloys).toHaveLength(4);
+      expect(firefightPloys?.map(p => p.name)).toContain('Adjust Doctrine');
+      expect(firefightPloys?.map(p => p.name)).toContain('Transhuman Physiology');
+      expect(firefightPloys?.map(p => p.name)).toContain('Shock Assault');
+      expect(firefightPloys?.map(p => p.name)).toContain('Wrath of Vengeance');
+    });
+
+    it('should have cost modifiers for Combat Doctrine', () => {
+      const combatDoctrine = faction.ploys?.find(p => p.id === 'combat-doctrine');
+      expect(combatDoctrine?.cost_modifiers).toBeDefined();
+      expect(combatDoctrine?.cost_modifiers).toHaveLength(2);
+      expect(combatDoctrine?.cost_modifiers?.[0]).toContain('Assault Intercessor Sergeant');
+      expect(combatDoctrine?.cost_modifiers?.[1]).toContain('Intercessor Sergeant');
+    });
+
+    it('should have cost modifiers for Adjust Doctrine', () => {
+      const adjustDoctrine = faction.ploys?.find(p => p.id === 'adjust-doctrine');
+      expect(adjustDoctrine?.cost_modifiers).toBeDefined();
+      expect(adjustDoctrine?.cost_modifiers).toHaveLength(1);
+      expect(adjustDoctrine?.cost_modifiers?.[0]).toContain('Space Marine Captain');
+    });
+
+    it('should have cost modifiers for Wrath of Vengeance', () => {
+      const wrathOfVengeance = faction.ploys?.find(p => p.id === 'wrath-of-vengeance');
+      expect(wrathOfVengeance?.cost_modifiers).toBeDefined();
+      expect(wrathOfVengeance?.cost_modifiers).toHaveLength(1);
+      expect(wrathOfVengeance?.cost_modifiers?.[0]).toContain('Chapter Reliquaries');
+    });
+
+    it('should have correct descriptions for all ploys', () => {
+      faction.ploys?.forEach(ploy => {
+        expect(ploy.description).toBeDefined();
+        expect(ploy.description.length).toBeGreaterThan(0);
+        expect(ploy.cost).toBe(1);
+      });
+    });
+  });
 });

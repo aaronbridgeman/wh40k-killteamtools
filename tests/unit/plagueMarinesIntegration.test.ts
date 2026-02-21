@@ -370,4 +370,48 @@ describe('Plague Marines Faction Integration', () => {
       expect(abilityNames).toContain('Repulsive Fortitude');
     });
   });
+
+  describe('Ploys', () => {
+    it('should have 8 ploys', () => {
+      expect(faction.ploys).toBeDefined();
+      expect(faction.ploys).toHaveLength(8);
+    });
+
+    it('should have 4 strategy ploys', () => {
+      const strategyPloys = faction.ploys?.filter((p) => p.type === 'strategy');
+      expect(strategyPloys).toHaveLength(4);
+      expect(strategyPloys?.map((p) => p.name)).toContain('Contagion');
+      expect(strategyPloys?.map((p) => p.name)).toContain('Lumbering Death');
+      expect(strategyPloys?.map((p) => p.name)).toContain('Cloud of Flies');
+      expect(strategyPloys?.map((p) => p.name)).toContain('Nurglings');
+    });
+
+    it('should have 4 firefight ploys', () => {
+      const firefightPloys = faction.ploys?.filter(
+        (p) => p.type === 'firefight'
+      );
+      expect(firefightPloys).toHaveLength(4);
+      expect(firefightPloys?.map((p) => p.name)).toContain('Virulent Poison');
+      expect(firefightPloys?.map((p) => p.name)).toContain('Poisonous Demise');
+      expect(firefightPloys?.map((p) => p.name)).toContain(
+        'Sickening Resilience'
+      );
+      expect(firefightPloys?.map((p) => p.name)).toContain('Curse of Rot');
+    });
+
+    it('should have cost modifiers for Contagion', () => {
+      const contagion = faction.ploys?.find((p) => p.id === 'contagion');
+      expect(contagion?.cost_modifiers).toBeDefined();
+      expect(contagion?.cost_modifiers).toHaveLength(1);
+      expect(contagion?.cost_modifiers?.[0]).toContain('Icon Bearer');
+    });
+
+    it('should have correct descriptions for all ploys', () => {
+      faction.ploys?.forEach((ploy) => {
+        expect(ploy.description).toBeDefined();
+        expect(ploy.description.length).toBeGreaterThan(0);
+        expect(ploy.cost).toBe(1);
+      });
+    });
+  });
 });
