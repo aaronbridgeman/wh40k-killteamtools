@@ -4,7 +4,7 @@
 
 import { Operative } from './operative';
 import { Weapon } from './weapon';
-import { Ability } from './ability';
+import { Ability, UniqueAction } from './ability';
 
 export interface FactionRule {
   /** Unique identifier */
@@ -74,6 +74,8 @@ export interface Faction {
   weapons: Weapon[];
   /** Available abilities */
   abilities: Ability[];
+  /** Available unique actions */
+  unique_actions?: UniqueAction[];
   /** Team building restrictions */
   restrictions: TeamRestrictions;
   /** Metadata */

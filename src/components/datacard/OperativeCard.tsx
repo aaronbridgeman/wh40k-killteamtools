@@ -2,7 +2,7 @@
  * Operative datacard component
  */
 
-import { Operative, Weapon } from '@/types';
+import { Operative, Weapon, UniqueAction } from '@/types';
 import { RuleTooltip } from '@/components/rules/RuleTooltip';
 import { getAllAvailableWeaponNames } from '@/services/weaponResolver';
 import styles from './OperativeCard.module.css';
@@ -12,12 +12,15 @@ interface OperativeCardProps {
   weapons: Weapon[];
   /** Optional: show only these specific weapons (for equipped loadout) */
   selectedWeaponIds?: string[];
+  /** Available unique actions for this faction */
+  uniqueActions?: UniqueAction[];
 }
 
 export function OperativeCard({
   operative,
   weapons,
   selectedWeaponIds,
+  uniqueActions = [],
 }: OperativeCardProps) {
   const { stats } = operative;
 
@@ -174,11 +177,28 @@ export function OperativeCard({
         <div className={styles.uniqueActions}>
           <h4 className={styles.uniqueActionsTitle}>⚡ Unique Actions</h4>
           <div className={styles.actionList}>
-            {operative.unique_actions.map((action, idx) => (
-              <div key={idx} className={styles.action}>
-                {action}
-              </div>
-            ))}
+            {operative.unique_actions.map((actionId) => {
+              const action = uniqueActions.find((a) => a.id === actionId);
+              if (!action) {
+                // Fallback for legacy string format or missing action
+                return (
+                  <div key={actionId} className={styles.action}>
+                    {actionId}
+                  </div>
+                );
+              }
+              return (
+                <div key={action.id} className={styles.action}>
+                  <div className={styles.actionHeader}>
+                    <span className={styles.actionName}>{action.name}</span>
+                    <span className={styles.actionCost}>{action.cost}</span>
+                  </div>
+                  <div className={styles.actionDescription}>
+                    {action.description}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

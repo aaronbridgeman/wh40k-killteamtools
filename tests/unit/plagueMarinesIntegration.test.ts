@@ -234,24 +234,50 @@ describe('Plague Marines Faction Integration', () => {
   });
 
   describe('Unique Actions', () => {
-    it('should have unique_actions for Fighter', () => {
+    it('should have unique_actions array in faction', () => {
+      expect(faction.unique_actions).toBeDefined();
+      expect(Array.isArray(faction.unique_actions)).toBe(true);
+      expect(faction.unique_actions!.length).toBeGreaterThan(0);
+    });
+
+    it('should have unique action for Fighter with proper structure', () => {
       const fighter = faction.operatives.find(
         (op) => op.name === 'Plague Marine Fighter'
       );
       expect(fighter?.unique_actions).toBeDefined();
-      expect(fighter?.unique_actions?.[0]).toMatch(/Flail.*D3\+2.*2"/);
+      expect(fighter?.unique_actions).toContain('flail');
+      
+      // Verify the action exists in the faction's unique_actions array
+      const flailAction = faction.unique_actions?.find(
+        (action) => action.id === 'flail'
+      );
+      expect(flailAction).toBeDefined();
+      expect(flailAction?.name).toBe('Flail');
+      expect(flailAction?.description).toMatch(/D3\+2.*2"/);
+      expect(flailAction?.cost).toBeDefined();
     });
 
-    it('should have unique_actions for Plaguecaster', () => {
+    it('should have unique_actions for Plaguecaster with proper structure', () => {
       const plaguecaster = faction.operatives.find(
         (op) => op.name === 'Malignant Plaguecaster'
       );
-      expect(plaguecaster?.unique_actions).toContain(
-        'Poisonous Miasma (Psychic)'
+      expect(plaguecaster?.unique_actions).toContain('poisonous-miasma');
+      expect(plaguecaster?.unique_actions).toContain('putrescent-vitality');
+
+      // Verify the actions exist in the faction's unique_actions array
+      const poisonousAction = faction.unique_actions?.find(
+        (action) => action.id === 'poisonous-miasma'
       );
-      expect(plaguecaster?.unique_actions).toContain(
-        'Putrescent Vitality (Psychic)'
+      expect(poisonousAction).toBeDefined();
+      expect(poisonousAction?.name).toBe('Poisonous Miasma');
+      expect(poisonousAction?.cost).toBeDefined();
+
+      const putrescentAction = faction.unique_actions?.find(
+        (action) => action.id === 'putrescent-vitality'
       );
+      expect(putrescentAction).toBeDefined();
+      expect(putrescentAction?.name).toBe('Putrescent Vitality');
+      expect(putrescentAction?.cost).toBeDefined();
     });
   });
 
