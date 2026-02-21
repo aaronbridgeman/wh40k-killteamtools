@@ -3,18 +3,43 @@
   display: inline-block;
 }
 
+.ruleButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: help;
+  display: inline-block;
+  transition: transform 0.1s;
+}
+
+.ruleButton:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.ruleButton:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.ruleButton:active {
+  transform: scale(0.98);
+}
+
 .ruleName {
   padding: 0.25rem 0.5rem;
   background-color: var(--rule-background);
   color: var(--text-primary);
   border-radius: 3px;
   font-weight: 600;
-  cursor: help;
   transition: background-color 0.2s;
   border-bottom: 2px dotted var(--text-primary);
+  display: inline-block;
 }
 
-.ruleName:hover {
+.ruleButton:hover .ruleName,
+.ruleButton:focus .ruleName {
   background-color: var(--rule-hover-background);
 }
 
