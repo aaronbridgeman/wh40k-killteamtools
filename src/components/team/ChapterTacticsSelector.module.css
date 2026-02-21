@@ -29,7 +29,7 @@
 }
 
 .expandIcon {
-  color: var(--primary-color);
+  color: var(--text-secondary);
   font-size: 0.875rem;
   transition: transform 0.2s;
   flex-shrink: 0;
