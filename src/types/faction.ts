@@ -28,6 +28,8 @@ export interface Ploy {
   cost: number;
   /** Ploy description */
   description: string;
+  /** Optional cost modifiers (conditions where cost can be reduced to 0CP) */
+  cost_modifiers?: string[];
 }
 
 export interface CompositionRules {

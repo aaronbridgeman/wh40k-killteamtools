@@ -755,28 +755,66 @@
       "name": "Combat Doctrine",
       "type": "strategy",
       "cost": 1,
-      "description": "Select Assault, Devastator, or Tactical doctrine. Friendly operatives gain benefits based on the selected doctrine: Assault (gain 1\" Movement and 1\" Charge), Devastator (improve Ballistic Skill by 1), or Tactical (can re-roll one attack die when shooting or fighting)."
+      "description": "Select Devastator (Balanced at >6\"), Tactical (Balanced at <6\"), or Assault Doctrine (Balanced in melee). Friendly operatives gain the Balanced weapon rule for that doctrine.",
+      "cost_modifiers": [
+        "0CP if Assault or Tactical selected while Assault Intercessor Sergeant is in the killzone (once per battle).",
+        "0CP if Devastator or Tactical selected while Intercessor Sergeant is in the killzone (once per battle)."
+      ]
+    },
+    {
+      "id": "and-they-shall-know-no-fear",
+      "name": "And They Shall Know No Fear",
+      "type": "strategy",
+      "cost": 1,
+      "description": "Ignore all stat changes to friendly operatives from being injured (including weapons)."
+    },
+    {
+      "id": "adaptive-tactics",
+      "name": "Adaptive Tactics",
+      "type": "strategy",
+      "cost": 1,
+      "description": "Change your secondary CHAPTER TACTIC until the end of the turning point."
+    },
+    {
+      "id": "indomitus",
+      "name": "Indomitus",
+      "type": "strategy",
+      "cost": 1,
+      "description": "When an operative is shooting a friendly operative, if you roll two or more fails, discard one to retain another as a normal success instead."
+    },
+    {
+      "id": "adjust-doctrine",
+      "name": "Adjust Doctrine",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Use during a friendly activation. If Combat Doctrine was used this turning point, change the selected doctrine.",
+      "cost_modifiers": [
+        "0CP if Space Marine Captain is in the killzone and not in enemy control range."
+      ]
     },
     {
       "id": "transhuman-physiology",
       "name": "Transhuman Physiology",
       "type": "firefight",
       "cost": 1,
-      "description": "Use this ploy when a friendly operative is targeted by an attack. Until the end of that combat, treat your Save characteristic as one better (e.g., 3+ becomes 2+, minimum of 2+)."
+      "description": "Use when an operative is shooting a friendly operative in the Roll Defence Dice step. Retain one normal success as a critical success instead."
     },
     {
-      "id": "honour-the-chapter",
-      "name": "Honour the Chapter",
-      "type": "strategy",
-      "cost": 1,
-      "description": "Select one friendly operative that has been activated this Turning Point. That operative can immediately perform a free Dash or Charge action (1AP action becomes free)."
-    },
-    {
-      "id": "righteous-fury",
-      "name": "Righteous Fury",
+      "id": "shock-assault",
+      "name": "Shock Assault",
       "type": "firefight",
       "cost": 1,
-      "description": "Use when a friendly operative fights in combat. For that combat, improve the Critical Hit stat of that operative's melee weapons by 1."
+      "description": "Use when a friendly operative performs a Fight action after a Charge. Melee weapon gains Shock and +1 damage to the first strike (max 7)."
+    },
+    {
+      "id": "wrath-of-vengeance",
+      "name": "Wrath of Vengeance",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Use when a friendly operative is counteracting. Perform an additional 1AP action for free; both actions must be different.",
+      "cost_modifiers": [
+        "0CP if operative is equipped with Chapter Reliquaries and has an Engage order."
+      ]
     }
   ],
   "restrictions": {

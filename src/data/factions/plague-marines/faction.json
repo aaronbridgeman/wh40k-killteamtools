@@ -459,18 +459,63 @@
   ],
   "ploys": [
     {
-      "id": "virulent-poison",
-      "name": "Virulent Poison",
-      "type": "firefight",
-      "cost": 1,
-      "description": "Can either give a Poison token to one enemy within 7\" OR roll 2D6; on a 7+, give a Poison token to one enemy within 7\""
-    },
-    {
       "id": "contagion",
       "name": "Contagion",
       "type": "strategy",
       "cost": 1,
-      "description": "Subtract 2\" from Move and worsen Hit stat by 1 for enemies with Poison tokens within 3\" of friendly operatives OR any enemy within 3\" of an Icon Bearer"
+      "description": "Subtract 2\" from enemy Move and worsen Hit stats by 1 if they are visible and within 3\" of a friendly operative with a Poison token or an Icon Bearer.",
+      "cost_modifiers": [
+        "0CP while Plague Marine Icon Bearer is within the opponent's territory."
+      ]
+    },
+    {
+      "id": "lumbering-death",
+      "name": "Lumbering Death",
+      "type": "strategy",
+      "cost": 1,
+      "description": "Friendly weapons have Ceaseless if the operative hasn't moved more than 3\" during the activation (or whenever retaliating)."
+    },
+    {
+      "id": "cloud-of-flies",
+      "name": "Cloud of Flies",
+      "type": "strategy",
+      "cost": 1,
+      "description": "Place a marker. Friendly operatives wholly within 1\" are obscured if the attacker is more than 3\" away."
+    },
+    {
+      "id": "nurglings",
+      "name": "Nurglings",
+      "type": "strategy",
+      "cost": 1,
+      "description": "Select enemy within 3\" of a friendly operative (or 7\" if they have a Poison token). Subtract 1 from their APL until the end of their next activation."
+    },
+    {
+      "id": "virulent-poison",
+      "name": "Virulent Poison",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Select one: Enemy within 3\" (or visible within 7\") gains a Poison token, or roll 2D6; on a 7+, an enemy within 7\" gains a Poison token."
+    },
+    {
+      "id": "poisonous-demise",
+      "name": "Poisonous Demise",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Use when a friendly operative is incapacitated. Nearby enemies (within 3\") gain a Poison token; if they already have one, inflict 1 damage instead."
+    },
+    {
+      "id": "sickening-resilience",
+      "name": "Sickening Resilience",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Use when taking damage. Until the end of the activation/counteraction, Disgustingly Resilient always subtracts 1 damage (min 2) without rolling."
+    },
+    {
+      "id": "curse-of-rot",
+      "name": "Curse of Rot",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Use after opponent rolls dice in combat within 3\" (7\" if poisoned). For each result of 3, inflict 1 damage; the 3 cannot be retained or re-rolled."
     }
   ],
   "restrictions": {
