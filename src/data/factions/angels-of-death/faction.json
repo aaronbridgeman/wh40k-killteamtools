@@ -23,7 +23,7 @@
     }
   ],
   "chapter_tactics": {
-    "description": "Players select one Primary and one Secondary Chapter Tactic at the start of a battle/campaign. These apply to all friendly operatives.",
+    "description": "Players select one Primary and one Secondary Chapter Tactic at the start of a battle or campaign. These apply to all friendly operatives.",
     "tactics": [
       {
         "id": "aggressive",

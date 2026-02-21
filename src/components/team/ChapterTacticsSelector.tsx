@@ -20,7 +20,9 @@ export function ChapterTacticsSelector({
   onPrimaryChange,
   onSecondaryChange,
 }: ChapterTacticsSelectorProps) {
-  const selectedTactics = [primaryTactic, secondaryTactic].filter(Boolean);
+  const selectedTactics = [primaryTactic, secondaryTactic].filter(
+    (id) => id !== ''
+  );
   const unselectedTactics = chapterTactics.tactics.filter(
     (t) => !selectedTactics.includes(t.id)
   );
