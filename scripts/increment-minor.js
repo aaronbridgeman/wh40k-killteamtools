@@ -18,7 +18,7 @@ const versionFilePath = join(rootDir, 'version.json');
 try {
   const versionData = JSON.parse(readFileSync(versionFilePath, 'utf-8'));
   versionData.minor += 1;
-  writeFileSync(versionFilePath, JSON.stringify(versionData, null, 2));
+  writeFileSync(versionFilePath, JSON.stringify(versionData, null, 2) + '\n');
   console.log(`Minor version incremented to: ${versionData.major}.${versionData.minor}`);
 } catch (error) {
   console.error('Error incrementing minor version:', error.message);

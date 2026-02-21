@@ -80,7 +80,7 @@ const versionInfo = {
 };
 
 // Write to version.json for tracking
-writeFileSync(versionFilePath, JSON.stringify(versionData, null, 2));
+writeFileSync(versionFilePath, JSON.stringify(versionData, null, 2) + '\n');
 
 // Write to src/version.ts for use in app
 const versionTsContent = `/**
