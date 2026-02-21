@@ -2,33 +2,55 @@
   background: var(--card-bg, #2a2a2a);
   border: 1px solid var(--border-color, #444);
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 0;
   margin: 1rem 0;
 }
 
-.header {
+.headerButton {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1.5rem;
+  text-align: left;
+  cursor: pointer;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--border-color, #444);
+  gap: 0.75rem;
+  transition: background-color 0.2s;
 }
 
-.header h3 {
+.headerButton:hover {
+  background-color: rgba(var(--primary-color-rgb), 0.05);
+}
+
+.headerButton:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+.expandIcon {
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.headerTitle {
   margin: 0;
   color: var(--text-primary, #fff);
+  flex: 1;
 }
 
 .count {
   font-size: 1.25rem;
   font-weight: bold;
   color: var(--accent-color, #4a9eff);
+  margin-left: auto;
 }
 
 .availableOperatives,
 .selectedOperatives {
-  margin-top: 1.5rem;
+  margin: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .availableOperatives h4,

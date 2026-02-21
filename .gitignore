@@ -41,5 +41,5 @@ temp/
 tools/rule-sources/*.pdf
 tools/rule-sources/**/*.pdf
 
-# Auto-generated version file
-src/version.ts
+# Auto-generated version file - now checked in to avoid build issues
+# src/version.ts

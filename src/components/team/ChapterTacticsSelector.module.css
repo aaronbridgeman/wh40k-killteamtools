@@ -2,22 +2,47 @@
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 0;
   margin: 1.5rem 0;
 }
 
-.header {
-  margin-bottom: 1.5rem;
+.headerButton {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1.5rem;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background-color 0.2s;
 }
 
-.header h3 {
-  margin: 0 0 0.5rem 0;
+.headerButton:hover {
+  background-color: rgba(var(--primary-color-rgb), 0.05);
+}
+
+.headerButton:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+.expandIcon {
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  margin: 0;
   color: var(--heading-color);
   font-size: 1.5rem;
 }
 
 .description {
-  margin: 0;
+  margin: 0 1.5rem 1.5rem 1.5rem;
   color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
@@ -27,7 +52,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .selectionGroup {
@@ -42,29 +67,37 @@
   font-size: 0.95rem;
 }
 
-.select {
-  padding: 0.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+.selectButton {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
   background-color: var(--input-bg);
   color: var(--text-primary);
   font-size: 1rem;
   cursor: pointer;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
+  text-align: left;
+  font-family: inherit;
 }
 
-.select:hover {
+.selectButton:hover {
   border-color: var(--primary-color);
+  background-color: rgba(var(--primary-color-rgb), 0.05);
 }
 
-.select:focus {
+.selectButton:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
 }
 
+.selectButton.hasSelection {
+  border-color: var(--primary-color);
+  font-weight: 600;
+}
+
 .selectedTactics {
-  margin-bottom: 1.5rem;
+  margin: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .selectedTitle {
@@ -141,6 +174,7 @@
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 1rem;
+  margin: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .otherTacticsTitle {
