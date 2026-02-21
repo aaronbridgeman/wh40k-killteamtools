@@ -2,10 +2,10 @@
   "id": "angels-of-death",
   "name": "Angels of Death",
   "description": "Elite Space Marine operatives representing the finest warriors of the Adeptus Astartes",
-  "faction_keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "ANGEL OF DEATH"],
+  "faction_keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "ANGELS OF DEATH"],
   "global_rules": {
     "bolt_weapon_definition": "Any ranged weapon with 'bolt' in its name",
-    "astartes_multi_action": "Can perform 2 Shoot actions if using bolt weapons, or 2 Fight actions",
+    "astartes_multi_action": "Can perform 2 Shoot actions if using bolt weapons (1 AP each; Heavy Bolter and Bolt Sniper Rifle second shot costs additional 1 AP), or 2 Fight actions",
     "and_they_shall_know_no_fear": "Ignore all stat penalties from being injured"
   },
   "rules": [
@@ -18,7 +18,7 @@
     {
       "id": "astartes-multi-action",
       "name": "Astartes Multi-Action",
-      "description": "Can perform 2 Shoot actions if using bolt weapons, or 2 Fight actions",
+      "description": "Can perform 2 Shoot actions if using bolt weapons (1 AP each; Heavy Bolter and Bolt Sniper Rifle second shot costs additional 1 AP), or 2 Fight actions",
       "type": "passive"
     }
   ],
@@ -48,6 +48,7 @@
           }
         ]
       },
+      "abilities": ["Chapter Veteran", "Doctrine Warfare (Assault/Tactical)"],
       "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "LEADER"],
       "cost": 1
     },
@@ -67,6 +68,7 @@
         "slot_1_rifle": ["Auto bolt rifle", "Bolt rifle", "Stalker bolt rifle"],
         "slot_2_melee": ["Chainsword", "Fists", "Power fist", "Power weapon", "Thunder hammer"]
       },
+      "abilities": ["Chapter Veteran", "Doctrine Warfare (Devastator/Tactical)"],
       "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "LEADER"],
       "cost": 1
     },
@@ -104,11 +106,27 @@
       "cost": 1
     },
     {
+      "id": "aod-assault-intercessor-warrior",
+      "name": "Assault Intercessor Warrior",
+      "type": "Operative",
+      "stats": {
+        "movement": 6,
+        "actionPointLimit": 3,
+        "groupActivation": 1,
+        "defense": 3,
+        "save": 3,
+        "wounds": 14
+      },
+      "fixed_loadout": ["Heavy bolt pistol", "Chainsword"],
+      "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "INTERCESSOR", "WARRIOR"],
+      "cost": 1
+    },
+    {
       "id": "aod-eliminator-sniper",
       "name": "Eliminator Sniper",
       "type": "Operative",
       "stats": {
-        "movement": 6,
+        "movement": 7,
         "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
@@ -121,6 +139,7 @@
         "slot_2_pistol": "Bolt pistol",
         "slot_3_melee": "Fists"
       },
+      "abilities": ["Optics"],
       "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "PHOBOS", "ELIMINATOR"],
       "cost": 1
     },
@@ -129,7 +148,7 @@
       "name": "Heavy Intercessor Gunner",
       "type": "Operative",
       "stats": {
-        "movement": 6,
+        "movement": 5,
         "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
@@ -142,6 +161,7 @@
         "slot_2_pistol": "Bolt pistol",
         "slot_3_melee": "Fists"
       },
+      "abilities": ["Unyielding"],
       "keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "HEAVY INTERCESSOR", "GUNNER"],
       "cost": 1
     },
@@ -350,10 +370,11 @@
       "type": "ranged",
       "profiles": [
         {
+          "name": "Heavy",
           "attacks": 4,
-          "ballisticSkill": 2,
+          "ballisticSkill": 3,
           "damage": 3,
-          "criticalDamage": 4,
+          "criticalDamage": 5,
           "specialRules": [
             {
               "name": "Range",
@@ -363,6 +384,30 @@
             {
               "name": "Heavy",
               "description": "An operative cannot move in the same activation it uses this weapon"
+            },
+            {
+              "name": "Lethal",
+              "value": "5+",
+              "description": "Attack dice results equal to or greater than 5 are critical successes"
+            },
+            {
+              "name": "Piercing Crits",
+              "value": 1,
+              "description": "Each critical success inflicts 1 additional damage"
+            }
+          ]
+        },
+        {
+          "name": "Mobile",
+          "attacks": 4,
+          "ballisticSkill": 3,
+          "damage": 3,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
             }
           ]
         }
@@ -377,28 +422,6 @@
           "name": "Executioner",
           "attacks": 4,
           "ballisticSkill": 2,
-          "damage": 4,
-          "criticalDamage": 5,
-          "specialRules": [
-            {
-              "name": "Range",
-              "value": "6\"",
-              "description": "Only operatives within distance 6\" can be valid targets"
-            },
-            {
-              "name": "Heavy",
-              "description": "An operative cannot move in the same activation it uses this weapon"
-            },
-            {
-              "name": "Silent",
-              "description": "The operative can perform a Shoot action with this weapon even while it has a Conceal order"
-            }
-          ]
-        },
-        {
-          "name": "Hyperfrag",
-          "attacks": 4,
-          "ballisticSkill": 2,
           "damage": 3,
           "criticalDamage": 4,
           "specialRules": [
@@ -412,9 +435,39 @@
               "description": "An operative cannot move in the same activation it uses this weapon"
             },
             {
+              "name": "Saturate",
+              "description": "Each hit inflicts 1 mortal wound"
+            },
+            {
+              "name": "Seek Light",
+              "description": "Ignore cover"
+            },
+            {
+              "name": "Silent",
+              "description": "The operative can perform a Shoot action with this weapon even while it has a Conceal order"
+            }
+          ]
+        },
+        {
+          "name": "Hyperfrag",
+          "attacks": 4,
+          "ballisticSkill": 2,
+          "damage": 2,
+          "criticalDamage": 4,
+          "specialRules": [
+            {
+              "name": "Range",
+              "value": "6\"",
+              "description": "Only operatives within distance 6\" can be valid targets"
+            },
+            {
+              "name": "Heavy",
+              "description": "An operative cannot move in the same activation it uses this weapon"
+            },
+            {
               "name": "Blast",
-              "value": "2\"",
-              "description": "After shooting the primary target, shoot against each secondary target visible to and within 2\" of the primary target"
+              "value": "1\"",
+              "description": "After shooting the primary target, shoot against each secondary target visible to and within 1\" of the primary target"
             },
             {
               "name": "Silent",
@@ -427,7 +480,7 @@
           "attacks": 4,
           "ballisticSkill": 2,
           "damage": 3,
-          "criticalDamage": 5,
+          "criticalDamage": 3,
           "specialRules": [
             {
               "name": "Range",
@@ -437,6 +490,11 @@
             {
               "name": "Heavy",
               "description": "An operative cannot move in the same activation it uses this weapon"
+            },
+            {
+              "name": "Devastating",
+              "value": 3,
+              "description": "If the attack inflicts damage, inflict 3 additional damage"
             },
             {
               "name": "Piercing",
@@ -473,15 +531,15 @@
               "description": "An operative cannot move in the same activation it uses this weapon"
             },
             {
-              "name": "Piercing",
+              "name": "Piercing Crits",
               "value": 1,
-              "description": "The defender rolls 1 fewer defence dice"
+              "description": "Each critical success inflicts 1 additional damage"
             }
           ]
         },
         {
           "name": "Sweeping",
-          "attacks": 6,
+          "attacks": 4,
           "ballisticSkill": 3,
           "damage": 4,
           "criticalDamage": 5,
@@ -496,8 +554,14 @@
               "description": "An operative cannot move in the same activation it uses this weapon"
             },
             {
-              "name": "Ceaseless",
-              "description": "You can re-roll any of your attack dice results of one specific result"
+              "name": "Torrent",
+              "value": "1\"",
+              "description": "Select a primary target, then shoot against any number of other valid targets within distance 1\" of that target"
+            },
+            {
+              "name": "Piercing Crits",
+              "value": 1,
+              "description": "Each critical success inflicts 1 additional damage"
             }
           ]
         }
@@ -636,6 +700,36 @@
       "id": "krak-grenade",
       "name": "Krak Grenade",
       "description": "Once per battle, this operative can perform a Shoot action with this weapon",
+      "cost": 0
+    },
+    {
+      "id": "optics",
+      "name": "Optics",
+      "description": "1 AP: Enemy cannot be obscured for this operative until its next activation",
+      "cost": 1
+    },
+    {
+      "id": "unyielding",
+      "name": "Unyielding",
+      "description": "Ignore movement penalties from injuries",
+      "cost": 0
+    },
+    {
+      "id": "chapter-veteran",
+      "name": "Chapter Veteran",
+      "description": "Select one additional Chapter Tactic for this operative",
+      "cost": 0
+    },
+    {
+      "id": "doctrine-warfare-assault-tactical",
+      "name": "Doctrine Warfare (Assault/Tactical)",
+      "description": "Once per battle, Assault or Tactical doctrine costs 0CP",
+      "cost": 0
+    },
+    {
+      "id": "doctrine-warfare-devastator-tactical",
+      "name": "Doctrine Warfare (Devastator/Tactical)",
+      "description": "Once per battle, Devastator or Tactical doctrine costs 0CP",
       "cost": 0
     }
   ],
