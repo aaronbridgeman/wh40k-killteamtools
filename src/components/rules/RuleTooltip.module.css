@@ -68,6 +68,13 @@
   pointer-events: none;
 }
 
+/* When positioned with fixed positioning (calculated in JS), don't transform */
+.tooltip[style*="position: fixed"] {
+  transform: none;
+  bottom: auto;
+  left: auto;
+}
+
 .tooltip::after {
   content: '';
   position: absolute;
@@ -76,6 +83,11 @@
   transform: translateX(-50%);
   border: 8px solid transparent;
   border-top-color: var(--primary-color);
+}
+
+/* Hide arrow when using fixed positioning */
+.tooltip[style*="position: fixed"]::after {
+  display: none;
 }
 
 .tooltipTitle {

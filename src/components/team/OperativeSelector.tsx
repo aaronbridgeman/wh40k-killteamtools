@@ -29,6 +29,7 @@ export function OperativeSelector({
     useState<Operative | null>(null);
   const [editingSelection, setEditingSelection] =
     useState<SelectedOperative | null>(null);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const handleAddOperative = (operative: Operative) => {
     setSelectingOperative(operative);
@@ -76,72 +77,81 @@ export function OperativeSelector({
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h3>Select Operatives</h3>
+      <button
+        className={styles.headerButton}
+        onClick={() => setIsExpanded(!isExpanded)}
+        aria-expanded={isExpanded}
+      >
+        <span className={styles.expandIcon}>{isExpanded ? '▼' : '▶'}</span>
+        <h3 className={styles.headerTitle}>Select Operatives</h3>
         <span className={styles.count}>
           {selectedOperatives.length}
           {faction.restrictions.maxOperatives
             ? ` / ${faction.restrictions.maxOperatives}`
             : ''}
         </span>
-      </div>
+      </button>
 
-      <div className={styles.availableOperatives}>
-        <h4>Available Operatives</h4>
-        <div className={styles.operativesList}>
-          {operatives.map((operative) => {
-            const buttonState = getAddButtonState(operative);
-            return (
-              <div key={operative.id} className={styles.operativeItem}>
-                <div className={styles.operativeInfo}>
-                  <strong>{operative.name}</strong>
-                  <span className={styles.operativeType}>{operative.type}</span>
-                </div>
-                <button
-                  onClick={() => handleAddOperative(operative)}
-                  disabled={buttonState.disabled}
-                  title={buttonState.title}
-                  className={styles.addButton}
-                  aria-label={`Add ${operative.name}`}
-                >
-                  Add
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className={styles.selectedOperatives}>
-        <h4>Selected Operatives</h4>
-        {selectedOperatives.length === 0 ? (
-          <p className={styles.emptyMessage}>No operatives selected yet</p>
-        ) : (
-          <div className={styles.selectedList}>
-            {selectedOperatives.map((selected) => (
-              <div key={selected.selectionId} className={styles.selectedItem}>
-                <div className={styles.selectedInfo}>
-                  <strong>{selected.operative.name}</strong>
-                  <div className={styles.weapons}>
-                    {selected.selectedWeaponIds.map((weaponId) => (
-                      <span key={weaponId} className={styles.weaponBadge}>
-                        {getWeaponName(weaponId)}
-                      </span>
-                    ))}
+      {isExpanded && (
+        <>
+          <div className={styles.availableOperatives}>
+            <h4>Available Operatives</h4>
+            <div className={styles.operativesList}>
+              {operatives.map((operative) => {
+                const buttonState = getAddButtonState(operative);
+                return (
+                  <div key={operative.id} className={styles.operativeItem}>
+                    <div className={styles.operativeInfo}>
+                      <strong>{operative.name}</strong>
+                      <span className={styles.operativeType}>{operative.type}</span>
+                    </div>
+                    <button
+                      onClick={() => handleAddOperative(operative)}
+                      disabled={buttonState.disabled}
+                      title={buttonState.title}
+                      className={styles.addButton}
+                      aria-label={`Add ${operative.name}`}
+                    >
+                      Add
+                    </button>
                   </div>
-                </div>
-                <button
-                  onClick={() => onRemoveOperative(selected.selectionId)}
-                  className={styles.removeButton}
-                  aria-label={`Remove ${selected.operative.name}`}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
+                );
+              })}
+            </div>
           </div>
-        )}
-      </div>
+
+          <div className={styles.selectedOperatives}>
+            <h4>Selected Operatives</h4>
+            {selectedOperatives.length === 0 ? (
+              <p className={styles.emptyMessage}>No operatives selected yet</p>
+            ) : (
+              <div className={styles.selectedList}>
+                {selectedOperatives.map((selected) => (
+                  <div key={selected.selectionId} className={styles.selectedItem}>
+                    <div className={styles.selectedInfo}>
+                      <strong>{selected.operative.name}</strong>
+                      <div className={styles.weapons}>
+                        {selected.selectedWeaponIds.map((weaponId) => (
+                          <span key={weaponId} className={styles.weaponBadge}>
+                            {getWeaponName(weaponId)}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => onRemoveOperative(selected.selectionId)}
+                      className={styles.removeButton}
+                      aria-label={`Remove ${selected.operative.name}`}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      )}
 
       {/* Weapon selection modal */}
       {selectingOperative && (

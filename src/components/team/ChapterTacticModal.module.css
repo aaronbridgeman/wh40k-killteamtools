@@ -1,0 +1,197 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modal {
+  background-color: var(--card-bg);
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.title {
+  margin: 0;
+  color: var(--heading-color);
+  font-size: 1.5rem;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.closeButton:hover {
+  color: var(--primary-color);
+}
+
+.closeButton:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tacticCard {
+  background-color: var(--card-inner-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.tacticCard:hover:not(.disabled) {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tacticCard:focus:not(.disabled) {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.tacticCard.selected {
+  border-color: var(--primary-color);
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+}
+
+.tacticCard.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tacticHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.tacticName {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--heading-color);
+  font-weight: 600;
+}
+
+.selectedBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: rgba(34, 139, 34, 0.15);
+  color: #2e8b2e;
+  border: 1px solid #2e8b2e;
+  white-space: nowrap;
+}
+
+.disabledBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: rgba(128, 128, 128, 0.15);
+  color: #808080;
+  border: 1px solid #808080;
+  white-space: nowrap;
+}
+
+.tacticEffect {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.tacticEffect strong {
+  color: var(--heading-color);
+}
+
+.tacticDescription {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    padding: 0;
+  }
+
+  .modal {
+    max-height: 100vh;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .header {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .tacticCard {
+    padding: 1rem;
+  }
+
+  .tacticName {
+    font-size: 1.1rem;
+  }
+
+  .tacticHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
