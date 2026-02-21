@@ -769,7 +769,7 @@
       "name": "Honour the Chapter",
       "type": "strategy",
       "cost": 1,
-      "description": "Select one friendly operative that has been activated this turning point. That operative can immediately perform a free Dash or Charge action (1AP action becomes free)."
+      "description": "Select one friendly operative that has been activated this Turning Point. That operative can immediately perform a free Dash or Charge action (1AP action becomes free)."
     },
     {
       "id": "righteous-fury",
