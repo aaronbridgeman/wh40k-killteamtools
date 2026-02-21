@@ -17,6 +17,19 @@ export interface FactionRule {
   type: 'strategic' | 'tactical' | 'passive';
 }
 
+export interface Ploy {
+  /** Unique identifier */
+  id: string;
+  /** Ploy name */
+  name: string;
+  /** Ploy type */
+  type: 'strategy' | 'firefight';
+  /** Command Point cost */
+  cost: number;
+  /** Ploy description */
+  description: string;
+}
+
 export interface CompositionRules {
   /** Total number of operatives in kill team */
   total_operatives?: number;
@@ -76,6 +89,8 @@ export interface Faction {
   abilities: Ability[];
   /** Available unique actions */
   unique_actions?: UniqueAction[];
+  /** Strategic and firefight ploys */
+  ploys?: Ploy[];
   /** Team building restrictions */
   restrictions: TeamRestrictions;
   /** Metadata */
