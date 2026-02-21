@@ -4,6 +4,7 @@
 
 import { Operative, Weapon } from '@/types';
 import { RuleTooltip } from '@/components/rules/RuleTooltip';
+import { getAllAvailableWeaponNames } from '@/services/weaponResolver';
 import styles from './OperativeCard.module.css';
 
 interface OperativeCardProps {
@@ -21,12 +22,26 @@ export function OperativeCard({
   const { stats } = operative;
 
   // Get weapons for this operative
-  // selectedWeaponIds contains weapon IDs when showing equipped loadout
-  // operative.weapons contains weapon IDs for backward compatibility
-  const weaponIds = selectedWeaponIds ?? operative.weapons ?? [];
-  const operativeWeapons = weapons.filter((weapon) =>
-    weaponIds.includes(weapon.id)
-  );
+  // If selectedWeaponIds is provided, show only those (equipped loadout)
+  // Otherwise, show all available weapons for this operative
+  let operativeWeapons: Weapon[];
+  if (selectedWeaponIds !== undefined) {
+    // Filter by weapon IDs
+    operativeWeapons = weapons.filter((weapon) =>
+      selectedWeaponIds.includes(weapon.id)
+    );
+  } else {
+    // Show all available weapons when no specific loadout is selected
+    // getAllAvailableWeaponNames returns weapon names (or IDs for legacy format)
+    const weaponNamesOrIds = getAllAvailableWeaponNames(operative);
+
+    // Try filtering by name first (new format), then by ID (legacy format)
+    operativeWeapons = weapons.filter(
+      (weapon) =>
+        weaponNamesOrIds.includes(weapon.name) ||
+        weaponNamesOrIds.includes(weapon.id)
+    );
+  }
 
   // Check if we're showing a specific loadout
   const isEquippedLoadout =

@@ -161,6 +161,39 @@ export function getDefaultWeaponSelection(operative: Operative): string[] {
 }
 
 /**
+ * Get all possible weapon names for an operative
+ * This includes all fixed weapons and all options from all slots
+ * Note: Returns weapon names (or IDs for legacy operative.weapons format)
+ */
+export function getAllAvailableWeaponNames(operative: Operative): string[] {
+  const loadout = resolveWeaponLoadout(operative);
+  const allWeaponNames = new Set<string>();
+
+  // Add all fixed weapons
+  for (const fixed of loadout.fixedWeapons) {
+    allWeaponNames.add(fixed);
+  }
+
+  // Add all options from all slots
+  for (const slot of loadout.slots) {
+    for (const option of slot.options) {
+      allWeaponNames.add(option);
+    }
+  }
+
+  // Add all alternative loadout weapons
+  if (loadout.alternativeLoadouts) {
+    for (const altLoadout of loadout.alternativeLoadouts) {
+      for (const weapon of altLoadout.fixed) {
+        allWeaponNames.add(weapon);
+      }
+    }
+  }
+
+  return Array.from(allWeaponNames);
+}
+
+/**
  * Validate that selected weapons are valid for the operative
  */
 export function validateWeaponSelection(
