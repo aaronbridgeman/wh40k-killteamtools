@@ -23,7 +23,7 @@ describe('Angels of Death Faction Integration', () => {
     expect(faction.faction_keywords).toBeDefined();
     expect(faction.faction_keywords).toContain('IMPERIUM');
     expect(faction.faction_keywords).toContain('ADEPTUS ASTARTES');
-    expect(faction.faction_keywords).toContain('ANGEL OF DEATH');
+    expect(faction.faction_keywords).toContain('ANGELS OF DEATH');
   });
 
   it('should have global rules', () => {
@@ -42,8 +42,8 @@ describe('Angels of Death Faction Integration', () => {
     expect(faction.restrictions.composition?.selection_limits?.exception).toContain('Warrior');
   });
 
-  it('should have 8 operatives', () => {
-    expect(faction.operatives).toHaveLength(8);
+  it('should have 9 operatives', () => {
+    expect(faction.operatives).toHaveLength(9);
   });
 
   it('should have 3 leader operatives', () => {
@@ -54,9 +54,9 @@ describe('Angels of Death Faction Integration', () => {
     expect(leaders.map(l => l.name)).toContain('Space Marine Captain');
   });
 
-  it('should have 5 non-leader operatives', () => {
+  it('should have 6 non-leader operatives', () => {
     const operatives = faction.operatives.filter(op => op.type === 'Operative');
-    expect(operatives).toHaveLength(5);
+    expect(operatives).toHaveLength(6);
   });
 
   describe('Operative Stats', () => {
@@ -66,8 +66,18 @@ describe('Angels of Death Faction Integration', () => {
       });
     });
 
-    it('should have correct movement of 6" for all operatives', () => {
-      faction.operatives.forEach(operative => {
+    it('should have correct movement for operatives', () => {
+      const eliminator = faction.operatives.find(op => op.name === 'Eliminator Sniper');
+      const heavyGunner = faction.operatives.find(op => op.name === 'Heavy Intercessor Gunner');
+      
+      expect(eliminator?.stats.movement).toBe(7);
+      expect(heavyGunner?.stats.movement).toBe(5);
+      
+      // All other operatives should have movement 6
+      const otherOperatives = faction.operatives.filter(
+        op => op.name !== 'Eliminator Sniper' && op.name !== 'Heavy Intercessor Gunner'
+      );
+      otherOperatives.forEach(operative => {
         expect(operative.stats.movement).toBe(6);
       });
     });
@@ -197,16 +207,92 @@ describe('Angels of Death Faction Integration', () => {
   });
 
   describe('Abilities', () => {
-    it('should have Frag Grenade and Krak Grenade abilities', () => {
+    it('should have all required abilities', () => {
       const abilityNames = faction.abilities.map(a => a.name);
       expect(abilityNames).toContain('Frag Grenade');
       expect(abilityNames).toContain('Krak Grenade');
+      expect(abilityNames).toContain('Optics');
+      expect(abilityNames).toContain('Unyielding');
+      expect(abilityNames).toContain('Chapter Veteran');
+      expect(abilityNames).toContain('Doctrine Warfare (Assault/Tactical)');
+      expect(abilityNames).toContain('Doctrine Warfare (Devastator/Tactical)');
     });
 
     it('should assign grenades to Assault Intercessor Grenadier', () => {
       const grenadier = faction.operatives.find(op => op.name === 'Assault Intercessor Grenadier');
       expect(grenadier?.abilities).toContain('Frag Grenade');
       expect(grenadier?.abilities).toContain('Krak Grenade');
+    });
+
+    it('should assign Optics to Eliminator Sniper', () => {
+      const sniper = faction.operatives.find(op => op.name === 'Eliminator Sniper');
+      expect(sniper?.abilities).toContain('Optics');
+    });
+
+    it('should assign Unyielding to Heavy Intercessor Gunner', () => {
+      const gunner = faction.operatives.find(op => op.name === 'Heavy Intercessor Gunner');
+      expect(gunner?.abilities).toContain('Unyielding');
+    });
+
+    it('should assign Chapter Veteran and Doctrine Warfare to Assault Intercessor Sergeant', () => {
+      const sergeant = faction.operatives.find(op => op.name === 'Assault Intercessor Sergeant');
+      expect(sergeant?.abilities).toContain('Chapter Veteran');
+      expect(sergeant?.abilities).toContain('Doctrine Warfare (Assault/Tactical)');
+    });
+
+    it('should assign Chapter Veteran and Doctrine Warfare to Intercessor Sergeant', () => {
+      const sergeant = faction.operatives.find(op => op.name === 'Intercessor Sergeant');
+      expect(sergeant?.abilities).toContain('Chapter Veteran');
+      expect(sergeant?.abilities).toContain('Doctrine Warfare (Devastator/Tactical)');
+    });
+  });
+
+  describe('New Operatives', () => {
+    it('should have Assault Intercessor Warrior', () => {
+      const warrior = faction.operatives.find(op => op.name === 'Assault Intercessor Warrior');
+      expect(warrior).toBeDefined();
+      expect(warrior?.type).toBe('Operative');
+      expect(warrior?.stats.wounds).toBe(14);
+      expect(warrior?.stats.actionPointLimit).toBe(3);
+      expect(warrior?.stats.movement).toBe(6);
+      expect(warrior?.keywords).toContain('WARRIOR');
+    });
+
+    it('should have Intercessor Warrior', () => {
+      const warrior = faction.operatives.find(op => op.name === 'Intercessor Warrior');
+      expect(warrior).toBeDefined();
+      expect(warrior?.type).toBe('Operative');
+      expect(warrior?.stats.wounds).toBe(14);
+      expect(warrior?.stats.actionPointLimit).toBe(3);
+      expect(warrior?.stats.movement).toBe(6);
+      expect(warrior?.keywords).toContain('WARRIOR');
+    });
+
+    it('should have Intercessor Gunner', () => {
+      const gunner = faction.operatives.find(op => op.name === 'Intercessor Gunner');
+      expect(gunner).toBeDefined();
+      expect(gunner?.type).toBe('Operative');
+      expect(gunner?.stats.wounds).toBe(14);
+      expect(gunner?.stats.actionPointLimit).toBe(3);
+      expect(gunner?.stats.movement).toBe(6);
+      expect(gunner?.keywords).toContain('GUNNER');
+    });
+  });
+
+  describe('Updated Weapon Profiles', () => {
+    it('should have two profiles for Stalker Bolt Rifle', () => {
+      const stalker = faction.weapons.find(w => w.name === 'Stalker bolt rifle');
+      expect(stalker?.profiles).toHaveLength(2);
+      expect(stalker?.profiles.map(p => p.name)).toContain('Heavy');
+      expect(stalker?.profiles.map(p => p.name)).toContain('Mobile');
+      
+      const heavy = stalker?.profiles.find(p => p.name === 'Heavy');
+      expect(heavy?.damage).toBe(3);
+      expect(heavy?.criticalDamage).toBe(5);
+      
+      const mobile = stalker?.profiles.find(p => p.name === 'Mobile');
+      expect(mobile?.damage).toBe(3);
+      expect(mobile?.criticalDamage).toBe(4);
     });
   });
 });
