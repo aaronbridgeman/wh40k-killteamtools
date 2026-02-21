@@ -21,18 +21,50 @@
   font-size: 1.1rem;
 }
 
-.rulesSection {
-  margin: 2rem 0;
+.collapsibleSection {
+  margin: 1rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.ploysSection {
-  margin: 2rem 0;
+.sectionHeader {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background-color 0.2s;
+}
+
+.sectionHeader:hover {
+  background-color: rgba(var(--primary-color-rgb, 74, 158, 255), 0.05);
+}
+
+.sectionHeader:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+.expandIcon {
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  transition: transform 0.2s;
+  flex-shrink: 0;
 }
 
 .sectionTitle {
-  margin: 0 0 1rem 0;
+  margin: 0;
   font-size: 1.5rem;
   color: var(--text-primary);
+}
+
+.sectionContent {
+  padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .rule {
