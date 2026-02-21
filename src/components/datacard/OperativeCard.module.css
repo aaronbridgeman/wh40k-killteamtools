@@ -47,7 +47,7 @@
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.5rem;
   margin: 1rem 0;
   padding: 0.75rem;
@@ -116,6 +116,64 @@
 
 .stat[data-stat='W'] .statValue {
   color: var(--accent-color);
+}
+
+.abilities {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.abilitiesTitle {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.abilityList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ability {
+  padding: 0.75rem;
+  background-color: var(--stats-background);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent-color);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.uniqueActions {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.uniqueActionsTitle {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.actionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.action {
+  padding: 0.75rem;
+  background-color: var(--stats-background);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent-color);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .keywords {

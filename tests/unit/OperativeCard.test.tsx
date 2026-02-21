@@ -17,7 +17,8 @@ describe('OperativeCard', () => {
       wounds: 18,
     },
     weapons: ['test-boltgun', 'test-knife'],
-    abilities: [],
+    abilities: ['Test Ability 1', 'Test Ability 2'],
+    unique_actions: ['Test Action 1', 'Test Action 2'],
     keywords: ['Test', 'Infantry'],
     cost: 1,
   };
@@ -85,6 +86,12 @@ describe('OperativeCard', () => {
     expect(screen.getByText('6"')).toBeInTheDocument();
     expect(screen.getByText('⚡ APL')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
+  });
+
+  it('does not render GA stat', () => {
+    render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
+    expect(screen.queryByText('👥 GA')).not.toBeInTheDocument();
+    expect(screen.queryByText('GA')).not.toBeInTheDocument();
   });
 
   it('renders operative keywords', () => {
@@ -256,6 +263,80 @@ describe('OperativeCard', () => {
       expect(screen.queryByText('⚔️ Equipped Loadout')).not.toBeInTheDocument();
       expect(screen.queryByText('Test Boltgun')).not.toBeInTheDocument();
       expect(screen.queryByText('Test Knife')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('abilities', () => {
+    it('renders abilities section when operative has abilities', () => {
+      render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
+      expect(screen.getByText('✨ Abilities')).toBeInTheDocument();
+      expect(screen.getByText('Test Ability 1')).toBeInTheDocument();
+      expect(screen.getByText('Test Ability 2')).toBeInTheDocument();
+    });
+
+    it('does not render abilities section when operative has no abilities', () => {
+      const operativeWithNoAbilities: Operative = {
+        ...mockOperative,
+        abilities: [],
+      };
+      render(
+        <OperativeCard
+          operative={operativeWithNoAbilities}
+          weapons={mockWeapons}
+        />,
+      );
+      expect(screen.queryByText('✨ Abilities')).not.toBeInTheDocument();
+    });
+
+    it('does not render abilities section when abilities is undefined', () => {
+      const operativeWithNoAbilities: Operative = {
+        ...mockOperative,
+        abilities: undefined,
+      };
+      render(
+        <OperativeCard
+          operative={operativeWithNoAbilities}
+          weapons={mockWeapons}
+        />,
+      );
+      expect(screen.queryByText('✨ Abilities')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('unique actions', () => {
+    it('renders unique actions section when operative has unique actions', () => {
+      render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
+      expect(screen.getByText('⚡ Unique Actions')).toBeInTheDocument();
+      expect(screen.getByText('Test Action 1')).toBeInTheDocument();
+      expect(screen.getByText('Test Action 2')).toBeInTheDocument();
+    });
+
+    it('does not render unique actions section when operative has no unique actions', () => {
+      const operativeWithNoActions: Operative = {
+        ...mockOperative,
+        unique_actions: [],
+      };
+      render(
+        <OperativeCard
+          operative={operativeWithNoActions}
+          weapons={mockWeapons}
+        />,
+      );
+      expect(screen.queryByText('⚡ Unique Actions')).not.toBeInTheDocument();
+    });
+
+    it('does not render unique actions section when unique_actions is undefined', () => {
+      const operativeWithNoActions: Operative = {
+        ...mockOperative,
+        unique_actions: undefined,
+      };
+      render(
+        <OperativeCard
+          operative={operativeWithNoActions}
+          weapons={mockWeapons}
+        />,
+      );
+      expect(screen.queryByText('⚡ Unique Actions')).not.toBeInTheDocument();
     });
   });
 });

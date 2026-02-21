@@ -67,10 +67,6 @@ export function OperativeCard({
           <span className={styles.statLabel}>⚡ APL</span>
           <span className={styles.statValue}>{stats.actionPointLimit}</span>
         </div>
-        <div className={styles.stat} data-stat="GA">
-          <span className={styles.statLabel}>👥 GA</span>
-          <span className={styles.statValue}>{stats.groupActivation}</span>
-        </div>
         <div className={styles.stat} data-stat="DF">
           <span className={styles.statLabel}>🛡️ DF</span>
           <span className={styles.statValue}>{stats.defense}</span>
@@ -158,6 +154,32 @@ export function OperativeCard({
               ))}
             </div>
           ))}
+        </div>
+      )}
+
+      {operative.abilities && operative.abilities.length > 0 && (
+        <div className={styles.abilities}>
+          <h4 className={styles.abilitiesTitle}>✨ Abilities</h4>
+          <div className={styles.abilityList}>
+            {operative.abilities.map((ability, idx) => (
+              <div key={idx} className={styles.ability}>
+                {ability}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {operative.unique_actions && operative.unique_actions.length > 0 && (
+        <div className={styles.uniqueActions}>
+          <h4 className={styles.uniqueActionsTitle}>⚡ Unique Actions</h4>
+          <div className={styles.actionList}>
+            {operative.unique_actions.map((action, idx) => (
+              <div key={idx} className={styles.action}>
+                {action}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
