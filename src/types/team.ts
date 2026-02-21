@@ -25,6 +25,11 @@ export interface FactionRuleChoices {
   factionId: string;
   /** Map of choice category to selected rule ID */
   choices: Record<string, string>;
+  /** Chapter tactics selections (primary and secondary) */
+  chapterTactics?: {
+    primary: string;
+    secondary: string;
+  };
 }
 
 /**

@@ -22,6 +22,59 @@
       "type": "passive"
     }
   ],
+  "chapter_tactics": {
+    "description": "Players select one Primary and one Secondary Chapter Tactic at the start of a battle/campaign. These apply to all friendly operatives.",
+    "tactics": [
+      {
+        "id": "aggressive",
+        "name": "Aggressive",
+        "effect": "Melee weapons gain the Rending rule",
+        "description": "If you retain a critical success, you can upgrade one normal success to a critical success"
+      },
+      {
+        "id": "dueller",
+        "name": "Dueller",
+        "effect": "When fighting or retaliating, each single normal success can block one unresolved critical success",
+        "description": "Exception: This does not work if the enemy weapon has the Brutal rule"
+      },
+      {
+        "id": "resolute",
+        "name": "Resolute",
+        "effect": "Ignore all modifications to the operative's APL stat",
+        "description": "The operative is immune to the enemy Shock weapon rule"
+      },
+      {
+        "id": "stealthy",
+        "name": "Stealthy",
+        "effect": "When being shot, if the operative is in cover, it can retain one additional cover save OR upgrade one retained normal success to a critical success",
+        "description": "Constraint: Not cumulative with cover bonuses from Vantage terrain"
+      },
+      {
+        "id": "mobile",
+        "name": "Mobile",
+        "effect": "The Fall Back action costs -1 AP",
+        "description": "The operative can perform a Charge action even while within enemy control range and can leave that range during the move"
+      },
+      {
+        "id": "hardy",
+        "name": "Hardy",
+        "effect": "When being shot, defence dice results of 5+ are critical successes",
+        "description": "When retaliating, the first time the operative takes 3+ damage, subtract 1 from that damage"
+      },
+      {
+        "id": "sharpshooter",
+        "name": "Sharpshooter",
+        "effect": "If the operative has not performed a Charge, Fall Back, or Reposition action this activation, its bolt weapons gain Accurate 1 and Severe",
+        "description": "Accurate 1: Retain 1 die as normal success without rolling. Severe: If no crits are retained, upgrade 1 normal success to a crit"
+      },
+      {
+        "id": "siege-specialist",
+        "name": "Siege Specialist",
+        "effect": "Ranged weapons gain the Saturate rule",
+        "description": "Saturate: Defender cannot retain cover saves. When fighting or retaliating, enemy operatives cannot provide assistance"
+      }
+    ]
+  },
   "operatives": [
     {
       "id": "aod-assault-intercessor-sergeant",

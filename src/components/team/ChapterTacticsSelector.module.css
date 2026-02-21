@@ -1,0 +1,213 @@
+.container {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.header h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--heading-color);
+  font-size: 1.5rem;
+}
+
+.description {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.selections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.selectionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--heading-color);
+  font-size: 0.95rem;
+}
+
+.select {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.select:hover {
+  border-color: var(--primary-color);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
+}
+
+.selectedTactics {
+  margin-bottom: 1.5rem;
+}
+
+.selectedTitle {
+  margin: 0 0 1rem 0;
+  color: var(--heading-color);
+  font-size: 1.2rem;
+}
+
+.tacticCard {
+  background-color: var(--card-inner-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tacticCard:last-child {
+  margin-bottom: 0;
+}
+
+.tacticHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.tacticName {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--heading-color);
+}
+
+.tacticType {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tacticType.primary {
+  background-color: rgba(34, 139, 34, 0.15);
+  color: #2e8b2e;
+  border: 1px solid #2e8b2e;
+}
+
+.tacticType.secondary {
+  background-color: rgba(70, 130, 180, 0.15);
+  color: #4682b4;
+  border: 1px solid #4682b4;
+}
+
+.tacticEffect {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.tacticEffect strong {
+  color: var(--heading-color);
+}
+
+.tacticDescription {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.otherTactics {
+  background-color: var(--card-inner-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.otherTacticsTitle {
+  font-weight: 600;
+  color: var(--heading-color);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+.otherTacticsTitle::-webkit-details-marker {
+  display: none;
+}
+
+.otherTacticsTitle::before {
+  content: '▶ ';
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.otherTactics[open] .otherTacticsTitle::before {
+  transform: rotate(90deg);
+}
+
+.tacticsList {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.minimizedTactic {
+  padding: 0.75rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.minimizedTacticName {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: var(--heading-color);
+  font-weight: 600;
+}
+
+.minimizedTacticEffect {
+  margin: 0 0 0.25rem 0;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.minimizedTacticDescription {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.3;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .selections {
+    grid-template-columns: 1fr;
+  }
+
+  .tacticHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

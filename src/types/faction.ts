@@ -61,6 +61,24 @@ export interface TeamRestrictions {
   composition?: CompositionRules;
 }
 
+export interface ChapterTactic {
+  /** Unique identifier */
+  id: string;
+  /** Tactic name */
+  name: string;
+  /** Main effect of the tactic */
+  effect: string;
+  /** Additional description or constraints */
+  description?: string;
+}
+
+export interface ChapterTactics {
+  /** Description of how to use chapter tactics */
+  description: string;
+  /** Available tactics to choose from */
+  tactics: ChapterTactic[];
+}
+
 export interface FactionMetadata {
   /** Data version */
   version: string;
@@ -93,6 +111,8 @@ export interface Faction {
   unique_actions?: UniqueAction[];
   /** Strategic and firefight ploys */
   ploys?: Ploy[];
+  /** Chapter tactics (for Angels of Death) */
+  chapter_tactics?: ChapterTactics;
   /** Team building restrictions */
   restrictions: TeamRestrictions;
   /** Metadata */

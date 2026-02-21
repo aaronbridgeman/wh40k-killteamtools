@@ -114,16 +114,36 @@ function App() {
   };
 
   const handleRuleChoiceChange = (category: string, ruleId: string) => {
-    setTeamState((prev) => ({
-      ...prev,
-      ruleChoices: {
-        factionId: prev.factionId || '',
-        choices: {
-          ...(prev.ruleChoices?.choices || {}),
-          [category]: ruleId,
+    setTeamState((prev) => {
+      // Handle chapter tactics separately
+      if (category === 'chapter_tactics_primary' || category === 'chapter_tactics_secondary') {
+        const isPrimary = category === 'chapter_tactics_primary';
+        return {
+          ...prev,
+          ruleChoices: {
+            factionId: prev.factionId || '',
+            choices: prev.ruleChoices?.choices || {},
+            chapterTactics: {
+              primary: isPrimary ? ruleId : (prev.ruleChoices?.chapterTactics?.primary || ''),
+              secondary: !isPrimary ? ruleId : (prev.ruleChoices?.chapterTactics?.secondary || ''),
+            },
+          },
+        };
+      }
+
+      // Handle other rule choices
+      return {
+        ...prev,
+        ruleChoices: {
+          factionId: prev.factionId || '',
+          choices: {
+            ...(prev.ruleChoices?.choices || {}),
+            [category]: ruleId,
+          },
+          chapterTactics: prev.ruleChoices?.chapterTactics,
         },
-      },
-    }));
+      };
+    });
   };
 
   return (

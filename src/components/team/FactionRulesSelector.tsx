@@ -4,6 +4,7 @@
  */
 
 import { Faction, FactionRuleChoices } from '@/types';
+import { ChapterTacticsSelector } from './ChapterTacticsSelector';
 import styles from './FactionRulesSelector.module.css';
 
 interface FactionRulesSelectorProps {
@@ -12,11 +13,34 @@ interface FactionRulesSelectorProps {
   onRuleChoiceChange: (category: string, ruleId: string) => void;
 }
 
-export function FactionRulesSelector({ faction }: FactionRulesSelectorProps) {
-  // For now, this is a placeholder for faction-specific rule choices
-  // Different factions have different mechanics (e.g., Angels of Death chapter tactics)
-  // This will be expanded as more factions with choice mechanics are added
-  // ruleChoices and onRuleChoiceChange will be used when implementing actual choice mechanics
+export function FactionRulesSelector({
+  faction,
+  ruleChoices,
+  onRuleChoiceChange,
+}: FactionRulesSelectorProps) {
+  // Handle Chapter Tactics for Angels of Death
+  if (faction.chapter_tactics) {
+    const primaryTactic = ruleChoices?.chapterTactics?.primary || '';
+    const secondaryTactic = ruleChoices?.chapterTactics?.secondary || '';
+
+    const handlePrimaryChange = (tacticId: string) => {
+      onRuleChoiceChange('chapter_tactics_primary', tacticId);
+    };
+
+    const handleSecondaryChange = (tacticId: string) => {
+      onRuleChoiceChange('chapter_tactics_secondary', tacticId);
+    };
+
+    return (
+      <ChapterTacticsSelector
+        chapterTactics={faction.chapter_tactics}
+        primaryTactic={primaryTactic}
+        secondaryTactic={secondaryTactic}
+        onPrimaryChange={handlePrimaryChange}
+        onSecondaryChange={handleSecondaryChange}
+      />
+    );
+  }
 
   // Check if faction has any strategic or tactical rules that might offer choices
   const strategicRules = faction.rules.filter((r) => r.type === 'strategic');
@@ -80,13 +104,6 @@ export function FactionRulesSelector({ faction }: FactionRulesSelectorProps) {
           </div>
         </div>
       )}
-
-      <div className={styles.note}>
-        <p>
-          <strong>Note:</strong> Future updates will add selection mechanics for
-          factions with chapter tactics or similar choice systems.
-        </p>
-      </div>
     </div>
   );
 }
