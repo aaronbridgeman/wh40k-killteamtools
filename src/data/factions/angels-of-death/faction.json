@@ -749,6 +749,36 @@
       "cost": "1AP"
     }
   ],
+  "ploys": [
+    {
+      "id": "combat-doctrine",
+      "name": "Combat Doctrine",
+      "type": "strategy",
+      "cost": 1,
+      "description": "Select Assault, Devastator, or Tactical doctrine. Friendly operatives gain benefits based on the selected doctrine: Assault (gain 1\" Movement and 1\" Charge), Devastator (improve Ballistic Skill by 1), or Tactical (can re-roll one attack die when shooting or fighting)."
+    },
+    {
+      "id": "transhuman-physiology",
+      "name": "Transhuman Physiology",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Use this ploy when a friendly operative is targeted by an attack. Until the end of that combat, treat your Save characteristic as one better (e.g., 3+ becomes 2+, minimum of 2+)."
+    },
+    {
+      "id": "honour-the-chapter",
+      "name": "Honour the Chapter",
+      "type": "strategy",
+      "cost": 1,
+      "description": "Select one friendly operative that has been activated this Turning Point. That operative can immediately perform a free Dash or Charge action (1AP action becomes free)."
+    },
+    {
+      "id": "righteous-fury",
+      "name": "Righteous Fury",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Use when a friendly operative fights in combat. For that combat, improve the Critical Hit stat of that operative's melee weapons by 1."
+    }
+  ],
   "restrictions": {
     "maxOperatives": 6,
     "minOperatives": 6,

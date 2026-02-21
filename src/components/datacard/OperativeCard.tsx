@@ -168,7 +168,7 @@ export function OperativeCard({
               const abilityDetails = abilities.find(
                 (a) => a.name === abilityName || a.id === abilityName
               );
-              
+
               if (!abilityDetails) {
                 // Fallback: display ability name only if not found
                 return (
@@ -177,7 +177,7 @@ export function OperativeCard({
                   </div>
                 );
               }
-              
+
               return (
                 <div key={abilityDetails.id} className={styles.ability}>
                   <div className={styles.abilityHeader}>
