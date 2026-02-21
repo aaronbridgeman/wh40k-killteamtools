@@ -16,6 +16,7 @@ import {
   getInitialTeamState,
 } from './services/teamStorage';
 import { Faction, TeamState, SelectedOperative, Operative } from './types';
+import { getFullVersionInfo } from './version';
 import './App.css';
 
 type ViewMode =
@@ -295,6 +296,7 @@ function App() {
           This is an unofficial fan-made tool. Warhammer 40,000 and Kill Team
           are registered trademarks of Games Workshop Ltd.
         </p>
+        <p className="version-info">{getFullVersionInfo()}</p>
       </footer>
     </div>
   );
