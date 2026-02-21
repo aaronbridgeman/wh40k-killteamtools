@@ -70,12 +70,8 @@ export function OperativeCard({
           <span className={styles.statLabel}>⚡ APL</span>
           <span className={styles.statValue}>{stats.actionPointLimit}</span>
         </div>
-        <div className={styles.stat} data-stat="DF">
-          <span className={styles.statLabel}>🛡️ DF</span>
-          <span className={styles.statValue}>{stats.defense}</span>
-        </div>
         <div className={styles.stat} data-stat="SV">
-          <span className={styles.statLabel}>💾 SV</span>
+          <span className={styles.statLabel}>🛡️ SV</span>
           <span className={styles.statValue}>{stats.save}+</span>
         </div>
         <div className={styles.stat} data-stat="W">
