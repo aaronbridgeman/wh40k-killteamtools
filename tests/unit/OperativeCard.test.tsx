@@ -154,26 +154,26 @@ describe('OperativeCard', () => {
 
   it('displays weapon profile stats for ranged weapons', () => {
     render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
-    expect(screen.getByText('BS')).toBeInTheDocument();
+    expect(screen.getByText('🎯 BS')).toBeInTheDocument();
     const skillValues = screen.getAllByText('3+');
     expect(skillValues.length).toBeGreaterThan(0);
   });
 
   it('displays weapon profile stats for melee weapons', () => {
     render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
-    expect(screen.getByText('WS')).toBeInTheDocument();
+    expect(screen.getByText('🗡️ WS')).toBeInTheDocument();
   });
 
   it('displays attack dice count', () => {
     render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
-    const attackLabels = screen.getAllByText('A');
+    const attackLabels = screen.getAllByText('⚔️ A');
     expect(attackLabels.length).toBeGreaterThan(0);
   });
 
   it('displays damage and critical damage', () => {
     render(<OperativeCard operative={mockOperative} weapons={mockWeapons} />);
-    const damageLabels = screen.getAllByText('D');
-    const critLabels = screen.getAllByText('Crit');
+    const damageLabels = screen.getAllByText('💥 D');
+    const critLabels = screen.getAllByText('💀 Crit');
     expect(damageLabels.length).toBeGreaterThan(0);
     expect(critLabels.length).toBeGreaterThan(0);
   });

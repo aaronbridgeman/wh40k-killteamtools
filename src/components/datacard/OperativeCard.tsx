@@ -105,36 +105,36 @@ export function OperativeCard({
                     <div className={styles.profileName}>{profile.name}</div>
                   )}
                   <div className={styles.profileStats}>
-                    <div className={styles.profileStat}>
-                      <span className={styles.profileStatLabel}>A</span>
+                    <div className={styles.profileStat} data-stat="A">
+                      <span className={styles.profileStatLabel}>⚔️ A</span>
                       <span className={styles.profileStatValue}>
                         {profile.attacks}
                       </span>
                     </div>
                     {profile.ballisticSkill !== undefined && (
-                      <div className={styles.profileStat}>
-                        <span className={styles.profileStatLabel}>BS</span>
+                      <div className={styles.profileStat} data-stat="BS">
+                        <span className={styles.profileStatLabel}>🎯 BS</span>
                         <span className={styles.profileStatValue}>
                           {profile.ballisticSkill}+
                         </span>
                       </div>
                     )}
                     {profile.weaponSkill !== undefined && (
-                      <div className={styles.profileStat}>
-                        <span className={styles.profileStatLabel}>WS</span>
+                      <div className={styles.profileStat} data-stat="WS">
+                        <span className={styles.profileStatLabel}>🗡️ WS</span>
                         <span className={styles.profileStatValue}>
                           {profile.weaponSkill}+
                         </span>
                       </div>
                     )}
-                    <div className={styles.profileStat}>
-                      <span className={styles.profileStatLabel}>D</span>
+                    <div className={styles.profileStat} data-stat="D">
+                      <span className={styles.profileStatLabel}>💥 D</span>
                       <span className={styles.profileStatValue}>
                         {profile.damage}
                       </span>
                     </div>
-                    <div className={styles.profileStat}>
-                      <span className={styles.profileStatLabel}>Crit</span>
+                    <div className={styles.profileStat} data-stat="Crit">
+                      <span className={styles.profileStatLabel}>💀 Crit</span>
                       <span className={styles.profileStatValue}>
                         {profile.criticalDamage}
                       </span>
