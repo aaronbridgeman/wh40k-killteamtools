@@ -2,7 +2,7 @@
  * Operative datacard component
  */
 
-import { Operative, Weapon, UniqueAction } from '@/types';
+import { Operative, Weapon, UniqueAction, Ability } from '@/types';
 import { RuleTooltip } from '@/components/rules/RuleTooltip';
 import { getAllAvailableWeaponNames } from '@/services/weaponResolver';
 import styles from './OperativeCard.module.css';
@@ -12,6 +12,8 @@ interface OperativeCardProps {
   weapons: Weapon[];
   /** Optional: show only these specific weapons (for equipped loadout) */
   selectedWeaponIds?: string[];
+  /** Available abilities for this faction */
+  abilities?: Ability[];
   /** Available unique actions for this faction */
   uniqueActions?: UniqueAction[];
 }
@@ -20,6 +22,7 @@ export function OperativeCard({
   operative,
   weapons,
   selectedWeaponIds,
+  abilities = [],
   uniqueActions = [],
 }: OperativeCardProps) {
   const { stats } = operative;
@@ -160,11 +163,34 @@ export function OperativeCard({
         <div className={styles.abilities}>
           <h4 className={styles.abilitiesTitle}>✨ Abilities</h4>
           <div className={styles.abilityList}>
-            {operative.abilities.map((ability, idx) => (
-              <div key={idx} className={styles.ability}>
-                {ability}
-              </div>
-            ))}
+            {operative.abilities.map((abilityName, idx) => {
+              // Try to find the full ability details by name
+              const abilityDetails = abilities.find(
+                (a) => a.name === abilityName || a.id === abilityName
+              );
+              
+              if (!abilityDetails) {
+                // Fallback: display ability name only if not found
+                return (
+                  <div key={idx} className={styles.ability}>
+                    {abilityName}
+                  </div>
+                );
+              }
+              
+              return (
+                <div key={abilityDetails.id} className={styles.ability}>
+                  <div className={styles.abilityHeader}>
+                    <span className={styles.abilityName}>
+                      {abilityDetails.name}
+                    </span>
+                  </div>
+                  <div className={styles.abilityDescription}>
+                    {abilityDetails.description}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

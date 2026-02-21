@@ -147,6 +147,25 @@
   line-height: 1.5;
 }
 
+.abilityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.abilityName {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.abilityDescription {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
 .uniqueActions {
   margin-top: 1.5rem;
   padding-top: 1rem;
