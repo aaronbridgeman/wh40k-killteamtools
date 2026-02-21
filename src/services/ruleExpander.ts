@@ -6,12 +6,13 @@ import weaponRules from '@/data/weapons/weapon-rules.json';
 
 type WeaponRuleSection = {
   category: string;
-  rules: Array<{ name: string; description: string }>;
+  rules: Array<{ name: string; description: string; source: string }>;
 };
 
 export interface RuleExpansion {
   name: string;
   description: string;
+  source: string;
 }
 
 const normalizeRuleKey = (name: string) =>
@@ -32,6 +33,7 @@ const ruleMap: Record<string, RuleExpansion> = (
       acc[key] = {
         name: rule.name,
         description: rule.description,
+        source: rule.source,
       };
     });
     return acc;
@@ -65,6 +67,7 @@ export function expandWeaponRule(
         ? applyPlaceholder(baseRule.name, value)
         : baseRule.name,
     description,
+    source: baseRule.source,
   };
 }
 
@@ -89,5 +92,6 @@ export function searchWeaponRules(query: string): RuleExpansion[] {
     .map((rule) => ({
       name: rule.name,
       description: rule.description,
+      source: rule.source,
     }));
 }

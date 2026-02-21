@@ -24,6 +24,7 @@ export function WeaponRulesPage() {
           <div key={rule.name} className={styles.ruleCard}>
             <h3 className={styles.ruleName}>{rule.name}</h3>
             <p className={styles.ruleDescription}>{rule.description}</p>
+            <p className={styles.ruleSource}>Source: {rule.source}</p>
           </div>
         ))}
       </div>

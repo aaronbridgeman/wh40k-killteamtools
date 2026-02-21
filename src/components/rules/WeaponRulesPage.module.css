@@ -54,8 +54,17 @@
 .ruleDescription {
   color: var(--text-primary);
   line-height: 1.6;
-  margin: 0;
+  margin: 0 0 0.75rem 0;
   font-size: 0.95rem;
+}
+
+.ruleSource {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
 }
 
 @media (max-width: 768px) {

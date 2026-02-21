@@ -16,6 +16,7 @@ describe('ruleExpander', () => {
       expect(result).not.toBeNull();
       expect(result?.name).toBe('Balanced');
       expect(result?.description).toContain('re-roll');
+      expect(result?.source).toBe('Default Rules');
     });
 
     it('should expand a rule with value', () => {
@@ -23,6 +24,7 @@ describe('ruleExpander', () => {
       expect(result).not.toBeNull();
       expect(result?.name).toBe('Piercing 1');
       expect(result?.description).toContain('1');
+      expect(result?.source).toBe('Default Rules');
     });
 
     it('should return null for unknown rule', () => {
@@ -35,6 +37,17 @@ describe('ruleExpander', () => {
       expect(result).not.toBeNull();
       expect(result?.name).toBe('Lethal 5+');
       expect(result?.description).toContain('5');
+      expect(result?.source).toBe('Default Rules');
+    });
+
+    it('should expand Plague Marines rules with correct source', () => {
+      const poisonResult = expandWeaponRule('Poison');
+      expect(poisonResult).not.toBeNull();
+      expect(poisonResult?.source).toBe('Plague Marines');
+
+      const toxicResult = expandWeaponRule('Toxic');
+      expect(toxicResult).not.toBeNull();
+      expect(toxicResult?.source).toBe('Plague Marines');
     });
   });
 
@@ -45,6 +58,14 @@ describe('ruleExpander', () => {
       expect(rules['Piercing']).toBeDefined();
       expect(rules['Lethal']).toBeDefined();
     });
+
+    it('should include source field in all rules', () => {
+      const rules = getAllWeaponRules();
+      Object.values(rules).forEach((rule) => {
+        expect(rule).toHaveProperty('source');
+        expect(typeof rule.source).toBe('string');
+      });
+    });
   });
 
   describe('searchWeaponRules', () => {
@@ -52,11 +73,15 @@ describe('ruleExpander', () => {
       const results = searchWeaponRules('Piercing');
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].name).toContain('Piercing');
+      expect(results[0]).toHaveProperty('source');
     });
 
     it('should find rules by description', () => {
       const results = searchWeaponRules('critical');
       expect(results.length).toBeGreaterThan(0);
+      results.forEach((result) => {
+        expect(result).toHaveProperty('source');
+      });
     });
 
     it('should return empty array for no matches', () => {

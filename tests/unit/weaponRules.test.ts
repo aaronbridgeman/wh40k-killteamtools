@@ -15,6 +15,7 @@ describe('weaponRules', () => {
       expect(poisonRule?.description).toBe(
         'On a successful hit, inflicts a Poison token.'
       );
+      expect(poisonRule?.source).toBe('Plague Marines');
     });
 
     it('should contain Toxic rule', () => {
@@ -25,6 +26,7 @@ describe('weaponRules', () => {
       expect(toxicRule?.description).toBe(
         'If target has a Poison token, add 1 to both Normal and Critical damage stats.'
       );
+      expect(toxicRule?.source).toBe('Plague Marines');
     });
 
     it('should have all standard weapon rules', () => {
@@ -45,11 +47,22 @@ describe('weaponRules', () => {
       weaponRules.forEach((rule) => {
         expect(rule).toHaveProperty('name');
         expect(rule).toHaveProperty('description');
+        expect(rule).toHaveProperty('source');
         expect(typeof rule.name).toBe('string');
         expect(typeof rule.description).toBe('string');
+        expect(typeof rule.source).toBe('string');
         expect(rule.name.length).toBeGreaterThan(0);
         expect(rule.description.length).toBeGreaterThan(0);
+        expect(rule.source.length).toBeGreaterThan(0);
       });
+    });
+
+    it('should have Default Rules source for standard rules', () => {
+      const weaponRules = weaponRulesData[0].rules;
+      const balancedRule = weaponRules.find((rule) => rule.name === 'Balanced');
+
+      expect(balancedRule).toBeDefined();
+      expect(balancedRule?.source).toBe('Default Rules');
     });
   });
 });
