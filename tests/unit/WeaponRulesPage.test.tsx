@@ -48,9 +48,11 @@ describe('WeaponRulesPage', () => {
     expect(screen.getByText('Piercing x')).toBeInTheDocument();
     expect(screen.getByText('Brutal')).toBeInTheDocument();
     expect(screen.getByText('Relentless')).toBeInTheDocument();
+    expect(screen.getByText('Poison')).toBeInTheDocument();
+    expect(screen.getByText('Toxic')).toBeInTheDocument();
 
     // Check for multiple rule headings (level 3 headings are used for each rule)
     const ruleHeadings = screen.getAllByRole('heading', { level: 3 });
-    expect(ruleHeadings.length).toBe(22); // 22 weapon rules in the data
+    expect(ruleHeadings.length).toBe(24); // 24 weapon rules in the data (includes Poison and Toxic)
   });
 });
