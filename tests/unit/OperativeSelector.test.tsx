@@ -5,7 +5,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { OperativeSelector } from '@/components/team/OperativeSelector';
-import { Operative, Weapon, SelectedOperative } from '@/types';
+import { Operative, Weapon, SelectedOperative, Faction } from '@/types';
 
 describe('OperativeSelector', () => {
   const mockOperatives: Operative[] = [
@@ -23,7 +23,7 @@ describe('OperativeSelector', () => {
       },
       weapons: ['weapon-1'],
       abilities: [],
-      keywords: [],
+      keywords: ['WARRIOR'],
       cost: 1,
     },
     {
@@ -40,7 +40,7 @@ describe('OperativeSelector', () => {
       },
       weapons: ['weapon-2'],
       abilities: [],
-      keywords: [],
+      keywords: ['LEADER'],
       cost: 1,
     },
   ];
@@ -76,6 +76,31 @@ describe('OperativeSelector', () => {
     },
   ];
 
+  const mockFaction: Faction = {
+    id: 'test-faction',
+    name: 'Test Faction',
+    description: 'Test',
+    rules: [],
+    operatives: mockOperatives,
+    weapons: mockWeapons,
+    abilities: [],
+    restrictions: {
+      maxOperatives: 6,
+      minOperatives: 4,
+      composition: {
+        selection_limits: {
+          leader_count: 1,
+          exception: 'WARRIOR',
+        },
+      },
+    },
+    metadata: {
+      version: '1.0.0',
+      source: 'Test',
+      lastUpdated: '2024-01-01',
+    },
+  };
+
   it('renders operative selector with available operatives', () => {
     const onAdd = vi.fn();
     const onRemove = vi.fn();
@@ -87,6 +112,7 @@ describe('OperativeSelector', () => {
         selectedOperatives={[]}
         onAddOperative={onAdd}
         onRemoveOperative={onRemove}
+        faction={mockFaction}
       />
     );
 
@@ -106,6 +132,7 @@ describe('OperativeSelector', () => {
         selectedOperatives={[]}
         onAddOperative={onAdd}
         onRemoveOperative={onRemove}
+        faction={mockFaction}
       />
     );
 
@@ -123,6 +150,7 @@ describe('OperativeSelector', () => {
         selectedOperatives={[]}
         onAddOperative={onAdd}
         onRemoveOperative={onRemove}
+        faction={mockFaction}
       />
     );
 
@@ -155,6 +183,7 @@ describe('OperativeSelector', () => {
         selectedOperatives={selectedOps}
         onAddOperative={onAdd}
         onRemoveOperative={onRemove}
+        faction={mockFaction}
       />
     );
 
@@ -180,6 +209,7 @@ describe('OperativeSelector', () => {
         selectedOperatives={selectedOps}
         onAddOperative={onAdd}
         onRemoveOperative={onRemove}
+        faction={mockFaction}
       />
     );
 
@@ -211,7 +241,7 @@ describe('OperativeSelector', () => {
         selectedOperatives={selectedOps}
         onAddOperative={onAdd}
         onRemoveOperative={onRemove}
-        maxOperatives={6}
+        faction={mockFaction}
       />
     );
 
@@ -222,13 +252,11 @@ describe('OperativeSelector', () => {
     const onAdd = vi.fn();
     const onRemove = vi.fn();
 
-    const selectedOps: SelectedOperative[] = [
-      {
-        selectionId: 'sel-1',
-        operative: mockOperatives[0],
-        selectedWeaponIds: ['weapon-1'],
-      },
-    ];
+    const selectedOps: SelectedOperative[] = Array.from({ length: 6 }, (_, i) => ({
+      selectionId: `sel-${i}`,
+      operative: mockOperatives[0],
+      selectedWeaponIds: ['weapon-1'],
+    }));
 
     render(
       <OperativeSelector
@@ -237,7 +265,7 @@ describe('OperativeSelector', () => {
         selectedOperatives={selectedOps}
         onAddOperative={onAdd}
         onRemoveOperative={onRemove}
-        maxOperatives={1}
+        faction={mockFaction}
       />
     );
 

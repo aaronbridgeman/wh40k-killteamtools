@@ -3,7 +3,8 @@
  */
 
 import { useState } from 'react';
-import { Operative, Weapon, SelectedOperative } from '@/types';
+import { Operative, Weapon, SelectedOperative, Faction } from '@/types';
+import { canAddOperative } from '@/services/teamBuilder';
 import { WeaponLoadoutSelector } from './WeaponLoadoutSelector';
 import styles from './OperativeSelector.module.css';
 
@@ -13,7 +14,7 @@ interface OperativeSelectorProps {
   selectedOperatives: SelectedOperative[];
   onAddOperative: (operative: Operative, weaponIds: string[]) => void;
   onRemoveOperative: (selectionId: string) => void;
-  maxOperatives?: number;
+  faction: Faction;
 }
 
 export function OperativeSelector({
@@ -22,18 +23,27 @@ export function OperativeSelector({
   selectedOperatives,
   onAddOperative,
   onRemoveOperative,
-  maxOperatives,
+  faction,
 }: OperativeSelectorProps) {
   const [selectingOperative, setSelectingOperative] =
     useState<Operative | null>(null);
   const [editingSelection, setEditingSelection] =
     useState<SelectedOperative | null>(null);
 
-  const canAddMore =
-    !maxOperatives || selectedOperatives.length < maxOperatives;
-
   const handleAddOperative = (operative: Operative) => {
     setSelectingOperative(operative);
+  };
+
+  const getAddButtonState = (
+    operative: Operative
+  ): { disabled: boolean; title?: string } => {
+    const currentTeam = selectedOperatives.map((s) => s.operative);
+    const result = canAddOperative(faction, currentTeam, operative);
+
+    return {
+      disabled: !result.canAdd,
+      title: result.reason,
+    };
   };
 
   const handleConfirmWeapons = (weaponNames: string[]) => {
@@ -70,29 +80,35 @@ export function OperativeSelector({
         <h3>Select Operatives</h3>
         <span className={styles.count}>
           {selectedOperatives.length}
-          {maxOperatives ? ` / ${maxOperatives}` : ''}
+          {faction.restrictions.maxOperatives
+            ? ` / ${faction.restrictions.maxOperatives}`
+            : ''}
         </span>
       </div>
 
       <div className={styles.availableOperatives}>
         <h4>Available Operatives</h4>
         <div className={styles.operativesList}>
-          {operatives.map((operative) => (
-            <div key={operative.id} className={styles.operativeItem}>
-              <div className={styles.operativeInfo}>
-                <strong>{operative.name}</strong>
-                <span className={styles.operativeType}>{operative.type}</span>
+          {operatives.map((operative) => {
+            const buttonState = getAddButtonState(operative);
+            return (
+              <div key={operative.id} className={styles.operativeItem}>
+                <div className={styles.operativeInfo}>
+                  <strong>{operative.name}</strong>
+                  <span className={styles.operativeType}>{operative.type}</span>
+                </div>
+                <button
+                  onClick={() => handleAddOperative(operative)}
+                  disabled={buttonState.disabled}
+                  title={buttonState.title}
+                  className={styles.addButton}
+                  aria-label={`Add ${operative.name}`}
+                >
+                  Add
+                </button>
               </div>
-              <button
-                onClick={() => handleAddOperative(operative)}
-                disabled={!canAddMore}
-                className={styles.addButton}
-                aria-label={`Add ${operative.name}`}
-              >
-                Add
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

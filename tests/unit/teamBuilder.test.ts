@@ -26,7 +26,7 @@ const mockOperative1: Operative = {
   stats: mockStats,
   weapons: [],
   abilities: [],
-  keywords: [],
+  keywords: ['WARRIOR'],
   cost: 1,
 };
 
@@ -37,8 +37,19 @@ const mockOperative2: Operative = {
   stats: mockStats,
   weapons: [],
   abilities: [],
-  keywords: [],
+  keywords: ['LEADER'],
   cost: 2,
+};
+
+const mockOperative3: Operative = {
+  id: 'op3',
+  name: 'Operative 3',
+  type: 'Trooper',
+  stats: mockStats,
+  weapons: [],
+  abilities: [],
+  keywords: ['GUNNER'],
+  cost: 1,
 };
 
 const mockFaction: Faction = {
@@ -46,12 +57,18 @@ const mockFaction: Faction = {
   name: 'Test Faction',
   description: 'Test',
   rules: [],
-  operatives: [mockOperative1, mockOperative2],
+  operatives: [mockOperative1, mockOperative2, mockOperative3],
   weapons: [],
   abilities: [],
   restrictions: {
     maxOperatives: 6,
     minOperatives: 4,
+    composition: {
+      selection_limits: {
+        leader_count: 1,
+        exception: 'WARRIOR',
+      },
+    },
   },
   metadata: {
     version: '1.0.0',
@@ -63,24 +80,39 @@ const mockFaction: Faction = {
 describe('teamBuilder', () => {
   describe('validateTeamComposition', () => {
     it('should validate a team within limits', () => {
-      const team = [mockOperative1, mockOperative2, mockOperative1, mockOperative1];
+      // Team with 1 leader and multiple warriors (allowed)
+      const team = [mockOperative2, mockOperative1, mockOperative1, mockOperative1];
       const result = validateTeamComposition(mockFaction, team);
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
 
     it('should reject team with too many operatives', () => {
-      const team = Array(7).fill(mockOperative1);
+      const team = [mockOperative2, ...Array(6).fill(mockOperative1)];
       const result = validateTeamComposition(mockFaction, team);
       expect(result.valid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(0);
     });
 
     it('should reject team with too few operatives', () => {
-      const team = [mockOperative1];
+      const team = [mockOperative2];
       const result = validateTeamComposition(mockFaction, team);
       expect(result.valid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(0);
+    });
+
+    it('should reject team without leader', () => {
+      const team = [mockOperative1, mockOperative1, mockOperative1, mockOperative1];
+      const result = validateTeamComposition(mockFaction, team);
+      expect(result.valid).toBe(false);
+      expect(result.errors).toContain('Team must have exactly 1 leader operative');
+    });
+
+    it('should reject team with duplicate unique operatives', () => {
+      const team = [mockOperative2, mockOperative3, mockOperative3, mockOperative1];
+      const result = validateTeamComposition(mockFaction, team);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some(e => e.includes('Cannot have multiple'))).toBe(true);
     });
   });
 
@@ -99,15 +131,36 @@ describe('teamBuilder', () => {
 
   describe('canAddOperative', () => {
     it('should allow adding operative within limits', () => {
-      const team = [mockOperative1, mockOperative2, mockOperative1, mockOperative1];
-      const canAdd = canAddOperative(mockFaction, team, mockOperative1);
-      expect(canAdd).toBe(true);
+      const team = [mockOperative2, mockOperative1, mockOperative1, mockOperative1];
+      const result = canAddOperative(mockFaction, team, mockOperative1);
+      expect(result.canAdd).toBe(true);
     });
 
     it('should prevent adding operative beyond max', () => {
-      const team = Array(6).fill(mockOperative1);
-      const canAdd = canAddOperative(mockFaction, team, mockOperative1);
-      expect(canAdd).toBe(false);
+      const team = [mockOperative2, ...Array(5).fill(mockOperative1)];
+      const result = canAddOperative(mockFaction, team, mockOperative1);
+      expect(result.canAdd).toBe(false);
+      expect(result.reason).toContain('maximum capacity');
+    });
+
+    it('should prevent adding second leader', () => {
+      const team = [mockOperative2, mockOperative1];
+      const result = canAddOperative(mockFaction, team, mockOperative2);
+      expect(result.canAdd).toBe(false);
+      expect(result.reason).toContain('leader');
+    });
+
+    it('should prevent adding duplicate unique operative', () => {
+      const team = [mockOperative2, mockOperative3];
+      const result = canAddOperative(mockFaction, team, mockOperative3);
+      expect(result.canAdd).toBe(false);
+      expect(result.reason).toContain('already in the team');
+    });
+
+    it('should allow adding multiple warriors', () => {
+      const team = [mockOperative2, mockOperative1, mockOperative1];
+      const result = canAddOperative(mockFaction, team, mockOperative1);
+      expect(result.canAdd).toBe(true);
     });
   });
 });
