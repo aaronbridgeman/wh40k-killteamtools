@@ -73,11 +73,17 @@ export function SelectedTeamView({
               <div className={styles.restrictionsWrapper}>
                 <button
                   className={styles.restrictionsHeaderButton}
-                  onClick={() => setIsRestrictionsExpanded(!isRestrictionsExpanded)}
+                  onClick={() =>
+                    setIsRestrictionsExpanded(!isRestrictionsExpanded)
+                  }
                   aria-expanded={isRestrictionsExpanded}
                 >
-                  <span className={styles.expandIcon}>{isRestrictionsExpanded ? '▼' : '▶'}</span>
-                  <h3 className={styles.restrictionsTitle}>Team Restrictions</h3>
+                  <span className={styles.expandIcon}>
+                    {isRestrictionsExpanded ? '▼' : '▶'}
+                  </span>
+                  <h3 className={styles.restrictionsTitle}>
+                    Team Restrictions
+                  </h3>
                 </button>
                 {isRestrictionsExpanded && (
                   <ul className={styles.restrictionsList}>

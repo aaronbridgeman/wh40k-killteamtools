@@ -119,8 +119,12 @@ export function ChapterTacticsSelector({
               <div className={styles.tacticsList}>
                 {unselectedTactics.map((tactic) => (
                   <div key={tactic.id} className={styles.minimizedTactic}>
-                    <h6 className={styles.minimizedTacticName}>{tactic.name}</h6>
-                    <p className={styles.minimizedTacticEffect}>{tactic.effect}</p>
+                    <h6 className={styles.minimizedTacticName}>
+                      {tactic.name}
+                    </h6>
+                    <p className={styles.minimizedTacticEffect}>
+                      {tactic.effect}
+                    </p>
                     {tactic.description && (
                       <p className={styles.minimizedTacticDescription}>
                         {tactic.description}

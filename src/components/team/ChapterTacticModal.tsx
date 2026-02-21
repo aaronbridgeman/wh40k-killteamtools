@@ -76,9 +76,17 @@ export function ChapterTacticModal({
 
   return (
     <div className={styles.overlay}>
-      <div ref={modalRef} className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div
+        ref={modalRef}
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
         <div className={styles.header}>
-          <h3 id="modal-title" className={styles.title}>{title}</h3>
+          <h3 id="modal-title" className={styles.title}>
+            {title}
+          </h3>
           <button
             onClick={onClose}
             className={styles.closeButton}
@@ -112,7 +120,9 @@ export function ChapterTacticModal({
                   <strong>Effect:</strong> {tactic.effect}
                 </p>
                 {tactic.description && (
-                  <p className={styles.tacticDescription}>{tactic.description}</p>
+                  <p className={styles.tacticDescription}>
+                    {tactic.description}
+                  </p>
                 )}
               </button>
             );

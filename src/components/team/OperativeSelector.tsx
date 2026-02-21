@@ -103,7 +103,9 @@ export function OperativeSelector({
                   <div key={operative.id} className={styles.operativeItem}>
                     <div className={styles.operativeInfo}>
                       <strong>{operative.name}</strong>
-                      <span className={styles.operativeType}>{operative.type}</span>
+                      <span className={styles.operativeType}>
+                        {operative.type}
+                      </span>
                     </div>
                     <button
                       onClick={() => handleAddOperative(operative)}
@@ -127,7 +129,10 @@ export function OperativeSelector({
             ) : (
               <div className={styles.selectedList}>
                 {selectedOperatives.map((selected) => (
-                  <div key={selected.selectionId} className={styles.selectedItem}>
+                  <div
+                    key={selected.selectionId}
+                    className={styles.selectedItem}
+                  >
                     <div className={styles.selectedInfo}>
                       <strong>{selected.operative.name}</strong>
                       <div className={styles.weapons}>

@@ -13,7 +13,10 @@ interface RuleTooltipProps {
 
 export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number } | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const expansion = expandWeaponRule(ruleName, value);
@@ -115,7 +118,11 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
           id={tooltipId}
           role="tooltip"
           className={styles.tooltip}
-          style={tooltipPosition ? { position: 'fixed', ...tooltipPosition } : undefined}
+          style={
+            tooltipPosition
+              ? { position: 'fixed', ...tooltipPosition }
+              : undefined
+          }
         >
           <div className={styles.tooltipTitle}>{expansion.name}</div>
           <div className={styles.tooltipDescription}>
