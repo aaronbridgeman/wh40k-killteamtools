@@ -75,12 +75,12 @@ describe('Plague Marines Faction Integration', () => {
       expect(champion?.stats.actionPointLimit).toBe(3);
     });
 
-    it('should have APL 2 for all non-leader operatives', () => {
+    it('should have APL 3 for all non-leader operatives', () => {
       const operatives = faction.operatives.filter(
         (op) => op.type === 'Operative'
       );
       operatives.forEach((operative) => {
-        expect(operative.stats.actionPointLimit).toBe(2);
+        expect(operative.stats.actionPointLimit).toBe(3);
       });
     });
 
@@ -190,28 +190,22 @@ describe('Plague Marines Faction Integration', () => {
       const bombardier = faction.operatives.find(
         (op) => op.name === 'Plague Marine Bombardier'
       );
-      expect(bombardier?.abilities).toContain(
-        'Grenadier (Blight and Krak grenades)'
-      );
+      expect(bombardier?.abilities).toContain('Grenadier');
     });
 
     it('should have abilities for Icon Bearer', () => {
       const iconBearer = faction.operatives.find(
         (op) => op.name === 'Plague Marine Icon Bearer'
       );
-      expect(iconBearer?.abilities).toContain('Icon Bearer (APL Control)');
-      expect(iconBearer?.abilities).toContain(
-        'Icon of Contagion (Ploy Discount)'
-      );
+      expect(iconBearer?.abilities).toContain('Icon Bearer');
+      expect(iconBearer?.abilities).toContain('Icon of Contagion');
     });
 
     it('should have abilities for Warrior', () => {
       const warrior = faction.operatives.find(
         (op) => op.name === 'Plague Marine Warrior'
       );
-      expect(warrior?.abilities).toContain(
-        'Repulsive Fortitude (5+ Critical Saves)'
-      );
+      expect(warrior?.abilities).toContain('Repulsive Fortitude');
     });
   });
 
@@ -244,9 +238,8 @@ describe('Plague Marines Faction Integration', () => {
       const fighter = faction.operatives.find(
         (op) => op.name === 'Plague Marine Fighter'
       );
-      expect(fighter?.unique_actions).toContain(
-        'Flail (Area damage and Poison)'
-      );
+      expect(fighter?.unique_actions).toBeDefined();
+      expect(fighter?.unique_actions?.[0]).toMatch(/Flail.*D3\+2.*2"/);
     });
 
     it('should have unique_actions for Plaguecaster', () => {
@@ -345,12 +338,10 @@ describe('Plague Marines Faction Integration', () => {
     it('should have ability definitions', () => {
       const abilityNames = faction.abilities.map((a) => a.name);
       expect(abilityNames).toContain("Grandfather's Blessing");
-      expect(abilityNames).toContain('Grenadier (Blight and Krak grenades)');
-      expect(abilityNames).toContain('Icon Bearer (APL Control)');
-      expect(abilityNames).toContain('Icon of Contagion (Ploy Discount)');
-      expect(abilityNames).toContain(
-        'Repulsive Fortitude (5+ Critical Saves)'
-      );
+      expect(abilityNames).toContain('Grenadier');
+      expect(abilityNames).toContain('Icon Bearer');
+      expect(abilityNames).toContain('Icon of Contagion');
+      expect(abilityNames).toContain('Repulsive Fortitude');
     });
   });
 });

@@ -4,21 +4,21 @@
   "description": "Resilient Death Guard warriors corrupted by Nurgle's pestilent gifts",
   "faction_keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE"],
   "global_rules": {
-    "astartes_multi_action": "Can perform 2 Shoot actions (if one is a bolt/psychic weapon) or 2 Fight actions.",
-    "disgustingly_resilient": "When taking 3+ damage, roll D6; on 4+, subtract 1 from that damage.",
+    "astartes_multi_action": "Can perform 2 Shoot or 2 Fight actions. If 2 Shoot, at least one must be a bolt pistol, boltgun, or PSYCHIC weapon. Cannot select the same PSYCHIC ranged weapon twice in one activation",
+    "disgustingly_resilient": "Whenever an attack dice inflicts 3 or more damage, roll a D6; on a 4+, subtract 1 from that damage",
     "poison_mechanic": "Successes with Poison weapons inflict a Poison token. Operatives with tokens take 1 damage upon activation."
   },
   "rules": [
     {
       "id": "disgustingly-resilient",
       "name": "Disgustingly Resilient",
-      "description": "When taking 3+ damage, roll D6; on 4+, subtract 1 from that damage.",
+      "description": "Whenever an attack dice inflicts 3 or more damage, roll a D6; on a 4+, subtract 1 from that damage",
       "type": "passive"
     },
     {
       "id": "astartes-multi-action",
       "name": "Astartes Multi-Action",
-      "description": "Can perform 2 Shoot actions (if one is a bolt/psychic weapon) or 2 Fight actions.",
+      "description": "Can perform 2 Shoot or 2 Fight actions. If 2 Shoot, at least one must be a bolt pistol, boltgun, or PSYCHIC weapon. Cannot select the same PSYCHIC ranged weapon twice in one activation",
       "type": "passive"
     }
   ],
@@ -47,14 +47,14 @@
       "type": "Operative",
       "stats": {
         "movement": 5,
-        "actionPointLimit": 2,
+        "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
         "wounds": 14
       },
       "fixed_loadout": ["Boltgun", "Fists"],
-      "abilities": ["Grenadier (Blight and Krak grenades)"],
+      "abilities": ["Grenadier"],
       "weapon_rules": ["Toxic"],
       "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "BOMBARDIER"],
       "cost": 1
@@ -65,14 +65,14 @@
       "type": "Operative",
       "stats": {
         "movement": 5,
-        "actionPointLimit": 2,
+        "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
         "wounds": 14
       },
       "fixed_loadout": ["Flail of Corruption"],
-      "unique_actions": ["Flail (Area damage and Poison)"],
+      "unique_actions": ["Flail: Inflicts D3+2 damage on all operatives within 2\". Treat as Fight action for restriction purposes"],
       "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "FIGHTER"],
       "cost": 1
     },
@@ -82,7 +82,7 @@
       "type": "Operative",
       "stats": {
         "movement": 5,
-        "actionPointLimit": 2,
+        "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
@@ -99,14 +99,14 @@
       "type": "Operative",
       "stats": {
         "movement": 5,
-        "actionPointLimit": 2,
+        "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
         "wounds": 14
       },
       "fixed_loadout": ["Bolt pistol", "Plague knife"],
-      "abilities": ["Icon Bearer (APL Control)", "Icon of Contagion (Ploy Discount)"],
+      "abilities": ["Icon Bearer", "Icon of Contagion"],
       "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "ICON BEARER"],
       "cost": 1
     },
@@ -116,7 +116,7 @@
       "type": "Operative",
       "stats": {
         "movement": 5,
-        "actionPointLimit": 2,
+        "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
@@ -133,14 +133,14 @@
       "type": "Operative",
       "stats": {
         "movement": 5,
-        "actionPointLimit": 2,
+        "actionPointLimit": 3,
         "groupActivation": 1,
         "defense": 3,
         "save": 3,
         "wounds": 14
       },
       "fixed_loadout": ["Boltgun", "Plague knife"],
-      "abilities": ["Repulsive Fortitude (5+ Critical Saves)"],
+      "abilities": ["Repulsive Fortitude"],
       "keywords": ["CHAOS", "HERETIC ASTARTES", "PLAGUE MARINE", "WARRIOR"],
       "cost": 1
     }
@@ -248,13 +248,17 @@
           "specialRules": [
             {
               "name": "Range",
-              "value": "6\"",
-              "description": "Only operatives within distance 6\" of the active operative can be valid targets"
+              "value": "7\"",
+              "description": "Only operatives within distance 7\" of the active operative can be valid targets"
             },
             {
               "name": "Torrent",
               "value": "2\"",
               "description": "Select a primary target, then shoot against any number of other valid targets within distance 2\" of that target"
+            },
+            {
+              "name": "Poison",
+              "description": "On a successful hit, inflicts a Poison token"
             }
           ]
         }
@@ -331,15 +335,22 @@
       "type": "melee",
       "profiles": [
         {
-          "attacks": 4,
+          "attacks": 5,
           "weaponSkill": 3,
           "damage": 4,
           "criticalDamage": 5,
           "specialRules": [
             {
-              "name": "Lethal",
-              "value": "5+",
-              "description": "Attack dice results equal to or greater than 5 are critical successes"
+              "name": "Severe",
+              "description": "Each retained critical success inflicts 1 additional damage"
+            },
+            {
+              "name": "Poison",
+              "description": "On a successful hit, inflicts a Poison token"
+            },
+            {
+              "name": "Toxic",
+              "description": "If target has a Poison token, add 1 to both Normal and Critical damage stats"
             }
           ]
         }
@@ -403,27 +414,43 @@
     },
     {
       "id": "grenadier",
-      "name": "Grenadier (Blight and Krak grenades)",
-      "description": "Can use Blight and Krak grenades",
+      "name": "Grenadier",
+      "description": "Improve Hit stat of grenades by 1; Blight grenades gain the Toxic rule",
       "cost": 0
     },
     {
       "id": "icon-bearer",
-      "name": "Icon Bearer (APL Control)",
-      "description": "Provides APL control benefits to nearby operatives",
+      "name": "Icon Bearer",
+      "description": "+1 to APL for determining objective control",
       "cost": 0
     },
     {
       "id": "icon-of-contagion",
-      "name": "Icon of Contagion (Ploy Discount)",
-      "description": "Reduces the cost of ploys",
+      "name": "Icon of Contagion",
+      "description": "Contagion strategy ploy costs 0CP when in enemy territory",
       "cost": 0
     },
     {
       "id": "repulsive-fortitude",
-      "name": "Repulsive Fortitude (5+ Critical Saves)",
-      "description": "Can make critical saves on 5+",
+      "name": "Repulsive Fortitude",
+      "description": "Defence dice results of 5 are critical successes when being shot at",
       "cost": 0
+    }
+  ],
+  "ploys": [
+    {
+      "id": "virulent-poison",
+      "name": "Virulent Poison",
+      "type": "firefight",
+      "cost": 1,
+      "description": "Can either give a Poison token to one enemy within 7\" OR roll 2D6; on a 7+, give a Poison token to one enemy within 7\""
+    },
+    {
+      "id": "contagion",
+      "name": "Contagion",
+      "type": "strategy",
+      "cost": 1,
+      "description": "Subtract 2\" from Move and worsen Hit stat by 1 for enemies with Poison tokens within 3\" of friendly operatives OR any enemy within 3\" of an Icon Bearer"
     }
   ],
   "restrictions": {
