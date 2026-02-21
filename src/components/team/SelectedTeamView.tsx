@@ -79,6 +79,7 @@ export function SelectedTeamView({
               key={selected.selectionId}
               operative={selected.operative}
               weapons={faction.weapons}
+              abilities={faction.abilities}
               uniqueActions={faction.unique_actions}
               selectedWeaponIds={selected.selectedWeaponIds}
             />

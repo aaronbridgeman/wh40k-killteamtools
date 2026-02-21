@@ -268,6 +268,7 @@ export function GameModeView() {
                             key={operative.id}
                             operative={operative}
                             weapons={currentFaction.weapons}
+                            abilities={currentFaction.abilities}
                             uniqueActions={currentFaction.unique_actions}
                           />
                         ))}
