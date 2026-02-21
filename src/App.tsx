@@ -27,6 +27,9 @@ type ViewMode =
   | 'game-mode';
 type TeamViewMode = 'faction-info' | 'team-selection';
 
+const CHAPTER_TACTICS_PRIMARY = 'chapter_tactics_primary';
+const CHAPTER_TACTICS_SECONDARY = 'chapter_tactics_secondary';
+
 function App() {
   const [viewMode, setViewMode] = useState<ViewMode>('home');
   const [teamViewMode, setTeamViewMode] =
@@ -114,16 +117,43 @@ function App() {
   };
 
   const handleRuleChoiceChange = (category: string, ruleId: string) => {
-    setTeamState((prev) => ({
-      ...prev,
-      ruleChoices: {
-        factionId: prev.factionId || '',
-        choices: {
-          ...(prev.ruleChoices?.choices || {}),
-          [category]: ruleId,
+    setTeamState((prev) => {
+      // Handle chapter tactics separately
+      if (
+        category === CHAPTER_TACTICS_PRIMARY ||
+        category === CHAPTER_TACTICS_SECONDARY
+      ) {
+        const isPrimary = category === CHAPTER_TACTICS_PRIMARY;
+        return {
+          ...prev,
+          ruleChoices: {
+            factionId: prev.factionId || '',
+            choices: prev.ruleChoices?.choices || {},
+            chapterTactics: {
+              primary: isPrimary
+                ? ruleId
+                : prev.ruleChoices?.chapterTactics?.primary || '',
+              secondary: !isPrimary
+                ? ruleId
+                : prev.ruleChoices?.chapterTactics?.secondary || '',
+            },
+          },
+        };
+      }
+
+      // Handle other rule choices
+      return {
+        ...prev,
+        ruleChoices: {
+          factionId: prev.factionId || '',
+          choices: {
+            ...(prev.ruleChoices?.choices || {}),
+            [category]: ruleId,
+          },
+          chapterTactics: prev.ruleChoices?.chapterTactics,
         },
-      },
-    }));
+      };
+    });
   };
 
   return (
