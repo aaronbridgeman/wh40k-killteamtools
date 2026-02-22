@@ -182,10 +182,36 @@ export function GameManagement({
     return woundState?.injured || false;
   };
 
-  const handleUseLimitedItem = (team: 'alpha' | 'bravo', itemKey: string) => {
+  const handleUseLimitedItem = (team: 'alpha' | 'bravo', itemKey: string, maxUses: number) => {
     const usageKey =
       team === 'alpha' ? 'alphaLimitedItemUsage' : 'bravoLimitedItemUsage';
-    const newUsage = decrementLimitedItemUse(gameTracking[usageKey], itemKey);
+    
+    // Get or initialize the item first
+    const currentItem = getOrInitializeLimitedItem(
+      gameTracking[usageKey],
+      itemKey,
+      maxUses
+    );
+    
+    // Check if the item is already in the tracking array
+    const existingIndex = gameTracking[usageKey].findIndex(
+      item => item.itemKey === itemKey
+    );
+    
+    let newUsage: LimitedItemUsage[];
+    if (existingIndex >= 0) {
+      // Item exists, decrement it
+      newUsage = decrementLimitedItemUse(gameTracking[usageKey], itemKey);
+    } else {
+      // Item doesn't exist yet, add it with one use decremented
+      newUsage = [
+        ...gameTracking[usageKey],
+        {
+          ...currentItem,
+          usesRemaining: currentItem.usesRemaining - 1,
+        },
+      ];
+    }
 
     onUpdateGameTracking({
       ...gameTracking,
@@ -570,7 +596,7 @@ export function GameManagement({
                               name={displayName}
                               maxUses={usage.maxUses}
                               usesRemaining={usage.usesRemaining}
-                              onUse={() => handleUseLimitedItem('alpha', itemKey)}
+                              onUse={() => handleUseLimitedItem('alpha', itemKey, limitedValue)}
                             >
                               <div className="limited-weapon-profile">
                                 <div className="profile-stats-compact">
@@ -663,7 +689,7 @@ export function GameManagement({
                               name={displayName}
                               maxUses={usage.maxUses}
                               usesRemaining={usage.usesRemaining}
-                              onUse={() => handleUseLimitedItem('bravo', itemKey)}
+                              onUse={() => handleUseLimitedItem('bravo', itemKey, limitedValue)}
                             >
                               <div className="limited-weapon-profile">
                                 <div className="profile-stats-compact">
