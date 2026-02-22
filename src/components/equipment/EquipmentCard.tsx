@@ -3,6 +3,7 @@
  */
 
 import { Equipment } from '@/types';
+import { RuleTooltip } from '@/components/rules/RuleTooltip';
 import styles from './EquipmentCard.module.css';
 
 interface EquipmentCardProps {
@@ -63,30 +64,54 @@ export function EquipmentCard({
       {/* Display weapon profile if equipment has attack actions */}
       {equipment.weaponProfile && (
         <div className={styles.weaponProfile}>
-          <h5 className={styles.weaponTitle}>Weapon Profile</h5>
-          <div className={styles.weaponStats}>
+          <div className={styles.weaponHeader}>
+            <h5 className={styles.weaponTitle}>⚔️ Weapon Profile</h5>
+            {equipment.weaponType && (
+              <span className={styles.weaponType}>
+                {equipment.weaponType === 'ranged' ? '🎯 Ranged' : '⚔️ Melee'}
+              </span>
+            )}
+          </div>
+          <div className={styles.profileStats}>
             {equipment.range && (
-              <div className={styles.stat}>
-                <span className={styles.statLabel}>Range:</span>
-                <span className={styles.statValue}>{equipment.range}</span>
+              <div className={styles.profileStat} data-stat="Range">
+                <span className={styles.profileStatLabel}>📏 Range</span>
+                <span className={styles.profileStatValue}>
+                  {equipment.range}
+                </span>
               </div>
             )}
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Attacks:</span>
-              <span className={styles.statValue}>
+            <div className={styles.profileStat} data-stat="A">
+              <span className={styles.profileStatLabel}>⚔️ A</span>
+              <span className={styles.profileStatValue}>
                 {equipment.weaponProfile.attacks}
               </span>
             </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Hit:</span>
-              <span className={styles.statValue}>
-                {equipment.weaponProfile.ballisticSkill}+
+            {equipment.weaponProfile.ballisticSkill !== undefined && (
+              <div className={styles.profileStat} data-stat="BS">
+                <span className={styles.profileStatLabel}>🎯 BS</span>
+                <span className={styles.profileStatValue}>
+                  {equipment.weaponProfile.ballisticSkill}+
+                </span>
+              </div>
+            )}
+            {equipment.weaponProfile.weaponSkill !== undefined && (
+              <div className={styles.profileStat} data-stat="WS">
+                <span className={styles.profileStatLabel}>🗡️ WS</span>
+                <span className={styles.profileStatValue}>
+                  {equipment.weaponProfile.weaponSkill}+
+                </span>
+              </div>
+            )}
+            <div className={styles.profileStat} data-stat="D">
+              <span className={styles.profileStatLabel}>💥 D</span>
+              <span className={styles.profileStatValue}>
+                {equipment.weaponProfile.damage}
               </span>
             </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Damage:</span>
-              <span className={styles.statValue}>
-                {equipment.weaponProfile.damage}/
+            <div className={styles.profileStat} data-stat="Crit">
+              <span className={styles.profileStatLabel}>💀 Crit</span>
+              <span className={styles.profileStatValue}>
                 {equipment.weaponProfile.criticalDamage}
               </span>
             </div>
@@ -94,18 +119,14 @@ export function EquipmentCard({
           {equipment.weaponProfile.specialRules &&
             equipment.weaponProfile.specialRules.length > 0 && (
               <div className={styles.specialRules}>
-                <span className={styles.rulesLabel}>Special Rules:</span>
-                <ul className={styles.rulesList}>
-                  {equipment.weaponProfile.specialRules.map((rule, index) => (
-                    <li key={index} className={styles.ruleItem}>
-                      <strong>
-                        {rule.name}
-                        {rule.value ? ` ${rule.value}` : ''}:
-                      </strong>{' '}
-                      {rule.description}
-                    </li>
-                  ))}
-                </ul>
+                <span className={styles.specialRulesLabel}>Rules:</span>
+                {equipment.weaponProfile.specialRules.map((rule, index) => (
+                  <RuleTooltip
+                    key={`${equipment.id}-${rule.name}-${rule.value || index}`}
+                    ruleName={rule.name}
+                    value={rule.value}
+                  />
+                ))}
               </div>
             )}
         </div>
