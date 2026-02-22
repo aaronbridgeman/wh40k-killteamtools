@@ -28,9 +28,8 @@ describe('Angels of Death Faction Integration', () => {
 
   it('should have global rules', () => {
     expect(faction.global_rules).toBeDefined();
-    expect(faction.global_rules?.bolt_weapon_definition).toBeDefined();
     expect(faction.global_rules?.astartes_multi_action).toBeDefined();
-    expect(faction.global_rules?.and_they_shall_know_no_fear).toBeDefined();
+    expect(faction.global_rules?.astartes_counteract).toBeDefined();
   });
 
   it('should have composition rules', () => {
