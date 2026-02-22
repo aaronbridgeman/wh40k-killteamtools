@@ -1,0 +1,202 @@
+.equipmentCard {
+  padding: 1rem;
+  background-color: var(--card-background, #ffffff);
+  border-left: 4px solid var(--accent-color, #60a5fa);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.equipmentCard.selectable {
+  cursor: pointer;
+}
+
+.equipmentCard.selectable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-left-color: var(--primary-color, #4a9eff);
+}
+
+.equipmentCard.selected {
+  border-left-color: var(--success-color, #22c55e);
+  background-color: rgba(34, 197, 94, 0.05);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+}
+
+.name {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--text-primary, #1a1a1a);
+  font-weight: 600;
+  flex: 1;
+}
+
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.quantityBadge {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--text-primary, #1a1a1a);
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(96, 165, 250, 0.15);
+  border-radius: 4px;
+}
+
+.factionBadge {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #f59e0b;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(245, 158, 11, 0.15);
+  border-radius: 4px;
+}
+
+.description {
+  margin: 0 0 0.75rem 0;
+  line-height: 1.5;
+  color: var(--text-secondary, #4a4a4a);
+  font-size: 0.95rem;
+}
+
+.usageLimit {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background-color: rgba(96, 165, 250, 0.1);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.limitLabel {
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.keywords {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background-color: rgba(245, 158, 11, 0.1);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.keywordLabel {
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.weaponProfile {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: rgba(139, 92, 246, 0.05);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 4px;
+}
+
+.weaponTitle {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  color: var(--text-primary, #1a1a1a);
+  font-weight: 600;
+}
+
+.weaponStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary, #4a4a4a);
+  text-transform: uppercase;
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.specialRules {
+  margin-top: 0.75rem;
+}
+
+.rulesLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.rulesList {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style-type: disc;
+}
+
+.ruleItem {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #4a4a4a);
+  line-height: 1.5;
+}
+
+.effects {
+  margin-top: 0.75rem;
+}
+
+.effect {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background-color: rgba(34, 197, 94, 0.05);
+  border-left: 3px solid rgba(34, 197, 94, 0.3);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #4a4a4a);
+  line-height: 1.5;
+}
+
+.effectType {
+  font-weight: 600;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.effectRules {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.25rem;
+  list-style-type: circle;
+}
+
+.effectRules li {
+  margin: 0.25rem 0;
+  font-size: 0.85rem;
+}
+
+.affectedWeapons {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-secondary, #4a4a4a);
+}

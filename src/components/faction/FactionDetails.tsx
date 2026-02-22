@@ -4,6 +4,7 @@
 
 import { useState } from 'react';
 import { Faction } from '@/types';
+import { EquipmentCard } from '@/components/equipment';
 import styles from './FactionDetails.module.css';
 
 interface FactionDetailsProps {
@@ -14,6 +15,7 @@ export function FactionDetails({ faction }: FactionDetailsProps) {
   const [rulesExpanded, setRulesExpanded] = useState(true);
   const [strategicPloysExpanded, setStrategicPloysExpanded] = useState(true);
   const [firefightPloysExpanded, setFirefightPloysExpanded] = useState(true);
+  const [equipmentExpanded, setEquipmentExpanded] = useState(true);
 
   const hasStrategicPloys = faction.ploys?.some(
     (ploy) => ploy.type === 'strategy'
@@ -21,6 +23,7 @@ export function FactionDetails({ faction }: FactionDetailsProps) {
   const hasFirefightPloys = faction.ploys?.some(
     (ploy) => ploy.type === 'firefight'
   );
+  const hasEquipment = faction.equipment && faction.equipment.length > 0;
 
   return (
     <div className={styles.container}>
@@ -133,6 +136,34 @@ export function FactionDetails({ faction }: FactionDetailsProps) {
             </div>
           )}
         </>
+      )}
+
+      {hasEquipment && (
+        <div className={styles.collapsibleSection}>
+          <button
+            className={styles.sectionHeader}
+            onClick={() => setEquipmentExpanded(!equipmentExpanded)}
+            aria-expanded={equipmentExpanded}
+          >
+            <span className={styles.expandIcon}>
+              {equipmentExpanded ? '▼' : '▶'}
+            </span>
+            <h3 className={styles.sectionTitle}>Available Equipment</h3>
+          </button>
+          {equipmentExpanded && (
+            <div className={styles.sectionContent}>
+              <div className={styles.equipmentGrid}>
+                {faction.equipment?.map((equipment) => (
+                  <EquipmentCard
+                    key={equipment.id}
+                    equipment={equipment}
+                    showSelection={false}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       )}
 
       <div className={styles.metadata}>
