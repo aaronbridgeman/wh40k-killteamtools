@@ -5,7 +5,10 @@
 import { Operative, Weapon, UniqueAction, Ability } from '@/types';
 import { RuleTooltip } from '@/components/rules/RuleTooltip';
 import { getAllAvailableWeaponNames } from '@/services/weaponResolver';
-import { getModifiedMovement, getModifiedHitStat } from '@/services/injuredCalculator';
+import {
+  getModifiedMovement,
+  getModifiedHitStat,
+} from '@/services/injuredCalculator';
 import styles from './OperativeCard.module.css';
 
 interface OperativeCardProps {
@@ -80,10 +83,14 @@ export function OperativeCard({
       <div className={styles.stats}>
         <div className={styles.stat} data-stat="M">
           <span className={styles.statLabel}>🏃 M</span>
-          <span className={`${styles.statValue} ${isInjured ? styles.modified : ''}`}>
+          <span
+            className={`${styles.statValue} ${isInjured ? styles.modified : ''}`}
+          >
             {displayMovement}&quot;
             {isInjured && stats.movement !== displayMovement && (
-              <span className={styles.originalValue}>({stats.movement}&quot;)</span>
+              <span className={styles.originalValue}>
+                ({stats.movement}&quot;)
+              </span>
             )}
           </span>
         </div>
@@ -116,13 +123,15 @@ export function OperativeCard({
               </div>
               {weapon.profiles.map((profile, idx) => {
                 // Apply injured modification to hit stats
-                const displayBS = profile.ballisticSkill !== undefined
-                  ? getModifiedHitStat(profile.ballisticSkill, isInjured)
-                  : undefined;
-                const displayWS = profile.weaponSkill !== undefined
-                  ? getModifiedHitStat(profile.weaponSkill, isInjured)
-                  : undefined;
-                
+                const displayBS =
+                  profile.ballisticSkill !== undefined
+                    ? getModifiedHitStat(profile.ballisticSkill, isInjured)
+                    : undefined;
+                const displayWS =
+                  profile.weaponSkill !== undefined
+                    ? getModifiedHitStat(profile.weaponSkill, isInjured)
+                    : undefined;
+
                 return (
                   <div
                     key={`${weapon.id}-profile-${profile.name || idx}`}
@@ -141,21 +150,30 @@ export function OperativeCard({
                       {displayBS !== undefined && (
                         <div className={styles.profileStat} data-stat="BS">
                           <span className={styles.profileStatLabel}>🎯 BS</span>
-                          <span className={`${styles.profileStatValue} ${isInjured ? styles.modified : ''}`}>
+                          <span
+                            className={`${styles.profileStatValue} ${isInjured ? styles.modified : ''}`}
+                          >
                             {displayBS}+
-                            {isInjured && profile.ballisticSkill !== displayBS && (
-                              <span className={styles.originalValue}>({profile.ballisticSkill}+)</span>
-                            )}
+                            {isInjured &&
+                              profile.ballisticSkill !== displayBS && (
+                                <span className={styles.originalValue}>
+                                  ({profile.ballisticSkill}+)
+                                </span>
+                              )}
                           </span>
                         </div>
                       )}
                       {displayWS !== undefined && (
                         <div className={styles.profileStat} data-stat="WS">
                           <span className={styles.profileStatLabel}>🗡️ WS</span>
-                          <span className={`${styles.profileStatValue} ${isInjured ? styles.modified : ''}`}>
+                          <span
+                            className={`${styles.profileStatValue} ${isInjured ? styles.modified : ''}`}
+                          >
                             {displayWS}+
                             {isInjured && profile.weaponSkill !== displayWS && (
-                              <span className={styles.originalValue}>({profile.weaponSkill}+)</span>
+                              <span className={styles.originalValue}>
+                                ({profile.weaponSkill}+)
+                              </span>
                             )}
                           </span>
                         </div>
