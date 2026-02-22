@@ -5,6 +5,7 @@
 import { Operative, Weapon, UniqueAction, Ability } from '@/types';
 import { RuleTooltip } from '@/components/rules/RuleTooltip';
 import { getAllAvailableWeaponNames } from '@/services/weaponResolver';
+import { getModifiedMovement, getModifiedHitStat } from '@/services/injuredCalculator';
 import styles from './OperativeCard.module.css';
 
 interface OperativeCardProps {
@@ -16,6 +17,8 @@ interface OperativeCardProps {
   abilities?: Ability[];
   /** Available unique actions for this faction */
   uniqueActions?: UniqueAction[];
+  /** Optional: whether the operative is injured */
+  isInjured?: boolean;
 }
 
 export function OperativeCard({
@@ -24,8 +27,12 @@ export function OperativeCard({
   selectedWeaponIds,
   abilities = [],
   uniqueActions = [],
+  isInjured = false,
 }: OperativeCardProps) {
   const { stats } = operative;
+
+  // Apply injured modifications to stats
+  const displayMovement = getModifiedMovement(stats.movement, isInjured);
 
   // Get weapons for this operative
   // If selectedWeaponIds is provided, show only those (equipped loadout)
@@ -54,11 +61,17 @@ export function OperativeCard({
     selectedWeaponIds !== undefined && selectedWeaponIds.length > 0;
 
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${isInjured ? styles.injured : ''}`}>
       <div className={styles.header}>
         <h3 className={styles.name}>{operative.name}</h3>
         <span className={styles.type}>{operative.type}</span>
       </div>
+
+      {isInjured && (
+        <div className={styles.injuredBanner}>
+          🩹 INJURED - Movement -2&quot;, Hit stat +1
+        </div>
+      )}
 
       {operative.description && (
         <p className={styles.description}>{operative.description}</p>
@@ -67,7 +80,12 @@ export function OperativeCard({
       <div className={styles.stats}>
         <div className={styles.stat} data-stat="M">
           <span className={styles.statLabel}>🏃 M</span>
-          <span className={styles.statValue}>{stats.movement}&quot;</span>
+          <span className={`${styles.statValue} ${isInjured ? styles.modified : ''}`}>
+            {displayMovement}&quot;
+            {isInjured && stats.movement !== displayMovement && (
+              <span className={styles.originalValue}>({stats.movement}&quot;)</span>
+            )}
+          </span>
         </div>
         <div className={styles.stat} data-stat="APL">
           <span className={styles.statLabel}>⚡ APL</span>
@@ -96,64 +114,80 @@ export function OperativeCard({
                   {weapon.type === 'ranged' ? '🎯 Ranged' : '⚔️ Melee'}
                 </span>
               </div>
-              {weapon.profiles.map((profile, idx) => (
-                <div
-                  key={`${weapon.id}-profile-${profile.name || idx}`}
-                  className={styles.weaponProfile}
-                >
-                  {profile.name && (
-                    <div className={styles.profileName}>{profile.name}</div>
-                  )}
-                  <div className={styles.profileStats}>
-                    <div className={styles.profileStat} data-stat="A">
-                      <span className={styles.profileStatLabel}>⚔️ A</span>
-                      <span className={styles.profileStatValue}>
-                        {profile.attacks}
-                      </span>
-                    </div>
-                    {profile.ballisticSkill !== undefined && (
-                      <div className={styles.profileStat} data-stat="BS">
-                        <span className={styles.profileStatLabel}>🎯 BS</span>
+              {weapon.profiles.map((profile, idx) => {
+                // Apply injured modification to hit stats
+                const displayBS = profile.ballisticSkill !== undefined
+                  ? getModifiedHitStat(profile.ballisticSkill, isInjured)
+                  : undefined;
+                const displayWS = profile.weaponSkill !== undefined
+                  ? getModifiedHitStat(profile.weaponSkill, isInjured)
+                  : undefined;
+                
+                return (
+                  <div
+                    key={`${weapon.id}-profile-${profile.name || idx}`}
+                    className={styles.weaponProfile}
+                  >
+                    {profile.name && (
+                      <div className={styles.profileName}>{profile.name}</div>
+                    )}
+                    <div className={styles.profileStats}>
+                      <div className={styles.profileStat} data-stat="A">
+                        <span className={styles.profileStatLabel}>⚔️ A</span>
                         <span className={styles.profileStatValue}>
-                          {profile.ballisticSkill}+
+                          {profile.attacks}
                         </span>
                       </div>
-                    )}
-                    {profile.weaponSkill !== undefined && (
-                      <div className={styles.profileStat} data-stat="WS">
-                        <span className={styles.profileStatLabel}>🗡️ WS</span>
+                      {displayBS !== undefined && (
+                        <div className={styles.profileStat} data-stat="BS">
+                          <span className={styles.profileStatLabel}>🎯 BS</span>
+                          <span className={`${styles.profileStatValue} ${isInjured ? styles.modified : ''}`}>
+                            {displayBS}+
+                            {isInjured && profile.ballisticSkill !== displayBS && (
+                              <span className={styles.originalValue}>({profile.ballisticSkill}+)</span>
+                            )}
+                          </span>
+                        </div>
+                      )}
+                      {displayWS !== undefined && (
+                        <div className={styles.profileStat} data-stat="WS">
+                          <span className={styles.profileStatLabel}>🗡️ WS</span>
+                          <span className={`${styles.profileStatValue} ${isInjured ? styles.modified : ''}`}>
+                            {displayWS}+
+                            {isInjured && profile.weaponSkill !== displayWS && (
+                              <span className={styles.originalValue}>({profile.weaponSkill}+)</span>
+                            )}
+                          </span>
+                        </div>
+                      )}
+                      <div className={styles.profileStat} data-stat="D">
+                        <span className={styles.profileStatLabel}>💥 D</span>
                         <span className={styles.profileStatValue}>
-                          {profile.weaponSkill}+
+                          {profile.damage}
                         </span>
                       </div>
+                      <div className={styles.profileStat} data-stat="Crit">
+                        <span className={styles.profileStatLabel}>💀 Crit</span>
+                        <span className={styles.profileStatValue}>
+                          {profile.criticalDamage}
+                        </span>
+                      </div>
+                    </div>
+                    {profile.specialRules.length > 0 && (
+                      <div className={styles.specialRules}>
+                        <span className={styles.specialRulesLabel}>Rules:</span>
+                        {profile.specialRules.map((rule) => (
+                          <RuleTooltip
+                            key={`${weapon.id}-${rule.name}-${rule.value || ''}`}
+                            ruleName={rule.name}
+                            value={rule.value}
+                          />
+                        ))}
+                      </div>
                     )}
-                    <div className={styles.profileStat} data-stat="D">
-                      <span className={styles.profileStatLabel}>💥 D</span>
-                      <span className={styles.profileStatValue}>
-                        {profile.damage}
-                      </span>
-                    </div>
-                    <div className={styles.profileStat} data-stat="Crit">
-                      <span className={styles.profileStatLabel}>💀 Crit</span>
-                      <span className={styles.profileStatValue}>
-                        {profile.criticalDamage}
-                      </span>
-                    </div>
                   </div>
-                  {profile.specialRules.length > 0 && (
-                    <div className={styles.specialRules}>
-                      <span className={styles.specialRulesLabel}>Rules:</span>
-                      {profile.specialRules.map((rule) => (
-                        <RuleTooltip
-                          key={`${weapon.id}-${rule.name}-${rule.value || ''}`}
-                          ruleName={rule.name}
-                          value={rule.value}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           ))}
         </div>

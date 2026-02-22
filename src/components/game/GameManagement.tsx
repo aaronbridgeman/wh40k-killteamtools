@@ -1,5 +1,6 @@
 import { GameTrackingState, OperativeWoundState } from '@/types/game';
 import { SelectedOperative } from '@/types/team';
+import { shouldBeInjured } from '@/services/injuredCalculator';
 import './GameManagement.css';
 
 interface GameManagementProps {
@@ -68,20 +69,76 @@ export function GameManagement({
         0,
         Math.min(maxWounds, woundStates[existingIndex].currentWounds + delta)
       );
+      // Auto-detect injured status based on wounds
+      const autoInjured = shouldBeInjured(newWounds, maxWounds);
+      // Preserve manual override if injured was explicitly set
+      const currentState = woundStates[existingIndex];
+      const injured = currentState.injured !== undefined 
+        ? currentState.injured  // Keep manual toggle if set
+        : autoInjured;           // Otherwise use auto-detection
+      
       newWoundStates = [...woundStates];
       newWoundStates[existingIndex] = {
         ...newWoundStates[existingIndex],
         currentWounds: newWounds,
+        injured: autoInjured || injured, // Mark injured if auto-detected OR manually set
       };
     } else {
       // Create new entry
       const newWounds = Math.max(0, Math.min(maxWounds, maxWounds + delta));
+      const autoInjured = shouldBeInjured(newWounds, maxWounds);
       newWoundStates = [
         ...woundStates,
         {
           selectionId,
           currentWounds: newWounds,
           maxWounds,
+          injured: autoInjured,
+        },
+      ];
+    }
+
+    onUpdateGameTracking({
+      ...gameTracking,
+      [woundsKey]: newWoundStates,
+    });
+  };
+
+  const handleInjuredToggle = (
+    team: 'alpha' | 'bravo',
+    selectionId: string
+  ) => {
+    const woundsKey =
+      team === 'alpha' ? 'alphaOperativeWounds' : 'bravoOperativeWounds';
+    const operatives = team === 'alpha' ? alphaOperatives : bravoOperatives;
+
+    // Find the operative to get max wounds
+    const operative = operatives.find((op) => op.selectionId === selectionId);
+    if (!operative) return;
+
+    const maxWounds = operative.operative.stats.wounds;
+    const woundStates = gameTracking[woundsKey];
+    const existingIndex = woundStates.findIndex(
+      (w) => w.selectionId === selectionId
+    );
+
+    let newWoundStates: OperativeWoundState[];
+    if (existingIndex >= 0) {
+      // Toggle existing injured status
+      newWoundStates = [...woundStates];
+      newWoundStates[existingIndex] = {
+        ...newWoundStates[existingIndex],
+        injured: !newWoundStates[existingIndex].injured,
+      };
+    } else {
+      // Create new entry with injured = true
+      newWoundStates = [
+        ...woundStates,
+        {
+          selectionId,
+          currentWounds: maxWounds,
+          maxWounds,
+          injured: true,
         },
       ];
     }
@@ -103,6 +160,18 @@ export function GameManagement({
       (w) => w.selectionId === selectionId
     );
     return woundState ? woundState.currentWounds : maxWounds;
+  };
+
+  const getOperativeInjuredStatus = (
+    team: 'alpha' | 'bravo',
+    selectionId: string
+  ): boolean => {
+    const woundsKey =
+      team === 'alpha' ? 'alphaOperativeWounds' : 'bravoOperativeWounds';
+    const woundState = gameTracking[woundsKey].find(
+      (w) => w.selectionId === selectionId
+    );
+    return woundState?.injured || false;
   };
 
   return (
@@ -222,43 +291,69 @@ export function GameManagement({
                     selected.selectionId,
                     selected.operative.stats.wounds
                   );
+                  const isInjured = getOperativeInjuredStatus(
+                    'alpha',
+                    selected.selectionId
+                  );
                   return (
                     <div
                       key={selected.selectionId}
-                      className="operative-wound-tracker"
+                      className={`operative-wound-tracker ${isInjured ? 'injured' : ''}`}
                     >
-                      <span className="operative-name">
-                        {selected.operative.name}
-                      </span>
-                      <div className="tracker-control small">
-                        <button
-                          className="control-button small"
-                          onClick={() =>
-                            handleWoundsChange(
-                              'alpha',
-                              selected.selectionId,
-                              -1
-                            )
-                          }
-                          disabled={currentWounds <= 0}
-                          aria-label={`Decrease wounds for ${selected.operative.name}`}
-                        >
-                          −
-                        </button>
-                        <span className="tracker-value small">
-                          {currentWounds}/{selected.operative.stats.wounds}
+                      <div className="operative-info">
+                        <span className="operative-name">
+                          {selected.operative.name}
                         </span>
+                        {isInjured && (
+                          <span 
+                            className="injured-badge" 
+                            title="Injured: Movement -2&quot;, Hit stat +1"
+                          >
+                            🩹 INJURED
+                          </span>
+                        )}
+                      </div>
+                      <div className="wound-controls">
+                        <div className="tracker-control small">
+                          <button
+                            className="control-button small"
+                            onClick={() =>
+                              handleWoundsChange(
+                                'alpha',
+                                selected.selectionId,
+                                -1
+                              )
+                            }
+                            disabled={currentWounds <= 0}
+                            aria-label={`Decrease wounds for ${selected.operative.name}`}
+                          >
+                            −
+                          </button>
+                          <span className="tracker-value small">
+                            {currentWounds}/{selected.operative.stats.wounds}
+                          </span>
+                          <button
+                            className="control-button small"
+                            onClick={() =>
+                              handleWoundsChange('alpha', selected.selectionId, 1)
+                            }
+                            disabled={
+                              currentWounds >= selected.operative.stats.wounds
+                            }
+                            aria-label={`Increase wounds for ${selected.operative.name}`}
+                          >
+                            +
+                          </button>
+                        </div>
                         <button
-                          className="control-button small"
+                          className={`injured-toggle ${isInjured ? 'active' : ''}`}
                           onClick={() =>
-                            handleWoundsChange('alpha', selected.selectionId, 1)
+                            handleInjuredToggle('alpha', selected.selectionId)
                           }
-                          disabled={
-                            currentWounds >= selected.operative.stats.wounds
-                          }
-                          aria-label={`Increase wounds for ${selected.operative.name}`}
+                          title={isInjured ? 'Remove injured status' : 'Mark as injured'}
+                          aria-label={`Toggle injured status for ${selected.operative.name}`}
                         >
-                          +
+                          🩹
                         </button>
                       </div>
                     </div>
@@ -281,43 +376,69 @@ export function GameManagement({
                     selected.selectionId,
                     selected.operative.stats.wounds
                   );
+                  const isInjured = getOperativeInjuredStatus(
+                    'bravo',
+                    selected.selectionId
+                  );
                   return (
                     <div
                       key={selected.selectionId}
-                      className="operative-wound-tracker"
+                      className={`operative-wound-tracker ${isInjured ? 'injured' : ''}`}
                     >
-                      <span className="operative-name">
-                        {selected.operative.name}
-                      </span>
-                      <div className="tracker-control small">
-                        <button
-                          className="control-button small"
-                          onClick={() =>
-                            handleWoundsChange(
-                              'bravo',
-                              selected.selectionId,
-                              -1
-                            )
-                          }
-                          disabled={currentWounds <= 0}
-                          aria-label={`Decrease wounds for ${selected.operative.name}`}
-                        >
-                          −
-                        </button>
-                        <span className="tracker-value small">
-                          {currentWounds}/{selected.operative.stats.wounds}
+                      <div className="operative-info">
+                        <span className="operative-name">
+                          {selected.operative.name}
                         </span>
+                        {isInjured && (
+                          <span 
+                            className="injured-badge" 
+                            title="Injured: Movement -2&quot;, Hit stat +1"
+                          >
+                            🩹 INJURED
+                          </span>
+                        )}
+                      </div>
+                      <div className="wound-controls">
+                        <div className="tracker-control small">
+                          <button
+                            className="control-button small"
+                            onClick={() =>
+                              handleWoundsChange(
+                                'bravo',
+                                selected.selectionId,
+                                -1
+                              )
+                            }
+                            disabled={currentWounds <= 0}
+                            aria-label={`Decrease wounds for ${selected.operative.name}`}
+                          >
+                            −
+                          </button>
+                          <span className="tracker-value small">
+                            {currentWounds}/{selected.operative.stats.wounds}
+                          </span>
+                          <button
+                            className="control-button small"
+                            onClick={() =>
+                              handleWoundsChange('bravo', selected.selectionId, 1)
+                            }
+                            disabled={
+                              currentWounds >= selected.operative.stats.wounds
+                            }
+                            aria-label={`Increase wounds for ${selected.operative.name}`}
+                          >
+                            +
+                          </button>
+                        </div>
                         <button
-                          className="control-button small"
+                          className={`injured-toggle ${isInjured ? 'active' : ''}`}
                           onClick={() =>
-                            handleWoundsChange('bravo', selected.selectionId, 1)
+                            handleInjuredToggle('bravo', selected.selectionId)
                           }
-                          disabled={
-                            currentWounds >= selected.operative.stats.wounds
-                          }
-                          aria-label={`Increase wounds for ${selected.operative.name}`}
+                          title={isInjured ? 'Remove injured status' : 'Mark as injured'}
+                          aria-label={`Toggle injured status for ${selected.operative.name}`}
                         >
-                          +
+                          🩹
                         </button>
                       </div>
                     </div>
