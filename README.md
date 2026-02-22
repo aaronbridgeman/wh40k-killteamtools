@@ -4,22 +4,44 @@ A client-side web application for Warhammer 40K Kill Team gameplay assistance, p
 
 ## 🎯 Features
 
-### Iteration 1 (Current)
+### Current Implementation (All Iterations Complete)
+
+**Iteration 1: Dataslate Viewer** ✅
 - **Faction Selection**: Browse and select from available Kill Team factions
 - **Faction Rules**: View complete faction-specific rules and abilities
 - **Operative Datacards**: Display detailed stats for all operatives (M, APL, GA, DF, SV, W)
 - **Rule Expansion**: Interactive tooltips explaining weapon special rules
 - **Responsive Design**: Mobile-friendly interface with print support
 
-### Future Iterations
-- **Iteration 2**: Custom team building with operative and weapon selection
-- **Iteration 3**: Full game tracking with command points, turning points, and operative states
+**Iteration 2: Team Building** ✅
+- **Custom Team Builder**: Select operatives and build your Kill Team
+- **Weapon Loadout Selection**: Choose weapons for each operative
+- **Equipment Selection**: Add universal and faction-specific equipment
+- **Faction Rules**: Select Chapter Tactics and other faction rules
+- **Team Validation**: Enforce team composition rules and restrictions
+- **Team Persistence**: Automatically save and restore your team
+
+**Iteration 3: Game Tracking** ✅
+- **Game Mode**: Track matches between two teams (Alpha/Bravo)
+- **Turning Point Management**: Track game progression
+- **Command Point Tracking**: Manage CP for both teams
+- **Operative Tracking**: Monitor wounds, injured status, and activations
+- **State Persistence**: Game state saved automatically
+
+### Reference Pages
+- **Actions Reference**: Complete list of game actions with costs
+- **General Rules**: Core game mechanics and rules
+- **Weapon Rules Glossary**: Comprehensive weapon special rules reference
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18.0.0 or higher
 - npm (comes with Node.js)
+
+### Quick Start
+
+For a fast-track developer setup, see [QUICKSTART.md](./QUICKSTART.md).
 
 ### Installation
 
@@ -139,11 +161,19 @@ To prevent branch accumulation:
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please ensure:
-- All tests pass
-- Code follows the style guide (use `npm run lint` and `npm run format`)
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on:
+- Development workflow
+- Code standards and style guide
+- Testing requirements
+- Pull request process
+- How to add new factions
+
+Before contributing, ensure:
+- All tests pass (`npm run validate`)
+- Code follows the style guide
 - TypeScript types are correct
 - New features include tests
+- Documentation is updated
 
 ## ⚖️ Legal Notice
 
@@ -157,8 +187,12 @@ MIT License - see LICENSE file for details
 
 ## 🔗 Links
 
-- [Technical Specification](./SPEC.md)
-- [Branch Cleanup Documentation](./BRANCH_CLEANUP.md)
-- [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md)
+- [Quick Start Guide](./QUICKSTART.md) - 5-minute developer setup and common tasks
+- [Architecture Documentation](./ARCHITECTURE.md) - System architecture, diagrams, and design patterns
+- [Contributing Guide](./CONTRIBUTING.md) - How to contribute to the project
+- [Technical Specification](./SPEC.md) - Detailed technical requirements and roadmap
+- [Branch Cleanup Documentation](./BRANCH_CLEANUP.md) - Repository maintenance guidelines
+- [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md) - Deployment configuration
+- [Version Management](./VERSION_MANAGEMENT.md) - Version control and release process
 - [GitHub Repository](https://github.com/aaronbridgeman/wh40k-killteamtools)
 - [Live Application](https://aaronbridgeman.github.io/wh40k-killteamtools/)

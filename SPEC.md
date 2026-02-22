@@ -2,14 +2,36 @@
 
 ## 1. Overview
 
-The Kill Team Dataslate is a client-side web application designed to assist players with Warhammer 40K Kill Team gameplay and learning. The application will be hosted on GitHub Pages and built incrementally across three major iterations.
+The Kill Team Dataslate is a client-side web application designed to assist players with Warhammer 40K Kill Team gameplay and learning. The application is hosted on GitHub Pages and has been built incrementally across three major iterations.
 
 ### Vision
 Provide a comprehensive digital toolset for Kill Team players to:
-- Access complete faction rules and operative datacards
-- Build and customize Kill Teams
-- Track game state during matches
-- Learn rules through expanded explanations
+- Access complete faction rules and operative datacards ✅
+- Build and customize Kill Teams ✅
+- Track game state during matches ✅
+- Learn rules through expanded explanations ✅
+
+### Implementation Status
+
+**Iteration 1: Basic Dataslate Viewer** - ✅ **COMPLETE**
+- Faction selection and display
+- Operative datacards with full stats
+- Rule expansion and tooltips
+- Responsive design
+
+**Iteration 2: Team Customization** - ✅ **COMPLETE**
+- Team builder with operative selection
+- Weapon loadout customization
+- Equipment selection
+- Faction rules selection
+- Team validation and persistence
+
+**Iteration 3: Game Tracker** - ✅ **COMPLETE**
+- Game mode with two-team tracking
+- Turning point management
+- Command point tracking
+- Operative wound and status tracking
+- Game state persistence
 
 ## 2. Technical Architecture
 
