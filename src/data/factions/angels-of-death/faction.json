@@ -4,21 +4,19 @@
   "description": "Elite Space Marine operatives representing the finest warriors of the Adeptus Astartes",
   "faction_keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "ANGELS OF DEATH"],
   "global_rules": {
-    "bolt_weapon_definition": "Any ranged weapon with 'bolt' in its name",
-    "astartes_multi_action": "Can perform 2 Shoot actions if using bolt weapons (1 AP each; Heavy Bolter and Bolt Sniper Rifle second shot costs additional 1 AP), or 2 Fight actions",
-    "and_they_shall_know_no_fear": "Ignore all stat penalties from being injured"
+    "astartes_multi_action": "Can perform 2 Shoot actions if using bolt weapons (1 AP each; Heavy Bolter and Bolt Sniper Rifle second shot costs additional 1 AP), or 2 Fight actions. Bolt weapon definition: Any ranged weapon with 'bolt' in its name",
   },
   "rules": [
-    {
-      "id": "and-they-shall-know-no-fear",
-      "name": "And They Shall Know No Fear",
-      "description": "Ignore all stat penalties from being injured",
-      "type": "passive"
-    },
     {
       "id": "astartes-multi-action",
       "name": "Astartes Multi-Action",
       "description": "Can perform 2 Shoot actions if using bolt weapons (1 AP each; Heavy Bolter and Bolt Sniper Rifle second shot costs additional 1 AP), or 2 Fight actions",
+      "type": "passive"
+    },
+    {
+      "id": "astartes-counteract",
+      "name": "Astartes Counteract",
+      "description": "Each friendly ANGEL OF DEATH operative can counteract regardless of its order.",
       "type": "passive"
     }
   ],
