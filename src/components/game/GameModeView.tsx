@@ -212,6 +212,8 @@ export function GameModeView() {
           }
           alphaOperatives={gameModeState.alpha.selectedOperatives}
           bravoOperatives={gameModeState.bravo.selectedOperatives}
+          alphaFaction={alphaFaction}
+          bravoFaction={bravoFaction}
           onUpdateGameTracking={handleUpdateGameTracking}
         />
       ) : (

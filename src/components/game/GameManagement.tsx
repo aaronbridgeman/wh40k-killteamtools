@@ -1,12 +1,23 @@
-import { GameTrackingState, OperativeWoundState } from '@/types/game';
+import { GameTrackingState, OperativeWoundState, LimitedItemUsage } from '@/types/game';
 import { SelectedOperative } from '@/types/team';
+import { Faction } from '@/types';
 import { shouldBeInjured } from '@/services/injuredCalculator';
+import {
+  hasLimitedRule,
+  getLimitedValue,
+  createItemKey,
+  getOrInitializeLimitedItem,
+  decrementLimitedItemUse,
+} from '@/services/limitedItemTracker';
+import { LimitedItemTracker } from '@/components/common';
 import './GameManagement.css';
 
 interface GameManagementProps {
   gameTracking: GameTrackingState;
   alphaOperatives: SelectedOperative[];
   bravoOperatives: SelectedOperative[];
+  alphaFaction: Faction | null;
+  bravoFaction: Faction | null;
   onUpdateGameTracking: (gameTracking: GameTrackingState) => void;
 }
 
@@ -14,6 +25,8 @@ export function GameManagement({
   gameTracking,
   alphaOperatives,
   bravoOperatives,
+  alphaFaction,
+  bravoFaction,
   onUpdateGameTracking,
 }: GameManagementProps) {
   const handleTurningPointChange = (delta: number) => {
@@ -167,6 +180,31 @@ export function GameManagement({
       (w) => w.selectionId === selectionId
     );
     return woundState?.injured || false;
+  };
+
+  const handleUseLimitedItem = (team: 'alpha' | 'bravo', itemKey: string) => {
+    const usageKey =
+      team === 'alpha' ? 'alphaLimitedItemUsage' : 'bravoLimitedItemUsage';
+    const newUsage = decrementLimitedItemUse(gameTracking[usageKey], itemKey);
+
+    onUpdateGameTracking({
+      ...gameTracking,
+      [usageKey]: newUsage,
+    });
+  };
+
+  const getLimitedItemUsage = (
+    team: 'alpha' | 'bravo',
+    itemKey: string,
+    maxUses: number
+  ): LimitedItemUsage => {
+    const usageKey =
+      team === 'alpha' ? 'alphaLimitedItemUsage' : 'bravoLimitedItemUsage';
+    return getOrInitializeLimitedItem(
+      gameTracking[usageKey],
+      itemKey,
+      maxUses
+    );
   };
 
   return (
@@ -452,6 +490,198 @@ export function GameManagement({
                           🩹
                         </button>
                       </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Limited Items Tracking */}
+      <section className="tracking-section">
+        <h3>Limited Use Items</h3>
+        <div className="limited-items-grid">
+          {/* Alpha Team */}
+          <div className="team-limited-items">
+            <h4>Kill Team Alpha</h4>
+            {alphaOperatives.length === 0 || !alphaFaction ? (
+              <p className="no-operatives">
+                {!alphaFaction
+                  ? 'No faction selected'
+                  : 'No operatives selected'}
+              </p>
+            ) : (
+              <div className="operative-limited-items-list">
+                {alphaOperatives.map((selected) => {
+                  // Get weapons for this operative
+                  const operativeWeapons = alphaFaction.weapons.filter(
+                    (weapon) =>
+                      selected.selectedWeaponIds?.includes(weapon.id) || false
+                  );
+
+                  // Check if operative has any limited weapons
+                  const limitedWeapons = operativeWeapons.flatMap((weapon) =>
+                    weapon.profiles
+                      .map((profile, profileIndex) => ({
+                        weapon,
+                        profile,
+                        profileIndex,
+                      }))
+                      .filter(({ profile }) => hasLimitedRule(profile))
+                  );
+
+                  if (limitedWeapons.length === 0) {
+                    return null;
+                  }
+
+                  return (
+                    <div
+                      key={selected.selectionId}
+                      className="operative-limited-items"
+                    >
+                      <h5 className="operative-name-limited">
+                        {selected.operative.name}
+                      </h5>
+                      {limitedWeapons.map(
+                        ({ weapon, profile, profileIndex }) => {
+                          const limitedValue = getLimitedValue(profile);
+                          if (limitedValue === null) return null;
+
+                          const itemKey = createItemKey(
+                            selected.selectionId,
+                            weapon.id,
+                            profileIndex
+                          );
+                          const usage = getLimitedItemUsage(
+                            'alpha',
+                            itemKey,
+                            limitedValue
+                          );
+
+                          const displayName = profile.name
+                            ? `${weapon.name} (${profile.name})`
+                            : weapon.name;
+
+                          return (
+                            <LimitedItemTracker
+                              key={itemKey}
+                              name={displayName}
+                              maxUses={usage.maxUses}
+                              usesRemaining={usage.usesRemaining}
+                              onUse={() => handleUseLimitedItem('alpha', itemKey)}
+                            >
+                              <div className="limited-weapon-profile">
+                                <div className="profile-stats-compact">
+                                  <span>A: {profile.attacks}</span>
+                                  {profile.ballisticSkill && (
+                                    <span>BS: {profile.ballisticSkill}+</span>
+                                  )}
+                                  {profile.weaponSkill && (
+                                    <span>WS: {profile.weaponSkill}+</span>
+                                  )}
+                                  <span>D: {profile.damage}</span>
+                                  <span>Crit: {profile.criticalDamage}</span>
+                                </div>
+                              </div>
+                            </LimitedItemTracker>
+                          );
+                        }
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Bravo Team */}
+          <div className="team-limited-items">
+            <h4>Kill Team Bravo</h4>
+            {bravoOperatives.length === 0 || !bravoFaction ? (
+              <p className="no-operatives">
+                {!bravoFaction
+                  ? 'No faction selected'
+                  : 'No operatives selected'}
+              </p>
+            ) : (
+              <div className="operative-limited-items-list">
+                {bravoOperatives.map((selected) => {
+                  // Get weapons for this operative
+                  const operativeWeapons = bravoFaction.weapons.filter(
+                    (weapon) =>
+                      selected.selectedWeaponIds?.includes(weapon.id) || false
+                  );
+
+                  // Check if operative has any limited weapons
+                  const limitedWeapons = operativeWeapons.flatMap((weapon) =>
+                    weapon.profiles
+                      .map((profile, profileIndex) => ({
+                        weapon,
+                        profile,
+                        profileIndex,
+                      }))
+                      .filter(({ profile }) => hasLimitedRule(profile))
+                  );
+
+                  if (limitedWeapons.length === 0) {
+                    return null;
+                  }
+
+                  return (
+                    <div
+                      key={selected.selectionId}
+                      className="operative-limited-items"
+                    >
+                      <h5 className="operative-name-limited">
+                        {selected.operative.name}
+                      </h5>
+                      {limitedWeapons.map(
+                        ({ weapon, profile, profileIndex }) => {
+                          const limitedValue = getLimitedValue(profile);
+                          if (limitedValue === null) return null;
+
+                          const itemKey = createItemKey(
+                            selected.selectionId,
+                            weapon.id,
+                            profileIndex
+                          );
+                          const usage = getLimitedItemUsage(
+                            'bravo',
+                            itemKey,
+                            limitedValue
+                          );
+
+                          const displayName = profile.name
+                            ? `${weapon.name} (${profile.name})`
+                            : weapon.name;
+
+                          return (
+                            <LimitedItemTracker
+                              key={itemKey}
+                              name={displayName}
+                              maxUses={usage.maxUses}
+                              usesRemaining={usage.usesRemaining}
+                              onUse={() => handleUseLimitedItem('bravo', itemKey)}
+                            >
+                              <div className="limited-weapon-profile">
+                                <div className="profile-stats-compact">
+                                  <span>A: {profile.attacks}</span>
+                                  {profile.ballisticSkill && (
+                                    <span>BS: {profile.ballisticSkill}+</span>
+                                  )}
+                                  {profile.weaponSkill && (
+                                    <span>WS: {profile.weaponSkill}+</span>
+                                  )}
+                                  <span>D: {profile.damage}</span>
+                                  <span>Crit: {profile.criticalDamage}</span>
+                                </div>
+                              </div>
+                            </LimitedItemTracker>
+                          );
+                        }
+                      )}
                     </div>
                   );
                 })}

@@ -196,5 +196,7 @@ export function getInitialGameTrackingState(): GameTrackingState {
     bravoCommandPoints: 0,
     alphaOperativeWounds: [],
     bravoOperativeWounds: [],
+    alphaLimitedItemUsage: [],
+    bravoLimitedItemUsage: [],
   };
 }
