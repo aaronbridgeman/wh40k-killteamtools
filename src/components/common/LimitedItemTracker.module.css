@@ -1,0 +1,116 @@
+.limitedItemContainer {
+  border: 1px solid var(--color-border, #444);
+  border-radius: 4px;
+  padding: 8px;
+  margin-top: 8px;
+  background: var(--color-surface, #2a2a2a);
+}
+
+.limitedItemContainer.expended {
+  opacity: 0.6;
+  background: var(--color-surface-disabled, #1a1a1a);
+}
+
+.limitedItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.limitedItemHeader.collapsed {
+  cursor: pointer;
+}
+
+.limitedItemHeader.collapsed:hover {
+  background: var(--color-surface-hover, #333);
+  border-radius: 4px;
+  padding: 4px;
+  margin: -4px;
+}
+
+.limitedItemTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.collapseIcon {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary, #999);
+}
+
+.limitedItemName {
+  font-weight: 600;
+  color: var(--color-text-primary, #fff);
+}
+
+.limitedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-warning, #f59e0b);
+  color: var(--color-warning-text, #000);
+}
+
+.limitedBadge.expended {
+  background: var(--color-error, #ef4444);
+  color: var(--color-error-text, #fff);
+}
+
+.limitedItemControls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.usageDisplay {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #999);
+  font-weight: 500;
+  min-width: 60px;
+  text-align: center;
+}
+
+.useButton {
+  padding: 4px 12px;
+  border: 1px solid var(--color-primary, #3b82f6);
+  background: var(--color-primary, #3b82f6);
+  color: var(--color-primary-text, #fff);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.useButton:hover:not(:disabled) {
+  background: var(--color-primary-hover, #2563eb);
+  border-color: var(--color-primary-hover, #2563eb);
+}
+
+.useButton:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.useButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-surface-disabled, #1a1a1a);
+  border-color: var(--color-border, #444);
+}
+
+.limitedItemContent {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border, #444);
+}
+
+.limitedItemContent.hidden {
+  display: none;
+}

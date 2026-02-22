@@ -47,6 +47,18 @@ export interface OperativeWoundState {
 }
 
 /**
+ * Tracking state for a limited use item (weapon or equipment)
+ */
+export interface LimitedItemUsage {
+  /** Unique identifier for the item (e.g., "selectionId:weaponId:profileIndex" or "selectionId:equipmentId") */
+  itemKey: string;
+  /** Maximum uses allowed */
+  maxUses: number;
+  /** Current uses remaining */
+  usesRemaining: number;
+}
+
+/**
  * Game tracking state for game management
  */
 export interface GameTrackingState {
@@ -62,4 +74,8 @@ export interface GameTrackingState {
   alphaOperativeWounds: OperativeWoundState[];
   /** Wound tracking for Bravo team operatives */
   bravoOperativeWounds: OperativeWoundState[];
+  /** Limited item usage tracking for Alpha team */
+  alphaLimitedItemUsage: LimitedItemUsage[];
+  /** Limited item usage tracking for Bravo team */
+  bravoLimitedItemUsage: LimitedItemUsage[];
 }

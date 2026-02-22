@@ -290,4 +290,63 @@
   .tracker-control {
     justify-content: center;
   }
+
+  .limited-items-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Limited Items Tracking */
+.limited-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.team-limited-items {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.operative-limited-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.operative-limited-items {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.operative-name-limited {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.limited-weapon-profile {
+  padding: 0.5rem 0;
+}
+
+.profile-stats-compact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.profile-stats-compact span {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
 }
