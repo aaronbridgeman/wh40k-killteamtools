@@ -157,8 +157,10 @@ MIT License - see LICENSE file for details
 
 ## 🔗 Links
 
-- [Technical Specification](./SPEC.md)
-- [Branch Cleanup Documentation](./BRANCH_CLEANUP.md)
-- [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md)
+- [Architecture Documentation](./ARCHITECTURE.md) - System architecture, diagrams, and design patterns
+- [Technical Specification](./SPEC.md) - Detailed technical requirements and roadmap
+- [Branch Cleanup Documentation](./BRANCH_CLEANUP.md) - Repository maintenance guidelines
+- [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md) - Deployment configuration
+- [Version Management](./VERSION_MANAGEMENT.md) - Version control and release process
 - [GitHub Repository](https://github.com/aaronbridgeman/wh40k-killteamtools)
 - [Live Application](https://aaronbridgeman.github.io/wh40k-killteamtools/)

@@ -71,7 +71,7 @@ export function GameManagement({
       );
       // Auto-detect injured status based on wounds
       const autoInjured = shouldBeInjured(newWounds, maxWounds);
-      
+
       newWoundStates = [...woundStates];
       newWoundStates[existingIndex] = {
         ...newWoundStates[existingIndex],
@@ -300,9 +300,9 @@ export function GameManagement({
                           {selected.operative.name}
                         </span>
                         {isInjured && (
-                          <span 
-                            className="injured-badge" 
-                            title="Injured: Movement -2&quot;, Hit stat +1"
+                          <span
+                            className="injured-badge"
+                            title='Injured: Movement -2", Hit stat +1'
                           >
                             🩹 INJURED
                           </span>
@@ -330,7 +330,11 @@ export function GameManagement({
                           <button
                             className="control-button small"
                             onClick={() =>
-                              handleWoundsChange('alpha', selected.selectionId, 1)
+                              handleWoundsChange(
+                                'alpha',
+                                selected.selectionId,
+                                1
+                              )
                             }
                             disabled={
                               currentWounds >= selected.operative.stats.wounds
@@ -345,7 +349,11 @@ export function GameManagement({
                           onClick={() =>
                             handleInjuredToggle('alpha', selected.selectionId)
                           }
-                          title={isInjured ? 'Remove injured status' : 'Mark as injured'}
+                          title={
+                            isInjured
+                              ? 'Remove injured status'
+                              : 'Mark as injured'
+                          }
                           aria-label={`Toggle injured status for ${selected.operative.name}`}
                         >
                           🩹
@@ -385,9 +393,9 @@ export function GameManagement({
                           {selected.operative.name}
                         </span>
                         {isInjured && (
-                          <span 
-                            className="injured-badge" 
-                            title="Injured: Movement -2&quot;, Hit stat +1"
+                          <span
+                            className="injured-badge"
+                            title='Injured: Movement -2", Hit stat +1'
                           >
                             🩹 INJURED
                           </span>
@@ -415,7 +423,11 @@ export function GameManagement({
                           <button
                             className="control-button small"
                             onClick={() =>
-                              handleWoundsChange('bravo', selected.selectionId, 1)
+                              handleWoundsChange(
+                                'bravo',
+                                selected.selectionId,
+                                1
+                              )
                             }
                             disabled={
                               currentWounds >= selected.operative.stats.wounds
@@ -430,7 +442,11 @@ export function GameManagement({
                           onClick={() =>
                             handleInjuredToggle('bravo', selected.selectionId)
                           }
-                          title={isInjured ? 'Remove injured status' : 'Mark as injured'}
+                          title={
+                            isInjured
+                              ? 'Remove injured status'
+                              : 'Mark as injured'
+                          }
                           aria-label={`Toggle injured status for ${selected.operative.name}`}
                         >
                           🩹
