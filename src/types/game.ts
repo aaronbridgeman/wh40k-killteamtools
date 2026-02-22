@@ -42,6 +42,8 @@ export interface OperativeWoundState {
   currentWounds: number;
   /** Maximum wounds (from operative profile) */
   maxWounds: number;
+  /** Whether operative is injured (manually toggled or auto-detected) */
+  injured?: boolean;
 }
 
 /**

@@ -10,9 +10,26 @@
     box-shadow 0.2s;
 }
 
+.card.injured {
+  border-color: #ff9800;
+  background-color: rgba(255, 200, 100, 0.05);
+}
+
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.injuredBanner {
+  background-color: rgba(255, 152, 0, 0.15);
+  border: 2px solid #ff9800;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #ff9800;
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .header {
@@ -91,6 +108,17 @@
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.2;
+}
+
+.statValue.modified {
+  color: #ff9800;
+}
+
+.originalValue {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-left: 0.25rem;
+  font-weight: 400;
 }
 
 /* Specific stat type highlighting */
@@ -338,6 +366,18 @@
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.2;
+}
+
+.profileStatValue.modified {
+  color: #ff9800;
+}
+
+.profileStatValue .originalValue {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  display: block;
+  font-weight: 400;
+  margin-top: 0.1rem;
 }
 
 /* Specific weapon stat type highlighting */
