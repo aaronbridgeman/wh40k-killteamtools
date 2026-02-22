@@ -47,16 +47,18 @@ export function EquipmentCard({
 
       {equipment.usageLimit && (
         <div className={styles.usageLimit}>
-          <span className={styles.limitLabel}>Usage:</span> {equipment.usageLimit}
+          <span className={styles.limitLabel}>Usage:</span>{' '}
+          {equipment.usageLimit}
         </div>
       )}
 
-      {equipment.restrictedToKeywords && equipment.restrictedToKeywords.length > 0 && (
-        <div className={styles.keywords}>
-          <span className={styles.keywordLabel}>Requires:</span>{' '}
-          {equipment.restrictedToKeywords.join(', ')}
-        </div>
-      )}
+      {equipment.restrictedToKeywords &&
+        equipment.restrictedToKeywords.length > 0 && (
+          <div className={styles.keywords}>
+            <span className={styles.keywordLabel}>Requires:</span>{' '}
+            {equipment.restrictedToKeywords.join(', ')}
+          </div>
+        )}
 
       {/* Display weapon profile if equipment has attack actions */}
       {equipment.weaponProfile && (
@@ -89,22 +91,23 @@ export function EquipmentCard({
               </span>
             </div>
           </div>
-          {equipment.weaponProfile.specialRules && equipment.weaponProfile.specialRules.length > 0 && (
-            <div className={styles.specialRules}>
-              <span className={styles.rulesLabel}>Special Rules:</span>
-              <ul className={styles.rulesList}>
-                {equipment.weaponProfile.specialRules.map((rule, index) => (
-                  <li key={index} className={styles.ruleItem}>
-                    <strong>
-                      {rule.name}
-                      {rule.value ? ` ${rule.value}` : ''}:
-                    </strong>{' '}
-                    {rule.description}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {equipment.weaponProfile.specialRules &&
+            equipment.weaponProfile.specialRules.length > 0 && (
+              <div className={styles.specialRules}>
+                <span className={styles.rulesLabel}>Special Rules:</span>
+                <ul className={styles.rulesList}>
+                  {equipment.weaponProfile.specialRules.map((rule, index) => (
+                    <li key={index} className={styles.ruleItem}>
+                      <strong>
+                        {rule.name}
+                        {rule.value ? ` ${rule.value}` : ''}:
+                      </strong>{' '}
+                      {rule.description}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
         </div>
       )}
 

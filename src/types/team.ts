@@ -43,7 +43,7 @@ export interface TeamState {
   selectedOperatives: SelectedOperative[];
   /** Faction-specific rule choices */
   ruleChoices: FactionRuleChoices | null;
-  /** Selected equipment */
+  /** Selected equipment (maximum 4 items per kill team rules) */
   selectedEquipment?: Equipment[];
 }
 

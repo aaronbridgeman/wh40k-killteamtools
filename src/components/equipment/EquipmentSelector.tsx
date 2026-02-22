@@ -69,10 +69,7 @@ export function EquipmentSelector({
               Show all equipment
             </label>
             {selectedEquipment.length > 0 && (
-              <button
-                onClick={handleClearAll}
-                className={styles.clearButton}
-              >
+              <button onClick={handleClearAll} className={styles.clearButton}>
                 Clear All
               </button>
             )}
@@ -80,57 +77,76 @@ export function EquipmentSelector({
 
           {selectedEquipment.length >= maxEquipment && (
             <div className={styles.limitWarning}>
-              Maximum equipment limit reached ({maxEquipment}). Deselect equipment to choose different options.
+              Maximum equipment limit reached ({maxEquipment}). Deselect
+              equipment to choose different options.
             </div>
           )}
 
           <div className={styles.equipmentInfo}>
             <p className={styles.infoText}>
-              Generally, a player selects up to {maxEquipment} equipment options in total for their kill team.
-              Universal equipment is available to all factions, while faction-specific equipment
-              requires matching keywords.
+              Generally, a player selects up to {maxEquipment} equipment options
+              in total for their kill team. Universal equipment is available to
+              all factions, while faction-specific equipment requires matching
+              keywords.
             </p>
           </div>
 
           <div className={styles.equipmentSection}>
             <h4 className={styles.categoryTitle}>Universal Equipment</h4>
             <div className={styles.equipmentGrid}>
-              {universalEquipment.filter((eq) => 
-                showAllEquipment || selectedEquipment.some((e) => e.id === eq.id)
-              ).map((equipment) => (
-                <EquipmentCard
-                  key={equipment.id}
-                  equipment={equipment}
-                  isSelected={selectedEquipment.some((e) => e.id === equipment.id)}
-                  onSelect={handleEquipmentSelect}
-                  showSelection={true}
-                />
-              ))}
+              {universalEquipment
+                .filter(
+                  (eq) =>
+                    showAllEquipment ||
+                    selectedEquipment.some((e) => e.id === eq.id)
+                )
+                .map((equipment) => (
+                  <EquipmentCard
+                    key={equipment.id}
+                    equipment={equipment}
+                    isSelected={selectedEquipment.some(
+                      (e) => e.id === equipment.id
+                    )}
+                    onSelect={handleEquipmentSelect}
+                    showSelection={true}
+                  />
+                ))}
             </div>
           </div>
 
           {factionEquipment.length > 0 && (
             <div className={styles.equipmentSection}>
-              <h4 className={styles.categoryTitle}>Faction-Specific Equipment</h4>
+              <h4 className={styles.categoryTitle}>
+                Faction-Specific Equipment
+              </h4>
               <div className={styles.equipmentGrid}>
-                {factionEquipment.filter((eq) => 
-                  showAllEquipment || selectedEquipment.some((e) => e.id === eq.id)
-                ).map((equipment) => (
-                  <EquipmentCard
-                    key={equipment.id}
-                    equipment={equipment}
-                    isSelected={selectedEquipment.some((e) => e.id === equipment.id)}
-                    onSelect={handleEquipmentSelect}
-                    showSelection={true}
-                  />
-                ))}
+                {factionEquipment
+                  .filter(
+                    (eq) =>
+                      showAllEquipment ||
+                      selectedEquipment.some((e) => e.id === eq.id)
+                  )
+                  .map((equipment) => (
+                    <EquipmentCard
+                      key={equipment.id}
+                      equipment={equipment}
+                      isSelected={selectedEquipment.some(
+                        (e) => e.id === equipment.id
+                      )}
+                      onSelect={handleEquipmentSelect}
+                      showSelection={true}
+                    />
+                  ))}
               </div>
             </div>
           )}
 
           {!showAllEquipment && selectedEquipment.length === 0 && (
             <div className={styles.emptyState}>
-              <p>No equipment selected. Check &quot;Show all equipment&quot; to browse available options.</p>
+              <p>
+                No equipment selected. Check &quot;Show all equipment&quot; to
+                browse available options.
+              </p>
             </div>
           )}
         </div>

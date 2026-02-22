@@ -17,7 +17,13 @@ import {
   loadTeamState,
   getInitialTeamState,
 } from './services/teamStorage';
-import { Faction, TeamState, SelectedOperative, Operative, Equipment } from './types';
+import {
+  Faction,
+  TeamState,
+  SelectedOperative,
+  Operative,
+  Equipment,
+} from './types';
 import { getFullVersionInfo } from './version';
 import './App.css';
 
