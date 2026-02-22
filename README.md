@@ -1,8 +1,15 @@
 # Kill Team Dataslate
 
-A client-side web application for Warhammer 40K Kill Team gameplay assistance, providing comprehensive faction rules, operative datacards, and team building tools.
+A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, providing comprehensive faction rules, operative datacards, and team building tools with offline support.
 
 ## 🎯 Features
+
+### Progressive Web App
+- **📱 Installable**: Add to home screen on mobile and desktop devices
+- **🔌 Offline Support**: Full functionality without internet connection after first load
+- **⚡ Fast Loading**: Service worker caching for instant access
+- **🎨 Native Feel**: Standalone display mode with custom theme colors
+- **📲 App Shortcuts**: Quick access to common features from app launcher
 
 ### Current Implementation (All Iterations Complete)
 
@@ -80,7 +87,11 @@ The application will be available at `http://localhost:5173`
 /
 ├── .github/workflows/    # GitHub Actions CI/CD
 ├── public/              # Static assets
-│   └── images/          # Operative images by faction
+│   ├── icons/          # PWA icons (192x192, 512x512)
+│   ├── icon.svg        # Source icon for PWA
+│   └── images/         # Operative images by faction
+├── scripts/             # Build and utility scripts
+│   └── generate-icons.mjs  # PWA icon generation
 ├── src/
 │   ├── components/      # React components
 │   │   ├── common/     # Reusable UI components
@@ -94,6 +105,10 @@ The application will be available at `http://localhost:5173`
 │   ├── types/          # TypeScript definitions
 │   └── App.tsx         # Main application
 ├── tests/              # Unit and integration tests
+├── docs/               # Build output (deployed to GitHub Pages)
+│   ├── manifest.webmanifest  # PWA manifest
+│   ├── sw.js           # Service worker
+│   └── assets/         # Compiled JS/CSS
 └── SPEC.md            # Detailed technical specification
 ```
 
@@ -129,13 +144,29 @@ npm run test:coverage
 
 ## 🚢 Deployment
 
-The application is automatically deployed to GitHub Pages when changes are pushed to the main branch. The deployment workflow:
+The application is automatically deployed to GitHub Pages as a Progressive Web App (PWA) when changes are pushed to the main branch. The deployment workflow:
 
-1. Runs type checking
-2. Runs linting
-3. Runs all tests
-4. Builds the application
-5. Deploys to GitHub Pages
+1. Generates PWA icons from the source SVG
+2. Runs type checking
+3. Runs linting
+4. Runs all tests
+5. Builds the application with PWA assets (manifest, service worker)
+6. Deploys to GitHub Pages at https://aaronbridgeman.github.io/wh40k-killteamtools/
+
+### PWA Features
+
+Once deployed, users can:
+- **Install the app** on mobile devices by tapping "Add to Home Screen"
+- **Install on desktop** browsers via the install prompt or browser menu
+- **Use offline** after the first visit - all data cached for offline access
+- **Receive automatic updates** when new versions are deployed
+- **Access app shortcuts** for quick navigation to common features
+
+The PWA configuration includes:
+- Web manifest with app metadata and icons (192x192, 512x512)
+- Service worker with Workbox for intelligent caching
+- Runtime caching strategies for optimal performance
+- Offline fallback support
 
 ### First-Time Setup
 
