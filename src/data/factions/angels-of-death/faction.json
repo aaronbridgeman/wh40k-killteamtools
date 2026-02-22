@@ -5,6 +5,7 @@
   "faction_keywords": ["IMPERIUM", "ADEPTUS ASTARTES", "ANGELS OF DEATH"],
   "global_rules": {
     "astartes_multi_action": "Can perform 2 Shoot actions if using bolt weapons (1 AP each; Heavy Bolter and Bolt Sniper Rifle second shot costs additional 1 AP), or 2 Fight actions. Bolt weapon definition: Any ranged weapon with 'bolt' in its name",
+    "astartes_counteract": "Each friendly ANGEL OF DEATH operative can counteract regardless of its order"
   },
   "rules": [
     {
