@@ -91,6 +91,7 @@ export function getInitialTeamState(): TeamState {
     factionId: null,
     selectedOperatives: [],
     ruleChoices: null,
+    selectedEquipment: [],
   };
 }
 

@@ -5,12 +5,12 @@
  */
 
 export const VERSION_INFO = {
-  version: '0.1.2',
-  major: 0,
-  minor: 1,
-  commit: 2,
-  gitHash: '98df7cb',
-  buildTimestamp: '2026-02-21T13:35:05.417Z',
+  "version": "0.1.4",
+  "major": 0,
+  "minor": 1,
+  "commit": 4,
+  "gitHash": "3b5483c",
+  "buildTimestamp": "2026-02-22T12:14:33.676Z"
 } as const;
 
 export function getVersionString(): string {
