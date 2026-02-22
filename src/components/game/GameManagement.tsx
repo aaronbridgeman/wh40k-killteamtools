@@ -71,17 +71,12 @@ export function GameManagement({
       );
       // Auto-detect injured status based on wounds
       const autoInjured = shouldBeInjured(newWounds, maxWounds);
-      // Preserve manual override if injured was explicitly set
-      const currentState = woundStates[existingIndex];
-      const injured = currentState.injured !== undefined 
-        ? currentState.injured  // Keep manual toggle if set
-        : autoInjured;           // Otherwise use auto-detection
       
       newWoundStates = [...woundStates];
       newWoundStates[existingIndex] = {
         ...newWoundStates[existingIndex],
         currentWounds: newWounds,
-        injured: autoInjured || injured, // Mark injured if auto-detected OR manually set
+        injured: autoInjured, // Use auto-detection when wounds change
       };
     } else {
       // Create new entry
