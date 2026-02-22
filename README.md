@@ -39,6 +39,10 @@ A client-side web application for Warhammer 40K Kill Team gameplay assistance, p
 - Node.js 18.0.0 or higher
 - npm (comes with Node.js)
 
+### Quick Start
+
+For a fast-track developer setup, see [QUICKSTART.md](./QUICKSTART.md).
+
 ### Installation
 
 ```bash
@@ -183,6 +187,7 @@ MIT License - see LICENSE file for details
 
 ## 🔗 Links
 
+- [Quick Start Guide](./QUICKSTART.md) - 5-minute developer setup and common tasks
 - [Architecture Documentation](./ARCHITECTURE.md) - System architecture, diagrams, and design patterns
 - [Contributing Guide](./CONTRIBUTING.md) - How to contribute to the project
 - [Technical Specification](./SPEC.md) - Detailed technical requirements and roadmap
