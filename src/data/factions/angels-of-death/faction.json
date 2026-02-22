@@ -869,6 +869,63 @@
       ]
     }
   ],
+  "equipment": [
+    {
+      "id": "purity-seals",
+      "name": "Purity Seals",
+      "category": "faction",
+      "description": "Once per turning point, if an operative rolls two or more fails during a combat sequence (shooting, fighting, or retaliating), you can discard one fail to retain another as a normal success instead.",
+      "restrictedToKeywords": ["ANGEL OF DEATH"],
+      "usageLimit": "Once per turning point",
+      "effects": [
+        {
+          "type": "combat_modification",
+          "description": "Discard one fail to retain another as normal success when 2+ fails rolled"
+        }
+      ]
+    },
+    {
+      "id": "chapter-reliquaries",
+      "name": "Chapter Reliquaries",
+      "category": "faction",
+      "description": "Allows you to use the Wrath of Vengeance firefight ploy for 0CP if the specified operative has an Engage order.",
+      "restrictedToKeywords": ["ANGEL OF DEATH"],
+      "effects": [
+        {
+          "type": "ploy_modification",
+          "description": "Wrath of Vengeance costs 0CP if operative has Engage order"
+        }
+      ]
+    },
+    {
+      "id": "tilting-shields",
+      "name": "Tilting Shields",
+      "category": "faction",
+      "description": "Once per turning point, when fighting or retaliating, use this after the opponent rolls attack dice but before re-rolls. The opponent cannot retain results of less than 6 as critical successes (negating rules like Lethal or Rending).",
+      "restrictedToKeywords": ["ANGEL OF DEATH"],
+      "usageLimit": "Once per turning point",
+      "effects": [
+        {
+          "type": "combat_modification",
+          "description": "Opponent cannot retain results <6 as critical successes"
+        }
+      ]
+    },
+    {
+      "id": "auspex",
+      "name": "Auspex",
+      "category": "faction",
+      "description": "Once per turning point, during a Shoot action, select a valid target. Enemy operatives within 8\" of your operative cannot be obscured for that action.",
+      "restrictedToKeywords": ["ANGEL OF DEATH"],
+      "usageLimit": "Once per turning point",
+      "effects": [
+        {
+          "type": "shooting_modification",
+          "description": "Enemies within 8\" cannot be obscured for this Shoot action"
+        }
+      ]
+    }
+  ],
   "restrictions": {
     "maxOperatives": 6,
     "minOperatives": 6,
