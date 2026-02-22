@@ -5,6 +5,7 @@
 import { Operative } from './operative';
 import { Weapon } from './weapon';
 import { Ability, UniqueAction } from './ability';
+import { Equipment } from './equipment';
 
 export interface FactionRule {
   /** Unique identifier */
@@ -111,6 +112,8 @@ export interface Faction {
   unique_actions?: UniqueAction[];
   /** Strategic and firefight ploys */
   ploys?: Ploy[];
+  /** Available equipment */
+  equipment?: Equipment[];
   /** Chapter tactics (for Angels of Death) */
   chapter_tactics?: ChapterTactics;
   /** Team building restrictions */

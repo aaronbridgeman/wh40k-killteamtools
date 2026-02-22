@@ -6,16 +6,24 @@ import { WeaponRulesPage } from './components/rules/WeaponRulesPage';
 import { ActionsPage } from './components/rules/ActionsPage';
 import { GeneralRulesPage } from './components/rules/GeneralRulesPage';
 import { OperativeSelector } from './components/team/OperativeSelector';
+import { EquipmentSelector } from './components/equipment/EquipmentSelector';
 import { SelectedTeamView } from './components/team/SelectedTeamView';
 import { FactionRulesSelector } from './components/team/FactionRulesSelector';
 import { GameModeView } from './components/game/GameModeView';
 import { loadFaction, FactionId } from './services/dataLoader';
+import { loadUniversalEquipment } from './services/equipmentLoader';
 import {
   saveTeamState,
   loadTeamState,
   getInitialTeamState,
 } from './services/teamStorage';
-import { Faction, TeamState, SelectedOperative, Operative } from './types';
+import {
+  Faction,
+  TeamState,
+  SelectedOperative,
+  Operative,
+  Equipment,
+} from './types';
 import { getFullVersionInfo } from './version';
 import './App.css';
 
@@ -44,6 +52,13 @@ function App() {
   const [selectedOperativeFilter, setSelectedOperativeFilter] = useState<
     string | 'all'
   >('all');
+  const [universalEquipment, setUniversalEquipment] = useState<Equipment[]>([]);
+
+  // Load universal equipment on mount
+  useEffect(() => {
+    const equipment = loadUniversalEquipment();
+    setUniversalEquipment(equipment);
+  }, []);
 
   // Load team state from localStorage on mount
   useEffect(() => {
@@ -113,6 +128,14 @@ function App() {
       ...prev,
       selectedOperatives: [],
       ruleChoices: null,
+      selectedEquipment: [],
+    }));
+  };
+
+  const handleEquipmentChange = (equipment: Equipment[]) => {
+    setTeamState((prev) => ({
+      ...prev,
+      selectedEquipment: equipment,
     }));
   };
 
@@ -306,6 +329,13 @@ function App() {
                       onAddOperative={handleAddOperative}
                       onRemoveOperative={handleRemoveOperative}
                       faction={faction}
+                    />
+
+                    <EquipmentSelector
+                      universalEquipment={universalEquipment}
+                      factionEquipment={faction.equipment || []}
+                      selectedEquipment={teamState.selectedEquipment || []}
+                      onEquipmentChange={handleEquipmentChange}
                     />
 
                     <SelectedTeamView

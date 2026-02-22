@@ -3,6 +3,7 @@
  */
 
 import { Operative } from './operative';
+import { Equipment } from './equipment';
 import { GameTrackingState } from './game';
 
 /**
@@ -42,6 +43,8 @@ export interface TeamState {
   selectedOperatives: SelectedOperative[];
   /** Faction-specific rule choices */
   ruleChoices: FactionRuleChoices | null;
+  /** Selected equipment (maximum 4 items per kill team rules) */
+  selectedEquipment?: Equipment[];
 }
 
 /**
