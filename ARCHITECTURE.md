@@ -46,18 +46,18 @@ graph TB
         Data[JSON Data Files]
         Storage[LocalStorage]
     end
-    
+
     subgraph "Static Assets"
         Images[Operative Images]
         Config[Faction Configs]
     end
-    
+
     UI --> Services
     Services --> Data
     Services --> Storage
     UI --> Images
     Data --> Config
-    
+
     style UI fill:#e1f5ff
     style Services fill:#fff3e0
     style Data fill:#f3e5f5
@@ -69,7 +69,7 @@ graph TB
 ```mermaid
 graph TD
     App[App.tsx - Root]
-    
+
     App --> FS[FactionSelector]
     App --> FD[FactionDetails]
     App --> OS[OperativeSelector]
@@ -79,25 +79,25 @@ graph TD
     App --> WRP[WeaponRulesPage]
     App --> AP[ActionsPage]
     App --> GRP[GeneralRulesPage]
-    
+
     OS --> WLS[WeaponLoadoutSelector]
     OS --> ES[EquipmentSelector]
     OS --> FRS[FactionRulesSelector]
     OS --> CTS[ChapterTacticsSelector]
-    
+
     STV --> OC
-    
+
     OC --> RT[RuleTooltip]
     WRP --> RT
-    
+
     FRS --> CTM[ChapterTacticModal]
-    
+
     subgraph "Common Components"
         EB[ErrorBoundary]
     end
-    
+
     App --> EB
-    
+
     style App fill:#ff6b6b
     style OS fill:#4ecdc4
     style STV fill:#45b7d1
@@ -115,21 +115,21 @@ sequenceDiagram
     participant Service as Service Layer
     participant Data as JSON Data
     participant Storage as LocalStorage
-    
+
     User->>UI: Select Faction
     UI->>Service: loadFaction(factionId)
     Service->>Data: Import faction.json
     Data-->>Service: Faction data
     Service-->>UI: Validated Faction
     UI-->>User: Display Faction Details
-    
+
     User->>UI: Add Operative to Team
     UI->>Service: updateTeamState()
     Service->>Storage: saveTeamState()
     Storage-->>Service: Confirmation
     Service-->>UI: Updated State
     UI-->>User: Display Updated Team
-    
+
     User->>UI: Start Game Mode
     UI->>Storage: loadTeamState()
     Storage-->>UI: Saved Team State
@@ -141,24 +141,24 @@ sequenceDiagram
 ```mermaid
 stateDiagram-v2
     [*] --> NoFaction: App Loads
-    
+
     NoFaction --> FactionLoaded: Select Faction
     FactionLoaded --> ViewingInfo: View Faction Info
     FactionLoaded --> BuildingTeam: Build Team
-    
+
     BuildingTeam --> SelectingOperatives: Add Operatives
     SelectingOperatives --> ConfiguringLoadouts: Configure Weapons
     ConfiguringLoadouts --> SelectingEquipment: Add Equipment
     SelectingEquipment --> SelectingRules: Select Faction Rules
     SelectingRules --> TeamComplete: Finalize Team
-    
+
     TeamComplete --> ViewingInfo: View Details
     TeamComplete --> GameMode: Start Game
-    
+
     GameMode --> TrackingGame: Track Operatives
     TrackingGame --> GameComplete: End Game
     GameComplete --> [*]
-    
+
     ViewingInfo --> [*]
 ```
 
@@ -169,7 +169,7 @@ graph LR
     subgraph "UI Layer"
         C1[Components]
     end
-    
+
     subgraph "Service Layer"
         DL[dataLoader]
         EL[equipmentLoader]
@@ -180,18 +180,18 @@ graph LR
         IC[injuredCalculator]
         RDS[rulesDataService]
     end
-    
+
     subgraph "Data Layer"
         FD[Faction Data]
         ED[Equipment Data]
         RD[Rules Data]
         WD[Weapon Data]
     end
-    
+
     subgraph "Storage Layer"
         LS[LocalStorage]
     end
-    
+
     C1 --> DL
     C1 --> EL
     C1 --> RE
@@ -200,15 +200,15 @@ graph LR
     C1 --> WR
     C1 --> IC
     C1 --> RDS
-    
+
     DL --> FD
     EL --> ED
     RE --> RD
     RDS --> RD
     WR --> WD
-    
+
     TS --> LS
-    
+
     style C1 fill:#e1f5ff
     style DL fill:#fff3e0
     style EL fill:#fff3e0
@@ -227,12 +227,14 @@ graph LR
 #### App Component (`App.tsx`)
 
 The root component that manages:
+
 - Global application state
 - View mode navigation (home, game mode, rules pages)
 - Team building workflow
 - Faction selection and loading
 
 **Key Responsibilities:**
+
 - Orchestrates view transitions
 - Manages team state and persistence
 - Loads faction and equipment data
@@ -241,11 +243,13 @@ The root component that manages:
 #### Faction Components
 
 **FactionSelector** (`components/faction/FactionSelector.tsx`)
+
 - Displays available factions
 - Handles faction selection
 - Shows faction metadata
 
 **FactionDetails** (`components/faction/FactionDetails.tsx`)
+
 - Displays comprehensive faction information
 - Shows faction-specific rules
 - Lists available operatives
@@ -254,27 +258,32 @@ The root component that manages:
 #### Team Building Components
 
 **OperativeSelector** (`components/team/OperativeSelector.tsx`)
+
 - Lists available operatives for selected faction
 - Handles operative addition to team
 - Filters operatives by type
 - Integrates weapon and equipment selection
 
 **WeaponLoadoutSelector** (`components/team/WeaponLoadoutSelector.tsx`)
+
 - Shows available weapons for an operative
 - Handles weapon selection
 - Displays weapon profiles and rules
 
 **EquipmentSelector** (`components/equipment/EquipmentSelector.tsx`)
+
 - Lists available equipment
 - Handles equipment assignment to operatives
 - Shows equipment costs and effects
 
 **FactionRulesSelector** (`components/team/FactionRulesSelector.tsx`)
+
 - Allows selection of faction-specific rules
 - Handles Chapter Tactics for Space Marines
 - Manages rule validation
 
 **SelectedTeamView** (`components/team/SelectedTeamView.tsx`)
+
 - Displays current team composition
 - Shows selected operatives with loadouts
 - Allows editing and removal of operatives
@@ -283,6 +292,7 @@ The root component that manages:
 #### Datacard Components
 
 **OperativeCard** (`components/datacard/OperativeCard.tsx`)
+
 - Renders complete operative datacard
 - Shows stats (M, APL, GA, DF, SV, W)
 - Displays weapons with profiles
@@ -293,11 +303,13 @@ The root component that manages:
 #### Game Components
 
 **GameModeView** (`components/game/GameModeView.tsx`)
+
 - Main game tracking interface
 - Manages turning point progression
 - Tracks command points
 
 **GameManagement** (`components/game/GameManagement.tsx`)
+
 - Individual operative tracking
 - Wound management
 - Status effects
@@ -306,21 +318,25 @@ The root component that manages:
 #### Rules Components
 
 **WeaponRulesPage** (`components/rules/WeaponRulesPage.tsx`)
+
 - Comprehensive weapon rules glossary
 - Searchable and filterable
 - Shows expanded rule descriptions
 
 **ActionsPage** (`components/rules/ActionsPage.tsx`)
+
 - Lists all game actions
 - Shows action costs and requirements
 - Provides detailed descriptions
 
 **GeneralRulesPage** (`components/rules/GeneralRulesPage.tsx`)
+
 - General game rules reference
 - Core mechanics explanations
 - Searchable rules database
 
 **RuleTooltip** (`components/rules/RuleTooltip.tsx`)
+
 - Interactive tooltip component
 - Shows expanded rule text on hover/click
 - Used throughout the application
@@ -328,6 +344,7 @@ The root component that manages:
 #### Common Components
 
 **ErrorBoundary** (`components/common/ErrorBoundary.tsx`)
+
 - Catches and handles React errors
 - Provides graceful error UI
 - Prevents full application crashes
@@ -374,6 +391,7 @@ The root component that manages:
 **Purpose**: Load and validate faction data
 
 **Key Functions**:
+
 - `loadFaction(factionId)`: Load specific faction
 - `loadAllFactions()`: Load all available factions
 - `getFactionList()`: Get faction metadata list
@@ -385,6 +403,7 @@ The root component that manages:
 **Purpose**: Load universal equipment data
 
 **Key Functions**:
+
 - `loadUniversalEquipment()`: Load all equipment
 
 **Dependencies**: Equipment JSON files
@@ -394,6 +413,7 @@ The root component that manages:
 **Purpose**: Expand rule abbreviations to full text
 
 **Key Functions**:
+
 - `expandWeaponRule(rule)`: Expand weapon special rule
 - `expandAbility(ability)`: Expand ability text
 
@@ -404,6 +424,7 @@ The root component that manages:
 **Purpose**: Team composition validation and management
 
 **Key Functions**:
+
 - `validateTeam(team)`: Validate team rules
 - `canAddOperative(team, operative)`: Check if operative can be added
 - `getTeamPoints(team)`: Calculate team cost
@@ -415,6 +436,7 @@ The root component that manages:
 **Purpose**: Persist team state to LocalStorage
 
 **Key Functions**:
+
 - `saveTeamState(state)`: Save current team
 - `loadTeamState()`: Load saved team
 - `clearTeamState()`: Clear saved data
@@ -427,6 +449,7 @@ The root component that manages:
 **Purpose**: Resolve weapon profiles and data
 
 **Key Functions**:
+
 - `resolveWeapon(weaponId)`: Get full weapon data
 - `getWeaponOptions(operative)`: Get available weapons
 
@@ -437,6 +460,7 @@ The root component that manages:
 **Purpose**: Calculate operative injured status
 
 **Key Functions**:
+
 - `isInjured(operative, currentWounds)`: Check if injured
 - `getInjuredThreshold(operative)`: Get injured threshold
 
@@ -447,6 +471,7 @@ The root component that manages:
 **Purpose**: Access general rules data
 
 **Key Functions**:
+
 - `getActions()`: Get all actions
 - `getGeneralRules()`: Get general rules
 - `searchRules(query)`: Search rules
@@ -462,6 +487,7 @@ The application uses React's built-in state management with `useState` and `useE
 #### Primary State Objects
 
 **TeamState**:
+
 ```typescript
 interface TeamState {
   factionId: string | null;
@@ -472,6 +498,7 @@ interface TeamState {
 ```
 
 **SelectedOperative**:
+
 ```typescript
 interface SelectedOperative {
   selectionId: string;
@@ -504,34 +531,41 @@ interface SelectedOperative {
 Located in `src/types/`:
 
 #### faction.ts
+
 - `Faction`: Complete faction definition
 - `FactionRule`: Faction-specific rules
 - `TeamRestrictions`: Team building constraints
 
 #### operative.ts
+
 - `Operative`: Operative definition
 - `OperativeStats`: Core stats (M, APL, GA, DF, SV, W)
 - `OperativeType`: Trooper, Leader, etc.
 
 #### weapon.ts
+
 - `Weapon`: Weapon definition
 - `WeaponProfile`: Specific weapon configuration
 - `WeaponRule`: Special rules (Piercing, Lethal, etc.)
 
 #### ability.ts
+
 - `Ability`: Operative ability
 - `AbilityType`: Action, passive, unique
 
 #### equipment.ts
+
 - `Equipment`: Equipment item definition
 - `EquipmentType`: Classification
 
 #### team.ts
+
 - `TeamState`: Application team state
 - `SelectedOperative`: Operative in team
 - `SelectedFactionRule`: Applied faction rule
 
 #### game.ts
+
 - `GameState`: Full game tracking state
 - `TurningPoint`: Game phase tracking
 
@@ -614,6 +648,7 @@ Located in `src/types/`:
 ### 1. Component Composition
 
 Components are composed hierarchically with clear separation of concerns:
+
 - **Container Components**: Manage state and logic (e.g., `App`, `OperativeSelector`)
 - **Presentation Components**: Focus on UI rendering (e.g., `OperativeCard`)
 - **Utility Components**: Provide reusable functionality (e.g., `RuleTooltip`)
@@ -621,6 +656,7 @@ Components are composed hierarchically with clear separation of concerns:
 ### 2. Service Layer Pattern
 
 Business logic is extracted into service modules:
+
 - Pure functions for data transformation
 - Clear interfaces and responsibilities
 - Testable in isolation
@@ -629,6 +665,7 @@ Business logic is extracted into service modules:
 ### 3. Data-Driven Configuration
 
 Game data is stored in JSON files:
+
 - Version-controlled faction data
 - Schema-validated configurations
 - Easy to update without code changes
@@ -637,6 +674,7 @@ Game data is stored in JSON files:
 ### 4. Props Drilling with Callbacks
 
 State management uses props drilling pattern:
+
 - State owned by parent components
 - Passed down via props
 - Modified via callback functions
@@ -645,6 +683,7 @@ State management uses props drilling pattern:
 ### 5. Error Boundaries
 
 React error boundaries catch and handle errors:
+
 - Prevent full app crashes
 - Provide user-friendly error messages
 - Enable graceful degradation
@@ -653,6 +692,7 @@ React error boundaries catch and handle errors:
 ### 6. CSS Modules
 
 Component-scoped styling:
+
 - Prevents style conflicts
 - Co-located with components
 - Type-safe class names
@@ -661,6 +701,7 @@ Component-scoped styling:
 ### 7. Dependency Injection
 
 Services receive dependencies as parameters:
+
 - Easier testing with mocks
 - Flexible and maintainable
 - Explicit dependencies
@@ -677,6 +718,7 @@ Services receive dependencies as parameters:
 ### Test Categories
 
 #### 1. Service Tests
+
 - Data loading and validation
 - Rule expansion logic
 - Team building validation
@@ -685,6 +727,7 @@ Services receive dependencies as parameters:
 - State persistence
 
 #### 2. Component Tests
+
 - Component rendering
 - User interactions
 - Props validation
@@ -692,6 +735,7 @@ Services receive dependencies as parameters:
 - Accessibility
 
 #### 3. Integration Tests
+
 - Faction data loading workflows
 - Team building end-to-end
 - Complete operative selection flow
@@ -755,7 +799,7 @@ graph LR
     C --> D[Bundle Optimization]
     D --> E[Output to /docs]
     E --> F[GitHub Pages]
-    
+
     style A fill:#e1f5ff
     style F fill:#c8e6c9
 ```
@@ -800,6 +844,7 @@ graph LR
 The Kill Team Dataslate architecture emphasizes simplicity, type safety, and maintainability. The modular design with clear separation of concerns enables incremental feature development while maintaining code quality. The comprehensive type system and testing strategy ensure reliability and ease of refactoring.
 
 Key architectural strengths:
+
 - **Simple**: Client-side only, minimal complexity
 - **Type-Safe**: Comprehensive TypeScript coverage
 - **Testable**: High test coverage, isolated services

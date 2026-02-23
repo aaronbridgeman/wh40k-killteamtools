@@ -5,6 +5,7 @@ This document explains how to enable GitHub Pages for this repository to allow a
 ## Problem
 
 The deployment workflow fails with a 404 error:
+
 ```
 Failed to create deployment (status: 404) ... Ensure GitHub Pages has been enabled
 ```
@@ -38,6 +39,7 @@ To fix the deployment failure, GitHub Pages must be enabled with the correct sou
 ### Expected Result
 
 Once configured:
+
 - Pushes to `main` branch will automatically trigger the deployment workflow
 - The workflow will:
   1. Build the application
@@ -49,6 +51,7 @@ Once configured:
 ### Why GitHub Actions Source?
 
 This repository uses the modern GitHub Actions deployment method, which:
+
 - Provides better control over the build process
 - Runs tests before deployment
 - Supports custom build tools (Vite, TypeScript, React)
@@ -78,6 +81,7 @@ If deployment still fails after enabling Pages:
 ### Workflow Configuration
 
 The deployment is configured in `.github/workflows/deploy.yml`:
+
 - **Build Job**: Compiles the application and creates an artifact
 - **Deploy Job**: Uploads the artifact to GitHub Pages
 

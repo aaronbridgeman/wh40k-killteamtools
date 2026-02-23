@@ -119,6 +119,7 @@ describe('doSomething', () => {
 ## 🐛 Debugging Tips
 
 ### Dev Server Issues
+
 ```bash
 # Clear cache and restart
 rm -rf node_modules .vite
@@ -127,12 +128,14 @@ npm run dev
 ```
 
 ### Type Errors
+
 ```bash
 # Check types without building
 npm run type-check
 ```
 
 ### Test Failures
+
 ```bash
 # Run specific test file
 npm run test -- tests/unit/myTest.test.ts
@@ -142,6 +145,7 @@ npm run test:ui
 ```
 
 ### Build Errors
+
 ```bash
 # Clean build
 rm -rf docs
@@ -151,6 +155,7 @@ npm run build
 ## 📚 Code Style Quick Reference
 
 ### TypeScript
+
 ```typescript
 // ✅ Good
 export function loadFaction(id: FactionId): Promise<Faction> {
@@ -164,6 +169,7 @@ export function loadFaction(id) {
 ```
 
 ### React Components
+
 ```typescript
 // ✅ Good - functional, typed, destructured
 interface Props {
@@ -183,6 +189,7 @@ export class Component extends React.Component {
 ```
 
 ### Imports
+
 ```typescript
 // ✅ Good - use path alias
 import { Faction } from '@/types';
@@ -204,17 +211,21 @@ import { loadFaction } from '../services/dataLoader';
 ## 🔍 Understanding the Codebase
 
 ### Data Flow
+
 ```
 User Action → Component → Service → Data/Storage → Component → UI Update
 ```
 
 ### State Management
+
 - App-level state in `App.tsx`
 - Passed down via props
 - LocalStorage for persistence
 
 ### Type System
+
 All types in `src/types/`:
+
 - `Faction` - Faction data
 - `Operative` - Operative stats
 - `Weapon` - Weapon profiles
