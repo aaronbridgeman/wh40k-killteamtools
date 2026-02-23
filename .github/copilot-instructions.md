@@ -31,6 +31,14 @@ npm run format:check # Prettier format validation
 npm run test         # Run Vitest unit tests (must all pass)
 ```
 
+### Documentation Review (Required for all changes)
+After making code changes, **ALWAYS review and update relevant documentation**:
+- Check if README.md needs updates (user-facing features, setup instructions)
+- Update ARCHITECTURE.md if component structure or data flow changes
+- Update SPEC.md if technical specifications or requirements change
+- Update CONTRIBUTING.md if development workflow changes
+- Update inline code comments and JSDoc for modified functions
+
 ### Quick Validation
 ```bash
 npm run validate     # Runs type-check + lint + format:check + test in sequence
@@ -151,7 +159,11 @@ The GitHub Actions workflow (`.github/workflows/deploy.yml`) runs on push to `ma
 3. Add operative images to `public/images/operatives/{faction-id}/`
 4. Update faction registry in data loader
 5. Write unit tests for new faction data
-6. Validate with `npm run validate`
+6. **Update documentation:**
+   - Add faction to "Currently Supported Factions" list in README.md
+   - Update ARCHITECTURE.md if new patterns or structures introduced
+   - Update SPEC.md to reflect implementation status
+7. Validate with `npm run validate`
 
 ### Adding a New Component
 1. Create component in appropriate directory under `src/components/`
@@ -159,6 +171,10 @@ The GitHub Actions workflow (`.github/workflows/deploy.yml`) runs on push to `ma
 3. Create CSS Module if styling needed
 4. Write unit tests in `tests/unit/` or co-located
 5. Export from index file if creating a new directory
+6. **Update documentation:**
+   - Add component to ARCHITECTURE.md component hierarchy if it's a major component
+   - Document component purpose and props with JSDoc comments
+   - Update README.md if component adds user-facing features
 
 ### Fixing Linting Issues
 ```bash
@@ -194,6 +210,14 @@ npm run format        # Format code
 - Mock external dependencies
 - Keep tests focused and readable
 
+### Documentation
+- **Always update documentation alongside code changes**
+- Use JSDoc comments for all public functions and complex logic
+- Keep inline comments minimal and meaningful
+- Update architecture diagrams in ARCHITECTURE.md when structure changes
+- Document breaking changes clearly
+- Update feature status in README.md and SPEC.md when completing features
+
 ## Troubleshooting
 
 ### "Module not found" errors
@@ -222,9 +246,68 @@ npm run format        # Format code
 - **Do not copy** flavor text from rulebooks
 - Keep all disclaimers about unofficial nature
 
+## Documentation Requirements
+
+**ALL code changes must be accompanied by appropriate documentation updates.** This is mandatory, not optional.
+
+### When to Update Documentation
+
+1. **README.md** - Update when:
+   - Adding or removing features
+   - Changing setup/installation procedures
+   - Modifying available scripts or commands
+   - Adding new supported factions
+   - Changing deployment process
+
+2. **ARCHITECTURE.md** - Update when:
+   - Adding or removing major components
+   - Changing component hierarchy or relationships
+   - Modifying data flow patterns
+   - Introducing new services or utilities
+   - Changing state management approach
+   - Adding or modifying architecture diagrams
+
+3. **SPEC.md** - Update when:
+   - Implementing features from the roadmap (mark as ✅ COMPLETE)
+   - Adding new technical requirements
+   - Changing data models or schemas
+   - Modifying API contracts or interfaces
+   - Updating timeline estimates
+
+4. **CONTRIBUTING.md** - Update when:
+   - Changing development workflow
+   - Adding new code standards or guidelines
+   - Modifying testing requirements
+   - Changing PR process or requirements
+
+5. **Code Documentation** - Always update:
+   - JSDoc comments for modified public functions
+   - Inline comments for complex logic changes
+   - Type definitions and interfaces
+   - Component prop documentation
+
+### Documentation Checklist
+
+Before submitting changes, verify:
+- [ ] All modified functions have accurate JSDoc comments
+- [ ] User-facing changes are reflected in README.md
+- [ ] Architectural changes are documented in ARCHITECTURE.md
+- [ ] Feature status is updated in SPEC.md if applicable
+- [ ] Breaking changes are clearly documented
+- [ ] Code examples in documentation still work
+- [ ] Links to documentation are still valid
+
+### Documentation Standards
+
+- **Be Concise**: Clear and direct, avoid unnecessary verbosity
+- **Be Accurate**: Ensure documentation matches actual implementation
+- **Be Complete**: Cover all aspects of the change
+- **Be Consistent**: Follow existing documentation style and format
+- **Be Current**: Documentation must reflect the current state, not future plans
+
 ## Additional Notes
 
-- The project is in **Iteration 1** - basic dataslate viewer functionality
-- See `SPEC.md` for detailed technical specification and future roadmap
+- All three iterations are **COMPLETE**: Dataslate Viewer, Team Building, and Game Tracking
+- See `SPEC.md` for detailed technical specification
 - Currently supports: Angels of Death and Plague Marines factions
-- Future iterations will add team building and game tracking features
+- See `ARCHITECTURE.md` for complete system architecture and design patterns
