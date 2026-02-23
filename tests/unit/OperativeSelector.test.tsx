@@ -139,7 +139,7 @@ describe('OperativeSelector', () => {
     expect(screen.getByText('No operatives selected yet')).toBeInTheDocument();
   });
 
-  it('opens weapon selection modal when add button clicked', () => {
+  it('auto-adds operatives with fixed loadout without modal', () => {
     const onAdd = vi.fn();
     const onRemove = vi.fn();
 
@@ -157,11 +157,11 @@ describe('OperativeSelector', () => {
     const addButtons = screen.getAllByRole('button', { name: /Add/ });
     fireEvent.click(addButtons[0]);
 
-    // Should open the weapon selection modal
-    expect(screen.getByText(/Tactical Marine - Trooper/)).toBeInTheDocument();
+    // Should auto-add the operative since it has a fixed loadout
+    expect(onAdd).toHaveBeenCalledWith(mockOperatives[0], ['weapon-1']);
     
-    // onAdd should not be called yet (modal is open)
-    expect(onAdd).not.toHaveBeenCalled();
+    // Modal should not be shown
+    expect(screen.queryByText(/Tactical Marine - Trooper/)).not.toBeInTheDocument();
   });
 
   it('displays selected operatives', () => {
@@ -271,5 +271,51 @@ describe('OperativeSelector', () => {
 
     const addButtons = screen.getAllByRole('button', { name: /Add/ });
     expect(addButtons[0]).toBeDisabled();
+  });
+
+  it('opens weapon selection modal for operatives with weapon choices', () => {
+    const onAdd = vi.fn();
+    const onRemove = vi.fn();
+
+    // Create an operative with weapon options (not fixed loadout)
+    const operativeWithOptions: Operative = {
+      id: 'op-3',
+      name: 'Heavy Gunner',
+      type: 'Warrior',
+      stats: {
+        movement: 6,
+        actionPointLimit: 2,
+        groupActivation: 1,
+        defense: 3,
+        save: 3,
+        wounds: 18,
+      },
+      weapon_options: {
+        slot_1_heavy: ['Heavy Bolter', 'Missile Launcher'],
+      },
+      abilities: [],
+      keywords: ['WARRIOR'],
+      cost: 1,
+    };
+
+    render(
+      <OperativeSelector
+        operatives={[operativeWithOptions]}
+        weapons={mockWeapons}
+        selectedOperatives={[]}
+        onAddOperative={onAdd}
+        onRemoveOperative={onRemove}
+        faction={mockFaction}
+      />
+    );
+
+    const addButton = screen.getByRole('button', { name: /Add Heavy Gunner/ });
+    fireEvent.click(addButton);
+
+    // Should open the weapon selection modal
+    expect(screen.getByText(/Heavy Gunner - Warrior/)).toBeInTheDocument();
+    
+    // onAdd should not be called yet (modal is open)
+    expect(onAdd).not.toHaveBeenCalled();
   });
 });

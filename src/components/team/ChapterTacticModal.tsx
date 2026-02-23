@@ -104,7 +104,7 @@ export function ChapterTacticModal({
               <button
                 key={tactic.id}
                 className={`${styles.tacticCard} ${isSelected ? styles.selected : ''} ${isDisabled ? styles.disabled : ''}`}
-                onClick={() => !isDisabled && handleSelect(tactic.id)}
+                onClick={() => handleSelect(tactic.id)}
                 disabled={isDisabled}
               >
                 <div className={styles.tacticHeader}>

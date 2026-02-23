@@ -5,6 +5,7 @@
 import { useState } from 'react';
 import { Operative, Weapon, SelectedOperative, Faction } from '@/types';
 import { canAddOperative } from '@/services/teamBuilder';
+import { resolveWeaponLoadout } from '@/services/weaponResolver';
 import { WeaponLoadoutSelector } from './WeaponLoadoutSelector';
 import styles from './OperativeSelector.module.css';
 
@@ -32,7 +33,32 @@ export function OperativeSelector({
   const [isExpanded, setIsExpanded] = useState(true);
 
   const handleAddOperative = (operative: Operative) => {
-    setSelectingOperative(operative);
+    // Check if operative has a fixed loadout (no weapon choices)
+    const loadout = resolveWeaponLoadout(operative);
+    const hasNoWeaponChoices =
+      loadout.slots.length === 0 && !loadout.alternativeLoadouts;
+
+    if (hasNoWeaponChoices) {
+      // Auto-add with fixed weapons
+      // fixedWeapons can be weapon IDs (legacy) or weapon names (new format)
+      const weaponIds = loadout.fixedWeapons
+        .map((weaponIdOrName) => {
+          // First check if it's a weapon ID
+          const weaponById = weapons.find((w) => w.id === weaponIdOrName);
+          if (weaponById) {
+            return weaponById.id;
+          }
+          // Otherwise try to find by name
+          const weaponByName = weapons.find((w) => w.name === weaponIdOrName);
+          return weaponByName?.id;
+        })
+        .filter((id): id is string => id !== undefined);
+
+      onAddOperative(operative, weaponIds);
+    } else {
+      // Show weapon selection modal
+      setSelectingOperative(operative);
+    }
   };
 
   const getAddButtonState = (
