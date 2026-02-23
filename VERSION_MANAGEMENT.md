@@ -15,6 +15,7 @@ The version is automatically generated during the build process by `scripts/gene
 ### Build Process
 
 When you run `npm run build`, the following happens:
+
 1. `generate-version.js` script runs first
 2. Reads major version from `package.json`
 3. Reads minor version from `version.json`
@@ -26,6 +27,7 @@ When you run `npm run build`, the following happens:
 ### Version Display
 
 The version is displayed in the footer of the application using:
+
 ```typescript
 import { getFullVersionInfo } from './version';
 
@@ -46,6 +48,7 @@ const versionString = getFullVersionInfo();
 ### Increment Minor Version (New Features)
 
 Run the increment script:
+
 ```bash
 npm run version:increment-minor
 ```
@@ -62,6 +65,7 @@ This updates `version.json` and increments the minor version number.
 ## Example Workflow
 
 ### For a New Feature
+
 ```bash
 npm run version:increment-minor
 git add version.json
@@ -70,6 +74,7 @@ npm run build
 ```
 
 ### For a Bug Fix
+
 ```bash
 # Just commit - commit number will auto-increment
 git commit -m "fix: resolve issue"
@@ -77,6 +82,7 @@ npm run build
 ```
 
 ### For a Breaking Change
+
 ```bash
 # Update package.json version from 0.1.0 to 1.0.0
 npm run build
@@ -85,6 +91,7 @@ npm run build
 ## CI/CD Integration
 
 The GitHub Actions workflow automatically runs `npm run build`, which:
+
 1. Generates the version file
 2. Builds the application with the correct version
 3. Deploys to GitHub Pages

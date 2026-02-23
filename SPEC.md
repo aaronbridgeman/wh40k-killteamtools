@@ -5,7 +5,9 @@
 The Kill Team Dataslate is a client-side web application designed to assist players with Warhammer 40K Kill Team gameplay and learning. The application is hosted on GitHub Pages and has been built incrementally across three major iterations.
 
 ### Vision
+
 Provide a comprehensive digital toolset for Kill Team players to:
+
 - Access complete faction rules and operative datacards ✅
 - Build and customize Kill Teams ✅
 - Track game state during matches ✅
@@ -14,12 +16,14 @@ Provide a comprehensive digital toolset for Kill Team players to:
 ### Implementation Status
 
 **Iteration 1: Basic Dataslate Viewer** - ✅ **COMPLETE**
+
 - Faction selection and display
 - Operative datacards with full stats
 - Rule expansion and tooltips
 - Responsive design
 
 **Iteration 2: Team Customization** - ✅ **COMPLETE**
+
 - Team builder with operative selection
 - Weapon loadout customization
 - Equipment selection
@@ -27,6 +31,7 @@ Provide a comprehensive digital toolset for Kill Team players to:
 - Team validation and persistence
 
 **Iteration 3: Game Tracker** - ✅ **COMPLETE**
+
 - Game mode with two-team tracking
 - Turning point management
 - Command point tracking
@@ -38,31 +43,37 @@ Provide a comprehensive digital toolset for Kill Team players to:
 ### 2.1 Technology Stack
 
 **Frontend Framework**: React 18+ with TypeScript
+
 - Modern, component-based architecture
 - Strong typing for data models
 - Excellent ecosystem and community support
 
 **Build Tool**: Vite
+
 - Fast development server with HMR
 - Optimized production builds
 - Native ESM support
 
 **Testing**: Vitest + React Testing Library
+
 - Fast unit and integration tests
 - Component testing support
 - Compatible with Vite
 
 **Styling**: CSS Modules + Modern CSS
+
 - Scoped styling to prevent conflicts
 - CSS custom properties for theming
 - Responsive design with mobile-first approach
 
 **Data Format**: JSON/YAML
+
 - Human-readable configuration files
 - Schema validation with JSON Schema
 - Version-controlled faction data
 
 **Deployment**: GitHub Pages
+
 - Static site hosting
 - Automatic deployment via GitHub Actions
 - Custom domain support
@@ -128,87 +139,92 @@ Provide a comprehensive digital toolset for Kill Team players to:
 ### 3.1 Core Types
 
 #### Faction
+
 ```typescript
 interface Faction {
-  id: string;                    // Unique identifier (e.g., "angels-of-death")
-  name: string;                  // Display name
-  description: string;           // Faction description
-  rules: FactionRule[];          // Faction-specific rules
-  operatives: Operative[];       // Available operatives
+  id: string; // Unique identifier (e.g., "angels-of-death")
+  name: string; // Display name
+  description: string; // Faction description
+  rules: FactionRule[]; // Faction-specific rules
+  operatives: Operative[]; // Available operatives
   restrictions: TeamRestrictions; // Team building restrictions
   metadata: {
-    version: string;             // Data version
-    source: string;              // Source rulebook
-    lastUpdated: string;         // ISO date
+    version: string; // Data version
+    source: string; // Source rulebook
+    lastUpdated: string; // ISO date
   };
 }
 ```
 
 #### Operative
+
 ```typescript
 interface Operative {
-  id: string;                    // Unique identifier
-  name: string;                  // Operative name
-  type: string;                  // e.g., "Trooper", "Leader"
-  stats: OperativeStats;         // Core stats
-  weapons: Weapon[];             // Available weapons
-  abilities: Ability[];          // Special abilities
-  keywords: string[];            // Operative keywords
-  cost: number;                  // Points or fire team slots
-  image?: string;                // Path to operative image
+  id: string; // Unique identifier
+  name: string; // Operative name
+  type: string; // e.g., "Trooper", "Leader"
+  stats: OperativeStats; // Core stats
+  weapons: Weapon[]; // Available weapons
+  abilities: Ability[]; // Special abilities
+  keywords: string[]; // Operative keywords
+  cost: number; // Points or fire team slots
+  image?: string; // Path to operative image
 }
 
 interface OperativeStats {
-  movement: number;              // M (inches)
-  actionPointLimit: number;      // APL
-  groupActivation: number;       // GA
-  defense: number;               // DF (dice)
-  save: number;                  // SV (target number)
-  wounds: number;                // W
+  movement: number; // M (inches)
+  actionPointLimit: number; // APL
+  groupActivation: number; // GA
+  defense: number; // DF (dice)
+  save: number; // SV (target number)
+  wounds: number; // W
 }
 ```
 
 #### Weapon
+
 ```typescript
 interface Weapon {
   id: string;
   name: string;
   type: 'ranged' | 'melee';
-  profiles: WeaponProfile[];     // Multiple profiles (e.g., different modes)
+  profiles: WeaponProfile[]; // Multiple profiles (e.g., different modes)
 }
 
 interface WeaponProfile {
-  name?: string;                 // Profile name (if multiple)
-  attacks: number;               // A (dice)
-  ballisticSkill?: number;       // BS (for ranged, target number)
-  weaponSkill?: number;          // WS (for melee, target number)
-  damage: number | string;       // Normal damage
+  name?: string; // Profile name (if multiple)
+  attacks: number; // A (dice)
+  ballisticSkill?: number; // BS (for ranged, target number)
+  weaponSkill?: number; // WS (for melee, target number)
+  damage: number | string; // Normal damage
   criticalDamage: number | string; // Critical damage
-  specialRules: WeaponRule[];    // e.g., Piercing 1, Lethal 5
+  specialRules: WeaponRule[]; // e.g., Piercing 1, Lethal 5
 }
 
 interface WeaponRule {
-  name: string;                  // Rule name
-  value?: number | string;       // Rule parameter
-  description: string;           // Full rule text
+  name: string; // Rule name
+  value?: number | string; // Rule parameter
+  description: string; // Full rule text
 }
 ```
 
 #### Ability
+
 ```typescript
 interface Ability {
   id: string;
   name: string;
   type: 'action' | 'passive' | 'unique';
-  cost?: string;                 // AP cost (e.g., "1AP", "2AP")
-  description: string;           // Full ability text
-  restrictions?: string[];       // Usage restrictions
+  cost?: string; // AP cost (e.g., "1AP", "2AP")
+  description: string; // Full ability text
+  restrictions?: string[]; // Usage restrictions
 }
 ```
 
 ### 3.2 Configuration Schema
 
 JSON Schema will validate all configuration files to ensure:
+
 - Required fields are present
 - Data types are correct
 - Values are within valid ranges
@@ -370,22 +386,26 @@ JSON Schema will validate all configuration files to ensure:
 ### 6.1 Testing Strategy
 
 **Unit Tests**
+
 - All utility functions
 - Data validation logic
 - Rule expansion logic
 - State management
 
 **Component Tests**
+
 - React component rendering
 - User interactions
 - Accessibility
 
 **Integration Tests**
+
 - Complete user flows
 - Data loading and display
 - Team building workflow
 
 **E2E Tests** (Future)
+
 - Full application workflows
 - Multi-page interactions
 
@@ -484,21 +504,26 @@ npm run preview     # Preview production build
 
 ## 10. Future Enhancements
 
+**Note**: For a comprehensive analysis of missing features and detailed implementation plan, see [MISSING_FEATURES_PLAN.md](./MISSING_FEATURES_PLAN.md).
+
 ### 10.1 Potential Features
 
+- **Strategic & Tactical Ploys**: Faction-specific ploys costing CP (Priority 1)
+- **Mission & Scenario Framework**: Complete mission system with objectives and VP (Priority 1)
+- **Tac Ops**: Secondary objectives for additional VP (Priority 1)
+- **Advanced Terrain Rules**: Vantage, Traverse, Heavy cover mechanics (Priority 2)
+- **Spec Ops Campaign**: Persistent rosters, XP, battle honours (Priority 3)
+- **Digital Dice Roller**: Integrated dice rolling
+- **Printable Datacards**: Customized PDF exports
 - **Community Content**: User-submitted teams and strategies
 - **Analytics**: Track game statistics and win rates
-- **Army List Builder**: Expand to full army management
-- **Digital Dice Roller**: Integrated dice rolling
-- **Mission Generator**: Random mission selection
-- **Printable Datacards**: Customized PDF exports
 - **Mobile App**: Native iOS/Android versions
 - **Multiplayer**: Real-time game state sharing
 - **Tournament Mode**: Bracket management and scoring
 
 ### 10.2 Technology Evolution
 
-- Progressive Web App (PWA) capabilities
+- Progressive Web App (PWA) capabilities ✅ **COMPLETE**
 - WebAssembly for performance-critical code
 - GraphQL for future backend integration
 - Real-time sync with WebSockets or WebRTC
@@ -506,13 +531,15 @@ npm run preview     # Preview production build
 ## 11. Initial Factions
 
 ### 11.1 Angels of Death
+
 - Space Marine operatives
 - Chapter-specific rules and abilities
 - Diverse weapon options
 - Elite unit mechanics
 
 ### 11.2 Plague Marines
-- Death Guard operatives  
+
+- Death Guard operatives
 - Resilience and disease mechanics
 - Unique weapons and abilities
 - Contagion rules
@@ -553,16 +580,19 @@ npm run preview     # Preview production build
 ## 14. Timeline Estimate
 
 **Iteration 1**: 2-3 weeks
+
 - Week 1: Setup, architecture, data model
 - Week 2: Core components, data loading
 - Week 3: Polish, testing, deployment
 
 **Iteration 2**: 2-3 weeks
+
 - Week 1: Team builder UI and logic
 - Week 2: Validation and customization
 - Week 3: Testing and refinement
 
 **Iteration 3**: 3-4 weeks
+
 - Week 1-2: Game state management
 - Week 3: Tracking UI and features
 - Week 4: Testing and polish

@@ -5,6 +5,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 ## 🎯 Features
 
 ### Progressive Web App
+
 - **📱 Installable**: Add to home screen on mobile and desktop devices
 - **🔌 Offline Support**: Full functionality without internet connection after first load
 - **⚡ Fast Loading**: Service worker caching for instant access
@@ -14,6 +15,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 ### Current Implementation (All Iterations Complete)
 
 **Iteration 1: Dataslate Viewer** ✅
+
 - **Faction Selection**: Browse and select from available Kill Team factions
 - **Faction Rules**: View complete faction-specific rules and abilities
 - **Operative Datacards**: Display detailed stats for all operatives (M, APL, GA, DF, SV, W)
@@ -21,6 +23,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Responsive Design**: Mobile-friendly interface with print support
 
 **Iteration 2: Team Building** ✅
+
 - **Custom Team Builder**: Select operatives and build your Kill Team
 - **Weapon Loadout Selection**: Choose weapons for each operative
 - **Equipment Selection**: Add universal and faction-specific equipment
@@ -29,6 +32,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Team Persistence**: Automatically save and restore your team
 
 **Iteration 3: Game Tracking** ✅
+
 - **Game Mode**: Track matches between two teams (Alpha/Bravo)
 - **Turning Point Management**: Track game progression
 - **Command Point Tracking**: Manage CP for both teams
@@ -36,6 +40,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **State Persistence**: Game state saved automatically
 
 ### Reference Pages
+
 - **Actions Reference**: Complete list of game actions with costs
 - **General Rules**: Core game mechanics and rules
 - **Weapon Rules Glossary**: Comprehensive weapon special rules reference
@@ -43,6 +48,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18.0.0 or higher
 - npm (comes with Node.js)
 
@@ -122,6 +128,7 @@ More factions will be added in future updates!
 ## 📚 Adding New Factions
 
 See [SPEC.md](./SPEC.md) for detailed instructions on adding new factions, including:
+
 - Creating faction configuration files
 - Adding operative data
 - Extracting images from PDFs
@@ -156,6 +163,7 @@ The application is automatically deployed to GitHub Pages as a Progressive Web A
 ### PWA Features
 
 Once deployed, users can:
+
 - **Install the app** on mobile devices by tapping "Add to Home Screen"
 - **Install on desktop** browsers via the install prompt or browser menu
 - **Use offline** after the first visit - all data cached for offline access
@@ -163,6 +171,7 @@ Once deployed, users can:
 - **Access app shortcuts** for quick navigation to common features
 
 The PWA configuration includes:
+
 - Web manifest with app metadata and icons (192x192, 512x512)
 - Service worker with Workbox for intelligent caching
 - Runtime caching strategies for optimal performance
@@ -173,6 +182,7 @@ The PWA configuration includes:
 If you're setting up this repository for the first time or if deployments are failing with a 404 error, GitHub Pages needs to be enabled in the repository settings. See [GITHUB_PAGES_SETUP.md](./GITHUB_PAGES_SETUP.md) for detailed setup instructions.
 
 **Quick Setup:**
+
 1. Go to [Repository Settings → Pages](https://github.com/aaronbridgeman/wh40k-killteamtools/settings/pages)
 2. Set **Source** to `GitHub Actions`
 3. Save and push to `main` branch
@@ -182,17 +192,20 @@ If you're setting up this repository for the first time or if deployments are fa
 ### Branch Cleanup
 
 The repository includes automated tools for cleaning up merged branches:
+
 - **Automated workflow**: Runs weekly to delete merged branches (see `.github/workflows/cleanup-branches.yml`)
 - **Manual script**: Run `./scripts/cleanup-branches.sh` to clean up branches on-demand
 - See [BRANCH_CLEANUP.md](./BRANCH_CLEANUP.md) for detailed documentation
 
 To prevent branch accumulation:
+
 1. Enable "Automatically delete head branches" in repository settings
 2. Or manually trigger the cleanup workflow from the Actions tab
 
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on:
+
 - Development workflow
 - Code standards and style guide
 - Testing requirements
@@ -200,6 +213,7 @@ We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md)
 - How to add new factions
 
 Before contributing, ensure:
+
 - All tests pass (`npm run validate`)
 - Code follows the style guide
 - TypeScript types are correct
@@ -222,6 +236,7 @@ MIT License - see LICENSE file for details
 - [Architecture Documentation](./ARCHITECTURE.md) - System architecture, diagrams, and design patterns
 - [Contributing Guide](./CONTRIBUTING.md) - How to contribute to the project
 - [Technical Specification](./SPEC.md) - Detailed technical requirements and roadmap
+- [Missing Features Plan](./MISSING_FEATURES_PLAN.md) - Comprehensive plan for missing Kill Team features
 - [Branch Cleanup Documentation](./BRANCH_CLEANUP.md) - Repository maintenance guidelines
 - [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md) - Deployment configuration
 - [Version Management](./VERSION_MANAGEMENT.md) - Version control and release process

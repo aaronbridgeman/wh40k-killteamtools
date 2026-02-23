@@ -35,17 +35,20 @@ This project follows a code of conduct that we expect all contributors to adhere
 
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/wh40k-killteamtools.git
    cd wh40k-killteamtools
    ```
 
 3. **Add upstream remote**:
+
    ```bash
    git remote add upstream https://github.com/aaronbridgeman/wh40k-killteamtools.git
    ```
 
 4. **Install dependencies**:
+
    ```bash
    npm ci
    ```
@@ -68,6 +71,7 @@ git checkout -b fix/issue-description
 ```
 
 Branch naming conventions:
+
 - `feature/` - New features
 - `fix/` - Bug fixes
 - `docs/` - Documentation changes
@@ -90,6 +94,7 @@ npm run validate
 ```
 
 This runs:
+
 - Type checking (`npm run type-check`)
 - Linting (`npm run lint`)
 - Formatting checks (`npm run format:check`)
@@ -106,6 +111,7 @@ git commit -m "fix: resolve weapon tooltip display issue"
 ```
 
 Commit message format:
+
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `docs:` - Documentation changes
@@ -141,6 +147,7 @@ Then create a Pull Request on GitHub.
 - **No Implicit Any**: All parameters and variables should be typed
 
 Example:
+
 ```typescript
 // Good
 function calculateCost(operatives: Operative[]): number {
@@ -161,6 +168,7 @@ function calculateCost(operatives) {
 - **CSS Modules**: Use CSS Modules for component styling
 
 Example:
+
 ```typescript
 interface MyComponentProps {
   title: string;
@@ -218,22 +226,26 @@ Configuration is in `.eslintrc.cjs`.
 ### Test Types
 
 **Unit Tests**
+
 - Test individual functions and services
 - Use Vitest
 - Mock external dependencies
 
 **Component Tests**
+
 - Test React component rendering
 - Test user interactions
 - Use React Testing Library
 
 **Integration Tests**
+
 - Test complete workflows
 - Test data loading and processing
 
 ### Writing Tests
 
 Example unit test:
+
 ```typescript
 import { describe, it, expect } from 'vitest';
 import { calculateTeamCost } from './teamBuilder';
@@ -244,13 +256,14 @@ describe('calculateTeamCost', () => {
       { id: '1', cost: 10 },
       { id: '2', cost: 15 },
     ];
-    
+
     expect(calculateTeamCost(operatives)).toBe(25);
   });
 });
 ```
 
 Example component test:
+
 ```typescript
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
@@ -286,9 +299,11 @@ npm run test:coverage    # Generate coverage report
 
 ```markdown
 ## Description
+
 Brief description of what this PR does
 
 ## Type of Change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Documentation update
@@ -296,11 +311,13 @@ Brief description of what this PR does
 - [ ] Performance improvement
 
 ## Testing
+
 - [ ] All tests pass
 - [ ] New tests added
 - [ ] Manual testing completed
 
 ## Checklist
+
 - [ ] Code follows style guidelines
 - [ ] Self-review completed
 - [ ] Documentation updated
@@ -319,6 +336,7 @@ Brief description of what this PR does
 See [SPEC.md](./SPEC.md#92-adding-new-factions) for detailed instructions.
 
 Quick checklist:
+
 1. Create faction directory in `src/data/factions/{faction-id}/`
 2. Create `faction.json` with complete faction data
 3. Add operative images to `public/images/operatives/{faction-id}/`
@@ -339,10 +357,11 @@ Quick checklist:
 ### JSDoc Guidelines
 
 Example:
+
 ```typescript
 /**
  * Load faction data by ID
- * 
+ *
  * @param factionId - The unique identifier for the faction
  * @returns Promise resolving to the faction data
  * @throws Error if faction cannot be loaded
@@ -355,6 +374,7 @@ export async function loadFaction(factionId: FactionId): Promise<Faction> {
 ### Updating Documentation
 
 When you change functionality:
+
 1. Update relevant markdown files
 2. Update JSDoc comments
 3. Update type definitions if needed
@@ -374,6 +394,7 @@ All contributions must maintain WCAG 2.1 AA compliance:
 ## Performance
 
 Consider performance implications:
+
 - Avoid unnecessary re-renders
 - Use memoization for expensive calculations
 - Lazy load when appropriate
@@ -382,6 +403,7 @@ Consider performance implications:
 ## Questions?
 
 If you have questions:
+
 - Check existing documentation
 - Review closed PRs for similar changes
 - Open a discussion on GitHub
