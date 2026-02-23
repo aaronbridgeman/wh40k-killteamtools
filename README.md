@@ -232,13 +232,25 @@ MIT License - see LICENSE file for details
 
 ## 🔗 Links
 
+### Planning & Roadmap
+
+- [Feature Roadmap](./FEATURE_ROADMAP.md) - Visual roadmap and quick reference for future features
+- [Missing Features Plan](./MISSING_FEATURES_PLAN.md) - Comprehensive implementation plan for missing Kill Team features
+- [Technical Specification](./SPEC.md) - Detailed technical requirements and roadmap
+
+### Development Documentation
+
 - [Quick Start Guide](./QUICKSTART.md) - 5-minute developer setup and common tasks
 - [Architecture Documentation](./ARCHITECTURE.md) - System architecture, diagrams, and design patterns
 - [Contributing Guide](./CONTRIBUTING.md) - How to contribute to the project
-- [Technical Specification](./SPEC.md) - Detailed technical requirements and roadmap
-- [Missing Features Plan](./MISSING_FEATURES_PLAN.md) - Comprehensive plan for missing Kill Team features
+
+### Operations & Deployment
+
 - [Branch Cleanup Documentation](./BRANCH_CLEANUP.md) - Repository maintenance guidelines
 - [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md) - Deployment configuration
 - [Version Management](./VERSION_MANAGEMENT.md) - Version control and release process
+
+### External Links
+
 - [GitHub Repository](https://github.com/aaronbridgeman/wh40k-killteamtools)
 - [Live Application](https://aaronbridgeman.github.io/wh40k-killteamtools/)
