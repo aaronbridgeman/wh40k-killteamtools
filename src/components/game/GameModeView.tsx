@@ -285,6 +285,14 @@ export function GameModeView() {
                 </>
               ) : (
                 <>
+                  <FactionRulesSelector
+                    faction={currentFaction}
+                    ruleChoices={currentTeamState.ruleChoices}
+                    onRuleChoiceChange={(category, ruleId) =>
+                      handleRuleChoiceChange(category, ruleId, activeTeam)
+                    }
+                  />
+
                   <OperativeSelector
                     operatives={currentFaction.operatives}
                     weapons={currentFaction.weapons}
@@ -302,14 +310,6 @@ export function GameModeView() {
                     selectedOperatives={currentTeamState.selectedOperatives}
                     faction={currentFaction}
                     onClearTeam={() => handleClearTeam(activeTeam)}
-                  />
-
-                  <FactionRulesSelector
-                    faction={currentFaction}
-                    ruleChoices={currentTeamState.ruleChoices}
-                    onRuleChoiceChange={(category, ruleId) =>
-                      handleRuleChoiceChange(category, ruleId, activeTeam)
-                    }
                   />
                 </>
               )}
