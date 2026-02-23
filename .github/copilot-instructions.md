@@ -5,6 +5,7 @@
 This is a **client-side web application** for Warhammer 40K Kill Team gameplay assistance. It's a React + TypeScript + Vite project that provides faction rules, operative datacards, and team building tools. The app is deployed to GitHub Pages at https://aaronbridgeman.github.io/wh40k-killteamtools/.
 
 **Key Information:**
+
 - **Language:** TypeScript (strict mode enabled)
 - **Framework:** React 18+ with hooks
 - **Build Tool:** Vite 5
@@ -18,12 +19,14 @@ This is a **client-side web application** for Warhammer 40K Kill Team gameplay a
 **ALWAYS run these commands in this exact order when making code changes:**
 
 ### Development
+
 ```bash
 npm install          # Install dependencies - run this first on fresh clone
 npm run dev         # Start dev server at http://localhost:5173 with HMR
 ```
 
 ### Validation (Run ALL before committing)
+
 ```bash
 npm run type-check   # TypeScript type checking (must pass, no errors allowed)
 npm run lint         # ESLint checks (must pass with 0 warnings)
@@ -32,7 +35,9 @@ npm run test         # Run Vitest unit tests (must all pass)
 ```
 
 ### Documentation Review (Required for all changes)
+
 After making code changes, **ALWAYS review and update relevant documentation**:
+
 - Check if README.md needs updates (user-facing features, setup instructions)
 - Update ARCHITECTURE.md if component structure or data flow changes
 - Update SPEC.md if technical specifications or requirements change
@@ -40,23 +45,27 @@ After making code changes, **ALWAYS review and update relevant documentation**:
 - Update inline code comments and JSDoc for modified functions
 
 ### Quick Validation
+
 ```bash
 npm run validate     # Runs type-check + lint + format:check + test in sequence
 ```
 
 ### Fixing Issues
+
 ```bash
 npm run lint:fix     # Auto-fix ESLint issues
 npm run format       # Auto-format code with Prettier
 ```
 
 ### Building
+
 ```bash
 npm run build        # Production build - outputs to /docs directory
 npm run preview      # Preview production build locally
 ```
 
 ### Testing Options
+
 ```bash
 npm run test         # Run tests once
 npm run test:ui      # Run tests with Vitest UI
@@ -114,24 +123,28 @@ npm run test:coverage # Generate coverage report (target: 80%+)
 ## Key Architecture Patterns
 
 ### Type System
+
 - **Strict TypeScript** - all code must be fully typed, no `any` unless absolutely necessary
 - **Interfaces over types** - use `interface` for object shapes
 - **Export types** from `src/types/` barrel exports
 - Path alias `@/` maps to `src/` - use it: `import { Faction } from '@/types'`
 
 ### React Patterns
+
 - **Functional components only** with hooks
 - **Props interfaces** should be defined inline or in the same file
 - **CSS Modules** for styling - import as `import styles from './Component.module.css'`
 - **No inline styles** unless absolutely necessary
 
 ### Data Management
+
 - Faction data is stored in `src/data/factions/{faction-id}/`
 - Each faction has a `faction.json` with metadata and operative configs
 - Images stored in `public/images/operatives/{faction-id}/`
 - Data is loaded via `dataLoader.ts` service
 
 ### Testing
+
 - **Vitest** for unit tests with jsdom environment
 - **React Testing Library** for component tests
 - Tests should be in `tests/unit/` or co-located with source
@@ -154,6 +167,7 @@ The GitHub Actions workflow (`.github/workflows/deploy.yml`) runs on push to `ma
 ## Common Tasks
 
 ### Adding a New Faction
+
 1. Create directory: `src/data/factions/{faction-id}/`
 2. Create `faction.json` with faction metadata and operative data
 3. Add operative images to `public/images/operatives/{faction-id}/`
@@ -166,6 +180,7 @@ The GitHub Actions workflow (`.github/workflows/deploy.yml`) runs on push to `ma
 7. Validate with `npm run validate`
 
 ### Adding a New Component
+
 1. Create component in appropriate directory under `src/components/`
 2. Use TypeScript with proper prop types
 3. Create CSS Module if styling needed
@@ -177,6 +192,7 @@ The GitHub Actions workflow (`.github/workflows/deploy.yml`) runs on push to `ma
    - Update README.md if component adds user-facing features
 
 ### Fixing Linting Issues
+
 ```bash
 npm run lint          # See all issues
 npm run lint:fix      # Auto-fix what's possible
@@ -184,6 +200,7 @@ npm run format        # Format code
 ```
 
 ### Debugging Build Issues
+
 - Check TypeScript errors: `npm run type-check`
 - Check for console errors in dev mode: `npm run dev`
 - Check production build: `npm run build && npm run preview`
@@ -192,6 +209,7 @@ npm run format        # Format code
 ## Code Style Guidelines
 
 ### TypeScript
+
 - Use `const` over `let`, avoid `var`
 - Prefer arrow functions
 - Use optional chaining `?.` and nullish coalescing `??`
@@ -199,18 +217,21 @@ npm run format        # Format code
 - Use template literals over string concatenation
 
 ### React
+
 - Functional components with explicit return types
 - Props destructured in function signature
 - Use semantic HTML elements
 - Proper WCAG 2.1 AA accessibility (aria labels, semantic markup)
 
 ### Testing
+
 - Test user behavior, not implementation details
 - Use `screen.getByRole()` over `getByTestId()`
 - Mock external dependencies
 - Keep tests focused and readable
 
 ### Documentation
+
 - **Always update documentation alongside code changes**
 - Use JSDoc comments for all public functions and complex logic
 - Keep inline comments minimal and meaningful
@@ -221,19 +242,23 @@ npm run format        # Format code
 ## Troubleshooting
 
 ### "Module not found" errors
+
 - Check path alias configuration in `vite.config.ts`, `vitest.config.ts`, and `tsconfig.json`
 - Ensure you're using `@/` for src imports
 
 ### Build fails but dev works
+
 - Run `npm run type-check` to catch TypeScript errors
 - Check for console.logs or debug code left in
 
 ### Tests fail in CI but pass locally
+
 - Ensure you committed all files
 - Check Node version (should be 18+)
 - Run `npm ci` instead of `npm install` locally to match CI
 
 ### GitHub Pages 404
+
 - Verify Pages is enabled in repo settings (Source: GitHub Actions)
 - Check base path is correct in `vite.config.ts`
 - Ensure `/docs` directory is committed
@@ -289,6 +314,7 @@ npm run format        # Format code
 ### Documentation Checklist
 
 Before submitting changes, verify:
+
 - [ ] All modified functions have accurate JSDoc comments
 - [ ] User-facing changes are reflected in README.md
 - [ ] Architectural changes are documented in ARCHITECTURE.md
