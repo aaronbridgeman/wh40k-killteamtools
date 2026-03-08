@@ -1,0 +1,39 @@
+/**
+ * GamePanel CSS — per-game content layout.
+ */
+
+.game-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-md) 0;
+}
+
+.game-panel-title {
+  margin: 0 0 var(--spacing-xs);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Section card — consistent container for each sub-section */
+.panel-section {
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 12px;
+  padding: var(--spacing-lg);
+}
+
+.panel-section-title {
+  margin: 0 0 var(--spacing-md);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--nurgle-border);
+  padding-bottom: var(--spacing-sm);
+}

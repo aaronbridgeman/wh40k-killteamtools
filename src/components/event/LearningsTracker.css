@@ -1,0 +1,53 @@
+/**
+ * LearningsTracker CSS — free-text notes at the bottom of the view.
+ */
+
+.learnings-tracker {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 12px;
+}
+
+.learnings-title {
+  margin: 0 0 var(--spacing-sm);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.learnings-subtitle {
+  font-size: 0.8rem;
+  color: var(--nurgle-text-muted);
+  margin: 0 0 var(--spacing-md);
+  font-style: italic;
+}
+
+.learnings-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 6px;
+  color: var(--nurgle-text);
+  font-size: 0.9rem;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.learnings-textarea:focus {
+  outline: none;
+  border-color: var(--nurgle-accent);
+}
+
+.learnings-textarea::placeholder {
+  color: var(--nurgle-text-muted);
+  opacity: 0.6;
+}

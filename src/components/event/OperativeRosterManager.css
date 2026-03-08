@@ -1,0 +1,104 @@
+/**
+ * OperativeRosterManager CSS
+ */
+
+.roster-manager {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.roster-intro {
+  font-size: 0.875rem;
+  color: var(--nurgle-text-muted);
+  margin: 0 0 var(--spacing-sm);
+  line-height: 1.5;
+}
+
+/* Each operative slot: card + toggle button */
+.operative-slot {
+  border: 1px solid var(--nurgle-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.operative-slot.removed {
+  border-color: var(--nurgle-danger);
+  opacity: 0.65;
+}
+
+.operative-slot-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border-top: 1px solid var(--nurgle-border);
+}
+
+/* Remove / Restore toggle button */
+.roster-toggle-button {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.roster-toggle-button.remove {
+  background-color: transparent;
+  border: 1px solid var(--nurgle-border);
+  color: var(--nurgle-text-muted);
+}
+
+.roster-toggle-button.remove:hover {
+  border-color: var(--nurgle-danger);
+  color: var(--nurgle-danger);
+}
+
+.roster-toggle-button.restore {
+  background-color: var(--nurgle-danger);
+  border: 1px solid var(--nurgle-danger);
+  color: #fff;
+}
+
+.roster-toggle-button.restore:hover {
+  background-color: #a82828;
+}
+
+/* Leader badge — cannot remove */
+.leader-badge {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 0.8rem;
+  color: var(--nurgle-gold);
+  font-style: italic;
+}
+
+/* Removed overlay label */
+.removed-label {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--nurgle-danger);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-right: var(--spacing-sm);
+}
+
+/* Roster summary line */
+.roster-summary {
+  font-size: 0.875rem;
+  color: var(--nurgle-text-muted);
+  padding: var(--spacing-sm) 0;
+  border-top: 1px solid var(--nurgle-border);
+  margin-top: var(--spacing-sm);
+}
+
+.roster-summary strong {
+  color: var(--nurgle-accent);
+}

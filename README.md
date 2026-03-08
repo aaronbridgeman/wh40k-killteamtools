@@ -39,6 +39,19 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Operative Tracking**: Monitor wounds, injured status, and activations
 - **State Persistence**: Game state saved automatically
 
+**Quick Play Event** ☠️ *(Plague Marines — Tournament Companion)*
+
+- **3-Game Event Tracker**: Purpose-built for Plague Marines quick play tournaments
+- **"Remove One" Roster Mechanic**: Display all 7 operatives; remove exactly one non-leader per game
+- **Bombardier Grenade Augmentation**: When Blight Grenades are equipped, the Bombardier's card shows the grenade weapon with +1 Hit stat (4+ → 3+) per the Grenadier ability
+- **Strategic Ploy Selection**: Choose one strategic ploy per turning point; displayed prominently throughout
+- **Firefight Ploy Tracking**: All 4 firefight ploys shown with CP affordability highlighting and used-ploy markers
+- **Command Point Tracker**: Per-game CP with +/− controls
+- **Blight Grenade Usage**: Track remaining uses (max 2 per game; Bombardier exempt)
+- **Learnings & Notes**: Shared free-text field at the bottom for recording observations
+- **Nurgle Green Theme**: Immersive green palette; sacred numbers 3 and 7 featured throughout
+- **Offline Persistence**: All state saved automatically to localStorage
+
 ### Reference Pages
 
 - **Actions Reference**: Complete list of game actions with costs

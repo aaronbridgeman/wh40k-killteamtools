@@ -1,0 +1,266 @@
+/**
+ * TurningPointPloys CSS — turning point selector, strategic ploy display,
+ * and firefight ploy cards.
+ */
+
+.tp-ploys {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Turning point selector bar */
+.tp-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.tp-button {
+  width: 42px;
+  height: 42px;
+  background-color: var(--nurgle-primary);
+  border: none;
+  border-radius: 50%;
+  color: var(--nurgle-text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tp-button:hover:not(:disabled) {
+  background-color: var(--nurgle-accent);
+}
+
+.tp-button:disabled {
+  background-color: var(--nurgle-disabled);
+  color: var(--nurgle-text-muted);
+  cursor: not-allowed;
+}
+
+.tp-display {
+  text-align: center;
+  min-width: 140px;
+}
+
+.tp-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--nurgle-gold);
+}
+
+.tp-of {
+  font-size: 0.875rem;
+  color: var(--nurgle-text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+/* Start game prompt */
+.tp-start-prompt {
+  text-align: center;
+  color: var(--nurgle-text-muted);
+  font-style: italic;
+  padding: var(--spacing-md);
+  border: 1px dashed var(--nurgle-border);
+  border-radius: 8px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Strategic ploy selection                                            */
+/* ------------------------------------------------------------------ */
+.strategic-ploys-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--spacing-sm);
+}
+
+.strategic-ploy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-sm);
+}
+
+@media (max-width: 480px) {
+  .strategic-ploy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.strategic-ploy-card {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 2px solid var(--nurgle-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  text-align: left;
+}
+
+.strategic-ploy-card:hover {
+  border-color: var(--nurgle-primary);
+}
+
+.strategic-ploy-card.selected {
+  border-color: var(--nurgle-accent);
+  background-color: rgba(74, 124, 63, 0.2);
+  box-shadow: 0 0 8px var(--nurgle-accent-glow);
+}
+
+.ploy-card-name {
+  font-weight: 700;
+  color: var(--nurgle-text);
+  margin: 0 0 var(--spacing-xs);
+  font-size: 0.9rem;
+}
+
+.strategic-ploy-card.selected .ploy-card-name {
+  color: var(--nurgle-accent);
+}
+
+.ploy-card-cost {
+  font-size: 0.75rem;
+  color: var(--nurgle-gold);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.ploy-card-desc {
+  font-size: 0.8rem;
+  color: var(--nurgle-text-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Active strategic ploy banner */
+.active-ploy-banner {
+  padding: var(--spacing-md);
+  background: linear-gradient(
+    135deg,
+    rgba(74, 124, 63, 0.3),
+    rgba(36, 61, 33, 0.6)
+  );
+  border: 2px solid var(--nurgle-accent);
+  border-radius: 10px;
+  box-shadow: 0 0 12px var(--nurgle-accent-glow);
+}
+
+.active-ploy-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.active-ploy-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--nurgle-text);
+  margin: 0 0 var(--spacing-xs);
+}
+
+.active-ploy-desc {
+  font-size: 0.875rem;
+  color: var(--nurgle-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------------ */
+/* Firefight ploys                                                      */
+/* ------------------------------------------------------------------ */
+.firefight-ploys-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--spacing-sm);
+}
+
+.firefight-ploy-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.firefight-ploy-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.firefight-ploy-card.affordable {
+  border-color: var(--nurgle-primary);
+}
+
+.firefight-ploy-card.used {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.firefight-ploy-card.unaffordable {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ff-ploy-info {
+  flex: 1;
+}
+
+.ff-ploy-name {
+  font-weight: 700;
+  color: var(--nurgle-text);
+  font-size: 0.9rem;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.firefight-ploy-card.affordable .ff-ploy-name {
+  color: var(--nurgle-accent);
+}
+
+.ff-ploy-cost {
+  font-size: 0.75rem;
+  color: var(--nurgle-gold);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.ff-ploy-desc {
+  font-size: 0.8rem;
+  color: var(--nurgle-text-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.ff-used-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--nurgle-text-muted);
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 4px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  white-space: nowrap;
+  align-self: center;
+}

@@ -79,6 +79,18 @@ graph TD
     App --> WRP[WeaponRulesPage]
     App --> AP[ActionsPage]
     App --> GRP[GeneralRulesPage]
+    App --> QPE[QuickPlayEventView]
+
+    QPE --> ES2[EventSetup]
+    QPE --> GP[GamePanel]
+    QPE --> LT[LearningsTracker]
+
+    GP --> ORM[OperativeRosterManager]
+    GP --> EET[EventEquipmentTracker]
+    GP --> TPP[TurningPointPloys]
+
+    ORM --> OC2[OperativeCard]
+    TPP --> CPT[CPTracker]
 
     OS --> WLS[WeaponLoadoutSelector]
     OS --> ES[EquipmentSelector]
@@ -349,6 +361,60 @@ The root component that manages:
 - Provides graceful error UI
 - Prevents full application crashes
 
+**LimitedItemTracker** (`components/common/LimitedItemTracker.tsx`)
+
+- Tracks and displays limited-use items (weapons, grenades, equipment)
+- Reused by both `GameManagement` and `EventEquipmentTracker`
+
+#### Quick Play Event Components (`components/event/`)
+
+**QuickPlayEventView** (`components/event/QuickPlayEventView.tsx`)
+
+- Root container for the Quick Play Event feature
+- Loads Plague Marines faction data via `dataLoader`
+- Manages `QuickPlayEventState` and persists via `eventStorage`
+- Applies Nurgle green CSS theme (scoped to `.quick-play-event`)
+
+**EventSetup** (`components/event/EventSetup.tsx`)
+
+- First-run setup form (event name)
+- Calls `onSetupComplete` to transition to main event view
+
+**GamePanel** (`components/event/GamePanel.tsx`)
+
+- Per-game content wrapper for one of the 3 event games
+- Composes `OperativeRosterManager`, `EventEquipmentTracker`, `TurningPointPloys`
+
+**OperativeRosterManager** (`components/event/OperativeRosterManager.tsx`)
+
+- Displays all 7 Plague Marines operatives using `OperativeCard`
+- Allows removing exactly one non-leader operative per game
+- When Blight Grenades are selected, injects a modified grenade `Weapon`
+  into the Bombardier's `OperativeCard` (Hit stat improved by 1: 4+ → 3+)
+
+**EventEquipmentTracker** (`components/event/EventEquipmentTracker.tsx`)
+
+- Renders faction equipment items from loaded `faction.json`
+- Tracks Blight Grenade uses (max 2 per game; Bombardier exempt)
+- Notifies parent when selections or usage change
+
+**TurningPointPloys** (`components/event/TurningPointPloys.tsx`)
+
+- Turning point navigation (1–4)
+- Strategic ploy selector: one ploy chosen per turning point, displayed as banner
+- All 4 firefight ploys shown with CP affordability indicators and used-ploy markers
+- Composes `CPTracker`
+
+**CPTracker** (`components/event/CPTracker.tsx`)
+
+- Simple CP counter with +/− buttons
+- Clamps to `GAME_DEFAULTS.MIN_COMMAND_POINTS` / `MAX_COMMAND_POINTS` from `constants.ts`
+
+**LearningsTracker** (`components/event/LearningsTracker.tsx`)
+
+- Free-text `<textarea>` at the bottom of the view
+- Shared across all 3 games; content stored in `QuickPlayEventState.learnings`
+
 ## Data Flow
 
 ### Faction Loading Flow
@@ -383,6 +449,21 @@ The root component that manages:
 6. `injuredCalculator` determines injured status
 7. State persists to LocalStorage
 8. UI updates reactively
+
+### Quick Play Event Flow
+
+1. User taps "☠️ Quick Play" in navigation
+2. `QuickPlayEventView` mounts and calls `loadFaction('plague-marines')` via `dataLoader`
+3. Saved `QuickPlayEventState` is restored from `localStorage` via `eventStorage`
+4. If `setupComplete=false`, `EventSetup` is shown (event name entry)
+5. After setup, game tabs (Game 1 / 2 / 3) and `GamePanel` are rendered
+6. For each game, `OperativeRosterManager` renders all 7 `OperativeCard` components
+7. When Blight Grenades are selected in `EventEquipmentTracker`:
+   - A synthetic `Weapon` object is built with `ballisticSkill` improved by 1 (4+ → 3+)
+   - Bombardier's `OperativeCard` receives augmented weapons list showing the modified grenade
+8. `TurningPointPloys` renders CP tracker, strategic ploy selector, and firefight ploys
+9. Every state change triggers `saveEventState()` persisting to `localStorage`
+10. `LearningsTracker` at the bottom captures free-text notes across all games
 
 ## Service Layer
 
@@ -477,6 +558,26 @@ The root component that manages:
 - `searchRules(query)`: Search rules
 
 **Dependencies**: Rules JSON files
+
+### eventStorage (`services/eventStorage.ts`)
+
+**Purpose**: Persist Quick Play Event state to `localStorage`
+
+**Key Functions**:
+
+- `getInitialEventState()`: Create empty event state with 3 games
+- `getInitialGameState(n)`: Create empty game state for game n (1–3)
+- `saveEventState(state)`: Serialise to `localStorage`
+- `loadEventState()`: Deserialise from `localStorage` with validation
+- `clearEventState()`: Remove from `localStorage`
+- `getTurningPointState(game, tp)`: Get or initialise TP state
+- `updateTurningPointState(game, tp, state)`: Immutable TP state update
+- `advanceTurningPoint(game)`: Increment TP, initialise fresh TP state
+- `signInWithGoogle()` *(stub)*: Google Drive OAuth — not yet implemented
+- `saveEventStateToGoogleDrive(state)` *(stub)*: Drive save — not yet implemented
+- `loadEventStateFromGoogleDrive()` *(stub)*: Drive load — not yet implemented
+
+**Dependencies**: `localStorage`, `constants.ts`
 
 ## State Management
 
