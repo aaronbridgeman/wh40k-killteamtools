@@ -32,6 +32,7 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
     const buttonRect = buttonRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
     // Try to position above the button
     let top = buttonRect.top - tooltipRect.height - 8;
@@ -40,6 +41,11 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
     // If tooltip goes off top, position below
     if (top < 8) {
       top = buttonRect.bottom + 8;
+    }
+
+    // If tooltip goes off bottom, clamp
+    if (top + tooltipRect.height > viewportHeight - 8) {
+      top = viewportHeight - tooltipRect.height - 8;
     }
 
     // If tooltip goes off right, align to right edge
@@ -52,12 +58,7 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
       left = 8;
     }
 
-    // On mobile, use fixed bottom positioning
-    if (viewportWidth <= 768) {
-      setTooltipPosition(null); // Use CSS positioning
-    } else {
-      setTooltipPosition({ top, left });
-    }
+    setTooltipPosition({ top, left });
   }, []);
 
   // Position on mount and when shown
@@ -110,21 +111,19 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // On touch devices, onMouseEnter fires just before onClick and sets
-    // isMouseHoveringRef=true + showTooltip=true. If we allowed the normal
-    // toggle here the tooltip would immediately hide again. Instead, when the
-    // tooltip is already visible due to a hover-simulation we leave it open;
-    // the click-outside handler (added in the effect above) handles dismissal.
-    if (isMouseHoveringRef.current) return;
+    // Always toggle on click — works for both mouse click and touch tap
     setShowTooltip((prev) => !prev);
   };
 
-  const handleMouseEnter = () => {
+  const handlePointerEnter = (e: React.PointerEvent) => {
+    // Only use hover behaviour for real mouse (not touch/pen simulated events)
+    if (e.pointerType !== 'mouse') return;
     isMouseHoveringRef.current = true;
     setShowTooltip(true);
   };
 
-  const handleMouseLeave = () => {
+  const handlePointerLeave = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
     isMouseHoveringRef.current = false;
     setShowTooltip(false);
   };
@@ -138,8 +137,8 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
         aria-describedby={showTooltip ? tooltipId : undefined}
         aria-expanded={showTooltip}
         onClick={handleClick}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
         onFocus={() => setShowTooltip(true)}
         onBlur={(e) => {
           // Only hide if focus is leaving the container

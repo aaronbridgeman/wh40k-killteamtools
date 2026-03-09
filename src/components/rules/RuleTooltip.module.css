@@ -105,15 +105,8 @@
 
 @media (max-width: 768px) {
   .tooltip {
-    position: fixed;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    transform: none;
-    min-width: auto;
-  }
-
-  .tooltip::after {
-    display: none;
+    min-width: 200px;
+    max-width: calc(100vw - 16px);
+    font-size: 0.85rem;
   }
 }

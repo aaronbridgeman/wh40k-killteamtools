@@ -305,6 +305,30 @@
   background-color: rgba(139, 32, 32, 0.12);
 }
 
+.play-equip-use-btn {
+  padding: 2px var(--spacing-sm);
+  background-color: var(--nurgle-primary);
+  border: none;
+  border-radius: 4px;
+  color: var(--nurgle-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.play-equip-use-btn:hover:not(:disabled) {
+  background-color: var(--nurgle-accent);
+}
+
+.play-equip-use-btn:disabled {
+  background-color: var(--nurgle-disabled);
+  color: var(--nurgle-text-muted);
+  cursor: not-allowed;
+}
+
 .play-equip-desc {
   font-size: 0.78rem;
   color: var(--nurgle-text-muted);
@@ -561,8 +585,10 @@
     max-width: none;
   }
 
-  /* Score section: tighter gap */
+  /* Score section: stack vertically on mobile */
   .play-score-grid {
+    flex-direction: column;
+    align-items: center;
     gap: var(--spacing-sm);
   }
 
@@ -571,8 +597,144 @@
     font-size: 1.25rem;
   }
 
+  .play-score-result {
+    font-size: 1.1rem;
+    min-width: auto;
+    padding: var(--spacing-xs);
+  }
+
   /* Operatives section: less padding */
   .play-operatives-section {
     padding: var(--spacing-sm);
+  }
+}
+
+/* ── Floating sidebar navigation ────────────────────────────────── */
+.play-sidebar {
+  position: fixed;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+}
+
+.sidebar-toggle {
+  width: 36px;
+  height: 36px;
+  background-color: var(--nurgle-primary);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 50%;
+  color: var(--nurgle-text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+}
+
+.sidebar-toggle:hover {
+  background-color: var(--nurgle-accent);
+}
+
+.sidebar-links {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-xs);
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 130px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  color: var(--nurgle-text-muted);
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.sidebar-link:hover {
+  background-color: var(--nurgle-surface-raised);
+  color: var(--nurgle-text);
+}
+
+.sidebar-link-label {
+  font-size: 0.78rem;
+}
+
+/* ── Section collapse toggle ────────────────────────────────────── */
+.play-section-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0 0 var(--spacing-sm);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  border-bottom: 1px solid var(--nurgle-border);
+  margin-bottom: var(--spacing-sm);
+}
+
+.play-section-toggle:hover .play-faction-rules-title,
+.play-section-toggle:hover .play-score-title {
+  color: var(--nurgle-text);
+}
+
+.play-section-chevron {
+  font-size: 0.7rem;
+  color: var(--nurgle-text-muted);
+  flex-shrink: 0;
+  margin-left: var(--spacing-sm);
+}
+
+.play-score-inline-result {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--nurgle-text-muted);
+}
+
+/* Adjust faction rules title when used in a button (toggle) */
+.play-section-toggle .play-faction-rules-title {
+  margin: 0;
+}
+
+/* Adjust score title in toggle */
+.play-section-toggle .play-score-title {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .play-sidebar {
+    right: 0.5rem;
+    top: auto;
+    bottom: 4.5rem;
+    transform: none;
+  }
+
+  .sidebar-links {
+    min-width: 110px;
   }
 }
