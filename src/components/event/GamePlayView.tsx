@@ -149,6 +149,24 @@ export function GamePlayView({
         </div>
       </div>
 
+      {/* ── 1b. Faction rules ─────────────────────────────────────────── */}
+      {faction.rules.length > 0 && (
+        <div className="play-faction-rules" role="region" aria-label="Faction rules">
+          <p className="play-faction-rules-title">⚜️ Faction Rules</p>
+          <div className="play-faction-rules-list">
+            {faction.rules.map((rule) => (
+              <div key={rule.id} className="play-faction-rule">
+                <p className="play-faction-rule-name">
+                  {rule.name}
+                  <span className="play-faction-rule-type">({rule.type})</span>
+                </p>
+                <p className="play-faction-rule-desc">{rule.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* ── 2–4. TP nav, CP, strategic & firefight ploys ──────────────── */}
       <TurningPointPloys
         game={game}
@@ -168,15 +186,20 @@ export function GamePlayView({
                 item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID;
               return (
                 <li key={item.id} className="play-equip-item">
-                  <span className="play-equip-name">{item.name}</span>
-                  {isGrenades && (
-                    <span
-                      className={`play-equip-uses ${game.blightGrenadeUsesRemaining === 0 ? 'expended' : ''}`}
-                      aria-label={`${game.blightGrenadeUsesRemaining} of ${QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES} uses remaining`}
-                    >
-                      {game.blightGrenadeUsesRemaining}/
-                      {QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES}
-                    </span>
+                  <div className="play-equip-title-row">
+                    <span className="play-equip-name">{item.name}</span>
+                    {isGrenades && (
+                      <span
+                        className={`play-equip-uses ${game.blightGrenadeUsesRemaining === 0 ? 'expended' : ''}`}
+                        aria-label={`${game.blightGrenadeUsesRemaining} of ${QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES} uses remaining`}
+                      >
+                        {game.blightGrenadeUsesRemaining}/
+                        {QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES}
+                      </span>
+                    )}
+                  </div>
+                  {item.description && (
+                    <p className="play-equip-desc">{item.description}</p>
                   )}
                 </li>
               );

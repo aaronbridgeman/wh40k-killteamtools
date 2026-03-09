@@ -133,9 +133,9 @@ describe('eventStorage', () => {
   });
 
   describe('getInitialTurningPointState', () => {
-    it('returns no selected strategic ploy', () => {
+    it('returns no selected strategic ploys', () => {
       const tp = getInitialTurningPointState();
-      expect(tp.selectedStrategicPloyId).toBeNull();
+      expect(tp.selectedStrategicPloyIds).toEqual([]);
     });
 
     it('returns empty firefightPloyCounts', () => {
@@ -196,7 +196,7 @@ describe('eventStorage', () => {
   });
 
   describe('loadEventState (migration from v1/v2)', () => {
-    it('migrates v1 save: adds incapacitatedOperativeIds, converts usedFirefightPloyIds, adds v3 fields', () => {
+    it('migrates v1 save: adds incapacitatedOperativeIds, converts usedFirefightPloyIds, adds v3 fields, migrates selectedStrategicPloyId to selectedStrategicPloyIds', () => {
       const oldState = {
         version: 1,
         eventName: 'Old Event',
@@ -221,6 +221,9 @@ describe('eventStorage', () => {
 
       // usedFirefightPloyIds converted to firefightPloyCounts
       expect(loaded.games[0].turningPoints[1].firefightPloyCounts).toEqual({ 'virulent-poison': 1 });
+
+      // selectedStrategicPloyId migrated to selectedStrategicPloyIds array
+      expect(loaded.games[0].turningPoints[1].selectedStrategicPloyIds).toEqual(['contagion']);
 
       // v3 fields added with defaults
       expect(loaded.games[0].gamePhase).toBe('playing'); // turningPoint > 0 → playing
@@ -347,17 +350,17 @@ describe('eventStorage', () => {
       const game: GameEventState = {
         ...getInitialGameState(1),
         turningPoints: {
-          2: { selectedStrategicPloyId: 'contagion', firefightPloyCounts: {} },
+          2: { selectedStrategicPloyIds: ['contagion'], firefightPloyCounts: {} },
         },
       };
       const tp = getTurningPointState(game, 2);
-      expect(tp.selectedStrategicPloyId).toBe('contagion');
+      expect(tp.selectedStrategicPloyIds).toContain('contagion');
     });
 
     it('returns default turning point state when TP does not exist', () => {
       const game = getInitialGameState(1);
       const tp = getTurningPointState(game, 3);
-      expect(tp.selectedStrategicPloyId).toBeNull();
+      expect(tp.selectedStrategicPloyIds).toEqual([]);
       expect(tp.firefightPloyCounts).toEqual({});
     });
   });
@@ -366,11 +369,11 @@ describe('eventStorage', () => {
     it('returns updated game with new TP state', () => {
       const game = getInitialGameState(1);
       const updatedGame = updateTurningPointState(game, 1, {
-        selectedStrategicPloyId: 'lumbering-death',
+        selectedStrategicPloyIds: ['lumbering-death'],
         firefightPloyCounts: { 'virulent-poison': 1 },
       });
 
-      expect(updatedGame.turningPoints[1].selectedStrategicPloyId).toBe(
+      expect(updatedGame.turningPoints[1].selectedStrategicPloyIds).toContain(
         'lumbering-death'
       );
       expect(updatedGame.turningPoints[1].firefightPloyCounts['virulent-poison']).toBe(1);
@@ -379,7 +382,7 @@ describe('eventStorage', () => {
     it('does not mutate the original game state', () => {
       const game = getInitialGameState(1);
       updateTurningPointState(game, 1, {
-        selectedStrategicPloyId: 'cloud-of-flies',
+        selectedStrategicPloyIds: ['cloud-of-flies'],
         firefightPloyCounts: {},
       });
       expect(game.turningPoints[1]).toBeUndefined();
@@ -406,7 +409,7 @@ describe('eventStorage', () => {
       const game = { ...getInitialGameState(1), turningPoint: 1 };
       const updated = advanceTurningPoint(game);
       expect(updated.turningPoints[2]).toBeDefined();
-      expect(updated.turningPoints[2].selectedStrategicPloyId).toBeNull();
+      expect(updated.turningPoints[2].selectedStrategicPloyIds).toEqual([]);
       expect(updated.turningPoints[2].firefightPloyCounts).toEqual({});
     });
 
@@ -415,11 +418,11 @@ describe('eventStorage', () => {
         ...getInitialGameState(1),
         turningPoint: 1,
         turningPoints: {
-          2: { selectedStrategicPloyId: 'nurglings', firefightPloyCounts: { 'curse-of-rot': 1 } },
+          2: { selectedStrategicPloyIds: ['nurglings'], firefightPloyCounts: { 'curse-of-rot': 1 } },
         },
       };
       const updated = advanceTurningPoint(game);
-      expect(updated.turningPoints[2].selectedStrategicPloyId).toBe('nurglings');
+      expect(updated.turningPoints[2].selectedStrategicPloyIds).toContain('nurglings');
     });
   });
 
@@ -428,9 +431,9 @@ describe('eventStorage', () => {
   // ------------------------------------------------------------------
 
   describe('full state round-trip', () => {
-    it('persists and restores a complex event state with v3 fields', () => {
+    it('persists and restores a complex event state with v4 fields', () => {
       const state: QuickPlayEventState = {
-        version: 3,
+        version: 4,
         eventName: 'Nurgle Cup',
         setupComplete: true,
         activeGameIndex: 1,
@@ -444,9 +447,9 @@ describe('eventStorage', () => {
             commandPoints: 4,
             incapacitatedOperativeIds: ['pm-plague-marine-bombardier'],
             turningPoints: {
-              1: { selectedStrategicPloyId: 'contagion', firefightPloyCounts: { 'virulent-poison': 2 } },
-              2: { selectedStrategicPloyId: 'cloud-of-flies', firefightPloyCounts: {} },
-              3: { selectedStrategicPloyId: null, firefightPloyCounts: {} },
+              1: { selectedStrategicPloyIds: ['contagion'], firefightPloyCounts: { 'virulent-poison': 2 } },
+              2: { selectedStrategicPloyIds: ['cloud-of-flies', 'nurglings'], firefightPloyCounts: {} },
+              3: { selectedStrategicPloyIds: [], firefightPloyCounts: {} },
             },
             gamePhase: 'playing',
             opposition: 'Grey Knights',
@@ -467,8 +470,11 @@ describe('eventStorage', () => {
       expect(loaded.games[0].removedOperativeId).toBe('pm-plague-marine-warrior');
       expect(loaded.games[0].blightGrenadeUsesRemaining).toBe(1);
       expect(loaded.games[0].turningPoint).toBe(3);
-      expect(loaded.games[0].turningPoints[1].selectedStrategicPloyId).toBe('contagion');
+      expect(loaded.games[0].turningPoints[1].selectedStrategicPloyIds).toContain('contagion');
       expect(loaded.games[0].turningPoints[1].firefightPloyCounts['virulent-poison']).toBe(2);
+      // Multiple ploys preserved
+      expect(loaded.games[0].turningPoints[2].selectedStrategicPloyIds).toContain('cloud-of-flies');
+      expect(loaded.games[0].turningPoints[2].selectedStrategicPloyIds).toContain('nurglings');
       expect(loaded.games[0].incapacitatedOperativeIds).toContain('pm-plague-marine-bombardier');
       expect(loaded.games[0].gamePhase).toBe('playing');
       expect(loaded.games[0].opposition).toBe('Grey Knights');

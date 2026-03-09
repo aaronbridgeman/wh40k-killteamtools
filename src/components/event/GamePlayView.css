@@ -144,6 +144,62 @@
   min-width: 4ch;
 }
 
+/* ── Faction rules ────────────────────────────────────────────────── */
+.play-faction-rules {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 10px;
+}
+
+.play-faction-rules-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--spacing-sm);
+}
+
+.play-faction-rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.play-faction-rule {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-left: 3px solid var(--nurgle-primary);
+  border-radius: 6px;
+}
+
+.play-faction-rule-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  margin: 0 0 var(--spacing-xs);
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+}
+
+.play-faction-rule-type {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.play-faction-rule-desc {
+  font-size: 0.8rem;
+  color: var(--nurgle-text);
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* ── Equipment in use ─────────────────────────────────────────────── */
 .play-equipment-summary {
   padding: var(--spacing-md) var(--spacing-lg);
@@ -166,18 +222,21 @@
   margin: 0;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--spacing-xs);
 }
 
 .play-equip-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-sm);
   background-color: var(--nurgle-surface-raised);
   border: 1px solid var(--nurgle-primary);
   border-radius: 6px;
+}
+
+.play-equip-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
 .play-equip-name {
@@ -198,6 +257,13 @@
 .play-equip-uses.expended {
   color: var(--nurgle-danger);
   background-color: rgba(139, 32, 32, 0.12);
+}
+
+.play-equip-desc {
+  font-size: 0.78rem;
+  color: var(--nurgle-text-muted);
+  line-height: 1.4;
+  margin: var(--spacing-xs) 0 0;
 }
 
 /* ── Operatives section ───────────────────────────────────────────── */

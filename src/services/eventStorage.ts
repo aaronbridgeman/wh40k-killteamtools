@@ -32,9 +32,10 @@ const LEARNINGS_STORAGE_KEY = STORAGE_KEYS.LEARNINGS_LOG;
 // Legacy schema types for migration
 // ---------------------------------------------------------------------------
 
-/** Schema v1 turning point — used `usedFirefightPloyIds: string[]` */
+/** Schema v1/v2/v3 turning point — used single `selectedStrategicPloyId` or v4 `selectedStrategicPloyIds` */
 interface LegacyTurningPointStateV1 {
-  selectedStrategicPloyId: string | null;
+  selectedStrategicPloyId?: string | null; // v1/v2/v3 single ploy (legacy)
+  selectedStrategicPloyIds?: string[];     // v4+ multiple ploys
   usedFirefightPloyIds?: string[];
   firefightPloyCounts?: Record<string, number>;
 }
@@ -78,7 +79,7 @@ interface LegacyEventStateV1 {
  */
 export function getInitialTurningPointState(): TurningPointState {
   return {
-    selectedStrategicPloyId: null,
+    selectedStrategicPloyIds: [],
     firefightPloyCounts: {},
   };
 }
@@ -228,7 +229,13 @@ export function loadEventState(): QuickPlayEventState | null {
                 });
               }
               turningPoints[Number(tpKey)] = {
-                selectedStrategicPloyId: tpVal.selectedStrategicPloyId ?? null,
+                selectedStrategicPloyIds: Array.isArray(
+                  tpVal.selectedStrategicPloyIds
+                )
+                  ? tpVal.selectedStrategicPloyIds // already v4 format
+                  : tpVal.selectedStrategicPloyId  // migrate from v1/v2/v3
+                    ? [tpVal.selectedStrategicPloyId]
+                    : [],
                 firefightPloyCounts: tpCounts,
               };
             }

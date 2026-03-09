@@ -33,8 +33,12 @@ export interface LearningEntry {
  * and how many times each firefight ploy has been used.
  */
 export interface TurningPointState {
-  /** ID of the strategic ploy selected at the start of this turning point, or null if not yet chosen */
-  selectedStrategicPloyId: string | null;
+  /**
+   * IDs of strategic ploys active at the start of this turning point.
+   * Multiple ploys may be active simultaneously; each deducts its own CP cost.
+   * Replaces the old `selectedStrategicPloyId: string | null` field (schema v3).
+   */
+  selectedStrategicPloyIds: string[];
   /**
    * Number of times each firefight ploy has been used this turning point,
    * keyed by ploy ID. Absent keys mean 0 uses.
