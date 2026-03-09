@@ -61,6 +61,8 @@ interface LegacyGameStateV1 {
   // v6 optional fields (may be absent when migrating from v5)
   playerVP?: number;
   opponentVP?: number;
+  // v7 optional fields (may be absent when migrating from v6)
+  iconBearerInEnemyTerritory?: boolean;
 }
 
 /** Schema v1/v2 root state — may include learningEntries (moved to separate storage in v3) */
@@ -112,6 +114,7 @@ export function getInitialGameState(gameNumber: 1 | 2 | 3): GameEventState {
     opponentCount: 0,
     playerVP: 0,
     opponentVP: 0,
+    iconBearerInEnemyTerritory: false,
   };
 }
 
@@ -280,6 +283,8 @@ export function loadEventState(): QuickPlayEventState | null {
             opponentCount: game.opponentCount ?? 0,
             playerVP: game.playerVP ?? 0,
             opponentVP: game.opponentVP ?? 0,
+            iconBearerInEnemyTerritory:
+              game.iconBearerInEnemyTerritory ?? false,
           };
         }
       );

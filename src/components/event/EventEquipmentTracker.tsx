@@ -11,6 +11,7 @@
  * @see QUICK_PLAY_EVENT_SPEC.md — Equipment Selection & Tracking
  */
 
+import { useState } from 'react';
 import { Faction, Equipment } from '@/types';
 import { QUICK_PLAY_DEFAULTS } from '@/constants';
 import './EventEquipmentTracker.css';
@@ -51,6 +52,13 @@ export function EventEquipmentTracker({
     QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
   );
 
+  const atMaxSelection =
+    selectedEquipmentIds.length >= QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS;
+
+  // When at the equipment limit, auto-collapse to show only selected items.
+  // The player can manually expand to swap items.
+  const [expanded, setExpanded] = useState(!atMaxSelection);
+
   const handleToggle = (item: Equipment) => {
     const isSelected = selectedEquipmentIds.includes(item.id);
     let updated: string[];
@@ -75,19 +83,20 @@ export function EventEquipmentTracker({
       updated = [...selectedEquipmentIds, item.id];
     }
 
+    // Auto-collapse when reaching max; auto-expand when below max
+    const newCount = updated.length;
+    if (newCount >= QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS) {
+      setExpanded(false);
+    } else {
+      setExpanded(true);
+    }
+
     onChange(updated, grenadeUses);
   };
 
-  const handleUseGrenade = () => {
-    if (blightGrenadeUsesRemaining > 0) {
-      onChange(selectedEquipmentIds, blightGrenadeUsesRemaining - 1);
-    }
-  };
-
-  /** Renders a single equipment item row with checkbox and optional grenade tracker */
+  /** Renders a single equipment item row with checkbox */
   const renderEquipmentItem = (item: Equipment) => {
     const isSelected = selectedEquipmentIds.includes(item.id);
-    const isGrenades = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID;
     const checkboxId = `equip-${item.id}`;
     // Disable selection of additional items once the limit is reached
     const isDisabled =
@@ -118,96 +127,95 @@ export function EventEquipmentTracker({
             <p className="equipment-description">{item.description}</p>
           </div>
         </label>
-
-        {/* Blight Grenade usage tracker (shown when grenades are selected) */}
-        {isGrenades && isSelected && (
-          <div className="grenade-tracker">
-            <p className="grenade-tracker-title">💥 Blight Grenade Uses</p>
-            <div className="grenade-uses">
-              <span className="uses-label">Remaining:</span>
-              <span
-                className={`uses-count ${blightGrenadeUsesRemaining === 0 ? 'expended' : ''}`}
-                aria-label={`${blightGrenadeUsesRemaining} of ${QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES} grenade uses remaining`}
-              >
-                {blightGrenadeUsesRemaining} /{' '}
-                {QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES}
-              </span>
-              <button
-                className="use-grenade-button"
-                onClick={handleUseGrenade}
-                disabled={blightGrenadeUsesRemaining === 0}
-                aria-label="Use one Blight Grenade (counts against battle limit)"
-              >
-                Use Grenade
-              </button>
-            </div>
-            <p className="grenade-note">
-              ℹ️ The Bombardier&apos;s grenades do not count towards this limit
-              (Grenadier ability). His grenades are shown on his operative card
-              with +1 Hit stat (4+ → 3+) and the Toxic rule.
-            </p>
-          </div>
-        )}
       </div>
     );
   };
 
   return (
     <div className="equipment-tracker">
-      {/* 4-item limit warning */}
-      {selectedEquipmentIds.length >=
-        QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS && (
-        <p className="equipment-limit-warning" role="status" aria-live="polite">
-          ⚠️ Maximum {QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS} equipment
-          items selected. Deselect an item to choose a different one.
-        </p>
-      )}
+      {/* Collapsed view: show only selected items with an expand button */}
+      {atMaxSelection && !expanded ? (
+        <>
+          <div className="equipment-collapsed-header">
+            <span
+              className="equipment-limit-badge"
+              role="status"
+              aria-live="polite"
+            >
+              ✅ {QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS} items selected
+            </span>
+            <button
+              type="button"
+              className="equipment-change-btn"
+              onClick={() => setExpanded(true)}
+              aria-label="Change equipment selection"
+            >
+              Change
+            </button>
+          </div>
+          {/* Show only selected items so player can deselect */}
+          {[...factionEquipment, ...universalEquipment]
+            .filter((item) => selectedEquipmentIds.includes(item.id))
+            .map(renderEquipmentItem)}
+        </>
+      ) : (
+        <>
+          {/* 4-item limit warning when expanded */}
+          {atMaxSelection && (
+            <div className="equipment-collapsed-header">
+              <p
+                className="equipment-limit-warning"
+                role="status"
+                aria-live="polite"
+              >
+                ⚠️ Maximum {QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS}{' '}
+                equipment items selected. Deselect an item to choose a different
+                one.
+              </p>
+              <button
+                type="button"
+                className="equipment-change-btn"
+                onClick={() => setExpanded(false)}
+                aria-label="Collapse equipment list"
+              >
+                Collapse
+              </button>
+            </div>
+          )}
 
-      {/* Faction-specific equipment */}
-      {factionEquipment.length > 0 && (
-        <div className="equipment-group">
-          <p className="equipment-group-label">☠️ Faction Equipment</p>
-          {factionEquipment.map(renderEquipmentItem)}
-        </div>
-      )}
+          {/* Faction-specific equipment */}
+          {factionEquipment.length > 0 && (
+            <div className="equipment-group">
+              <p className="equipment-group-label">☠️ Faction Equipment</p>
+              {factionEquipment.map(renderEquipmentItem)}
+            </div>
+          )}
 
-      {/* Universal (generic) equipment */}
-      {universalEquipment.length > 0 && (
-        <div className="equipment-group">
-          <p className="equipment-group-label">🎒 Generic Equipment</p>
-          {universalEquipment.map(renderEquipmentItem)}
-        </div>
-      )}
+          {/* Universal (generic) equipment */}
+          {universalEquipment.length > 0 && (
+            <div className="equipment-group">
+              <p className="equipment-group-label">🎒 Generic Equipment</p>
+              {universalEquipment.map(renderEquipmentItem)}
+            </div>
+          )}
 
-      {factionEquipment.length === 0 && universalEquipment.length === 0 && (
-        <p style={{ color: 'var(--nurgle-text-muted)' }}>
-          No equipment available.
-        </p>
+          {factionEquipment.length === 0 && universalEquipment.length === 0 && (
+            <p style={{ color: 'var(--nurgle-text-muted)' }}>
+              No equipment available.
+            </p>
+          )}
+        </>
       )}
 
       {grenadeSelected && (
-        <p
-          style={{
-            fontSize: '0.8rem',
-            color: 'var(--nurgle-text-muted)',
-            fontStyle: 'italic',
-            marginTop: '0.5rem',
-          }}
-        >
+        <p className="equipment-hint">
           Bombardier&apos;s operative card now shows Blight Grenades with 3+ Hit
           stat. Scroll up to the roster to see the updated card.
         </p>
       )}
 
       {selectedEquipmentIds.includes(QUICK_PLAY_DEFAULTS.KRAK_GRENADES_ID) && (
-        <p
-          style={{
-            fontSize: '0.8rem',
-            color: 'var(--nurgle-text-muted)',
-            fontStyle: 'italic',
-            marginTop: '0.5rem',
-          }}
-        >
+        <p className="equipment-hint">
           Bombardier&apos;s operative card now shows Krak Grenades with 3+ Hit
           stat (Grenadier ability — unlimited use).
         </p>

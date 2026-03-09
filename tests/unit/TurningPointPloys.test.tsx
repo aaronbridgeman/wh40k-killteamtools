@@ -336,8 +336,13 @@ describe('TurningPointPloys', () => {
   // Contagion dynamic cost
   // ------------------------------------------------------------------
 
-  it('shows Contagion as 0CP when Icon Bearer is active', () => {
-    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1, commandPoints: 0 };
+  it('shows Contagion as 0CP when Icon Bearer is active AND in enemy territory', () => {
+    const game: GameEventState = {
+      ...getInitialGameState(1),
+      turningPoint: 1,
+      commandPoints: 0,
+      iconBearerInEnemyTerritory: true,
+    };
     render(
       <TurningPointPloys
         game={game}
@@ -348,11 +353,35 @@ describe('TurningPointPloys', () => {
       />
     );
 
-    // Icon Bearer active → Contagion 0CP, button should NOT be disabled
+    // Icon Bearer active in enemy territory → Contagion 0CP, button should NOT be disabled
     const contagionButton = screen.getByLabelText(/Select strategic ploy: Contagion/i);
     expect(contagionButton).not.toBeDisabled();
-    // Status indicator should show "active"
-    expect(screen.getByText(/Icon Bearer active/i)).toBeInTheDocument();
+    // Territory toggle checkbox should be present
+    expect(
+      screen.getByLabelText(/Icon Bearer is in enemy territory/i)
+    ).toBeInTheDocument();
+  });
+
+  it('shows Contagion as 1CP when Icon Bearer is active but NOT in enemy territory', () => {
+    const game: GameEventState = {
+      ...getInitialGameState(1),
+      turningPoint: 1,
+      commandPoints: 0,
+      iconBearerInEnemyTerritory: false,
+    };
+    render(
+      <TurningPointPloys
+        game={game}
+        faction={faction}
+        onChange={vi.fn()}
+        removedOperativeId={null}
+        incapacitatedOperativeIds={[]}
+      />
+    );
+
+    // Icon Bearer active but NOT in enemy territory → Contagion costs 1CP, button disabled (0 CP)
+    const contagionButton = screen.getByLabelText(/Select strategic ploy: Contagion/i);
+    expect(contagionButton).toBeDisabled();
   });
 
   it('shows Contagion as 1CP when Icon Bearer is removed', () => {
@@ -390,9 +419,14 @@ describe('TurningPointPloys', () => {
     expect(screen.getByText(/Icon Bearer inactive/i)).toBeInTheDocument();
   });
 
-  it('selects Contagion for 0 CP when Icon Bearer is active', () => {
+  it('selects Contagion for 0 CP when Icon Bearer is in enemy territory', () => {
     const onChange = vi.fn();
-    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1, commandPoints: 2 };
+    const game: GameEventState = {
+      ...getInitialGameState(1),
+      turningPoint: 1,
+      commandPoints: 2,
+      iconBearerInEnemyTerritory: true,
+    };
     render(
       <TurningPointPloys
         game={game}
@@ -404,10 +438,37 @@ describe('TurningPointPloys', () => {
     );
 
     fireEvent.click(screen.getByLabelText(/Select strategic ploy: Contagion/i));
-    // No CP should be deducted (Contagion is free)
+    // No CP should be deducted (Contagion is free when Icon Bearer in enemy territory)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         commandPoints: 2,
+      })
+    );
+  });
+
+  it('selects Contagion for 1 CP when Icon Bearer is active but not in enemy territory', () => {
+    const onChange = vi.fn();
+    const game: GameEventState = {
+      ...getInitialGameState(1),
+      turningPoint: 1,
+      commandPoints: 2,
+      iconBearerInEnemyTerritory: false,
+    };
+    render(
+      <TurningPointPloys
+        game={game}
+        faction={faction}
+        onChange={onChange}
+        removedOperativeId={null}
+        incapacitatedOperativeIds={[]}
+      />
+    );
+
+    fireEvent.click(screen.getByLabelText(/Select strategic ploy: Contagion/i));
+    // 1 CP should be deducted
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        commandPoints: 1,
       })
     );
   });

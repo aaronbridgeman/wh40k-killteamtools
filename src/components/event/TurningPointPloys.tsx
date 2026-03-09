@@ -19,7 +19,7 @@
  * @see QUICK_PLAY_EVENT_SPEC.md — sections 4, 5, 6, 7
  */
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Faction, Ploy } from '@/types';
 import { GameEventState, TurningPointState } from '@/types/event';
 import {
@@ -140,10 +140,18 @@ function isIconBearerActive(
 
 /**
  * Returns the effective CP cost for a ploy, taking into account
- * the Contagion 0-cost rule when the Icon Bearer is active.
+ * the Contagion 0-cost rule when the Icon Bearer is active and in enemy territory.
  */
-function getEffectivePloyCost(ploy: Ploy, iconBearerActive: boolean): number {
-  if (ploy.id === QUICK_PLAY_DEFAULTS.CONTAGION_PLOY_ID && iconBearerActive) {
+function getEffectivePloyCost(
+  ploy: Ploy,
+  iconBearerActive: boolean,
+  iconBearerInEnemyTerritory: boolean
+): number {
+  if (
+    ploy.id === QUICK_PLAY_DEFAULTS.CONTAGION_PLOY_ID &&
+    iconBearerActive &&
+    iconBearerInEnemyTerritory
+  ) {
     return 0;
   }
   return ploy.cost;
@@ -168,11 +176,29 @@ export function TurningPointPloys({
     removedOperativeId,
     incapacitatedOperativeIds
   );
+  const iconBearerInEnemyTerritory = game.iconBearerInEnemyTerritory ?? false;
 
   const isStarted = game.turningPoint > 0;
   const currentTpState: TurningPointState = isStarted
     ? getTurningPointState(game, game.turningPoint)
     : getInitialTurningPointState();
+
+  // Auto-collapse the strategic ploy grid when no unselected ploys are affordable
+  const allPloysSelectedOrUnaffordable =
+    isStarted &&
+    strategicPloys.every((ploy) => {
+      const isSelected = currentTpState.selectedStrategicPloyIds.includes(
+        ploy.id
+      );
+      const effectiveCost = getEffectivePloyCost(
+        ploy,
+        iconBearerActive,
+        iconBearerInEnemyTerritory
+      );
+      return isSelected || game.commandPoints < effectiveCost;
+    });
+
+  const [ployGridExpanded, setPloyGridExpanded] = useState(true);
 
   // ------------------------------------------------------------------
   // Handlers
@@ -199,7 +225,11 @@ export function TurningPointPloys({
       if (!isStarted) return;
       const isCurrentlySelected =
         currentTpState.selectedStrategicPloyIds.includes(ploy.id);
-      const effectiveCost = getEffectivePloyCost(ploy, iconBearerActive);
+      const effectiveCost = getEffectivePloyCost(
+        ploy,
+        iconBearerActive,
+        iconBearerInEnemyTerritory
+      );
 
       // CP delta: deselecting refunds, selecting deducts
       const cpDelta = isCurrentlySelected ? effectiveCost : -effectiveCost;
@@ -217,7 +247,14 @@ export function TurningPointPloys({
         commandPoints: clampCp(game.commandPoints + cpDelta),
       });
     },
-    [game, onChange, isStarted, currentTpState, iconBearerActive]
+    [
+      game,
+      onChange,
+      isStarted,
+      currentTpState,
+      iconBearerActive,
+      iconBearerInEnemyTerritory,
+    ]
   );
 
   /**
@@ -303,60 +340,116 @@ export function TurningPointPloys({
       {/* CP tracker */}
       {/* CP is managed in the combined stats section above — see GamePlayView */}
 
-      {/* Icon Bearer status indicator */}
+      {/* Icon Bearer status + enemy territory toggle */}
       {isStarted && (
-        <p
-          className="icon-bearer-status"
-          aria-label={`Icon Bearer is ${iconBearerActive ? 'active — Contagion costs 0 CP' : 'not active — Contagion costs 1 CP'}`}
-        >
-          {iconBearerActive
-            ? '🏳️ Icon Bearer active — Contagion: 0 CP'
-            : '⚠️ Icon Bearer inactive — Contagion: 1 CP'}
-        </p>
+        <div className="icon-bearer-status-row">
+          {iconBearerActive ? (
+            <label className="icon-bearer-toggle-label">
+              <input
+                type="checkbox"
+                checked={iconBearerInEnemyTerritory}
+                onChange={(e) =>
+                  onChange({
+                    ...game,
+                    iconBearerInEnemyTerritory: e.target.checked,
+                  })
+                }
+                className="icon-bearer-checkbox"
+                aria-label="Icon Bearer is in enemy territory (Contagion costs 0 CP)"
+              />
+              <span className="icon-bearer-status active">
+                🏳️ Icon Bearer in enemy territory
+                {iconBearerInEnemyTerritory
+                  ? ' — Contagion: 0 CP'
+                  : ' — Contagion: 1 CP'}
+              </span>
+            </label>
+          ) : (
+            <p className="icon-bearer-status inactive">
+              ⚠️ Icon Bearer inactive — Contagion: 1 CP
+            </p>
+          )}
+        </div>
       )}
 
       {/* Strategic ploy selection — shown once game is started */}
       {isStarted && (
         <div>
-          <p className="strategic-ploys-title">
-            Select Strategic Ploy for TP {game.turningPoint}
-          </p>
-          <div className="strategic-ploy-grid">
-            {strategicPloys.map((ploy) => {
-              const isSelected =
-                currentTpState.selectedStrategicPloyIds.includes(ploy.id);
-              const effectiveCost = getEffectivePloyCost(
-                ploy,
-                iconBearerActive
-              );
-              // Disable when not selected and cannot afford
-              const isDisabled =
-                !isSelected && game.commandPoints < effectiveCost;
-              return (
-                <button
-                  key={ploy.id}
-                  type="button"
-                  className={`strategic-ploy-card ${isSelected ? 'selected' : ''}`}
-                  onClick={() => handleSelectStrategicPloy(ploy)}
-                  disabled={isDisabled}
-                  aria-pressed={isSelected}
-                  aria-label={`${isSelected ? 'Deselect' : 'Select'} strategic ploy: ${ploy.name}`}
-                >
-                  <p className="ploy-card-name">{ploy.name}</p>
-                  <p className="ploy-card-cost">
-                    {effectiveCost === 0 && ploy.cost > 0 ? (
-                      <>
-                        <s>{ploy.cost}CP</s> 0CP
-                      </>
-                    ) : (
-                      `${effectiveCost}CP`
-                    )}
-                  </p>
-                  <p className="ploy-card-desc">{ploy.description}</p>
-                </button>
-              );
-            })}
+          <div className="strategic-ploys-header">
+            <p className="strategic-ploys-title">
+              Select Strategic Ploy for TP {game.turningPoint}
+            </p>
+            {allPloysSelectedOrUnaffordable && (
+              <button
+                type="button"
+                className="ploys-toggle-btn"
+                onClick={() => setPloyGridExpanded((prev) => !prev)}
+                aria-expanded={ployGridExpanded}
+                aria-label={
+                  ployGridExpanded ? 'Collapse ploy list' : 'Expand ploy list'
+                }
+              >
+                {ployGridExpanded ? 'Collapse' : 'Expand'}
+              </button>
+            )}
           </div>
+          {/* Auto-collapse: hide unaffordable/all-selected ploy grid */}
+          {(!allPloysSelectedOrUnaffordable || ployGridExpanded) && (
+            <div className="strategic-ploy-grid">
+              {strategicPloys.map((ploy) => {
+                const isSelected =
+                  currentTpState.selectedStrategicPloyIds.includes(ploy.id);
+                const effectiveCost = getEffectivePloyCost(
+                  ploy,
+                  iconBearerActive,
+                  iconBearerInEnemyTerritory
+                );
+                // Disable when not selected and cannot afford
+                const isDisabled =
+                  !isSelected && game.commandPoints < effectiveCost;
+                return (
+                  <button
+                    key={ploy.id}
+                    type="button"
+                    className={`strategic-ploy-card ${isSelected ? 'selected' : ''}`}
+                    onClick={() => handleSelectStrategicPloy(ploy)}
+                    disabled={isDisabled}
+                    aria-pressed={isSelected}
+                    aria-label={`${isSelected ? 'Deselect' : 'Select'} strategic ploy: ${ploy.name}`}
+                  >
+                    <p className="ploy-card-name">{ploy.name}</p>
+                    <p className="ploy-card-cost">
+                      {effectiveCost === 0 && ploy.cost > 0 ? (
+                        <>
+                          <s>{ploy.cost}CP</s> 0CP
+                        </>
+                      ) : (
+                        `${effectiveCost}CP`
+                      )}
+                    </p>
+                    <p className="ploy-card-desc">{ploy.description}</p>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          {/* Summary of selected ploys when collapsed */}
+          {allPloysSelectedOrUnaffordable && !ployGridExpanded && (
+            <div className="strategic-ploys-summary">
+              {currentTpState.selectedStrategicPloyIds.length > 0 ? (
+                currentTpState.selectedStrategicPloyIds.map((id) => {
+                  const ploy = strategicPloys.find((p) => p.id === id);
+                  return ploy ? (
+                    <span key={id} className="ploy-summary-badge">
+                      ✓ {ploy.name}
+                    </span>
+                  ) : null;
+                })
+              ) : (
+                <span className="ploy-summary-none">No ploys selected</span>
+              )}
+            </div>
+          )}
         </div>
       )}
 

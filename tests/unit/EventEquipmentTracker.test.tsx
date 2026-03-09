@@ -116,25 +116,6 @@ describe('EventEquipmentTracker', () => {
     expect(onChange).toHaveBeenCalledWith([], 2);
   });
 
-  it('shows grenade usage tracker when Blight Grenades are selected', () => {
-    render(
-      <EventEquipmentTracker
-        faction={mockFaction}
-        universalEquipment={[]}
-        selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
-        blightGrenadeUsesRemaining={2}
-        onChange={vi.fn()}
-      />
-    );
-
-    expect(screen.getByText('💥 Blight Grenade Uses')).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(
-        `2 of ${QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES} grenade uses remaining`
-      )
-    ).toBeInTheDocument();
-  });
-
   it('does not show grenade tracker when Blight Grenades are not selected', () => {
     render(
       <EventEquipmentTracker
@@ -147,41 +128,6 @@ describe('EventEquipmentTracker', () => {
     );
 
     expect(screen.queryByText('💥 Blight Grenade Uses')).not.toBeInTheDocument();
-  });
-
-  it('decrements grenade uses when Use Grenade is clicked', () => {
-    const onChange = vi.fn();
-    render(
-      <EventEquipmentTracker
-        faction={mockFaction}
-        universalEquipment={[]}
-        selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
-        blightGrenadeUsesRemaining={2}
-        onChange={onChange}
-      />
-    );
-
-    fireEvent.click(screen.getByLabelText('Use one Blight Grenade (counts against battle limit)'));
-    expect(onChange).toHaveBeenCalledWith(
-      [QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID],
-      1
-    );
-  });
-
-  it('disables Use Grenade button when uses are expended', () => {
-    render(
-      <EventEquipmentTracker
-        faction={mockFaction}
-        universalEquipment={[]}
-        selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
-        blightGrenadeUsesRemaining={0}
-        onChange={vi.fn()}
-      />
-    );
-
-    expect(
-      screen.getByLabelText('Use one Blight Grenade (counts against battle limit)')
-    ).toBeDisabled();
   });
 
   it('resets grenade uses when Blight Grenades are deselected', () => {
@@ -204,7 +150,7 @@ describe('EventEquipmentTracker', () => {
     );
   });
 
-  it('shows note about Bombardier grenade bonus including Toxic rule', () => {
+  it('shows note about Bombardier grenade bonus on operative card when Blight Grenades selected', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
@@ -215,11 +161,9 @@ describe('EventEquipmentTracker', () => {
       />
     );
 
+    // The setup page shows a hint about the Bombardier's card being updated
     expect(
-      screen.getByText(/Bombardier's grenades do not count towards this limit/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Toxic rule/i)
+      screen.getByText(/Bombardier's operative card now shows Blight Grenades/i)
     ).toBeInTheDocument();
   });
 
@@ -264,12 +208,15 @@ describe('EventEquipmentTracker', () => {
       />
     );
 
+    // When at max, we're in collapsed view — expand it first to see unselected items
+    fireEvent.click(screen.getByLabelText('Change equipment selection'));
+
     // Clicking an already-unselected item (Plague Rounds — faction) should not call onChange
     fireEvent.click(screen.getByLabelText('Select Plague Rounds'));
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it('shows the 4-item limit warning when all slots are filled', () => {
+  it('shows the 4-item limit badge when all slots are filled (collapsed view)', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
@@ -284,6 +231,31 @@ describe('EventEquipmentTracker', () => {
         onChange={vi.fn()}
       />
     );
+
+    // Collapsed view shows a badge, not the full warning
+    expect(
+      screen.getByText(/4 items selected/i)
+    ).toBeInTheDocument();
+  });
+
+  it('shows the 4-item limit warning when expanded and all slots are filled', () => {
+    render(
+      <EventEquipmentTracker
+        faction={mockFaction}
+        universalEquipment={[]}
+        selectedEquipmentIds={[
+          QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID,
+          'plague-rounds',
+          'universal-1',
+          'universal-2',
+        ]}
+        blightGrenadeUsesRemaining={2}
+        onChange={vi.fn()}
+      />
+    );
+
+    // Expand the collapsed view
+    fireEvent.click(screen.getByLabelText('Change equipment selection'));
 
     expect(
       screen.getByText(/Maximum 4 equipment items selected/i)

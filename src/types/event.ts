@@ -130,6 +130,13 @@ export interface GameEventState {
    * 0 = not yet recorded.
    */
   opponentVP: number;
+  /**
+   * Whether the Icon Bearer is currently within the opponent's territory.
+   * When true and the Icon Bearer is active (alive, not incapacitated),
+   * the Contagion strategic ploy costs 0 CP.
+   * Toggled manually by the player during the game.
+   */
+  iconBearerInEnemyTerritory: boolean;
 }
 
 /**
