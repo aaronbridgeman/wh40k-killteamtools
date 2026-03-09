@@ -3,9 +3,9 @@
  *
  * Covers:
  *  - CRIT_OPS data shape and completeness
- *  - MissionSelect dropdown rendering
- *  - Rich detail display (mission actions, VP, additional rules) for Crit Ops
- *  - Simple description display for Tac Ops
+ *  - TAC_OPS data shape, archetype grouping, and rich detail fields
+ *  - MissionSelect dropdown rendering (flat and grouped)
+ *  - Rich detail display (mission actions, VP, additional rules, reveal condition)
  *  - Custom input behaviour
  */
 
@@ -132,6 +132,21 @@ describe('MissionSelect', () => {
     });
   });
 
+  it('lists all named tac ops in the dropdown', () => {
+    render(
+      <MissionSelect
+        label="Tac Op"
+        options={TAC_OPS}
+        value=""
+        onChange={vi.fn()}
+      />
+    );
+    const named = TAC_OPS.filter((o) => o.id !== 'custom');
+    named.forEach((op) => {
+      expect(screen.getByRole('option', { name: op.name })).toBeInTheDocument();
+    });
+  });
+
   it('shows rich detail panel when a crit op with actions is selected', () => {
     render(
       <MissionSelect
@@ -191,19 +206,43 @@ describe('MissionSelect', () => {
     expect(screen.getByText('Send Data')).toBeInTheDocument();
   });
 
-  it('shows simple description for Tac Ops (no rich detail)', () => {
+  it('shows rich detail for a Tac Op with mission actions (Scout Enemy Movement)', () => {
     render(
       <MissionSelect
         label="Tac Op"
         options={TAC_OPS}
-        value="Assassinate"
+        value="Scout Enemy Movement"
         onChange={vi.fn()}
       />
     );
-    expect(
-      screen.getByText(/Score 2VP if the enemy leader is incapacitated/)
-    ).toBeInTheDocument();
-    expect(screen.queryByText('⚡ Mission Actions')).not.toBeInTheDocument();
+    expect(screen.getByText('⚡ Mission Actions')).toBeInTheDocument();
+    expect(screen.getByText('🏆 Victory Points')).toBeInTheDocument();
+    expect(screen.getByText('Scout')).toBeInTheDocument();
+  });
+
+  it('shows reveal condition for a Tac Op', () => {
+    render(
+      <MissionSelect
+        label="Tac Op"
+        options={TAC_OPS}
+        value="Flank"
+        onChange={vi.fn()}
+      />
+    );
+    expect(screen.getByText('👁 Reveal')).toBeInTheDocument();
+    expect(screen.getByText('Strategic Gambit')).toBeInTheDocument();
+  });
+
+  it('shows special rules for Flank tac op', () => {
+    render(
+      <MissionSelect
+        label="Tac Op"
+        options={TAC_OPS}
+        value="Flank"
+        onChange={vi.fn()}
+      />
+    );
+    expect(screen.getByText('📜 Special Rules')).toBeInTheDocument();
   });
 
   it('shows custom input when value does not match any predefined option', () => {
@@ -269,11 +308,116 @@ describe('MissionSelect', () => {
 // ── MissionEntry type shape ────────────────────────────────────────────────
 
 describe('MissionEntry type compatibility', () => {
-  it('TAC_OPS entries are valid MissionEntry objects without rich fields', () => {
+  it('TAC_OPS entries are valid MissionEntry objects', () => {
     TAC_OPS.forEach((op: MissionEntry) => {
       expect(op.id).toBeTruthy();
       expect(op.name).toBeTruthy();
       expect(typeof op.description).toBe('string');
     });
+  });
+});
+
+// ── TAC_OPS data tests ────────────────────────────────────────────────────
+
+describe('TAC_OPS data', () => {
+  it('contains exactly 12 named ops plus the Custom sentinel', () => {
+    const named = TAC_OPS.filter((o) => o.id !== 'custom');
+    expect(named).toHaveLength(12);
+    const custom = TAC_OPS.find((o) => o.id === 'custom');
+    expect(custom).toBeDefined();
+  });
+
+  it('includes all 4 archetypes: Recon, Infiltration, Security, Seek & Destroy', () => {
+    const named = TAC_OPS.filter((o) => o.id !== 'custom');
+    const archetypes = [...new Set(named.map((o) => o.archetype))];
+    expect(archetypes).toContain('Recon');
+    expect(archetypes).toContain('Infiltration');
+    expect(archetypes).toContain('Security');
+    expect(archetypes).toContain('Seek & Destroy');
+    expect(archetypes).toHaveLength(4);
+  });
+
+  it('each archetype has exactly 3 tac ops', () => {
+    const named = TAC_OPS.filter((o) => o.id !== 'custom');
+    const counts: Record<string, number> = {};
+    named.forEach((o) => {
+      const arch = o.archetype ?? '';
+      counts[arch] = (counts[arch] ?? 0) + 1;
+    });
+    Object.values(counts).forEach((count) => expect(count).toBe(3));
+  });
+
+  it('every named entry has a non-empty name, description, and archetype', () => {
+    TAC_OPS.filter((o) => o.id !== 'custom').forEach((op) => {
+      expect(op.name).toBeTruthy();
+      expect(op.description).toBeTruthy();
+      expect(op.archetype).toBeTruthy();
+    });
+  });
+
+  it('every named entry has a reveal_condition', () => {
+    TAC_OPS.filter((o) => o.id !== 'custom').forEach((op) => {
+      expect(op.reveal_condition).toBeTruthy();
+    });
+  });
+
+  it('every named entry has victory_points', () => {
+    TAC_OPS.filter((o) => o.id !== 'custom').forEach((op) => {
+      expect(Array.isArray(op.victory_points)).toBe(true);
+      expect(op.victory_points!.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('includes all 12 tac ops by id', () => {
+    const ids = TAC_OPS.map((o) => o.id);
+    expect(ids).toContain('flank');
+    expect(ids).toContain('scout-enemy-movement');
+    expect(ids).toContain('retrieval');
+    expect(ids).toContain('track-enemy');
+    expect(ids).toContain('steal-intelligence');
+    expect(ids).toContain('plant-devices');
+    expect(ids).toContain('plant-banner');
+    expect(ids).toContain('martyrs');
+    expect(ids).toContain('envoy');
+    expect(ids).toContain('sweep-and-clear');
+    expect(ids).toContain('route');
+    expect(ids).toContain('dominate');
+  });
+
+  it('ops with mission_actions have valid ap_cost, description, and name', () => {
+    TAC_OPS.filter((o) => o.mission_actions).forEach((op) => {
+      op.mission_actions!.forEach((action) => {
+        expect(action.name).toBeTruthy();
+        expect(typeof action.ap_cost).toBe('number');
+        expect(action.ap_cost).toBeGreaterThan(0);
+        expect(action.description).toBeTruthy();
+      });
+    });
+  });
+
+  it('Flank has additional_rules as an array and no mission_actions', () => {
+    const flank = TAC_OPS.find((o) => o.id === 'flank');
+    expect(Array.isArray(flank?.additional_rules)).toBe(true);
+    expect(flank?.mission_actions).toBeUndefined();
+  });
+
+  it('Scout Enemy Movement has one mission action costing 1AP', () => {
+    const sem = TAC_OPS.find((o) => o.id === 'scout-enemy-movement');
+    expect(sem?.mission_actions).toHaveLength(1);
+    expect(sem?.mission_actions![0].ap_cost).toBe(1);
+    expect(sem?.mission_actions![0].name).toBe('Scout');
+  });
+
+  it('Sweep & Clear has both additional_rules and a mission action', () => {
+    const sc = TAC_OPS.find((o) => o.id === 'sweep-and-clear');
+    expect(Array.isArray(sc?.additional_rules)).toBe(true);
+    expect(sc?.mission_actions).toHaveLength(1);
+    expect(sc?.mission_actions![0].name).toBe('Clear');
+  });
+
+  it('Route has no mission_actions and no additional_rules', () => {
+    const route = TAC_OPS.find((o) => o.id === 'route');
+    expect(route?.mission_actions).toBeUndefined();
+    expect(route?.additional_rules).toBeUndefined();
   });
 });
