@@ -63,8 +63,8 @@ export function GameSetupView({
   );
 
   const handleEquipmentChange = useCallback(
-    (selectedEquipmentIds: string[], blightGrenadeUsesRemaining: number) => {
-      onChange({ ...game, selectedEquipmentIds, blightGrenadeUsesRemaining });
+    (selectedEquipmentIds: string[], blightGrenadeUsesRemaining: number, equipmentUsesRemaining: Record<string, number>) => {
+      onChange({ ...game, selectedEquipmentIds, blightGrenadeUsesRemaining, equipmentUsesRemaining });
     },
     [game, onChange]
   );
@@ -198,6 +198,7 @@ export function GameSetupView({
           universalEquipment={universalEquipment}
           selectedEquipmentIds={game.selectedEquipmentIds}
           blightGrenadeUsesRemaining={game.blightGrenadeUsesRemaining}
+          equipmentUsesRemaining={game.equipmentUsesRemaining}
           onChange={handleEquipmentChange}
         />
       </section>

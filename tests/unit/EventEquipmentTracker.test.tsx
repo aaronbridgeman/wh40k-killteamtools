@@ -46,6 +46,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );
@@ -61,6 +62,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );
@@ -76,6 +78,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={['plague-rounds']}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );
@@ -92,12 +95,13 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={onChange}
       />
     );
 
     fireEvent.click(screen.getByLabelText('Select Plague Rounds'));
-    expect(onChange).toHaveBeenCalledWith(['plague-rounds'], 2);
+    expect(onChange).toHaveBeenCalledWith(['plague-rounds'], 2, {});
   });
 
   it('calls onChange with the item removed when a checked checkbox is toggled off', () => {
@@ -108,12 +112,13 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={['plague-rounds']}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={onChange}
       />
     );
 
     fireEvent.click(screen.getByLabelText('Select Plague Rounds'));
-    expect(onChange).toHaveBeenCalledWith([], 2);
+    expect(onChange).toHaveBeenCalledWith([], 2, {});
   });
 
   it('does not show grenade tracker when Blight Grenades are not selected', () => {
@@ -123,6 +128,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );
@@ -138,6 +144,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
         blightGrenadeUsesRemaining={1}
+        equipmentUsesRemaining={{}}
         onChange={onChange}
       />
     );
@@ -146,7 +153,8 @@ describe('EventEquipmentTracker', () => {
     // Deselecting should reset uses to max
     expect(onChange).toHaveBeenCalledWith(
       [],
-      QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES
+      QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES,
+      {}
     );
   });
 
@@ -157,6 +165,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );
@@ -180,6 +189,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[mockUniversal]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );
@@ -204,6 +214,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={universalEquipment}
         selectedEquipmentIds={['extra-1', 'extra-2', 'extra-3', 'extra-4']}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={onChange}
       />
     );
@@ -228,6 +239,7 @@ describe('EventEquipmentTracker', () => {
           'universal-2',
         ]}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );
@@ -250,6 +262,7 @@ describe('EventEquipmentTracker', () => {
           'universal-2',
         ]}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );
@@ -269,6 +282,7 @@ describe('EventEquipmentTracker', () => {
         universalEquipment={[]}
         selectedEquipmentIds={['plague-rounds']}
         blightGrenadeUsesRemaining={2}
+        equipmentUsesRemaining={{}}
         onChange={vi.fn()}
       />
     );

@@ -19,7 +19,7 @@
  * @see QUICK_PLAY_EVENT_SPEC.md — sections 4, 5, 6, 7
  */
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Faction, Ploy } from '@/types';
 import { GameEventState, TurningPointState } from '@/types/event';
 import {
@@ -199,6 +199,25 @@ export function TurningPointPloys({
     });
 
   const [ployGridExpanded, setPloyGridExpanded] = useState(true);
+  const [firefightExpanded, setFirefightExpanded] = useState(true);
+
+  // Auto-collapse strategic ploys when all are selected or unaffordable
+  useEffect(() => {
+    if (allPloysSelectedOrUnaffordable) {
+      setPloyGridExpanded(false);
+    } else {
+      setPloyGridExpanded(true);
+    }
+  }, [allPloysSelectedOrUnaffordable]);
+
+  // Auto-collapse firefight ploys when no CP available
+  useEffect(() => {
+    if (isStarted && game.commandPoints === 0) {
+      setFirefightExpanded(false);
+    } else if (game.commandPoints > 0) {
+      setFirefightExpanded(true);
+    }
+  }, [game.commandPoints, isStarted]);
 
   // ------------------------------------------------------------------
   // Handlers
@@ -375,27 +394,24 @@ export function TurningPointPloys({
       {/* Strategic ploy selection — shown once game is started */}
       {isStarted && (
         <div>
-          <div className="strategic-ploys-header">
+          <button
+            type="button"
+            className="strategic-ploys-header collapsible-header"
+            onClick={() => setPloyGridExpanded((prev) => !prev)}
+            aria-expanded={ployGridExpanded}
+            aria-controls="strategic-ploy-grid"
+            aria-label={ployGridExpanded ? 'Collapse strategic ploys' : 'Expand strategic ploys'}
+          >
             <p className="strategic-ploys-title">
               Select Strategic Ploy for TP {game.turningPoint}
             </p>
-            {allPloysSelectedOrUnaffordable && (
-              <button
-                type="button"
-                className="ploys-toggle-btn"
-                onClick={() => setPloyGridExpanded((prev) => !prev)}
-                aria-expanded={ployGridExpanded}
-                aria-label={
-                  ployGridExpanded ? 'Collapse ploy list' : 'Expand ploy list'
-                }
-              >
-                {ployGridExpanded ? 'Collapse' : 'Expand'}
-              </button>
-            )}
-          </div>
+            <span className="ploys-chevron">
+              {ployGridExpanded ? '▼' : '▶'}
+            </span>
+          </button>
           {/* Auto-collapse: hide unaffordable/all-selected ploy grid */}
-          {(!allPloysSelectedOrUnaffordable || ployGridExpanded) && (
-            <div className="strategic-ploy-grid">
+          {ployGridExpanded && (
+            <div id="strategic-ploy-grid" className="strategic-ploy-grid">
               {strategicPloys.map((ploy) => {
                 const isSelected =
                   currentTpState.selectedStrategicPloyIds.includes(ploy.id);
@@ -434,7 +450,7 @@ export function TurningPointPloys({
             </div>
           )}
           {/* Summary of selected ploys when collapsed */}
-          {allPloysSelectedOrUnaffordable && !ployGridExpanded && (
+          {!ployGridExpanded && (
             <div className="strategic-ploys-summary">
               {currentTpState.selectedStrategicPloyIds.length > 0 ? (
                 currentTpState.selectedStrategicPloyIds.map((id) => {
@@ -457,38 +473,52 @@ export function TurningPointPloys({
 
       {/* Firefight ploys — faction + Command Reroll */}
       <div>
-        <p className="firefight-ploys-title">Firefight Ploys</p>
-        <div className="firefight-ploy-list">
-          {firefightPloys.map((ploy) => (
+        <button
+          type="button"
+          className="firefight-ploys-header collapsible-header"
+          onClick={() => setFirefightExpanded((prev) => !prev)}
+          aria-expanded={firefightExpanded}
+          aria-controls="firefight-ploy-list"
+          aria-label={firefightExpanded ? 'Collapse firefight ploys' : 'Expand firefight ploys'}
+        >
+          <p className="firefight-ploys-title">Firefight Ploys</p>
+          <span className="ploys-chevron">
+            {firefightExpanded ? '▼' : '▶'}
+          </span>
+        </button>
+        {firefightExpanded && (
+          <div id="firefight-ploy-list" className="firefight-ploy-list">
+            {firefightPloys.map((ploy) => (
+              <FirefightPloyRow
+                key={ploy.id}
+                ployId={ploy.id}
+                ployName={ploy.name}
+                ployCost={ploy.cost}
+                ployDesc={ploy.description}
+                useCount={currentTpState.firefightPloyCounts[ploy.id] ?? 0}
+                isStarted={isStarted}
+                canAfford={game.commandPoints >= ploy.cost}
+                onUse={handleUseFirefightPloy}
+                onUndo={handleUndoFirefightPloy}
+              />
+            ))}
+            {/* Generic Command Reroll ploy — always available */}
             <FirefightPloyRow
-              key={ploy.id}
-              ployId={ploy.id}
-              ployName={ploy.name}
-              ployCost={ploy.cost}
-              ployDesc={ploy.description}
-              useCount={currentTpState.firefightPloyCounts[ploy.id] ?? 0}
+              key={COMMAND_REROLL_PLOY.id}
+              ployId={COMMAND_REROLL_PLOY.id}
+              ployName={COMMAND_REROLL_PLOY.name}
+              ployCost={COMMAND_REROLL_PLOY.cost}
+              ployDesc={COMMAND_REROLL_PLOY.description}
+              useCount={
+                currentTpState.firefightPloyCounts[COMMAND_REROLL_PLOY.id] ?? 0
+              }
               isStarted={isStarted}
-              canAfford={game.commandPoints >= ploy.cost}
+              canAfford={game.commandPoints >= COMMAND_REROLL_PLOY.cost}
               onUse={handleUseFirefightPloy}
               onUndo={handleUndoFirefightPloy}
             />
-          ))}
-          {/* Generic Command Reroll ploy — always available */}
-          <FirefightPloyRow
-            key={COMMAND_REROLL_PLOY.id}
-            ployId={COMMAND_REROLL_PLOY.id}
-            ployName={COMMAND_REROLL_PLOY.name}
-            ployCost={COMMAND_REROLL_PLOY.cost}
-            ployDesc={COMMAND_REROLL_PLOY.description}
-            useCount={
-              currentTpState.firefightPloyCounts[COMMAND_REROLL_PLOY.id] ?? 0
-            }
-            isStarted={isStarted}
-            canAfford={game.commandPoints >= COMMAND_REROLL_PLOY.cost}
-            onUse={handleUseFirefightPloy}
-            onUndo={handleUndoFirefightPloy}
-          />
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
