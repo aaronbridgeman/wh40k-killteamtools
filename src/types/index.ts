@@ -10,3 +10,4 @@ export * from './game';
 export * from './team';
 export * from './equipment';
 export * from './event';
+export * from './opponent';

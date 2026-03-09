@@ -1,0 +1,172 @@
+{
+  "team_wide_tips": [
+    {
+      "tip": "Play for mid-board control, not alpha strikes",
+      "detail": "Your low model count and high durability mean you win by owning central objectives and forcing fights on your terms, not by trading early operatives at range."
+    },
+    {
+      "tip": "Advance in a tight but staggered formation",
+      "detail": "Move up together in TP1, using cover and obscuring to deny clean shots, but keep 2\" spacing to avoid multi-target blast and splash attacks."
+    },
+    {
+      "tip": "Use ploys to reward standing still or minimal movement",
+      "detail": "Plan activations so key hitters either don't move or move less than 3\" before they shoot or fight, to maximise bonuses from your core Strategic Ploys."
+    },
+    {
+      "tip": "Value every body – avoid pointless trades",
+      "detail": "With 5–6 operatives, losing one early is a huge percentage of your force; only expose a model if it meaningfully advances scoring or removes a key enemy threat."
+    },
+    {
+      "tip": "Abuse durability to sit on objectives under fire",
+      "detail": "When choosing between perfect cover and being on an objective, you can often afford to stand on the point in cover or conceal, forcing the opponent to overcommit damage."
+    },
+    {
+      "tip": "Plan your grenade and blast turns",
+      "detail": "Hold key blast weapons and frag/krak grenades for high-value clusters or to crack elite 10-wound models; avoid wasting them on single weak targets."
+    },
+    {
+      "tip": "Exploit counter-attack opportunities",
+      "detail": "Position so that if an enemy charges or overextends to finish a wounded Plague Marine, you can immediately counter-charge or double fight with a nearby operative."
+    },
+    {
+      "tip": "Choose Tac Ops that reward staying alive",
+      "detail": "Favour secondaries that score off mid-board control, surviving specialists, or late-game positioning rather than those demanding early risky aggression."
+    },
+    {
+      "tip": "Respect your lack of speed",
+      "detail": "Pre-plan paths to objectives and key vantage points; a mis-positioned operative may need multiple turning points to become relevant again."
+    },
+    {
+      "tip": "Use Poxwalkers (if available) as screens and action bots",
+      "detail": "Let cheap bodies do risky mission actions, screen charges, and body-block lanes while Plague Marines focus on killing and holding key points."
+    }
+  ],
+  "matchup_tips": {
+    "elite_marines_and_chaos": [
+      {
+        "tip": "Trade up with melee ploys",
+        "detail": "Force brawls where you can double fight and leverage abilities that boost melee output, aiming to remove expensive enemy elites in one activation."
+      },
+      {
+        "tip": "Focus fire on one threat at a time",
+        "detail": "Stack shooting and melee onto a single high-value operative rather than spreading damage, ensuring you fully remove their key guns or leaders."
+      },
+      {
+        "tip": "Exploit attrition and resilience",
+        "detail": "Accept some chip damage and prioritize trades where you lose an operative only if it takes at least one enemy elite with it or swings scoring heavily."
+      }
+    ],
+    "horde_teams": [
+      {
+        "tip": "Advance aggressively into the mid-board",
+        "detail": "Push up fast behind cover and force the horde to fight you around central objectives where they cannot ignore your presence."
+      },
+      {
+        "tip": "Prioritize multi-target attacks",
+        "detail": "Target clumps with blast, splash, and grenades; even if a single attack does not kill, spreading damage softens multiple bodies for follow-up."
+      },
+      {
+        "tip": "Cull objective runners first",
+        "detail": "Target fast or mission-action capable enemy bodies early to limit their ability to flood objectives and score secondaries."
+      }
+    ],
+    "shooty_teams_with_good_range": [
+      {
+        "tip": "Use terrain and obscuring ploys to cross the board",
+        "detail": "Chain movement from cover to cover, use obscuring-style ploys, and avoid open lanes until you are close enough to threaten charges or short-range shots."
+      },
+      {
+        "tip": "Bait overextension with sacrificial positioning",
+        "detail": "Occasionally leave one durable operative mildly exposed on or near an objective to tempt the opponent into stepping out of safety, then punish with return fire or charges."
+      },
+      {
+        "tip": "Target special weapons and vantage holders",
+        "detail": "Prioritize eliminating enemy operatives with high-AP guns and those on vantage points, even if it costs tempo, to reduce incoming damage long-term."
+      }
+    ],
+    "melee_heavy_teams": [
+      {
+        "tip": "Make them charge through your threat zone",
+        "detail": "Hold positions just beyond their threat range so that if they commit to a long charge or dash-charge, you have follow-up charges ready."
+      },
+      {
+        "tip": "Layer screens and counter-chargers",
+        "detail": "Use cheaper or less critical operatives to absorb initial charges while your key melee fighters stand just behind them ready to swing back."
+      },
+      {
+        "tip": "Exploit retaliatory and Ceaseless bonuses",
+        "detail": "Stay under movement thresholds or rely on retaliation to gain rerolls, increasing the chance that your counter-attacks delete charging enemies."
+      }
+    ],
+    "elite_shooting_teams": [
+      {
+        "tip": "Close to mid-range and force trades",
+        "detail": "Use terrain and ploys to reach mid-range, where your toughness and short-range firepower let you trade their expensive gunners for your brawlers."
+      },
+      {
+        "tip": "Protect your leader and key gunners",
+        "detail": "Keep the Champion and important specialists out of sight from enemy snipers and plasma until you can either delete or pin those guns."
+      },
+      {
+        "tip": "Capitalize on failed focus fire",
+        "detail": "If an enemy alpha strike fails to kill a targeted Plague Marine, immediately punish the exposed attackers instead of retreating."
+      }
+    ],
+    "sneaky_and_infiltration_teams": [
+      {
+        "tip": "Guard flanks and backfield with a flexible operative",
+        "detail": "Leave one Plague Marine watching likely entry points or concealed paths to deter infiltrators scoring free secondaries."
+      },
+      {
+        "tip": "Sit durable bodies on critical objectives",
+        "detail": "Place your toughest operatives on mission-critical points so even if infiltrators appear nearby, they cannot easily steal scoring without overcommitting."
+      },
+      {
+        "tip": "Use blast and templates when they uncloak",
+        "detail": "When sneaky operatives finally reveal themselves to charge or shoot, try to catch them with grenades or blast weapons while they are clustered."
+      }
+    ]
+  },
+  "operative_role_tips": {
+    "champion": [
+      {
+        "tip": "Equip high-impact melee and a strong pistol",
+        "detail": "Loadouts like power fist plus plasma pistol let the Champion threaten both elite and multi-wound targets at range and in melee."
+      },
+      {
+        "tip": "Preserve the Champion for mid-game swings",
+        "detail": "Avoid exposing the Champion turn one; instead, deliver them into combat once the enemy has already committed and you can delete 1–2 operatives in a single activation."
+      }
+    ],
+    "melee_brutes": [
+      {
+        "tip": "Use as primary objective clearers",
+        "detail": "Point melee specialists at contested objectives to bully enemy operatives off them through charges and double fight actions."
+      },
+      {
+        "tip": "Avoid charging into unsupported enemy lines",
+        "detail": "Only charge where you can either survive the counter-attack or follow up with support from another operative in the same or next activation."
+      }
+    ],
+    "ranged_specialists": [
+      {
+        "tip": "Target key specialists rather than chaff",
+        "detail": "Use long-range or special weapons to remove enemy leaders, gunners, and mission-critical operatives instead of generic bodies."
+      },
+      {
+        "tip": "Anchor fire lanes rather than roaming",
+        "detail": "Park gunners on firing lanes that cover key objectives and routes, moving only when necessary to maintain angles and cover."
+      }
+    ],
+    "poxwalkers_and_cheap_bodies": [
+      {
+        "tip": "Screen and zone out deep strike or infiltrate",
+        "detail": "Use them to create no-go zones where enemies cannot safely appear or charge without exposing themselves to Plague Marine counter-attacks."
+      },
+      {
+        "tip": "Handle risky mission actions",
+        "detail": "Assign them to actions that might leave a model exposed or out of position, keeping Plague Marines free for fighting and durable scoring."
+      }
+    ]
+  }
+}
