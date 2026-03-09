@@ -7,7 +7,7 @@
  */
 
 export interface MissionEntry {
-  /** Unique identifier */
+  /** Unique identifier — kebab-case, e.g. `'no-prisoners'` */
   id: string;
   /** Display name shown in the dropdown */
   name: string;

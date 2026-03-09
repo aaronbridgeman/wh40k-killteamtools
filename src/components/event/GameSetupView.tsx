@@ -63,7 +63,7 @@ export function GameSetupView({
       turningPoints: {
         ...game.turningPoints,
         1: game.turningPoints[1] ?? {
-          selectedStrategicPloyId: null,
+          selectedStrategicPloyIds: [],
           firefightPloyCounts: {},
         },
       },

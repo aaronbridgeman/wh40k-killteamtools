@@ -89,11 +89,16 @@ export function EventEquipmentTracker({
     const isSelected = selectedEquipmentIds.includes(item.id);
     const isGrenades = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID;
     const checkboxId = `equip-${item.id}`;
+    // Disable selection of additional items once the limit is reached
+    const isDisabled =
+      !isSelected &&
+      selectedEquipmentIds.length >=
+        QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS;
 
     return (
       <div key={item.id}>
         <label
-          className={`equipment-item ${isSelected ? 'selected' : ''}`}
+          className={`equipment-item ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}`}
           htmlFor={checkboxId}
         >
           <input
@@ -102,7 +107,9 @@ export function EventEquipmentTracker({
             className="equipment-checkbox"
             checked={isSelected}
             onChange={() => handleToggle(item)}
+            disabled={isDisabled}
             aria-label={`Select ${item.name}`}
+            aria-disabled={isDisabled}
           />
           <div className="equipment-info">
             <p className={`equipment-name ${isSelected ? 'selected' : ''}`}>
