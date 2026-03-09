@@ -26,28 +26,6 @@ describe('TurningPointPloys', () => {
     faction = await loadFaction('plague-marines');
   });
 
-  it('renders the Start Game button when the game has not started (turningPoint 0)', () => {
-    const game = getInitialGameState(1); // turningPoint: 0
-    render(
-      <TurningPointPloys game={game} faction={faction} onChange={vi.fn()} {...defaultRosterProps} />
-    );
-
-    expect(screen.getByRole('button', { name: /Start Game/i })).toBeInTheDocument();
-  });
-
-  it('calls onChange with turningPoint=1 when Start Game is clicked', () => {
-    const onChange = vi.fn();
-    const game = getInitialGameState(1);
-    render(
-      <TurningPointPloys game={game} faction={faction} onChange={onChange} {...defaultRosterProps} />
-    );
-
-    fireEvent.click(screen.getByRole('button', { name: /Start Game/i }));
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ turningPoint: 1 })
-    );
-  });
-
   it('shows current turning point once game is started', () => {
     const game: GameEventState = { ...getInitialGameState(1), turningPoint: 2 };
     render(

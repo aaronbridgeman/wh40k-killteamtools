@@ -186,10 +186,6 @@ export function TurningPointPloys({
   // Handlers
   // ------------------------------------------------------------------
 
-  const handleStartGame = useCallback(() => {
-    onChange({ ...game, turningPoint: 1 });
-  }, [game, onChange]);
-
   const handleAdvanceTp = useCallback(() => {
     onChange(advanceTurningPoint(game));
   }, [game, onChange]);
@@ -307,40 +303,26 @@ export function TurningPointPloys({
     <div className="tp-ploys">
       {/* Turning point navigation */}
       <div className="tp-selector">
-        {isStarted ? (
-          <>
-            <button
-              className="tp-button"
-              onClick={handleRetreatTp}
-              disabled={game.turningPoint <= 1}
-              aria-label="Go back to previous turning point"
-            >
-              ‹
-            </button>
-            <div className="tp-display">
-              <span className="tp-value">TP {game.turningPoint}</span>
-              <span className="tp-of">
-                of {GAME_DEFAULTS.MAX_TURNING_POINT}
-              </span>
-            </div>
-            <button
-              className="tp-button"
-              onClick={handleAdvanceTp}
-              disabled={game.turningPoint >= GAME_DEFAULTS.MAX_TURNING_POINT}
-              aria-label="Advance to next turning point"
-            >
-              ›
-            </button>
-          </>
-        ) : (
-          <button
-            className="tp-button"
-            onClick={handleStartGame}
-            style={{ width: 'auto', borderRadius: 8, padding: '0.5rem 1.5rem' }}
-          >
-            Start Game
-          </button>
-        )}
+        <button
+          className="tp-button"
+          onClick={handleRetreatTp}
+          disabled={game.turningPoint <= 1}
+          aria-label="Go back to previous turning point"
+        >
+          ‹
+        </button>
+        <div className="tp-display">
+          <span className="tp-value">TP {game.turningPoint}</span>
+          <span className="tp-of">of {GAME_DEFAULTS.MAX_TURNING_POINT}</span>
+        </div>
+        <button
+          className="tp-button"
+          onClick={handleAdvanceTp}
+          disabled={game.turningPoint >= GAME_DEFAULTS.MAX_TURNING_POINT}
+          aria-label="Advance to next turning point"
+        >
+          ›
+        </button>
       </div>
 
       {/* CP tracker */}
@@ -423,13 +405,6 @@ export function TurningPointPloys({
               </p>
             )}
         </div>
-      )}
-
-      {!isStarted && (
-        <p className="tp-start-prompt">
-          Press &quot;Start Game&quot; to begin Turning Point 1 and select your
-          strategic ploy.
-        </p>
       )}
 
       {/* Firefight ploys — faction + Command Reroll */}

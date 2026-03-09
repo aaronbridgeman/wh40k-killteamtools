@@ -12,11 +12,14 @@ import {
   saveEventState,
   loadEventState,
   clearEventState,
+  saveLearningsLog,
+  loadLearningsLog,
+  clearLearningsLog,
   getTurningPointState,
   updateTurningPointState,
   advanceTurningPoint,
 } from '@/services/eventStorage';
-import { QuickPlayEventState, GameEventState } from '@/types/event';
+import { QuickPlayEventState, GameEventState, LearningEntry } from '@/types/event';
 import { QUICK_PLAY_DEFAULTS, GAME_DEFAULTS } from '@/constants';
 
 describe('eventStorage', () => {
@@ -34,9 +37,9 @@ describe('eventStorage', () => {
       expect(state.games).toHaveLength(QUICK_PLAY_DEFAULTS.GAME_COUNT);
     });
 
-    it('returns state with setupComplete=false', () => {
+    it('returns state with setupComplete=true (setup screen removed in v3)', () => {
       const state = getInitialEventState();
-      expect(state.setupComplete).toBe(false);
+      expect(state.setupComplete).toBe(true);
     });
 
     it('returns state with empty eventName', () => {
@@ -49,11 +52,6 @@ describe('eventStorage', () => {
       expect(state.activeGameIndex).toBe(0);
     });
 
-    it('returns empty learningEntries', () => {
-      const state = getInitialEventState();
-      expect(state.learningEntries).toEqual([]);
-    });
-
     it('returns state with correct schema version', () => {
       const state = getInitialEventState();
       expect(state.version).toBe(QUICK_PLAY_DEFAULTS.SCHEMA_VERSION);
@@ -64,6 +62,11 @@ describe('eventStorage', () => {
       expect(state.games[0].gameNumber).toBe(1);
       expect(state.games[1].gameNumber).toBe(2);
       expect(state.games[2].gameNumber).toBe(3);
+    });
+
+    it('does not contain learningEntries (moved to separate storage in v3)', () => {
+      const state = getInitialEventState();
+      expect('learningEntries' in state).toBe(false);
     });
   });
 
@@ -110,6 +113,23 @@ describe('eventStorage', () => {
       const game = getInitialGameState(1);
       expect(game.incapacitatedOperativeIds).toEqual([]);
     });
+
+    it('returns gamePhase=setup', () => {
+      const game = getInitialGameState(1);
+      expect(game.gamePhase).toBe('setup');
+    });
+
+    it('returns empty opposition, critOp, tacOp', () => {
+      const game = getInitialGameState(1);
+      expect(game.opposition).toBe('');
+      expect(game.critOp).toBe('');
+      expect(game.tacOp).toBe('');
+    });
+
+    it('returns killOpKillCount=0', () => {
+      const game = getInitialGameState(1);
+      expect(game.killOpKillCount).toBe(0);
+    });
   });
 
   describe('getInitialTurningPointState', () => {
@@ -125,15 +145,14 @@ describe('eventStorage', () => {
   });
 
   // ------------------------------------------------------------------
-  // localStorage save / load / clear
+  // localStorage save / load / clear — event state
   // ------------------------------------------------------------------
 
   describe('saveEventState and loadEventState', () => {
     it('saves and loads state correctly', () => {
       const state = getInitialEventState();
       state.eventName = 'Test Event';
-      state.setupComplete = true;
-      state.learningEntries = [{ id: '1', text: 'Game 1 notes', timestamp: new Date().toISOString() }];
+      state.activeGameIndex = 1;
 
       saveEventState(state);
       const loaded = loadEventState();
@@ -141,8 +160,6 @@ describe('eventStorage', () => {
       expect(loaded).not.toBeNull();
       expect(loaded!.eventName).toBe('Test Event');
       expect(loaded!.setupComplete).toBe(true);
-      expect(loaded!.learningEntries).toHaveLength(1);
-      expect(loaded!.learningEntries[0].text).toBe('Game 1 notes');
       expect(loaded!.games).toHaveLength(3);
     });
 
@@ -151,6 +168,11 @@ describe('eventStorage', () => {
       state.games[0].removedOperativeId = 'pm-plague-marine-warrior';
       state.games[0].commandPoints = 5;
       state.games[0].selectedEquipmentIds = ['blight-grenades'];
+      state.games[0].gamePhase = 'playing';
+      state.games[0].opposition = 'Grey Knights';
+      state.games[0].critOp = 'No Prisoners';
+      state.games[0].tacOp = 'Assassinate';
+      state.games[0].killOpKillCount = 3;
 
       saveEventState(state);
       const loaded = loadEventState();
@@ -158,6 +180,11 @@ describe('eventStorage', () => {
       expect(loaded!.games[0].removedOperativeId).toBe('pm-plague-marine-warrior');
       expect(loaded!.games[0].commandPoints).toBe(5);
       expect(loaded!.games[0].selectedEquipmentIds).toEqual(['blight-grenades']);
+      expect(loaded!.games[0].gamePhase).toBe('playing');
+      expect(loaded!.games[0].opposition).toBe('Grey Knights');
+      expect(loaded!.games[0].critOp).toBe('No Prisoners');
+      expect(loaded!.games[0].tacOp).toBe('Assassinate');
+      expect(loaded!.games[0].killOpKillCount).toBe(3);
     });
   });
 
@@ -168,9 +195,8 @@ describe('eventStorage', () => {
     });
   });
 
-  describe('loadEventState (migration)', () => {
-    it('migrates v1 save: adds incapacitatedOperativeIds, converts usedFirefightPloyIds→firefightPloyCounts, adds learningEntries', () => {
-      // Simulate an old v1 save that predates the v2 schema
+  describe('loadEventState (migration from v1/v2)', () => {
+    it('migrates v1 save: adds incapacitatedOperativeIds, converts usedFirefightPloyIds, adds v3 fields', () => {
       const oldState = {
         version: 1,
         eventName: 'Old Event',
@@ -196,17 +222,42 @@ describe('eventStorage', () => {
       // usedFirefightPloyIds converted to firefightPloyCounts
       expect(loaded.games[0].turningPoints[1].firefightPloyCounts).toEqual({ 'virulent-poison': 1 });
 
-      // learnings string is dropped; learningEntries is an empty array
-      expect(loaded.learningEntries).toEqual([]);
+      // v3 fields added with defaults
+      expect(loaded.games[0].gamePhase).toBe('playing'); // turningPoint > 0 → playing
+      expect(loaded.games[1].gamePhase).toBe('setup');   // turningPoint === 0 → setup
+      expect(loaded.games[0].opposition).toBe('');
+      expect(loaded.games[0].critOp).toBe('');
+      expect(loaded.games[0].tacOp).toBe('');
+      expect(loaded.games[0].killOpKillCount).toBe(0);
 
-      // All existing fields should be preserved without modification
-      expect(loaded.games[0].gameNumber).toBe(1);
+      // existing fields preserved
       expect(loaded.games[0].removedOperativeId).toBe('pm-plague-marine-warrior');
-      expect(loaded.games[0].selectedEquipmentIds).toEqual(['blight-grenades']);
-      expect(loaded.games[0].blightGrenadeUsesRemaining).toBe(1);
       expect(loaded.games[0].turningPoint).toBe(2);
-      expect(loaded.games[0].commandPoints).toBe(3);
-      expect(loaded.games[0].turningPoints[1].selectedStrategicPloyId).toBe('contagion');
+    });
+
+    it('migrates v2 learningEntries to separate storage if separate storage is empty', () => {
+      const oldState = {
+        version: 2,
+        eventName: 'Old Event',
+        setupComplete: true,
+        activeGameIndex: 0,
+        learningEntries: [
+          { id: '1', text: 'Test note', timestamp: new Date().toISOString() },
+        ],
+        games: [
+          { gameNumber: 1, removedOperativeId: null, selectedEquipmentIds: [], blightGrenadeUsesRemaining: 2, turningPoint: 0, commandPoints: 0, turningPoints: {}, incapacitatedOperativeIds: [] },
+          { gameNumber: 2, removedOperativeId: null, selectedEquipmentIds: [], blightGrenadeUsesRemaining: 2, turningPoint: 0, commandPoints: 0, turningPoints: {}, incapacitatedOperativeIds: [] },
+          { gameNumber: 3, removedOperativeId: null, selectedEquipmentIds: [], blightGrenadeUsesRemaining: 2, turningPoint: 0, commandPoints: 0, turningPoints: {}, incapacitatedOperativeIds: [] },
+        ],
+      };
+      localStorage.setItem('kill-team-quick-play-event', JSON.stringify(oldState));
+
+      loadEventState();
+
+      // learningEntries should have been migrated to separate storage
+      const migrated = loadLearningsLog();
+      expect(migrated).toHaveLength(1);
+      expect(migrated[0].text).toBe('Test note');
     });
   });
 
@@ -235,6 +286,55 @@ describe('eventStorage', () => {
 
       clearEventState();
       expect(loadEventState()).toBeNull();
+    });
+
+    it('does NOT clear the learnings log', () => {
+      saveLearningsLog([{ id: '1', text: 'A note', timestamp: new Date().toISOString() }]);
+      saveEventState(getInitialEventState());
+
+      clearEventState();
+
+      // Event state cleared
+      expect(loadEventState()).toBeNull();
+      // Learnings preserved
+      expect(loadLearningsLog()).toHaveLength(1);
+    });
+  });
+
+  // ------------------------------------------------------------------
+  // Learnings log (separate storage)
+  // ------------------------------------------------------------------
+
+  describe('saveLearningsLog / loadLearningsLog', () => {
+    it('saves and loads an empty array', () => {
+      saveLearningsLog([]);
+      expect(loadLearningsLog()).toEqual([]);
+    });
+
+    it('saves and loads multiple entries', () => {
+      const entries: LearningEntry[] = [
+        { id: '1', text: 'Note 1', timestamp: '2026-01-01T00:00:00Z' },
+        { id: '2', text: 'Note 2', timestamp: '2026-01-02T00:00:00Z', oppositionTeam: 'Orks' },
+      ];
+      saveLearningsLog(entries);
+      const loaded = loadLearningsLog();
+      expect(loaded).toHaveLength(2);
+      expect(loaded[0].text).toBe('Note 1');
+      expect(loaded[1].oppositionTeam).toBe('Orks');
+    });
+
+    it('returns empty array when no log is stored', () => {
+      expect(loadLearningsLog()).toEqual([]);
+    });
+  });
+
+  describe('clearLearningsLog', () => {
+    it('removes the learnings log from localStorage', () => {
+      saveLearningsLog([{ id: '1', text: 'A note', timestamp: new Date().toISOString() }]);
+      expect(loadLearningsLog()).toHaveLength(1);
+
+      clearLearningsLog();
+      expect(loadLearningsLog()).toEqual([]);
     });
   });
 
@@ -319,7 +419,6 @@ describe('eventStorage', () => {
         },
       };
       const updated = advanceTurningPoint(game);
-      // Should preserve existing TP 2 state rather than overwrite
       expect(updated.turningPoints[2].selectedStrategicPloyId).toBe('nurglings');
     });
   });
@@ -329,15 +428,12 @@ describe('eventStorage', () => {
   // ------------------------------------------------------------------
 
   describe('full state round-trip', () => {
-    it('persists and restores a complex event state', () => {
+    it('persists and restores a complex event state with v3 fields', () => {
       const state: QuickPlayEventState = {
-        version: 2,
+        version: 3,
         eventName: 'Nurgle Cup',
         setupComplete: true,
         activeGameIndex: 1,
-        learningEntries: [
-          { id: '1', text: 'Keep Icon Bearer alive for free Contagion.', timestamp: new Date().toISOString() },
-        ],
         games: [
           {
             gameNumber: 1,
@@ -352,6 +448,11 @@ describe('eventStorage', () => {
               2: { selectedStrategicPloyId: 'cloud-of-flies', firefightPloyCounts: {} },
               3: { selectedStrategicPloyId: null, firefightPloyCounts: {} },
             },
+            gamePhase: 'playing',
+            opposition: 'Grey Knights',
+            critOp: 'No Prisoners',
+            tacOp: 'Assassinate',
+            killOpKillCount: 2,
           },
           getInitialGameState(2),
           getInitialGameState(3),
@@ -363,14 +464,17 @@ describe('eventStorage', () => {
 
       expect(loaded.eventName).toBe('Nurgle Cup');
       expect(loaded.activeGameIndex).toBe(1);
-      expect(loaded.learningEntries).toHaveLength(1);
-      expect(loaded.learningEntries[0].text).toBe('Keep Icon Bearer alive for free Contagion.');
       expect(loaded.games[0].removedOperativeId).toBe('pm-plague-marine-warrior');
       expect(loaded.games[0].blightGrenadeUsesRemaining).toBe(1);
       expect(loaded.games[0].turningPoint).toBe(3);
       expect(loaded.games[0].turningPoints[1].selectedStrategicPloyId).toBe('contagion');
       expect(loaded.games[0].turningPoints[1].firefightPloyCounts['virulent-poison']).toBe(2);
       expect(loaded.games[0].incapacitatedOperativeIds).toContain('pm-plague-marine-bombardier');
+      expect(loaded.games[0].gamePhase).toBe('playing');
+      expect(loaded.games[0].opposition).toBe('Grey Knights');
+      expect(loaded.games[0].critOp).toBe('No Prisoners');
+      expect(loaded.games[0].tacOp).toBe('Assassinate');
+      expect(loaded.games[0].killOpKillCount).toBe(2);
     });
   });
 });

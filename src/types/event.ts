@@ -68,7 +68,7 @@ export interface GameEventState {
   blightGrenadeUsesRemaining: number;
   /**
    * Current turning point (1–4).
-   * 0 indicates the game has not started yet.
+   * 0 indicates the game has not started yet (still in setup phase).
    */
   turningPoint: number;
   /** Current command point total for the player */
@@ -84,10 +84,30 @@ export interface GameEventState {
    * Physical wound tracking is handled on-board.
    */
   incapacitatedOperativeIds: string[];
+  /**
+   * Current phase of this game.
+   * 'setup': player is configuring the roster, equipment, and objectives.
+   * 'playing': game is in progress (TP 1–4 active).
+   */
+  gamePhase: 'setup' | 'playing';
+  /** Optional: the opposing kill team faction for this game */
+  opposition: string;
+  /** Optional: the Critical Operation objective selected for this game */
+  critOp: string;
+  /** Optional: the Tactical Operation objective selected for this game */
+  tacOp: string;
+  /**
+   * Number of enemy operatives incapacitated (kills) made during this game.
+   * Used to track Kill Op scoring.
+   */
+  killOpKillCount: number;
 }
 
 /**
  * Top-level state for the entire quick play event.
+ *
+ * Learning entries are stored separately via eventStorage.saveLearningsLog /
+ * loadLearningsLog so they survive event resets.
  *
  * This is the root object persisted to localStorage and (optionally) Google Drive.
  */
@@ -99,7 +119,10 @@ export interface QuickPlayEventState {
   version: number;
   /** Optional display name for the event (e.g. "Nurgle's Harvest GT") */
   eventName: string;
-  /** Whether the initial event setup screen has been completed */
+  /**
+   * Whether the initial event setup screen has been completed.
+   * Always true in schema v3 — the setup screen has been removed.
+   */
   setupComplete: boolean;
   /**
    * Zero-based index of the currently active game (0 = Game 1, 1 = Game 2, 2 = Game 3).
@@ -110,10 +133,4 @@ export interface QuickPlayEventState {
    * Always contains exactly 3 elements — one per game in the event.
    */
   games: GameEventState[];
-  /**
-   * Log of learning entries submitted during or after the event.
-   * Each entry is a short note with optional metadata (opponent, ops, map).
-   * Replaces the old `learnings: string` field (schema v1).
-   */
-  learningEntries: LearningEntry[];
 }

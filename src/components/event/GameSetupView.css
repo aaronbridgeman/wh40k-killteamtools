@@ -1,0 +1,124 @@
+/**
+ * GameSetupView CSS — per-game setup phase.
+ */
+
+.game-setup-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-md) 0;
+}
+
+/* Section card */
+.setup-section {
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 12px;
+  padding: var(--spacing-lg);
+}
+
+.setup-section-title {
+  margin: 0 0 var(--spacing-md);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--nurgle-border);
+  padding-bottom: var(--spacing-sm);
+}
+
+.setup-optional-label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--nurgle-text-muted);
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+
+/* Game details grid */
+.setup-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 520px) {
+  .setup-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.setup-detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.setup-detail-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.setup-detail-input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 6px;
+  color: var(--nurgle-text);
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.setup-detail-input:focus {
+  outline: none;
+  border-color: var(--nurgle-accent);
+}
+
+.setup-detail-input::placeholder {
+  color: var(--nurgle-text-muted);
+  opacity: 0.6;
+}
+
+/* Begin button */
+.setup-begin-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) 0 var(--spacing-xl);
+}
+
+.setup-begin-button {
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--nurgle-primary);
+  border: 2px solid var(--nurgle-primary);
+  border-radius: 10px;
+  color: var(--nurgle-text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+  min-width: 200px;
+}
+
+.setup-begin-button:hover:not(:disabled) {
+  background-color: var(--nurgle-accent);
+  border-color: var(--nurgle-accent);
+  box-shadow: 0 0 14px var(--nurgle-accent-glow);
+}
+
+.setup-begin-button:disabled {
+  background-color: var(--nurgle-disabled);
+  border-color: var(--nurgle-disabled);
+  color: var(--nurgle-text-muted);
+  cursor: not-allowed;
+}

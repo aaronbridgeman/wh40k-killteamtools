@@ -8,7 +8,7 @@
  * @see QUICK_PLAY_EVENT_SPEC.md
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { LearningEntry } from '@/types/event';
 import './LearningsTracker.css';
 
@@ -63,21 +63,45 @@ interface LearningsTrackerProps {
   onSubmit: (entry: LearningEntry) => void;
   /** Called to navigate to the full log view */
   onViewLog: () => void;
+  /** Pre-populate opposition field from game setup */
+  defaultOpposition?: string;
+  /** Pre-populate crit op field from game setup */
+  defaultCritOp?: string;
+  /** Pre-populate tac op field from game setup */
+  defaultTacOp?: string;
 }
 
 /**
  * Form for capturing a short learning note with optional metadata.
  * Submitted entries are added to the persistent log and the form is cleared.
+ * The defaultOpposition/defaultCritOp/defaultTacOp props are kept in sync
+ * with the active game so switching games updates the pre-populated fields.
  */
 export function LearningsTracker({
   entries,
   onSubmit,
   onViewLog,
+  defaultOpposition = '',
+  defaultCritOp = '',
+  defaultTacOp = '',
 }: LearningsTrackerProps) {
   const [text, setText] = useState('');
-  const [oppositionTeam, setOppositionTeam] = useState('');
-  const [critOp, setCritOp] = useState('');
-  const [tacOp, setTacOp] = useState('');
+  const [oppositionTeam, setOppositionTeam] = useState(defaultOpposition);
+  const [critOp, setCritOp] = useState(defaultCritOp);
+  const [tacOp, setTacOp] = useState(defaultTacOp);
+
+  // Keep pre-populated fields in sync when the active game changes
+  useEffect(() => {
+    setOppositionTeam(defaultOpposition);
+  }, [defaultOpposition]);
+
+  useEffect(() => {
+    setCritOp(defaultCritOp);
+  }, [defaultCritOp]);
+
+  useEffect(() => {
+    setTacOp(defaultTacOp);
+  }, [defaultTacOp]);
   const [map, setMap] = useState('');
 
   const handleSubmit = useCallback(
