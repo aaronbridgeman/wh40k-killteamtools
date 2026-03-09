@@ -28,12 +28,52 @@
   opacity: 0.65;
 }
 
+.operative-slot.injured {
+  border-color: #c4a35a;
+}
+
 .operative-slot-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   padding: var(--spacing-xs) var(--spacing-md);
   background-color: var(--nurgle-surface-raised);
   border-top: 1px solid var(--nurgle-border);
+  gap: var(--spacing-sm);
+}
+
+.footer-left,
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Injured toggle button */
+.injured-toggle-button {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid var(--nurgle-border);
+  color: var(--nurgle-text-muted);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.injured-toggle-button:hover {
+  border-color: #c4a35a;
+  color: #c4a35a;
+}
+
+.injured-toggle-button.active {
+  background-color: rgba(196, 163, 90, 0.15);
+  border-color: #c4a35a;
+  color: #c4a35a;
 }
 
 /* Remove / Restore toggle button */

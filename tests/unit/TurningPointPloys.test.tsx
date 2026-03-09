@@ -76,7 +76,8 @@ describe('TurningPointPloys', () => {
 
   it('selects a strategic ploy and shows active banner', () => {
     const onChange = vi.fn();
-    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1 };
+    // Give enough CP to afford the ploy (Contagion costs 1 CP)
+    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1, commandPoints: 5 };
     render(
       <TurningPointPloys game={game} faction={faction} onChange={onChange} />
     );
@@ -84,6 +85,7 @@ describe('TurningPointPloys', () => {
     fireEvent.click(screen.getByLabelText(/Select strategic ploy: Contagion/i));
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
+        commandPoints: 4, // 5 - 1 CP for Contagion
         turningPoints: expect.objectContaining({
           1: expect.objectContaining({ selectedStrategicPloyId: 'contagion' }),
         }),
@@ -108,7 +110,8 @@ describe('TurningPointPloys', () => {
 
   it('marks a firefight ploy as used when clicked', () => {
     const onChange = vi.fn();
-    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1 };
+    // Give enough CP to afford the ploy (Virulent Poison costs 1 CP)
+    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1, commandPoints: 5 };
     render(
       <TurningPointPloys game={game} faction={faction} onChange={onChange} />
     );
@@ -119,6 +122,7 @@ describe('TurningPointPloys', () => {
     );
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
+        commandPoints: 4, // 5 - 1 CP for the ploy
         turningPoints: expect.objectContaining({
           1: expect.objectContaining({
             usedFirefightPloyIds: expect.arrayContaining(['virulent-poison']),
@@ -170,14 +174,119 @@ describe('TurningPointPloys', () => {
     ).toBeDisabled();
   });
 
-  it('disables retreat button at turning point 1 (min)', () => {
+  it('disables firefight ploy button when cannot afford and not yet used', () => {
+    // commandPoints starts at 0 (STARTING_COMMAND_POINTS), all ploys cost 1
     const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1 };
     render(
       <TurningPointPloys game={game} faction={faction} onChange={vi.fn()} />
     );
 
-    expect(
-      screen.getByLabelText('Go back to previous turning point')
-    ).toBeDisabled();
+    // All firefight ploy buttons should be disabled when CP = 0
+    const ployButtons = screen.getAllByRole('button', {
+      name: /— Cannot afford/i,
+    });
+    ployButtons.forEach((btn) => expect(btn).toBeDisabled());
+  });
+
+  it('refunds CP when deselecting a strategic ploy', () => {
+    const onChange = vi.fn();
+    const game: GameEventState = {
+      ...getInitialGameState(1),
+      turningPoint: 1,
+      commandPoints: 4, // Already spent 1 CP selecting Contagion
+      turningPoints: {
+        1: { selectedStrategicPloyId: 'contagion', usedFirefightPloyIds: [] },
+      },
+    };
+    render(
+      <TurningPointPloys game={game} faction={faction} onChange={onChange} />
+    );
+
+    fireEvent.click(screen.getByLabelText(/Deselect strategic ploy: Contagion/i));
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        commandPoints: 5, // 4 + 1 CP refunded
+        turningPoints: expect.objectContaining({
+          1: expect.objectContaining({ selectedStrategicPloyId: null }),
+        }),
+      })
+    );
+  });
+
+  it('refunds CP when un-using a firefight ploy', () => {
+    const onChange = vi.fn();
+    const game: GameEventState = {
+      ...getInitialGameState(1),
+      turningPoint: 1,
+      commandPoints: 3, // After spending 1 CP on the ploy
+      turningPoints: {
+        1: {
+          selectedStrategicPloyId: null,
+          usedFirefightPloyIds: ['virulent-poison'],
+        },
+      },
+    };
+    render(
+      <TurningPointPloys game={game} faction={faction} onChange={onChange} />
+    );
+
+    // The Used badge button can be clicked to un-use
+    fireEvent.click(screen.getByRole('button', { name: /Virulent Poison/i }));
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        commandPoints: 4, // 3 + 1 CP refunded
+        turningPoints: expect.objectContaining({
+          1: expect.objectContaining({ usedFirefightPloyIds: [] }),
+        }),
+      })
+    );
+  });
+
+  it('disables strategic ploy button when cannot afford with no current selection', () => {
+    const game: GameEventState = {
+      ...getInitialGameState(1),
+      turningPoint: 1,
+      commandPoints: 0, // Cannot afford any ploy
+    };
+    render(
+      <TurningPointPloys game={game} faction={faction} onChange={vi.fn()} />
+    );
+
+    // All strategic ploy buttons should be disabled (0 CP, nothing selected)
+    const ployButtons = screen.getAllByRole('button', {
+      name: /Select strategic ploy:/i,
+    });
+    ployButtons.forEach((btn) => expect(btn).toBeDisabled());
+  });
+
+  it('allows switching strategic ploys when one is already selected (net 0 cost)', () => {
+    const onChange = vi.fn();
+    const game: GameEventState = {
+      ...getInitialGameState(1),
+      turningPoint: 1,
+      commandPoints: 2, // Has CP, Contagion already selected
+      turningPoints: {
+        1: { selectedStrategicPloyId: 'contagion', usedFirefightPloyIds: [] },
+      },
+    };
+    render(
+      <TurningPointPloys game={game} faction={faction} onChange={onChange} />
+    );
+
+    // Cloud of Flies button should be enabled (switching from Contagion, net 0 cost)
+    const cloudsButton = screen.getByLabelText(
+      /Select strategic ploy: Cloud of Flies/i
+    );
+    expect(cloudsButton).not.toBeDisabled();
+    fireEvent.click(cloudsButton);
+    // CP stays the same: refund Contagion (1) then deduct Cloud of Flies (1) = net 0
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        commandPoints: 2,
+        turningPoints: expect.objectContaining({
+          1: expect.objectContaining({ selectedStrategicPloyId: 'cloud-of-flies' }),
+        }),
+      })
+    );
   });
 });

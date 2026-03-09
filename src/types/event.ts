@@ -54,6 +54,12 @@ export interface GameEventState {
    * Populated lazily as turning points are reached.
    */
   turningPoints: Record<number, TurningPointState>;
+  /**
+   * IDs of operatives currently marked as Injured.
+   * An injured operative is still active but visually flagged.
+   * Physical wound tracking is handled on-board.
+   */
+  injuredOperativeIds: string[];
 }
 
 /**

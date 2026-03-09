@@ -81,7 +81,7 @@ Four strategic ploys from `faction.json` (type `strategy`, cost **1 CP** each un
 
 - Player tracks their own CP with +/− buttons
 - Constrained to 0–20 (reusing `GAME_DEFAULTS.MIN_COMMAND_POINTS` and `GAME_DEFAULTS.MAX_COMMAND_POINTS` from `constants.ts`)
-- Default starting CP: **2** per turning point (configurable via Open Question #2)
+- Default starting CP: **0** — player adds manually via CPTracker (+/−). No automatic CP addition.
 
 ### 7. Firefight Ploys
 
@@ -312,13 +312,13 @@ All tests follow the existing patterns in `tests/unit/`. Run with `npm run test`
 
 ## Open Questions for User Input
 
-1. **Google Drive sync:** Should this be implemented? (See [Persistence](#8-data-persistence) for requirements.)
+1. **Google Drive sync:** ✅ *Answered: "Yes, but can do that later."* Stub implemented; deferred.
 
-2. **Starting CP:** How many Command Points do you start each turning point with? Does CP carry over between turning points, or reset?
+2. **Starting CP:** ✅ *Answered: Manual — player adds/removes CP manually.*
 
-3. **Strategic ploy cost:** Does choosing a strategic ploy deduct 1 CP from your pool, or is strategic ploy selection free?
+3. **Strategic ploy cost:** ✅ *Answered: Yes — selecting any ploy (strategic or firefight) automatically deducts its CP cost.*
 
-4. **Wound tracking:** Should operative wounds be tracked during the game (like the existing Game Mode view)?
+4. **Wound tracking:** ✅ *Answered: Injured toggle per operative is sufficient; physical wound tracking done on-board.*
 
 5. **Multiple equipment items:** Kill Team allows up to 4 items total. Should the 4-item limit be enforced here, or can any combination of the 3 faction items be selected?
 
@@ -349,17 +349,19 @@ All tests follow the existing patterns in `tests/unit/`. Run with `npm run test`
 | Feature | Status |
 |---------|--------|
 | Spec & open questions | ✅ Complete |
-| TypeScript types (`src/types/event.ts`) | ✅ Skeleton |
-| localStorage persistence | ✅ Skeleton |
-| Google Drive persistence | 🔲 Stub only — awaiting Open Question #1 |
+| TypeScript types (`src/types/event.ts`) | ✅ Complete |
+| localStorage persistence | ✅ Complete |
+| Google Drive persistence | 🔲 Stub only — deferred (Open Question #1) |
 | `QuickPlayEventView` | ✅ Complete |
 | `EventSetup` | ✅ Complete |
 | `GamePanel` + game tabs | ✅ Complete |
 | `OperativeRosterManager` (reuses `OperativeCard`) | ✅ Complete |
 | `EventEquipmentTracker` (reuses `LimitedItemTracker`) | ✅ Complete |
 | `TurningPointPloys` | ✅ Complete |
-| `CPTracker` | ✅ Complete |
+| `CPTracker` (manual +/−) | ✅ Complete |
+| Ploy CP auto-deduction (strategic + firefight) | ✅ Complete |
 | Firefight ploy display | ✅ Complete |
+| Injured operative toggle | ✅ Complete |
 | `LearningsTracker` | ✅ Complete |
 | Nurgle green CSS theme | ✅ Complete |
 | App navigation integration | ✅ Complete |
@@ -368,5 +370,4 @@ All tests follow the existing patterns in `tests/unit/`. Run with `npm run test`
 | `ARCHITECTURE.md` updated | ✅ Complete |
 | `SPEC.md` updated | ✅ Complete |
 | `README.md` updated | ✅ Complete |
-| Wound tracking | 🔲 Pending Open Question #4 |
 | Score / mission tracking | 🔲 Pending Open Questions #8 & #9 |

@@ -105,6 +105,11 @@ describe('eventStorage', () => {
       const game = getInitialGameState(1);
       expect(game.turningPoints).toEqual({});
     });
+
+    it('returns empty injuredOperativeIds', () => {
+      const game = getInitialGameState(1);
+      expect(game.injuredOperativeIds).toEqual([]);
+    });
   });
 
   describe('getInitialTurningPointState', () => {
@@ -159,6 +164,42 @@ describe('eventStorage', () => {
     it('returns null when no saved state exists', () => {
       const loaded = loadEventState();
       expect(loaded).toBeNull();
+    });
+  });
+
+  describe('loadEventState (migration)', () => {
+    it('adds injuredOperativeIds to games that lack the field (old save migration)', () => {
+      // Simulate an old save that predates injuredOperativeIds
+      const oldState = {
+        version: 1,
+        eventName: 'Old Event',
+        setupComplete: true,
+        activeGameIndex: 0,
+        learnings: '',
+        games: [
+          { gameNumber: 1, removedOperativeId: 'pm-plague-marine-warrior', selectedEquipmentIds: ['blight-grenades'], blightGrenadeUsesRemaining: 1, turningPoint: 2, commandPoints: 3, turningPoints: { 1: { selectedStrategicPloyId: 'contagion', usedFirefightPloyIds: [] } } },
+          { gameNumber: 2, removedOperativeId: null, selectedEquipmentIds: [], blightGrenadeUsesRemaining: 2, turningPoint: 0, commandPoints: 0, turningPoints: {} },
+          { gameNumber: 3, removedOperativeId: null, selectedEquipmentIds: [], blightGrenadeUsesRemaining: 2, turningPoint: 0, commandPoints: 0, turningPoints: {} },
+        ],
+      };
+      localStorage.setItem('kill-team-quick-play-event', JSON.stringify(oldState));
+
+      const loaded = loadEventState()!;
+      expect(loaded).not.toBeNull();
+
+      // All games should have injuredOperativeIds defaulted to []
+      loaded.games.forEach((game) => {
+        expect(game.injuredOperativeIds).toEqual([]);
+      });
+
+      // All existing fields should be preserved without modification
+      expect(loaded.games[0].gameNumber).toBe(1);
+      expect(loaded.games[0].removedOperativeId).toBe('pm-plague-marine-warrior');
+      expect(loaded.games[0].selectedEquipmentIds).toEqual(['blight-grenades']);
+      expect(loaded.games[0].blightGrenadeUsesRemaining).toBe(1);
+      expect(loaded.games[0].turningPoint).toBe(2);
+      expect(loaded.games[0].commandPoints).toBe(3);
+      expect(loaded.games[0].turningPoints[1].selectedStrategicPloyId).toBe('contagion');
     });
   });
 
@@ -298,6 +339,7 @@ describe('eventStorage', () => {
             blightGrenadeUsesRemaining: 1,
             turningPoint: 3,
             commandPoints: 4,
+            injuredOperativeIds: ['pm-plague-marine-bombardier'],
             turningPoints: {
               1: { selectedStrategicPloyId: 'contagion', usedFirefightPloyIds: ['virulent-poison'] },
               2: { selectedStrategicPloyId: 'cloud-of-flies', usedFirefightPloyIds: [] },
@@ -320,6 +362,7 @@ describe('eventStorage', () => {
       expect(loaded.games[0].turningPoint).toBe(3);
       expect(loaded.games[0].turningPoints[1].selectedStrategicPloyId).toBe('contagion');
       expect(loaded.games[0].turningPoints[1].usedFirefightPloyIds).toContain('virulent-poison');
+      expect(loaded.games[0].injuredOperativeIds).toContain('pm-plague-marine-bombardier');
     });
   });
 });

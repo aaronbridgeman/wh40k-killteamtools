@@ -5,6 +5,15 @@
  * Data sourced directly from the loaded faction (ploys array in faction.json).
  * No hardcoded ploy data — fully driven by the faction configuration.
  *
+ * CP rules (per user spec):
+ *  - CP is managed manually via the CPTracker (+/−).
+ *  - Selecting a strategic ploy automatically deducts ploy.cost CP;
+ *    deselecting refunds it.  Switching ploys (refund + deduct) is
+ *    always allowed because all Plague Marines ploys cost the same.
+ *  - Using a firefight ploy automatically deducts ploy.cost CP;
+ *    un-using it refunds CP.  Firefight ploy buttons are disabled when
+ *    the player cannot afford them (and the ploy has not yet been used).
+ *
  * @see QUICK_PLAY_EVENT_SPEC.md — sections 4, 5, 6, 7
  */
 
@@ -28,6 +37,14 @@ interface TurningPointPloysProps {
   faction: Faction;
   /** Called whenever game state changes (TP advance, ploy selection, CP) */
   onChange: (updatedGame: GameEventState) => void;
+}
+
+/** Clamps a CP value to the valid range [MIN, MAX]. */
+function clampCp(cp: number): number {
+  return Math.max(
+    GAME_DEFAULTS.MIN_COMMAND_POINTS,
+    Math.min(GAME_DEFAULTS.MAX_COMMAND_POINTS, cp)
+  );
 }
 
 /**
@@ -72,32 +89,57 @@ export function TurningPointPloys({
     onChange({ ...game, turningPoint: prevTp });
   }, [game, onChange]);
 
+  /**
+   * Select or deselect a strategic ploy for the current turning point.
+   * Automatically deducts ploy.cost CP when selecting; refunds when deselecting.
+   * Switching from one ploy to another refunds the old cost and deducts the new.
+   */
   const handleSelectStrategicPloy = useCallback(
-    (ployId: string) => {
+    (ploy: Ploy) => {
       if (!isStarted) return;
-      const updated = updateTurningPointState(game, game.turningPoint, {
+      const isCurrentlySelected =
+        currentTpState.selectedStrategicPloyId === ploy.id;
+
+      // CP delta: deselecting refunds, selecting deducts
+      let cpDelta = isCurrentlySelected ? ploy.cost : -ploy.cost;
+
+      // When switching ploys, also refund the previously selected ploy's cost
+      if (!isCurrentlySelected && currentTpState.selectedStrategicPloyId) {
+        const prevPloy = strategicPloys.find(
+          (p) => p.id === currentTpState.selectedStrategicPloyId
+        );
+        if (prevPloy) cpDelta += prevPloy.cost;
+      }
+
+      const updatedWithTp = updateTurningPointState(game, game.turningPoint, {
         ...currentTpState,
-        selectedStrategicPloyId:
-          currentTpState.selectedStrategicPloyId === ployId ? null : ployId,
+        selectedStrategicPloyId: isCurrentlySelected ? null : ploy.id,
       });
-      onChange(updated);
+      onChange({ ...updatedWithTp, commandPoints: clampCp(game.commandPoints + cpDelta) });
     },
-    [game, onChange, isStarted, currentTpState]
+    [game, onChange, isStarted, currentTpState, strategicPloys]
   );
 
+  /**
+   * Toggle a firefight ploy's used state for the current turning point.
+   * Automatically deducts ploy.cost CP when marking used; refunds when unmarking.
+   */
   const handleToggleFirefightPloy = useCallback(
-    (ployId: string) => {
+    (ploy: Ploy) => {
       if (!isStarted) return;
-      const alreadyUsed = currentTpState.usedFirefightPloyIds.includes(ployId);
+      const alreadyUsed = currentTpState.usedFirefightPloyIds.includes(ploy.id);
       const updatedUsed = alreadyUsed
-        ? currentTpState.usedFirefightPloyIds.filter((id) => id !== ployId)
-        : [...currentTpState.usedFirefightPloyIds, ployId];
+        ? currentTpState.usedFirefightPloyIds.filter((id) => id !== ploy.id)
+        : [...currentTpState.usedFirefightPloyIds, ploy.id];
 
-      const updated = updateTurningPointState(game, game.turningPoint, {
+      // Deduct CP when using; refund when un-using
+      const cpDelta = alreadyUsed ? ploy.cost : -ploy.cost;
+
+      const updatedWithTp = updateTurningPointState(game, game.turningPoint, {
         ...currentTpState,
         usedFirefightPloyIds: updatedUsed,
       });
-      onChange(updated);
+      onChange({ ...updatedWithTp, commandPoints: clampCp(game.commandPoints + cpDelta) });
     },
     [game, onChange, isStarted, currentTpState]
   );
@@ -166,11 +208,20 @@ export function TurningPointPloys({
             {strategicPloys.map((ploy) => {
               const isSelected =
                 currentTpState.selectedStrategicPloyId === ploy.id;
+              const hasCurrentSelection =
+                currentTpState.selectedStrategicPloyId !== null;
+              // Disable only when making a fresh selection and can't afford it
+              const isDisabled =
+                !isSelected &&
+                !hasCurrentSelection &&
+                game.commandPoints < ploy.cost;
               return (
                 <button
                   key={ploy.id}
+                  type="button"
                   className={`strategic-ploy-card ${isSelected ? 'selected' : ''}`}
-                  onClick={() => handleSelectStrategicPloy(ploy.id)}
+                  onClick={() => handleSelectStrategicPloy(ploy)}
+                  disabled={isDisabled}
                   aria-pressed={isSelected}
                   aria-label={`${isSelected ? 'Deselect' : 'Select'} strategic ploy: ${ploy.name}`}
                 >
@@ -224,18 +275,12 @@ export function TurningPointPloys({
             else cardClass += ' unaffordable';
 
             return (
-              <div
+              <button
                 key={ploy.id}
+                type="button"
                 className={cardClass}
-                role="button"
-                tabIndex={isStarted ? 0 : -1}
-                onClick={() => isStarted && handleToggleFirefightPloy(ploy.id)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    if (isStarted) handleToggleFirefightPloy(ploy.id);
-                  }
-                }}
+                onClick={() => handleToggleFirefightPloy(ploy)}
+                disabled={!isStarted || (!isUsed && !canAfford)}
                 aria-pressed={isUsed}
                 aria-label={`${ploy.name} — ${isUsed ? 'Used this turning point' : canAfford ? 'Affordable' : 'Cannot afford'}`}
               >
@@ -245,7 +290,7 @@ export function TurningPointPloys({
                   <p className="ff-ploy-desc">{ploy.description}</p>
                 </div>
                 {isUsed && <span className="ff-used-badge">✓ Used</span>}
-              </div>
+              </button>
             );
           })}
         </div>

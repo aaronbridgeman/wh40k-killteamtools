@@ -54,6 +54,7 @@ export function getInitialGameState(gameNumber: 1 | 2 | 3): GameEventState {
     turningPoint: 0,
     commandPoints: QUICK_PLAY_DEFAULTS.STARTING_COMMAND_POINTS,
     turningPoints: {},
+    injuredOperativeIds: [],
   };
 }
 
@@ -132,7 +133,15 @@ export function loadEventState(): QuickPlayEventState | null {
       parsed.games.length === QUICK_PLAY_DEFAULTS.GAME_COUNT &&
       typeof parsed.setupComplete === 'boolean'
     ) {
-      return parsed as QuickPlayEventState;
+      // Migrate: ensure each game has injuredOperativeIds (added later;
+      // old saves may not have this field)
+      const migratedGames = (parsed.games as GameEventState[]).map(
+        (game: GameEventState) => ({
+          ...game,
+          injuredOperativeIds: game.injuredOperativeIds ?? [],
+        })
+      );
+      return { ...parsed, games: migratedGames } as QuickPlayEventState;
     }
 
     // Invalid structure — clear corrupted data

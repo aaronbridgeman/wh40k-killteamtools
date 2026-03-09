@@ -48,8 +48,8 @@ export const QUICK_PLAY_DEFAULTS = {
   GAME_COUNT: 3,
   /** Total operatives in a Plague Marines roster (Nurgle's sacred number 7) */
   ROSTER_SIZE: 7,
-  /** Starting CP per turning point */
-  STARTING_COMMAND_POINTS: 2,
+  /** Starting CP per game — player adds manually via CPTracker (+/−) */
+  STARTING_COMMAND_POINTS: 0,
   /** Maximum Blight Grenade uses per game */
   MAX_BLIGHT_GRENADE_USES: 2,
   /** Current schema version for QuickPlayEventState */

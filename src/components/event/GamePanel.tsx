@@ -41,6 +41,13 @@ export function GamePanel({
     [game, onChange]
   );
 
+  const handleInjuredChange = useCallback(
+    (injuredOperativeIds: string[]) => {
+      onChange({ ...game, injuredOperativeIds });
+    },
+    [game, onChange]
+  );
+
   const handleEquipmentChange = useCallback(
     (selectedEquipmentIds: string[], blightGrenadeUsesRemaining: number) => {
       onChange({ ...game, selectedEquipmentIds, blightGrenadeUsesRemaining });
@@ -72,6 +79,8 @@ export function GamePanel({
           removedOperativeId={game.removedOperativeId}
           selectedEquipmentIds={game.selectedEquipmentIds}
           onRosterChange={handleRosterChange}
+          injuredOperativeIds={game.injuredOperativeIds}
+          onInjuredChange={handleInjuredChange}
         />
       </section>
 

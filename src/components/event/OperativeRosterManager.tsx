@@ -22,6 +22,10 @@ interface OperativeRosterManagerProps {
   selectedEquipmentIds: string[];
   /** Called when the player removes or restores an operative */
   onRosterChange: (removedOperativeId: string | null) => void;
+  /** IDs of operatives currently marked as Injured. Defaults to []. */
+  injuredOperativeIds?: string[];
+  /** Called when an operative's injured status is toggled. Defaults to no-op. */
+  onInjuredChange?: (injuredOperativeIds: string[]) => void;
 }
 
 /**
@@ -121,6 +125,8 @@ export function OperativeRosterManager({
   removedOperativeId,
   selectedEquipmentIds,
   onRosterChange,
+  injuredOperativeIds = [],
+  onInjuredChange = () => {},
 }: OperativeRosterManagerProps) {
   const blightGrenadesSelected = selectedEquipmentIds.includes(
     QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
@@ -157,6 +163,14 @@ export function OperativeRosterManager({
     // If a different operative is already removed, do nothing (handled by disabled state)
   };
 
+  const handleInjuredToggle = (operativeId: string) => {
+    const isInjured = injuredOperativeIds.includes(operativeId);
+    const updated = isInjured
+      ? injuredOperativeIds.filter((id) => id !== operativeId)
+      : [...injuredOperativeIds, operativeId];
+    onInjuredChange(updated);
+  };
+
   const activeCount = faction.operatives.length - (removedOperativeId ? 1 : 0);
 
   return (
@@ -169,6 +183,7 @@ export function OperativeRosterManager({
       {faction.operatives.map((operative) => {
         const isLeader = operative.type === 'Leader';
         const isRemoved = operative.id === removedOperativeId;
+        const isInjured = injuredOperativeIds.includes(operative.id);
         const isBombardier = operative.id === QUICK_PLAY_DEFAULTS.BOMBARDIER_ID;
         const anotherRemoved =
           !isRemoved && removedOperativeId !== null && !isLeader;
@@ -185,7 +200,7 @@ export function OperativeRosterManager({
         return (
           <div
             key={operative.id}
-            className={`operative-slot ${isRemoved ? 'removed' : ''}`}
+            className={`operative-slot ${isRemoved ? 'removed' : ''} ${isInjured ? 'injured' : ''}`}
           >
             <OperativeCard
               operative={operative}
@@ -196,32 +211,51 @@ export function OperativeRosterManager({
             />
 
             <div className="operative-slot-footer">
-              {isLeader ? (
-                <span className="leader-badge">
-                  👑 Leader — cannot be removed
-                </span>
-              ) : (
-                <>
-                  {isRemoved && <span className="removed-label">REMOVED</span>}
+              {/* Injured toggle — only for active (non-removed) operatives */}
+              <div className="footer-left">
+                {!isRemoved && (
                   <button
-                    className={`roster-toggle-button ${isRemoved ? 'restore' : 'remove'}`}
-                    onClick={() => handleToggle(operative)}
-                    disabled={anotherRemoved}
-                    aria-label={
-                      isRemoved
-                        ? `Restore ${operative.name} to the roster`
-                        : `Remove ${operative.name} from this game`
-                    }
-                    title={
-                      anotherRemoved
-                        ? 'Another operative is already removed'
-                        : undefined
-                    }
+                    type="button"
+                    className={`injured-toggle-button ${isInjured ? 'active' : ''}`}
+                    onClick={() => handleInjuredToggle(operative.id)}
+                    aria-pressed={isInjured}
+                    aria-label={`Toggle injured: ${operative.name}`}
                   >
-                    {isRemoved ? '↩ Restore' : '✕ Remove from Game'}
+                    {isInjured ? '🩸 Injured' : '💚 Healthy'}
                   </button>
-                </>
-              )}
+                )}
+              </div>
+              {/* Remove / Restore controls */}
+              <div className="footer-right">
+                {isLeader ? (
+                  <span className="leader-badge">
+                    👑 Leader — cannot be removed
+                  </span>
+                ) : (
+                  <>
+                    {isRemoved && (
+                      <span className="removed-label">REMOVED</span>
+                    )}
+                    <button
+                      className={`roster-toggle-button ${isRemoved ? 'restore' : 'remove'}`}
+                      onClick={() => handleToggle(operative)}
+                      disabled={anotherRemoved}
+                      aria-label={
+                        isRemoved
+                          ? `Restore ${operative.name} to the roster`
+                          : `Remove ${operative.name} from this game`
+                      }
+                      title={
+                        anotherRemoved
+                          ? 'Another operative is already removed'
+                          : undefined
+                      }
+                    >
+                      {isRemoved ? '↩ Restore' : '✕ Remove from Game'}
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         );
