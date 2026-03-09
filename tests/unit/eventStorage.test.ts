@@ -130,6 +130,12 @@ describe('eventStorage', () => {
       const game = getInitialGameState(1);
       expect(game.killOpKillCount).toBe(0);
     });
+
+    it('returns playerVP=0 and opponentVP=0', () => {
+      const game = getInitialGameState(1);
+      expect(game.playerVP).toBe(0);
+      expect(game.opponentVP).toBe(0);
+    });
   });
 
   describe('getInitialTurningPointState', () => {
@@ -186,6 +192,22 @@ describe('eventStorage', () => {
       expect(loaded!.games[0].tacOp).toBe('Assassinate');
       expect(loaded!.games[0].killOpKillCount).toBe(3);
     });
+
+    it('preserves playerVP and opponentVP', () => {
+      const state = getInitialEventState();
+      state.games[0].playerVP = 12;
+      state.games[0].opponentVP = 8;
+      state.games[1].playerVP = 5;
+      state.games[1].opponentVP = 5;
+
+      saveEventState(state);
+      const loaded = loadEventState();
+
+      expect(loaded!.games[0].playerVP).toBe(12);
+      expect(loaded!.games[0].opponentVP).toBe(8);
+      expect(loaded!.games[1].playerVP).toBe(5);
+      expect(loaded!.games[1].opponentVP).toBe(5);
+    });
   });
 
   describe('loadEventState (missing)', () => {
@@ -236,6 +258,12 @@ describe('eventStorage', () => {
       // existing fields preserved
       expect(loaded.games[0].removedOperativeId).toBe('pm-plague-marine-warrior');
       expect(loaded.games[0].turningPoint).toBe(2);
+
+      // v6 fields defaulted to 0
+      loaded.games.forEach((game) => {
+        expect(game.playerVP).toBe(0);
+        expect(game.opponentVP).toBe(0);
+      });
     });
 
     it('migrates v2 learningEntries to separate storage if separate storage is empty', () => {
@@ -456,6 +484,8 @@ describe('eventStorage', () => {
             critOp: 'No Prisoners',
             tacOp: 'Assassinate',
             killOpKillCount: 2,
+            playerVP: 0,
+            opponentVP: 0,
           },
           getInitialGameState(2),
           getInitialGameState(3),
@@ -481,6 +511,27 @@ describe('eventStorage', () => {
       expect(loaded.games[0].critOp).toBe('No Prisoners');
       expect(loaded.games[0].tacOp).toBe('Assassinate');
       expect(loaded.games[0].killOpKillCount).toBe(2);
+      // v6 fields defaulted
+      expect(loaded.games[0].playerVP).toBe(0);
+      expect(loaded.games[0].opponentVP).toBe(0);
+    });
+
+    it('persists and restores playerVP and opponentVP (v6 fields)', () => {
+      const state = getInitialEventState();
+      state.games[0].playerVP = 15;
+      state.games[0].opponentVP = 10;
+      state.games[1].playerVP = 8;
+      state.games[1].opponentVP = 12;
+
+      saveEventState(state);
+      const loaded = loadEventState()!;
+
+      expect(loaded.games[0].playerVP).toBe(15);
+      expect(loaded.games[0].opponentVP).toBe(10);
+      expect(loaded.games[1].playerVP).toBe(8);
+      expect(loaded.games[1].opponentVP).toBe(12);
+      expect(loaded.games[2].playerVP).toBe(0);
+      expect(loaded.games[2].opponentVP).toBe(0);
     });
   });
 });

@@ -326,11 +326,11 @@ All tests follow the existing patterns in `tests/unit/`. Run with `npm run test`
 
 7. **Firefight ploy reset:** Should used-ploy markers reset **automatically** when the turning point advances, or should the player manually clear them?
 
-8. **Score tracking:** Should the app track victory points / mission scores per game?
+8. **Score tracking:** ✅ *Answered: Yes — player VP and opponent VP counters added to GamePlayView, with automatic W/L/D result and tournament standings summary above game tabs.*
 
-9. **Mission selection:** Should the app include mission selection to help with objective tracking?
+9. **Mission selection:** 🔲 Mission name is captured as free text in the Crit Op / Tac Op fields. Full mission framework (with deployment zones, VP objectives) is a Priority 1 item in FEATURE_ROADMAP.md.
 
-10. **Opponent faction:** Would tracking the opponent's faction (for cross-faction ploy interactions) be useful?
+10. **Opponent faction:** ✅ *Implemented — "vs. Team" free-text field in GameSetupView and context badge during play.*
 
 ---
 
@@ -370,4 +370,4 @@ All tests follow the existing patterns in `tests/unit/`. Run with `npm run test`
 | `ARCHITECTURE.md` updated | ✅ Complete |
 | `SPEC.md` updated | ✅ Complete |
 | `README.md` updated | ✅ Complete |
-| Score / mission tracking | 🔲 Pending Open Questions #8 & #9 |
+| Score / mission tracking | ✅ Complete (playerVP + opponentVP per game, W/L/D result, tournament standings) |

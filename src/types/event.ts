@@ -111,6 +111,18 @@ export interface GameEventState {
    * 0 means not set; falls back to fixed thresholds (1=L1, 2=L2, 3+=L3).
    */
   opponentCount: number;
+  /**
+   * Player's final Victory Points for this game.
+   * Recorded at the end of the game for tournament scoring purposes.
+   * 0 = not yet recorded.
+   */
+  playerVP: number;
+  /**
+   * Opponent's final Victory Points for this game.
+   * Recorded at the end of the game for tournament scoring purposes.
+   * 0 = not yet recorded.
+   */
+  opponentVP: number;
 }
 
 /**

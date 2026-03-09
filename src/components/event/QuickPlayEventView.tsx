@@ -156,6 +156,33 @@ export function QuickPlayEventView() {
 
   const activeGame = eventState.games[eventState.activeGameIndex];
 
+  /**
+   * Derives the W/L/D result for a game based on recorded VPs.
+   * Returns null if the game has not been started yet (setup phase).
+   */
+  function gameResult(
+    game: (typeof eventState.games)[number]
+  ): 'win' | 'loss' | 'draw' | null {
+    if (game.gamePhase !== 'playing') return null;
+    if (game.playerVP > game.opponentVP) return 'win';
+    if (game.playerVP < game.opponentVP) return 'loss';
+    return 'draw';
+  }
+
+  const results = eventState.games.map(gameResult);
+  const wins = results.filter((r) => r === 'win').length;
+  const losses = results.filter((r) => r === 'loss').length;
+  const draws = results.filter((r) => r === 'draw').length;
+  const totalPlayerVP = eventState.games.reduce(
+    (sum, g) => sum + g.playerVP,
+    0
+  );
+  const totalOpponentVP = eventState.games.reduce(
+    (sum, g) => sum + g.opponentVP,
+    0
+  );
+  const hasAnyScore = results.some((r) => r !== null);
+
   return (
     <div className="quick-play-event">
       <header className="event-header">
@@ -191,24 +218,72 @@ export function QuickPlayEventView() {
             </main>
           ) : (
             <>
+              {/* Tournament standings bar */}
+              {hasAnyScore && (
+                <div
+                  className="tournament-standings"
+                  role="region"
+                  aria-label="Tournament standings"
+                >
+                  <div className="standings-record">
+                    <span className="standings-item standings-win">
+                      {wins}W
+                    </span>
+                    <span className="standings-sep">/</span>
+                    <span className="standings-item standings-loss">
+                      {losses}L
+                    </span>
+                    <span className="standings-sep">/</span>
+                    <span className="standings-item standings-draw">
+                      {draws}D
+                    </span>
+                  </div>
+                  <div
+                    className="standings-vp"
+                    aria-label="Victory point totals"
+                  >
+                    <span className="standings-vp-you">{totalPlayerVP}</span>
+                    <span className="standings-vp-sep"> : </span>
+                    <span className="standings-vp-opp">{totalOpponentVP}</span>
+                    <span className="standings-vp-label"> VP</span>
+                  </div>
+                </div>
+              )}
+
               {/* Game selector tabs */}
               <nav className="game-tabs" aria-label="Game selection">
-                {eventState.games.map((game, index) => (
-                  <button
-                    key={game.gameNumber}
-                    className={`game-tab ${index === eventState.activeGameIndex ? 'active' : ''}`}
-                    onClick={() => handleSelectGame(index)}
-                    aria-pressed={index === eventState.activeGameIndex}
-                  >
-                    Game {game.gameNumber}
-                    {game.gamePhase === 'playing' && (
-                      <span className="game-tab-status" aria-hidden="true">
-                        {' '}
-                        ▶
-                      </span>
-                    )}
-                  </button>
-                ))}
+                {eventState.games.map((game, index) => {
+                  const result = gameResult(game);
+                  return (
+                    <button
+                      key={game.gameNumber}
+                      className={`game-tab ${index === eventState.activeGameIndex ? 'active' : ''}`}
+                      onClick={() => handleSelectGame(index)}
+                      aria-pressed={index === eventState.activeGameIndex}
+                    >
+                      Game {game.gameNumber}
+                      {result ? (
+                        <span
+                          className={`game-tab-result game-tab-result--${result}`}
+                          aria-label={result}
+                        >
+                          {result === 'win'
+                            ? '🏆'
+                            : result === 'loss'
+                              ? '💀'
+                              : '🤝'}
+                        </span>
+                      ) : (
+                        game.gamePhase === 'playing' && (
+                          <span className="game-tab-status" aria-hidden="true">
+                            {' '}
+                            ▶
+                          </span>
+                        )
+                      )}
+                    </button>
+                  );
+                })}
               </nav>
 
               <main className="event-main">
