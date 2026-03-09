@@ -3,11 +3,15 @@
  * and allows the player to remove exactly one non-leader for the game.
  *
  * Reuses the existing OperativeCard component for each operative's display.
- * When Blight Grenades are selected, injects a modified grenade weapon
- * (ballisticSkill 3+ instead of 4+) into the Bombardier's OperativeCard.
+ * When Blight Grenades or Krak Grenades are selected, injects a modified
+ * grenade weapon (ballisticSkill 3+ instead of 4+) into the Bombardier's
+ * OperativeCard (Grenadier ability — unlimited use, improved hit stat).
+ *
+ * In play phase (onRosterChange omitted), shows a pill selector so the
+ * player can view a single operative's card at a time.
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Faction, Weapon, Operative } from '@/types';
 import { OperativeCard } from '@/components/datacard/OperativeCard';
 import { QUICK_PLAY_DEFAULTS } from '@/constants';
@@ -20,7 +24,6 @@ interface OperativeRosterManagerProps {
   removedOperativeId: string | null;
   /** Currently selected equipment IDs — used to determine Bombardier grenade augmentation */
   selectedEquipmentIds: string[];
-  /** Called when the player removes or restores an operative */
   /**
    * Called when the player removes or restores an operative.
    * Optional — omit when roster changes are disabled (e.g. during the play phase).
@@ -30,6 +33,14 @@ interface OperativeRosterManagerProps {
   incapacitatedOperativeIds?: string[];
   /** Called when an operative's incapacitated status is toggled. Defaults to no-op. */
   onIncapacitatedChange?: (incapacitatedOperativeIds: string[]) => void;
+}
+
+/** Shared profile type used for weapon profile extraction. */
+interface WeaponProfileData {
+  attacks?: number;
+  ballisticSkill?: number;
+  damage?: number;
+  criticalDamage?: number;
 }
 
 /**
@@ -47,14 +58,7 @@ function buildGrenadierWeapon(faction: Faction): Weapon {
 
   // Use the equipment's weapon profile if available, else sensible defaults
   const baseProfile = (
-    grenadeEquipment as unknown as {
-      weaponProfile?: {
-        attacks?: number;
-        ballisticSkill?: number;
-        damage?: number;
-        criticalDamage?: number;
-      };
-    }
+    grenadeEquipment as unknown as { weaponProfile?: WeaponProfileData }
   )?.weaponProfile;
 
   return {
@@ -66,7 +70,7 @@ function buildGrenadierWeapon(faction: Faction): Weapon {
     profiles: [
       {
         attacks: baseProfile?.attacks ?? 4,
-        ballisticSkill: Math.max(1, (baseProfile?.ballisticSkill ?? 4) - 1), // Improved by 1
+        ballisticSkill: Math.max(1, (baseProfile?.ballisticSkill ?? 4) - 1),
         damage: baseProfile?.damage ?? 2,
         criticalDamage: baseProfile?.criticalDamage ?? 4,
         specialRules: [
@@ -100,29 +104,47 @@ function buildGrenadierWeapon(faction: Faction): Weapon {
 }
 
 /**
- * Returns the weapon IDs for the Bombardier including the grenadier weapon.
- * Used as selectedWeaponIds so OperativeCard shows exactly these weapons.
+ * Builds a synthetic Weapon object for the Bombardier's Krak Grenades
+ * with the Hit stat improved by 1 (4+ → 3+) per the Grenadier ability.
+ * Uses do not count toward any use limit.
  */
-function getBombardierWeaponIds(faction: Faction): string[] {
-  // Bombardier fixed_loadout: ['Boltgun', 'Fists']
-  const bombardier = faction.operatives.find(
-    (op) => op.id === QUICK_PLAY_DEFAULTS.BOMBARDIER_ID
-  );
-  if (!bombardier) return [QUICK_PLAY_DEFAULTS.GRENADIER_WEAPON_ID];
-
-  const loadoutNames: string[] =
-    (bombardier as Operative & { fixed_loadout?: string[] }).fixed_loadout ??
-    [];
-  const weaponIds = faction.weapons
-    .filter((w) => loadoutNames.includes(w.name))
-    .map((w) => w.id);
-  return [...weaponIds, QUICK_PLAY_DEFAULTS.GRENADIER_WEAPON_ID];
+function buildKrakGrenadierWeapon(universalWeaponProfile: WeaponProfileData | undefined): Weapon {
+  return {
+    id: QUICK_PLAY_DEFAULTS.KRAK_GRENADIER_WEAPON_ID,
+    name: 'Krak Grenades (Grenadier)',
+    type: 'ranged',
+    description:
+      'Grenadier: +1 Hit stat (4+ → 3+). Uses do not count towards any use limit.',
+    profiles: [
+      {
+        attacks: universalWeaponProfile?.attacks ?? 4,
+        ballisticSkill: Math.max(1, (universalWeaponProfile?.ballisticSkill ?? 4) - 1),
+        damage: universalWeaponProfile?.damage ?? 4,
+        criticalDamage: universalWeaponProfile?.criticalDamage ?? 5,
+        specialRules: [
+          {
+            name: 'Piercing',
+            value: 1,
+            description:
+              'The target cannot retain any normal saves as successful defence dice.',
+          },
+          {
+            name: 'Saturate',
+            description: 'Re-roll attack dice results of 1.',
+          },
+        ],
+      },
+    ],
+  };
 }
 
 /**
  * Shows all 7 operatives with remove/restore controls.
  * The Leader (Champion) cannot be removed.
  * Only one non-leader may be removed per game.
+ *
+ * In play phase (onRosterChange not provided), shows pill buttons so the
+ * player can select one operative and see only that card.
  */
 export function OperativeRosterManager({
   faction,
@@ -132,40 +154,65 @@ export function OperativeRosterManager({
   incapacitatedOperativeIds = [],
   onIncapacitatedChange = () => {},
 }: OperativeRosterManagerProps) {
+  const isPlayPhase = !onRosterChange;
+
+  // Play-phase: which operative's card is focused (null = show all)
+  const [focusedOperativeId, setFocusedOperativeId] = useState<string | null>(null);
+
   const blightGrenadesSelected = selectedEquipmentIds.includes(
     QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
   );
+  const krakGrenadesSelected = selectedEquipmentIds.includes(
+    QUICK_PLAY_DEFAULTS.KRAK_GRENADES_ID
+  );
 
-  // Build the grenadier weapon and augmented weapon list once when grenades are selected
+  // Build the grenadier weapon(s) for the Bombardier
   const grenadierWeapon = useMemo(
     () => (blightGrenadesSelected ? buildGrenadierWeapon(faction) : null),
     [blightGrenadesSelected, faction]
   );
 
-  const augmentedWeapons = useMemo(
-    () =>
-      grenadierWeapon ? [...faction.weapons, grenadierWeapon] : faction.weapons,
-    [faction.weapons, grenadierWeapon]
-  );
+  const krakGrenadierWeapon = useMemo(() => {
+    if (!krakGrenadesSelected) return null;
+    // Krak profile comes from universal equipment data (passed via faction or universal list)
+    // We use the defaults from the universal.json krak-grenades entry
+    const profile: WeaponProfileData = { attacks: 4, ballisticSkill: 4, damage: 4, criticalDamage: 5 };
+    return buildKrakGrenadierWeapon(profile);
+  }, [krakGrenadesSelected]);
 
-  const bombardierWeaponIds = useMemo(
-    () =>
-      blightGrenadesSelected ? getBombardierWeaponIds(faction) : undefined,
-    [blightGrenadesSelected, faction]
-  );
+  const augmentedWeapons = useMemo(() => {
+    let weapons = faction.weapons;
+    if (grenadierWeapon) weapons = [...weapons, grenadierWeapon];
+    if (krakGrenadierWeapon) weapons = [...weapons, krakGrenadierWeapon];
+    return weapons;
+  }, [faction.weapons, grenadierWeapon, krakGrenadierWeapon]);
+
+  const bombardierWeaponIds = useMemo(() => {
+    if (!blightGrenadesSelected && !krakGrenadesSelected) return undefined;
+    const extras: string[] = [];
+    if (blightGrenadesSelected) extras.push(QUICK_PLAY_DEFAULTS.GRENADIER_WEAPON_ID);
+    if (krakGrenadesSelected) extras.push(QUICK_PLAY_DEFAULTS.KRAK_GRENADIER_WEAPON_ID);
+    const bombardier = faction.operatives.find(
+      (op) => op.id === QUICK_PLAY_DEFAULTS.BOMBARDIER_ID
+    );
+    if (!bombardier) return extras;
+    const loadoutNames: string[] =
+      (bombardier as Operative & { fixed_loadout?: string[] }).fixed_loadout ?? [];
+    const baseIds = faction.weapons
+      .filter((w) => loadoutNames.includes(w.name))
+      .map((w) => w.id);
+    return [...baseIds, ...extras];
+  }, [blightGrenadesSelected, krakGrenadesSelected, faction]);
 
   const handleToggle = (operative: Operative) => {
-    if (operative.type === 'Leader') return; // Cannot remove the Leader
-    if (!onRosterChange) return; // Roster changes disabled (e.g. during play phase)
+    if (operative.type === 'Leader') return;
+    if (!onRosterChange) return;
 
     if (removedOperativeId === operative.id) {
-      // Restore this operative
       onRosterChange(null);
     } else if (removedOperativeId === null) {
-      // Remove this operative (only one removal allowed)
       onRosterChange(operative.id);
     }
-    // If a different operative is already removed, do nothing (handled by disabled state)
   };
 
   const handleIncapacitatedToggle = (operativeId: string) => {
@@ -176,33 +223,97 @@ export function OperativeRosterManager({
     onIncapacitatedChange(updated);
   };
 
+  const handleFocusPill = (operativeId: string) => {
+    setFocusedOperativeId((prev) => (prev === operativeId ? null : operativeId));
+  };
+
   const activeCount = faction.operatives.length - (removedOperativeId ? 1 : 0);
+
+  // Operatives to render cards for (all, or just the focused one in play phase)
+  const visibleOperatives = isPlayPhase && focusedOperativeId
+    ? faction.operatives.filter((op) => op.id === focusedOperativeId)
+    : faction.operatives;
 
   return (
     <div className="roster-manager">
-      <p className="roster-intro">
-        Select one non-leader operative to remove from this game. The remaining{' '}
-        <strong>{activeCount}</strong> operatives will field this game.
-      </p>
+      {/* Setup-phase intro */}
+      {!isPlayPhase && (
+        <p className="roster-intro">
+          Select one non-leader operative to remove from this game. The remaining{' '}
+          <strong>{activeCount}</strong> operatives will field this game.
+        </p>
+      )}
 
-      {faction.operatives.map((operative) => {
+      {/* Play-phase: operative pill selector */}
+      {isPlayPhase && (
+        <div className="play-operative-pills" role="group" aria-label="Select operative to view">
+          <p className="play-pills-hint">
+            Tap an operative to view their card:
+          </p>
+          <div className="operative-pills-row">
+            {faction.operatives.map((operative) => {
+              const isRemoved = operative.id === removedOperativeId;
+              const isIncapacitated = incapacitatedOperativeIds.includes(operative.id);
+              const isFocused = focusedOperativeId === operative.id;
+
+              let pillClass = 'play-operative-pill';
+              if (isRemoved) pillClass += ' removed';
+              else if (isIncapacitated) pillClass += ' incapacitated';
+              else if (isFocused) pillClass += ' focused';
+              else pillClass += ' active';
+
+              return (
+                <button
+                  key={operative.id}
+                  type="button"
+                  className={pillClass}
+                  onClick={() => handleFocusPill(operative.id)}
+                  aria-pressed={isFocused}
+                  aria-label={
+                    isRemoved
+                      ? `${operative.name} — removed`
+                      : isIncapacitated
+                        ? `${operative.name} — incapacitated`
+                        : isFocused
+                          ? `Hide ${operative.name}'s card`
+                          : `Show ${operative.name}'s card`
+                  }
+                >
+                  {isFocused && (
+                    <span className="pill-cross" aria-hidden="true">✕ </span>
+                  )}
+                  {operative.name}
+                  {isRemoved && <span className="pill-removed" aria-hidden="true"> ✕</span>}
+                  {isIncapacitated && !isRemoved && (
+                    <span className="pill-incap" aria-hidden="true"> 💀</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+          {focusedOperativeId && (
+            <p className="play-pills-selected-note">
+              Showing:{' '}
+              <strong>
+                {faction.operatives.find((o) => o.id === focusedOperativeId)?.name}
+              </strong>{' '}
+              — tap again to show all.
+            </p>
+          )}
+        </div>
+      )}
+
+      {visibleOperatives.map((operative) => {
         const isLeader = operative.type === 'Leader';
         const isRemoved = operative.id === removedOperativeId;
-        const isIncapacitated = incapacitatedOperativeIds.includes(
-          operative.id
-        );
+        const isIncapacitated = incapacitatedOperativeIds.includes(operative.id);
         const isBombardier = operative.id === QUICK_PLAY_DEFAULTS.BOMBARDIER_ID;
         const anotherRemoved =
           !isRemoved && removedOperativeId !== null && !isLeader;
 
-        // For the Bombardier with grenades selected, use the augmented weapons list
-        const weaponsForCard = isBombardier
-          ? augmentedWeapons
-          : faction.weapons;
-        const selectedWeaponIdsForCard =
-          isBombardier && blightGrenadesSelected
-            ? bombardierWeaponIds
-            : undefined;
+        const hasGrenadeAugment = isBombardier && (blightGrenadesSelected || krakGrenadesSelected);
+        const weaponsForCard = hasGrenadeAugment ? augmentedWeapons : faction.weapons;
+        const selectedWeaponIdsForCard = hasGrenadeAugment ? bombardierWeaponIds : undefined;
 
         return (
           <div
@@ -232,58 +343,68 @@ export function OperativeRosterManager({
                   </button>
                 )}
               </div>
-              {/* Remove / Restore controls */}
-              <div className="footer-right">
-                {isLeader ? (
-                  <span className="leader-badge">
-                    👑 Leader — cannot be removed
-                  </span>
-                ) : (
-                  <>
-                    {isRemoved && (
-                      <span className="removed-label">REMOVED</span>
-                    )}
-                    <button
-                      className={`roster-toggle-button ${isRemoved ? 'restore' : 'remove'}`}
-                      onClick={() => handleToggle(operative)}
-                      disabled={anotherRemoved}
-                      aria-label={
-                        isRemoved
-                          ? `Restore ${operative.name} to the roster`
-                          : `Remove ${operative.name} from this game`
-                      }
-                      title={
-                        anotherRemoved
-                          ? 'Another operative is already removed'
-                          : undefined
-                      }
-                    >
-                      {isRemoved ? '↩ Restore' : '✕ Remove from Game'}
-                    </button>
-                  </>
-                )}
-              </div>
+              {/* Remove / Restore controls (setup phase only) */}
+              {!isPlayPhase && (
+                <div className="footer-right">
+                  {isLeader ? (
+                    <span className="leader-badge">
+                      👑 Leader — cannot be removed
+                    </span>
+                  ) : (
+                    <>
+                      {isRemoved && (
+                        <span className="removed-label">REMOVED</span>
+                      )}
+                      <button
+                        className={`roster-toggle-button ${isRemoved ? 'restore' : 'remove'}`}
+                        onClick={() => handleToggle(operative)}
+                        disabled={anotherRemoved}
+                        aria-label={
+                          isRemoved
+                            ? `Restore ${operative.name} to the roster`
+                            : `Remove ${operative.name} from this game`
+                        }
+                        title={
+                          anotherRemoved
+                            ? 'Another operative is already removed'
+                            : undefined
+                        }
+                      >
+                        {isRemoved ? '↩ Restore' : '✕ Remove from Game'}
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+              {/* Incapacitate info in play phase (no remove controls) */}
+              {isPlayPhase && isRemoved && (
+                <div className="footer-right">
+                  <span className="removed-label">REMOVED</span>
+                </div>
+              )}
             </div>
           </div>
         );
       })}
 
-      <p className="roster-summary">
-        Active operatives: <strong>{activeCount}</strong> /{' '}
-        {faction.operatives.length} (Nurgle&apos;s 7)
-        {removedOperativeId && (
-          <>
-            {' '}
-            — Removed:{' '}
-            <strong>
-              {
-                faction.operatives.find((o) => o.id === removedOperativeId)
-                  ?.name
-              }
-            </strong>
-          </>
-        )}
-      </p>
+      {!isPlayPhase && (
+        <p className="roster-summary">
+          Active operatives: <strong>{activeCount}</strong> /{' '}
+          {faction.operatives.length} (Nurgle&apos;s 7)
+          {removedOperativeId && (
+            <>
+              {' '}
+              — Removed:{' '}
+              <strong>
+                {
+                  faction.operatives.find((o) => o.id === removedOperativeId)
+                    ?.name
+                }
+              </strong>
+            </>
+          )}
+        </p>
+      )}
     </div>
   );
 }

@@ -174,6 +174,20 @@ export function EventEquipmentTracker({
           stat. Scroll up to the roster to see the updated card.
         </p>
       )}
+
+      {selectedEquipmentIds.includes(QUICK_PLAY_DEFAULTS.KRAK_GRENADES_ID) && (
+        <p
+          style={{
+            fontSize: '0.8rem',
+            color: 'var(--nurgle-text-muted)',
+            fontStyle: 'italic',
+            marginTop: '0.5rem',
+          }}
+        >
+          Bombardier&apos;s operative card now shows Krak Grenades with 3+ Hit
+          stat (Grenadier ability — unlimited use).
+        </p>
+      )}
     </div>
   );
 }

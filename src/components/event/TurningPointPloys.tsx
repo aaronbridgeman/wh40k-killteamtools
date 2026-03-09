@@ -33,7 +33,6 @@ import {
   QUICK_PLAY_DEFAULTS,
   COMMAND_REROLL_PLOY,
 } from '@/constants';
-import { CPTracker } from './CPTracker';
 import './TurningPointPloys.css';
 
 interface TurningPointPloysProps {
@@ -175,12 +174,6 @@ export function TurningPointPloys({
     ? getTurningPointState(game, game.turningPoint)
     : getInitialTurningPointState();
 
-  const activePloys: Ploy[] = isStarted
-    ? currentTpState.selectedStrategicPloyIds
-        .map((id) => strategicPloys.find((p) => p.id === id))
-        .filter((p): p is Ploy => p !== undefined)
-    : [];
-
   // ------------------------------------------------------------------
   // Handlers
   // ------------------------------------------------------------------
@@ -281,13 +274,6 @@ export function TurningPointPloys({
     [game, onChange, isStarted, currentTpState]
   );
 
-  const handleCpChange = useCallback(
-    (commandPoints: number) => {
-      onChange({ ...game, commandPoints });
-    },
-    [game, onChange]
-  );
-
   // ------------------------------------------------------------------
   // Helpers for rendering firefight ploy rows
   // ------------------------------------------------------------------
@@ -323,7 +309,7 @@ export function TurningPointPloys({
       </div>
 
       {/* CP tracker */}
-      <CPTracker commandPoints={game.commandPoints} onChange={handleCpChange} />
+      {/* CP is managed in the combined stats section above — see GamePlayView */}
 
       {/* Icon Bearer status indicator */}
       {isStarted && (
@@ -382,29 +368,7 @@ export function TurningPointPloys({
         </div>
       )}
 
-      {/* Active strategic ploy banner — shown for each selected ploy */}
-      {activePloys.length > 0 && (
-        <div className="active-ploy-banner" role="status" aria-live="polite">
-          <p className="active-ploy-label">
-            ⚔️ Active Strategic Ploy{activePloys.length > 1 ? 's' : ''}
-          </p>
-          {activePloys.map((activePloy) => (
-            <div key={activePloy.id} className="active-ploy-entry">
-              <p className="active-ploy-name">{activePloy.name}</p>
-              <p className="active-ploy-desc">{activePloy.description}</p>
-              {activePloy.cost_modifiers &&
-                activePloy.cost_modifiers.length > 0 && (
-                  <p
-                    className="active-ploy-desc"
-                    style={{ marginTop: '0.5rem', fontStyle: 'italic' }}
-                  >
-                    💡 {activePloy.cost_modifiers.join(' ')}
-                  </p>
-                )}
-            </div>
-          ))}
-        </div>
-      )}
+      {/* Active strategic ploy banner — moved to GamePlayView (rendered after equipment) */}
 
       {/* Firefight ploys — faction + Command Reroll */}
       <div>

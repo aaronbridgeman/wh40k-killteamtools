@@ -86,7 +86,7 @@ describe('TurningPointPloys', () => {
     );
   });
 
-  it('shows active strategic ploy banner when ploy is selected', () => {
+  it('shows selected ploy as active (aria-pressed) when ploy is selected', () => {
     const game: GameEventState = {
       ...getInitialGameState(1),
       turningPoint: 1,
@@ -98,7 +98,8 @@ describe('TurningPointPloys', () => {
       <TurningPointPloys game={game} faction={faction} onChange={vi.fn()} {...defaultRosterProps} />
     );
 
-    expect(screen.getByText('⚔️ Active Strategic Ploy')).toBeInTheDocument();
+    const contagionBtn = screen.getByRole('button', { name: /Deselect strategic ploy: Contagion/i });
+    expect(contagionBtn).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('uses a firefight ploy and deducts CP', () => {
