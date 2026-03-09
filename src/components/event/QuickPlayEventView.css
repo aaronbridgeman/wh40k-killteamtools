@@ -125,6 +125,11 @@
   box-shadow: 0 0 8px var(--nurgle-accent-glow);
 }
 
+.game-tab-status {
+  font-size: 0.7rem;
+  color: var(--nurgle-accent);
+}
+
 /* ------------------------------------------------------------------ */
 /* Main content area                                                   */
 /* ------------------------------------------------------------------ */

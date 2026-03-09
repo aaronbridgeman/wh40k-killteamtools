@@ -26,6 +26,7 @@ import {
 } from '@/constants';
 
 const STORAGE_KEY = STORAGE_KEYS.QUICK_PLAY_EVENT;
+const LEARNINGS_STORAGE_KEY = STORAGE_KEYS.LEARNINGS_LOG;
 
 // ---------------------------------------------------------------------------
 // Legacy schema types for migration
@@ -38,7 +39,7 @@ interface LegacyTurningPointStateV1 {
   firefightPloyCounts?: Record<string, number>;
 }
 
-/** Schema v1 game — used `injuredOperativeIds: string[]` */
+/** Schema v1/v2 game — may lack v3 fields */
 interface LegacyGameStateV1 {
   gameNumber: 1 | 2 | 3;
   removedOperativeId: string | null;
@@ -49,9 +50,15 @@ interface LegacyGameStateV1 {
   turningPoints: Record<string, LegacyTurningPointStateV1>;
   injuredOperativeIds?: string[];
   incapacitatedOperativeIds?: string[];
+  // v3 optional fields (may be absent when migrating from v2)
+  gamePhase?: 'setup' | 'playing';
+  opposition?: string;
+  critOp?: string;
+  tacOp?: string;
+  killOpKillCount?: number;
 }
 
-/** Schema v1 root state — used `learnings: string` */
+/** Schema v1/v2 root state — may include learningEntries (moved to separate storage in v3) */
 interface LegacyEventStateV1 {
   version?: number;
   eventName: string;
@@ -91,29 +98,34 @@ export function getInitialGameState(gameNumber: 1 | 2 | 3): GameEventState {
     commandPoints: QUICK_PLAY_DEFAULTS.STARTING_COMMAND_POINTS,
     turningPoints: {},
     incapacitatedOperativeIds: [],
+    gamePhase: 'setup',
+    opposition: '',
+    critOp: '',
+    tacOp: '',
+    killOpKillCount: 0,
   };
 }
 
 /**
  * Returns the initial state for an entire quick play event with 3 games.
+ * The event starts immediately without a setup screen (setupComplete is always true).
  */
 export function getInitialEventState(): QuickPlayEventState {
   return {
     version: QUICK_PLAY_DEFAULTS.SCHEMA_VERSION,
     eventName: '',
-    setupComplete: false,
+    setupComplete: true,
     activeGameIndex: 0,
     games: [
       getInitialGameState(1),
       getInitialGameState(2),
       getInitialGameState(3),
     ],
-    learningEntries: [],
   };
 }
 
 // ---------------------------------------------------------------------------
-// localStorage persistence
+// localStorage persistence — event state
 // ---------------------------------------------------------------------------
 
 /**
@@ -150,6 +162,8 @@ export function saveEventState(state: QuickPlayEventState): void {
  *  v1 → v2: rename `usedFirefightPloyIds`→`firefightPloyCounts`,
  *            rename `injuredOperativeIds`→`incapacitatedOperativeIds`,
  *            rename `learnings`→`learningEntries`.
+ *  v2 → v3: add `gamePhase`, `opposition`, `critOp`, `tacOp`, `killOpKillCount`;
+ *            migrate `learningEntries` from event state to separate learnings storage.
  *
  * @returns The persisted event state, or null if unavailable
  */
@@ -171,6 +185,18 @@ export function loadEventState(): QuickPlayEventState | null {
       parsed.games.length === QUICK_PLAY_DEFAULTS.GAME_COUNT &&
       typeof parsed.setupComplete === 'boolean'
     ) {
+      // v2 → v3: if the old state had learningEntries, migrate them to
+      // the separate learnings storage (only if separate storage is empty).
+      if (
+        Array.isArray(parsed.learningEntries) &&
+        parsed.learningEntries.length > 0
+      ) {
+        const existing = loadLearningsLog();
+        if (existing.length === 0) {
+          saveLearningsLog(parsed.learningEntries);
+        }
+      }
+
       // Migrate each game's fields to the current schema
       const migratedGames = parsed.games.map(
         (game: LegacyGameStateV1): GameEventState => {
@@ -208,6 +234,14 @@ export function loadEventState(): QuickPlayEventState | null {
             }
           }
 
+          // v2 → v3: add new game fields with sensible defaults
+          const gamePhase: 'setup' | 'playing' =
+            game.gamePhase === 'playing'
+              ? 'playing'
+              : game.turningPoint > 0
+                ? 'playing' // already started — treat as playing
+                : 'setup';
+
           return {
             gameNumber: game.gameNumber,
             removedOperativeId: game.removedOperativeId,
@@ -217,24 +251,21 @@ export function loadEventState(): QuickPlayEventState | null {
             commandPoints: game.commandPoints,
             incapacitatedOperativeIds,
             turningPoints,
+            gamePhase,
+            opposition: game.opposition ?? '',
+            critOp: game.critOp ?? '',
+            tacOp: game.tacOp ?? '',
+            killOpKillCount: game.killOpKillCount ?? 0,
           };
         }
       );
 
-      // v1 → v2: rename learnings (string) → learningEntries (array)
-      const learningEntries: LearningEntry[] = Array.isArray(
-        parsed.learningEntries
-      )
-        ? parsed.learningEntries
-        : [];
-
       return {
         version: QUICK_PLAY_DEFAULTS.SCHEMA_VERSION,
         eventName: parsed.eventName,
-        setupComplete: parsed.setupComplete,
+        setupComplete: true, // always true in v3 — no setup screen
         activeGameIndex: parsed.activeGameIndex,
         games: migratedGames,
-        learningEntries,
       };
     }
 
@@ -255,12 +286,59 @@ export function loadEventState(): QuickPlayEventState | null {
 
 /**
  * Clears the Quick Play Event state from localStorage.
+ * Does NOT clear the learnings log — use clearLearningsLog() for that.
  */
 export function clearEventState(): void {
   try {
     localStorage.removeItem(STORAGE_KEY);
   } catch (error) {
     console.error('Failed to clear event state:', error);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// localStorage persistence — learnings log (separate from event state)
+// ---------------------------------------------------------------------------
+
+/**
+ * Saves the learnings log to its own localStorage key.
+ * The log is stored separately from the event state so it survives resets.
+ *
+ * @param entries - The full list of learning entries to persist
+ */
+export function saveLearningsLog(entries: LearningEntry[]): void {
+  try {
+    localStorage.setItem(LEARNINGS_STORAGE_KEY, JSON.stringify(entries));
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('Failed to save learnings log:', error.message);
+    }
+  }
+}
+
+/**
+ * Loads the learnings log from its own localStorage key.
+ * Returns an empty array if no entries exist or the data is invalid.
+ */
+export function loadLearningsLog(): LearningEntry[] {
+  try {
+    const serialised = localStorage.getItem(LEARNINGS_STORAGE_KEY);
+    if (!serialised) return [];
+    const parsed = JSON.parse(serialised);
+    return Array.isArray(parsed) ? (parsed as LearningEntry[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Clears the learnings log from localStorage.
+ */
+export function clearLearningsLog(): void {
+  try {
+    localStorage.removeItem(LEARNINGS_STORAGE_KEY);
+  } catch (error) {
+    console.error('Failed to clear learnings log:', error);
   }
 }
 

@@ -21,7 +21,11 @@ interface OperativeRosterManagerProps {
   /** Currently selected equipment IDs — used to determine Bombardier grenade augmentation */
   selectedEquipmentIds: string[];
   /** Called when the player removes or restores an operative */
-  onRosterChange: (removedOperativeId: string | null) => void;
+  /**
+   * Called when the player removes or restores an operative.
+   * Optional — omit when roster changes are disabled (e.g. during the play phase).
+   */
+  onRosterChange?: (removedOperativeId: string | null) => void;
   /** IDs of operatives currently marked as Incapacitated. Defaults to []. */
   incapacitatedOperativeIds?: string[];
   /** Called when an operative's incapacitated status is toggled. Defaults to no-op. */
@@ -152,6 +156,7 @@ export function OperativeRosterManager({
 
   const handleToggle = (operative: Operative) => {
     if (operative.type === 'Leader') return; // Cannot remove the Leader
+    if (!onRosterChange) return; // Roster changes disabled (e.g. during play phase)
 
     if (removedOperativeId === operative.id) {
       // Restore this operative

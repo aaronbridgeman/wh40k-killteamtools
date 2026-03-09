@@ -8,6 +8,8 @@ export const STORAGE_KEYS = {
   TEAM_STATE: 'kill-team-selected-team',
   GAME_MODE_STATE: 'kill-team-game-mode',
   QUICK_PLAY_EVENT: 'kill-team-quick-play-event',
+  /** Learnings log stored separately from event state so it survives event resets */
+  LEARNINGS_LOG: 'kill-team-learnings-log',
 } as const;
 
 // Team Identifiers
@@ -52,8 +54,8 @@ export const QUICK_PLAY_DEFAULTS = {
   STARTING_COMMAND_POINTS: 0,
   /** Maximum Blight Grenade uses per game */
   MAX_BLIGHT_GRENADE_USES: 2,
-  /** Current schema version for QuickPlayEventState (v2 adds firefightPloyCounts, incapacitatedOperativeIds, learningEntries) */
-  SCHEMA_VERSION: 2,
+  /** Current schema version for QuickPlayEventState (v3 adds gamePhase, opposition, critOp, tacOp, killOpKillCount; moves learningEntries to separate storage) */
+  SCHEMA_VERSION: 3,
   /** Faction ID for the quick play event */
   FACTION_ID: 'plague-marines',
   /** ID of the Blight Grenades equipment item */
