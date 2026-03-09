@@ -2,19 +2,21 @@
  * GameSetupView — per-game setup phase.
  *
  * Shown when game.gamePhase === 'setup'. The player:
- *  1. Uses the compact QuickOperativeSelector to remove one non-leader.
- *  2. Selects equipment for the game.
- *  3. Optionally enters the opposition, Critical Operation, and Tactical Operation.
+ *  1. Optionally enters the opposition, Critical Operation, and Tactical Operation.
+ *  2. Uses the compact QuickOperativeSelector to remove one non-leader.
+ *  3. Selects equipment for the game.
  *  4. Taps "Begin Game" to transition to the play phase.
  *
  * Deliberately shows only setup-relevant information — no TP, ploy, or
  * gameplay controls.
  */
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Faction, Equipment } from '@/types';
 import { GameEventState } from '@/types/event';
 import { CRIT_OPS, TAC_OPS } from '@/data/missions/missions';
+import { loadOpponentKillTeams } from '@/services/dataLoader';
+import { OpponentKillTeam } from '@/types/opponent';
 import { QuickOperativeSelector } from './QuickOperativeSelector';
 import { EventEquipmentTracker } from './EventEquipmentTracker';
 import { MissionSelect } from './MissionSelect';
@@ -40,6 +42,12 @@ export function GameSetupView({
   universalEquipment,
   onChange,
 }: GameSetupViewProps) {
+  const [opponentTeams, setOpponentTeams] = useState<OpponentKillTeam[]>([]);
+
+  useEffect(() => {
+    loadOpponentKillTeams().then(setOpponentTeams).catch(console.error);
+  }, []);
+
   const handleRosterChange = useCallback(
     (removedOperativeId: string | null) => {
       onChange({ ...game, removedOperativeId });
@@ -72,42 +80,37 @@ export function GameSetupView({
 
   return (
     <div className="game-setup-view">
-      {/* 1 — Operative roster */}
-      <section className="setup-section" aria-labelledby="setup-roster-title">
-        <h3 className="setup-section-title" id="setup-roster-title">
-          ☠️ Operative Roster
-        </h3>
-        <QuickOperativeSelector
-          faction={faction}
-          removedOperativeId={game.removedOperativeId}
-          onRosterChange={handleRosterChange}
-        />
-      </section>
-
-      {/* 2 — Equipment */}
-      <section
-        className="setup-section"
-        aria-labelledby="setup-equipment-title"
-      >
-        <h3 className="setup-section-title" id="setup-equipment-title">
-          🎒 Equipment
-        </h3>
-        <EventEquipmentTracker
-          faction={faction}
-          universalEquipment={universalEquipment}
-          selectedEquipmentIds={game.selectedEquipmentIds}
-          blightGrenadeUsesRemaining={game.blightGrenadeUsesRemaining}
-          onChange={handleEquipmentChange}
-        />
-      </section>
-
-      {/* 3 — Game details (optional) */}
+      {/* 1 — Game details (optional) */}
       <section className="setup-section" aria-labelledby="setup-details-title">
         <h3 className="setup-section-title" id="setup-details-title">
           📋 Game Details{' '}
           <span className="setup-optional-label">(optional)</span>
         </h3>
         <div className="setup-details-grid">
+          <div className="setup-detail-field">
+            <label
+              className="setup-detail-label"
+              htmlFor={`opposition-${game.gameNumber}`}
+            >
+              vs. Team
+            </label>
+            <select
+              id={`opposition-${game.gameNumber}`}
+              className="setup-detail-input"
+              value={game.opposition}
+              onChange={(e) =>
+                onChange({ ...game, opposition: e.target.value })
+              }
+              aria-label="Opposition kill team"
+            >
+              <option value="">— Select opposing kill team —</option>
+              {opponentTeams.map((team) => (
+                <option key={team.id} value={team.name}>
+                  {team.name} ({team.faction})
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="setup-detail-field">
             <label
               className="setup-detail-label"
@@ -133,26 +136,6 @@ export function GameSetupView({
             />
           </div>
           <div className="setup-detail-field">
-            <label
-              className="setup-detail-label"
-              htmlFor={`opposition-${game.gameNumber}`}
-            >
-              vs. Team
-            </label>
-            <input
-              id={`opposition-${game.gameNumber}`}
-              className="setup-detail-input"
-              type="text"
-              value={game.opposition}
-              onChange={(e) =>
-                onChange({ ...game, opposition: e.target.value })
-              }
-              placeholder="e.g. Grey Knights"
-              maxLength={60}
-              aria-label="Opposition team"
-            />
-          </div>
-          <div className="setup-detail-field">
             <MissionSelect
               label="Crit Op"
               options={CRIT_OPS}
@@ -171,6 +154,35 @@ export function GameSetupView({
             />
           </div>
         </div>
+      </section>
+
+      {/* 2 — Operative roster */}
+      <section className="setup-section" aria-labelledby="setup-roster-title">
+        <h3 className="setup-section-title" id="setup-roster-title">
+          ☠️ Operative Roster
+        </h3>
+        <QuickOperativeSelector
+          faction={faction}
+          removedOperativeId={game.removedOperativeId}
+          onRosterChange={handleRosterChange}
+        />
+      </section>
+
+      {/* 3 — Equipment */}
+      <section
+        className="setup-section"
+        aria-labelledby="setup-equipment-title"
+      >
+        <h3 className="setup-section-title" id="setup-equipment-title">
+          🎒 Equipment
+        </h3>
+        <EventEquipmentTracker
+          faction={faction}
+          universalEquipment={universalEquipment}
+          selectedEquipmentIds={game.selectedEquipmentIds}
+          blightGrenadeUsesRemaining={game.blightGrenadeUsesRemaining}
+          onChange={handleEquipmentChange}
+        />
       </section>
 
       {/* 4 — Begin button */}
