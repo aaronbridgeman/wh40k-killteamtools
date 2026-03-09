@@ -52,19 +52,31 @@ export const QUICK_PLAY_DEFAULTS = {
   STARTING_COMMAND_POINTS: 0,
   /** Maximum Blight Grenade uses per game */
   MAX_BLIGHT_GRENADE_USES: 2,
-  /** Current schema version for QuickPlayEventState */
-  SCHEMA_VERSION: 1,
+  /** Current schema version for QuickPlayEventState (v2 adds firefightPloyCounts, incapacitatedOperativeIds, learningEntries) */
+  SCHEMA_VERSION: 2,
   /** Faction ID for the quick play event */
   FACTION_ID: 'plague-marines',
   /** ID of the Blight Grenades equipment item */
   BLIGHT_GRENADES_ID: 'blight-grenades',
   /** ID of the Plague Marine Bombardier operative */
   BOMBARDIER_ID: 'pm-plague-marine-bombardier',
+  /** ID of the Plague Marine Icon Bearer operative */
+  ICON_BEARER_ID: 'pm-plague-marine-icon-bearer',
+  /** ID of the Contagion strategic ploy (0 CP when Icon Bearer is active) */
+  CONTAGION_PLOY_ID: 'contagion',
   /** Synthetic weapon ID injected into Bombardier's OperativeCard when grenades are selected */
   GRENADIER_WEAPON_ID: 'event-blight-grenades-bombardier',
 } as const;
 
-// Error Messages
+// Quick Play Event — generic firefight ploy always available
+export const COMMAND_REROLL_PLOY = {
+  id: 'command-reroll',
+  name: 'Command Reroll',
+  type: 'firefight' as const,
+  cost: 1,
+  description:
+    'Re-roll one of your attack or defence dice during any combat or shooting attack.',
+} as const;
 export const ERROR_MESSAGES = {
   FACTION_LOAD_FAILED: 'Failed to load faction data. Please try again.',
   STORAGE_QUOTA_EXCEEDED:

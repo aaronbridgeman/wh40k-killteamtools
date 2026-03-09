@@ -7,7 +7,7 @@
  */
 
 import { useCallback } from 'react';
-import { Faction } from '@/types';
+import { Faction, Equipment } from '@/types';
 import { GameEventState } from '@/types/event';
 import { OperativeRosterManager } from './OperativeRosterManager';
 import { EventEquipmentTracker } from './EventEquipmentTracker';
@@ -21,6 +21,8 @@ interface GamePanelProps {
   gameIndex: number;
   /** Loaded Plague Marines faction data */
   faction: Faction;
+  /** Universal (generic) equipment items available to any faction */
+  universalEquipment: Equipment[];
   /** Called whenever any part of the game state changes */
   onChange: (updatedGame: GameEventState) => void;
 }
@@ -32,6 +34,7 @@ export function GamePanel({
   game,
   gameIndex,
   faction,
+  universalEquipment,
   onChange,
 }: GamePanelProps) {
   const handleRosterChange = useCallback(
@@ -41,9 +44,9 @@ export function GamePanel({
     [game, onChange]
   );
 
-  const handleInjuredChange = useCallback(
-    (injuredOperativeIds: string[]) => {
-      onChange({ ...game, injuredOperativeIds });
+  const handleIncapacitatedChange = useCallback(
+    (incapacitatedOperativeIds: string[]) => {
+      onChange({ ...game, incapacitatedOperativeIds });
     },
     [game, onChange]
   );
@@ -79,8 +82,8 @@ export function GamePanel({
           removedOperativeId={game.removedOperativeId}
           selectedEquipmentIds={game.selectedEquipmentIds}
           onRosterChange={handleRosterChange}
-          injuredOperativeIds={game.injuredOperativeIds}
-          onInjuredChange={handleInjuredChange}
+          incapacitatedOperativeIds={game.incapacitatedOperativeIds}
+          onIncapacitatedChange={handleIncapacitatedChange}
         />
       </section>
 
@@ -94,6 +97,7 @@ export function GamePanel({
         </h3>
         <EventEquipmentTracker
           faction={faction}
+          universalEquipment={universalEquipment}
           selectedEquipmentIds={game.selectedEquipmentIds}
           blightGrenadeUsesRemaining={game.blightGrenadeUsesRemaining}
           onChange={handleEquipmentChange}
@@ -112,6 +116,8 @@ export function GamePanel({
           game={game}
           faction={faction}
           onChange={handleTurningPointChange}
+          removedOperativeId={game.removedOperativeId}
+          incapacitatedOperativeIds={game.incapacitatedOperativeIds}
         />
       </section>
     </div>

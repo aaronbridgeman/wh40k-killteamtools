@@ -1,0 +1,159 @@
+/**
+ * LearningsLog CSS — read-only log of submitted learning entries.
+ */
+
+.learnings-log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+}
+
+.log-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--nurgle-border);
+}
+
+.log-back-button {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--nurgle-border);
+  background-color: transparent;
+  color: var(--nurgle-text-muted);
+  font-family: inherit;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.log-back-button:hover {
+  color: var(--nurgle-text);
+  border-color: var(--nurgle-text);
+}
+
+.log-title {
+  flex: 1;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.log-clear-button {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--nurgle-danger);
+  background-color: transparent;
+  color: var(--nurgle-danger);
+  font-family: inherit;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  white-space: nowrap;
+}
+
+.log-clear-button:hover {
+  background-color: var(--nurgle-danger);
+  color: var(--nurgle-text);
+}
+
+.log-empty {
+  text-align: center;
+  color: var(--nurgle-text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  padding: var(--spacing-lg) 0;
+}
+
+/* Entry list */
+.log-entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.log-entry {
+  padding: var(--spacing-md);
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 8px;
+}
+
+.log-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+  gap: var(--spacing-sm);
+}
+
+.log-entry-time {
+  font-size: 0.7rem;
+  color: var(--nurgle-text-muted);
+}
+
+.log-delete-button {
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--nurgle-border);
+  background-color: transparent;
+  color: var(--nurgle-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.log-delete-button:hover {
+  background-color: var(--nurgle-danger);
+  border-color: var(--nurgle-danger);
+  color: white;
+}
+
+.log-entry-text {
+  font-size: 0.9rem;
+  color: var(--nurgle-text);
+  margin: 0 0 var(--spacing-xs);
+  line-height: 1.5;
+}
+
+.log-entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.meta-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  color: var(--nurgle-text-muted);
+}

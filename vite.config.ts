@@ -74,6 +74,13 @@ export default defineConfig({
             description: 'Browse available Kill Team factions',
             url: '/wh40k-killteamtools/',
             icons: [{ src: '/wh40k-killteamtools/icons/icon-192x192.png', sizes: '192x192' }]
+          },
+          {
+            name: 'Nurgle Quick Play',
+            short_name: 'Quick Play',
+            description: 'Plague Marines Quick Play Event tracker',
+            url: '/wh40k-killteamtools/?view=quick-play-event',
+            icons: [{ src: '/wh40k-killteamtools/icons/icon-192x192.png', sizes: '192x192' }]
           }
         ]
       },

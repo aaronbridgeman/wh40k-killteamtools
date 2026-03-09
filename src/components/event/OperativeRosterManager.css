@@ -28,8 +28,9 @@
   opacity: 0.65;
 }
 
-.operative-slot.injured {
+.operative-slot.incapacitated {
   border-color: #c4a35a;
+  opacity: 0.75;
 }
 
 .operative-slot-footer {
@@ -49,8 +50,8 @@
   gap: var(--spacing-sm);
 }
 
-/* Injured toggle button */
-.injured-toggle-button {
+/* Incapacitated toggle button */
+.incapacitated-toggle-button {
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: 6px;
   font-size: 0.75rem;
@@ -65,15 +66,15 @@
     border-color 0.2s ease;
 }
 
-.injured-toggle-button:hover {
+.incapacitated-toggle-button:hover {
   border-color: #c4a35a;
   color: #c4a35a;
 }
 
-.injured-toggle-button.active {
-  background-color: rgba(196, 163, 90, 0.15);
-  border-color: #c4a35a;
-  color: #c4a35a;
+.incapacitated-toggle-button.active {
+  background-color: rgba(139, 32, 32, 0.2);
+  border-color: var(--nurgle-danger);
+  color: var(--nurgle-danger);
 }
 
 /* Remove / Restore toggle button */

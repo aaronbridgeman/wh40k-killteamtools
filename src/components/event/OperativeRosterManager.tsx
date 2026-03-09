@@ -22,10 +22,10 @@ interface OperativeRosterManagerProps {
   selectedEquipmentIds: string[];
   /** Called when the player removes or restores an operative */
   onRosterChange: (removedOperativeId: string | null) => void;
-  /** IDs of operatives currently marked as Injured. Defaults to []. */
-  injuredOperativeIds?: string[];
-  /** Called when an operative's injured status is toggled. Defaults to no-op. */
-  onInjuredChange?: (injuredOperativeIds: string[]) => void;
+  /** IDs of operatives currently marked as Incapacitated. Defaults to []. */
+  incapacitatedOperativeIds?: string[];
+  /** Called when an operative's incapacitated status is toggled. Defaults to no-op. */
+  onIncapacitatedChange?: (incapacitatedOperativeIds: string[]) => void;
 }
 
 /**
@@ -125,8 +125,8 @@ export function OperativeRosterManager({
   removedOperativeId,
   selectedEquipmentIds,
   onRosterChange,
-  injuredOperativeIds = [],
-  onInjuredChange = () => {},
+  incapacitatedOperativeIds = [],
+  onIncapacitatedChange = () => {},
 }: OperativeRosterManagerProps) {
   const blightGrenadesSelected = selectedEquipmentIds.includes(
     QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
@@ -163,12 +163,12 @@ export function OperativeRosterManager({
     // If a different operative is already removed, do nothing (handled by disabled state)
   };
 
-  const handleInjuredToggle = (operativeId: string) => {
-    const isInjured = injuredOperativeIds.includes(operativeId);
-    const updated = isInjured
-      ? injuredOperativeIds.filter((id) => id !== operativeId)
-      : [...injuredOperativeIds, operativeId];
-    onInjuredChange(updated);
+  const handleIncapacitatedToggle = (operativeId: string) => {
+    const isIncapacitated = incapacitatedOperativeIds.includes(operativeId);
+    const updated = isIncapacitated
+      ? incapacitatedOperativeIds.filter((id) => id !== operativeId)
+      : [...incapacitatedOperativeIds, operativeId];
+    onIncapacitatedChange(updated);
   };
 
   const activeCount = faction.operatives.length - (removedOperativeId ? 1 : 0);
@@ -183,7 +183,9 @@ export function OperativeRosterManager({
       {faction.operatives.map((operative) => {
         const isLeader = operative.type === 'Leader';
         const isRemoved = operative.id === removedOperativeId;
-        const isInjured = injuredOperativeIds.includes(operative.id);
+        const isIncapacitated = incapacitatedOperativeIds.includes(
+          operative.id
+        );
         const isBombardier = operative.id === QUICK_PLAY_DEFAULTS.BOMBARDIER_ID;
         const anotherRemoved =
           !isRemoved && removedOperativeId !== null && !isLeader;
@@ -200,7 +202,7 @@ export function OperativeRosterManager({
         return (
           <div
             key={operative.id}
-            className={`operative-slot ${isRemoved ? 'removed' : ''} ${isInjured ? 'injured' : ''}`}
+            className={`operative-slot ${isRemoved ? 'removed' : ''} ${isIncapacitated ? 'incapacitated' : ''}`}
           >
             <OperativeCard
               operative={operative}
@@ -211,17 +213,17 @@ export function OperativeRosterManager({
             />
 
             <div className="operative-slot-footer">
-              {/* Injured toggle — only for active (non-removed) operatives */}
+              {/* Incapacitated toggle — only for active (non-removed) operatives */}
               <div className="footer-left">
                 {!isRemoved && (
                   <button
                     type="button"
-                    className={`injured-toggle-button ${isInjured ? 'active' : ''}`}
-                    onClick={() => handleInjuredToggle(operative.id)}
-                    aria-pressed={isInjured}
-                    aria-label={`Toggle injured: ${operative.name}`}
+                    className={`incapacitated-toggle-button ${isIncapacitated ? 'active' : ''}`}
+                    onClick={() => handleIncapacitatedToggle(operative.id)}
+                    aria-pressed={isIncapacitated}
+                    aria-label={`Toggle incapacitated: ${operative.name}`}
                   >
-                    {isInjured ? '🩸 Injured' : '💚 Healthy'}
+                    {isIncapacitated ? '💀 Incapacitated' : '✅ Active'}
                   </button>
                 )}
               </div>
