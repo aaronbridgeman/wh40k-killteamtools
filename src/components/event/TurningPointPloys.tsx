@@ -175,12 +175,11 @@ export function TurningPointPloys({
     ? getTurningPointState(game, game.turningPoint)
     : getInitialTurningPointState();
 
-  const activePloy =
-    isStarted && currentTpState.selectedStrategicPloyId
-      ? strategicPloys.find(
-          (p) => p.id === currentTpState.selectedStrategicPloyId
-        )
-      : null;
+  const activePloys: Ploy[] = isStarted
+    ? currentTpState.selectedStrategicPloyIds
+        .map((id) => strategicPloys.find((p) => p.id === id))
+        .filter((p): p is Ploy => p !== undefined)
+    : [];
 
   // ------------------------------------------------------------------
   // Handlers
@@ -196,32 +195,31 @@ export function TurningPointPloys({
   }, [game, onChange]);
 
   /**
-   * Select or deselect a strategic ploy for the current turning point.
-   * Automatically deducts the effective CP cost when selecting; refunds when deselecting.
+   * Toggle a strategic ploy for the current turning point.
+   * Selecting adds to the active set and deducts its effective CP cost.
+   * Deselecting removes from the active set and refunds its effective CP cost.
+   * Multiple ploys may be active simultaneously.
    * Contagion costs 0 CP when the Icon Bearer is active.
    */
   const handleSelectStrategicPloy = useCallback(
     (ploy: Ploy) => {
       if (!isStarted) return;
       const isCurrentlySelected =
-        currentTpState.selectedStrategicPloyId === ploy.id;
+        currentTpState.selectedStrategicPloyIds.includes(ploy.id);
       const effectiveCost = getEffectivePloyCost(ploy, iconBearerActive);
 
       // CP delta: deselecting refunds, selecting deducts
-      let cpDelta = isCurrentlySelected ? effectiveCost : -effectiveCost;
+      const cpDelta = isCurrentlySelected ? effectiveCost : -effectiveCost;
 
-      // When switching ploys, also refund the previously selected ploy's cost
-      if (!isCurrentlySelected && currentTpState.selectedStrategicPloyId) {
-        const prevPloy = strategicPloys.find(
-          (p) => p.id === currentTpState.selectedStrategicPloyId
-        );
-        if (prevPloy)
-          cpDelta += getEffectivePloyCost(prevPloy, iconBearerActive);
-      }
+      const updatedIds = isCurrentlySelected
+        ? currentTpState.selectedStrategicPloyIds.filter(
+            (id) => id !== ploy.id
+          )
+        : [...currentTpState.selectedStrategicPloyIds, ploy.id];
 
       const updatedWithTp = updateTurningPointState(game, game.turningPoint, {
         ...currentTpState,
-        selectedStrategicPloyId: isCurrentlySelected ? null : ploy.id,
+        selectedStrategicPloyIds: updatedIds,
       });
       onChange({
         ...updatedWithTp,
@@ -233,7 +231,6 @@ export function TurningPointPloys({
       onChange,
       isStarted,
       currentTpState,
-      strategicPloys,
       iconBearerActive,
     ]
   );
@@ -349,18 +346,14 @@ export function TurningPointPloys({
           <div className="strategic-ploy-grid">
             {strategicPloys.map((ploy) => {
               const isSelected =
-                currentTpState.selectedStrategicPloyId === ploy.id;
-              const hasCurrentSelection =
-                currentTpState.selectedStrategicPloyId !== null;
+                currentTpState.selectedStrategicPloyIds.includes(ploy.id);
               const effectiveCost = getEffectivePloyCost(
                 ploy,
                 iconBearerActive
               );
-              // Disable only when making a fresh selection and can't afford it
+              // Disable when not selected and cannot afford
               const isDisabled =
-                !isSelected &&
-                !hasCurrentSelection &&
-                game.commandPoints < effectiveCost;
+                !isSelected && game.commandPoints < effectiveCost;
               return (
                 <button
                   key={ploy.id}
@@ -389,21 +382,27 @@ export function TurningPointPloys({
         </div>
       )}
 
-      {/* Active strategic ploy banner */}
-      {activePloy && (
+      {/* Active strategic ploy banner — shown for each selected ploy */}
+      {activePloys.length > 0 && (
         <div className="active-ploy-banner" role="status" aria-live="polite">
-          <p className="active-ploy-label">⚔️ Active Strategic Ploy</p>
-          <p className="active-ploy-name">{activePloy.name}</p>
-          <p className="active-ploy-desc">{activePloy.description}</p>
-          {activePloy.cost_modifiers &&
-            activePloy.cost_modifiers.length > 0 && (
-              <p
-                className="active-ploy-desc"
-                style={{ marginTop: '0.5rem', fontStyle: 'italic' }}
-              >
-                💡 {activePloy.cost_modifiers.join(' ')}
-              </p>
-            )}
+          <p className="active-ploy-label">
+            ⚔️ Active Strategic Ploy{activePloys.length > 1 ? 's' : ''}
+          </p>
+          {activePloys.map((activePloy) => (
+            <div key={activePloy.id} className="active-ploy-entry">
+              <p className="active-ploy-name">{activePloy.name}</p>
+              <p className="active-ploy-desc">{activePloy.description}</p>
+              {activePloy.cost_modifiers &&
+                activePloy.cost_modifiers.length > 0 && (
+                  <p
+                    className="active-ploy-desc"
+                    style={{ marginTop: '0.5rem', fontStyle: 'italic' }}
+                  >
+                    💡 {activePloy.cost_modifiers.join(' ')}
+                  </p>
+                )}
+            </div>
+          ))}
         </div>
       )}
 

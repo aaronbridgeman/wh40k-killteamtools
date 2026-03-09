@@ -80,7 +80,7 @@ describe('TurningPointPloys', () => {
       expect.objectContaining({
         commandPoints: 4, // 5 - 1 CP for Contagion
         turningPoints: expect.objectContaining({
-          1: expect.objectContaining({ selectedStrategicPloyId: 'contagion' }),
+          1: expect.objectContaining({ selectedStrategicPloyIds: ['contagion'] }),
         }),
       })
     );
@@ -91,7 +91,7 @@ describe('TurningPointPloys', () => {
       ...getInitialGameState(1),
       turningPoint: 1,
       turningPoints: {
-        1: { selectedStrategicPloyId: 'contagion', firefightPloyCounts: {} },
+        1: { selectedStrategicPloyIds: ['contagion'], firefightPloyCounts: {} },
       },
     };
     render(
@@ -131,7 +131,7 @@ describe('TurningPointPloys', () => {
       turningPoint: 1,
       commandPoints: 5,
       turningPoints: {
-        1: { selectedStrategicPloyId: null, firefightPloyCounts: { 'virulent-poison': 1 } },
+        1: { selectedStrategicPloyIds: [], firefightPloyCounts: { 'virulent-poison': 1 } },
       },
     };
     render(
@@ -160,7 +160,7 @@ describe('TurningPointPloys', () => {
       turningPoint: 1,
       turningPoints: {
         1: {
-          selectedStrategicPloyId: null,
+          selectedStrategicPloyIds: [],
           firefightPloyCounts: { 'virulent-poison': 1 },
         },
       },
@@ -181,7 +181,7 @@ describe('TurningPointPloys', () => {
       commandPoints: 3,
       turningPoints: {
         1: {
-          selectedStrategicPloyId: null,
+          selectedStrategicPloyIds: [],
           firefightPloyCounts: { 'virulent-poison': 1 },
         },
       },
@@ -249,7 +249,7 @@ describe('TurningPointPloys', () => {
       turningPoint: 1,
       commandPoints: 4, // Already spent 1 CP selecting Contagion
       turningPoints: {
-        1: { selectedStrategicPloyId: 'contagion', firefightPloyCounts: {} },
+        1: { selectedStrategicPloyIds: ['contagion'], firefightPloyCounts: {} },
       },
     };
     render(
@@ -267,13 +267,13 @@ describe('TurningPointPloys', () => {
       expect.objectContaining({
         commandPoints: 5, // 4 + 1 CP refunded
         turningPoints: expect.objectContaining({
-          1: expect.objectContaining({ selectedStrategicPloyId: null }),
+          1: expect.objectContaining({ selectedStrategicPloyIds: [] }),
         }),
       })
     );
   });
 
-  it('disables strategic ploy button when cannot afford with no current selection', () => {
+  it('disables strategic ploy button when cannot afford', () => {
     // Icon Bearer removed so all ploys cost 1 CP
     const game: GameEventState = {
       ...getInitialGameState(1),
@@ -290,40 +290,42 @@ describe('TurningPointPloys', () => {
       />
     );
 
-    // All strategic ploy buttons should be disabled (0 CP, nothing selected, all cost 1 CP)
+    // All strategic ploy buttons should be disabled (0 CP, all cost 1 CP)
     const ployButtons = screen.getAllByRole('button', {
       name: /Select strategic ploy:/i,
     });
     ployButtons.forEach((btn) => expect(btn).toBeDisabled());
   });
 
-  it('allows switching strategic ploys when one is already selected (net 0 cost)', () => {
+  it('allows selecting multiple strategic ploys when CP is sufficient', () => {
     const onChange = vi.fn();
-    // Use Lumbering Death (not Contagion) as the pre-selected ploy to avoid Icon Bearer cost override
+    // Start with Lumbering Death already selected (1 CP spent)
     const game: GameEventState = {
       ...getInitialGameState(1),
       turningPoint: 1,
-      commandPoints: 2, // Has CP, Lumbering Death already selected
+      commandPoints: 3, // Enough for a second ploy
       turningPoints: {
-        1: { selectedStrategicPloyId: 'lumbering-death', firefightPloyCounts: {} },
+        1: { selectedStrategicPloyIds: ['lumbering-death'], firefightPloyCounts: {} },
       },
     };
     render(
       <TurningPointPloys game={game} faction={faction} onChange={onChange} {...defaultRosterProps} />
     );
 
-    // Cloud of Flies button should be enabled (switching from Lumbering Death, net 0 cost)
+    // Cloud of Flies button should be enabled (3 CP available, costs 1)
     const cloudsButton = screen.getByLabelText(
       /Select strategic ploy: Cloud of Flies/i
     );
     expect(cloudsButton).not.toBeDisabled();
     fireEvent.click(cloudsButton);
-    // CP stays the same: refund Lumbering Death (1) then deduct Cloud of Flies (1) = net 0
+    // CP decremented by Cloud of Flies cost (1); both ploys now active
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         commandPoints: 2,
         turningPoints: expect.objectContaining({
-          1: expect.objectContaining({ selectedStrategicPloyId: 'cloud-of-flies' }),
+          1: expect.objectContaining({
+            selectedStrategicPloyIds: expect.arrayContaining(['lumbering-death', 'cloud-of-flies']),
+          }),
         }),
       })
     );

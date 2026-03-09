@@ -187,6 +187,18 @@
   line-height: 1.5;
 }
 
+.active-ploy-entry {
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid rgba(74, 124, 63, 0.3);
+}
+
+.active-ploy-entry:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
 /* ------------------------------------------------------------------ */
 /* Firefight ploys                                                      */
 /* ------------------------------------------------------------------ */
