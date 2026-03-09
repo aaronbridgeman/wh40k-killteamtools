@@ -6,7 +6,9 @@
  * so the player can type a custom operation name.
  *
  * When a predefined option is selected its description is shown below the
- * dropdown as a play-time reminder of the scoring criteria.
+ * dropdown as a play-time reminder of the scoring criteria. For Crit Ops with
+ * rich data (mission_actions, victory_points, additional_rules) the full
+ * reference detail is displayed so players can consult it during play.
  */
 
 import { useId } from 'react';
@@ -39,7 +41,8 @@ function isCustomValue(value: string, options: MissionEntry[]): boolean {
 
 /**
  * Dropdown + optional custom text input for mission selection.
- * The description for a selected predefined mission is shown inline.
+ * Rich Crit Op details (mission actions, VP, additional rules) are shown inline
+ * when a structured entry is selected.
  */
 export function MissionSelect({
   label,
@@ -58,6 +61,14 @@ export function MissionSelect({
   const selectedOption = options.find(
     (o) => o.name === value && o.id !== 'custom'
   );
+
+  const hasRichDetail =
+    selectedOption &&
+    (selectedOption.mission_actions?.length ||
+      selectedOption.victory_points?.length ||
+      (Array.isArray(selectedOption.additional_rules)
+        ? selectedOption.additional_rules.length > 0
+        : Boolean(selectedOption.additional_rules)));
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const chosen = e.target.value;
@@ -108,8 +119,85 @@ export function MissionSelect({
         />
       )}
 
-      {/* Description reminder for the selected predefined mission */}
-      {selectedOption?.description && (
+      {/* Rich Crit Op detail panel */}
+      {hasRichDetail && selectedOption && (
+        <div className="mission-select-detail" aria-live="polite">
+          {/* Brief description summary */}
+          {selectedOption.description && (
+            <p className="mission-select-description">
+              📋 {selectedOption.description}
+            </p>
+          )}
+
+          {/* Additional setup / special rules */}
+          {(Array.isArray(selectedOption.additional_rules)
+            ? selectedOption.additional_rules.length > 0
+            : Boolean(selectedOption.additional_rules)) && (
+            <div className="mission-select-section">
+              <h4 className="mission-select-section-title">📜 Special Rules</h4>
+              {Array.isArray(selectedOption.additional_rules) ? (
+                <ul className="mission-select-list">
+                  {selectedOption.additional_rules.map((rule, i) => (
+                    <li key={i}>{rule}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mission-select-rule-text">
+                  {selectedOption.additional_rules}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Mission actions */}
+          {selectedOption.mission_actions &&
+            selectedOption.mission_actions.length > 0 && (
+              <div className="mission-select-section">
+                <h4 className="mission-select-section-title">
+                  ⚡ Mission Actions
+                </h4>
+                {selectedOption.mission_actions.map((action) => (
+                  <div key={action.name} className="mission-select-action">
+                    <div className="mission-select-action-header">
+                      <span className="mission-select-action-name">
+                        {action.name}
+                      </span>
+                      <span className="mission-select-action-ap">
+                        {action.ap_cost}AP
+                      </span>
+                    </div>
+                    <p className="mission-select-action-desc">
+                      {action.description}
+                    </p>
+                    {action.restrictions && (
+                      <p className="mission-select-action-restrictions">
+                        ⚠️ {action.restrictions}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+          {/* Victory points */}
+          {selectedOption.victory_points &&
+            selectedOption.victory_points.length > 0 && (
+              <div className="mission-select-section">
+                <h4 className="mission-select-section-title">
+                  🏆 Victory Points
+                </h4>
+                <ul className="mission-select-list">
+                  {selectedOption.victory_points.map((vp, i) => (
+                    <li key={i}>{vp}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+        </div>
+      )}
+
+      {/* Simple description for entries without rich detail (e.g. Tac Ops) */}
+      {!hasRichDetail && selectedOption?.description && (
         <p className="mission-select-description" aria-live="polite">
           📋 {selectedOption.description}
         </p>
