@@ -281,4 +281,171 @@ describe('OperativeRosterManager', () => {
       screen.queryByLabelText('Toggle incapacitated: Plague Marine Warrior')
     ).not.toBeInTheDocument();
   });
+
+  // ------------------------------------------------------------------
+  // Injured toggle (play phase only)
+  // ------------------------------------------------------------------
+
+  it('shows a Healthy injured-toggle button for each non-removed operative in play phase', () => {
+    render(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={null}
+        selectedEquipmentIds={[]}
+        injuredOperativeIds={[]}
+        onInjuredChange={vi.fn()}
+        // No onRosterChange → play phase
+      />
+    );
+
+    const toggles = screen.getAllByRole('button', {
+      name: /Toggle injured: /i,
+    });
+    expect(toggles).toHaveLength(7);
+    toggles.forEach((btn) => expect(btn).toHaveTextContent('💪 Healthy'));
+  });
+
+  it('shows Injured badge on toggle for an injured operative', () => {
+    render(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={null}
+        selectedEquipmentIds={[]}
+        injuredOperativeIds={['pm-plague-marine-warrior']}
+        onInjuredChange={vi.fn()}
+      />
+    );
+
+    expect(
+      screen.getByLabelText('Toggle injured: Plague Marine Warrior')
+    ).toHaveAttribute('aria-pressed', 'true');
+    expect(
+      screen.getByLabelText('Toggle injured: Plague Marine Warrior')
+    ).toHaveTextContent('🩹 Injured');
+  });
+
+  it('calls onInjuredChange with the operative added when toggled from Healthy to Injured', () => {
+    const onInjuredChange = vi.fn();
+    render(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={null}
+        selectedEquipmentIds={[]}
+        injuredOperativeIds={[]}
+        onInjuredChange={onInjuredChange}
+      />
+    );
+
+    fireEvent.click(
+      screen.getByLabelText('Toggle injured: Plague Marine Warrior')
+    );
+    expect(onInjuredChange).toHaveBeenCalledWith(
+      expect.arrayContaining(['pm-plague-marine-warrior'])
+    );
+  });
+
+  it('calls onInjuredChange with the operative removed when toggled from Injured to Healthy', () => {
+    const onInjuredChange = vi.fn();
+    render(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={null}
+        selectedEquipmentIds={[]}
+        injuredOperativeIds={['pm-plague-marine-warrior']}
+        onInjuredChange={onInjuredChange}
+      />
+    );
+
+    fireEvent.click(
+      screen.getByLabelText('Toggle injured: Plague Marine Warrior')
+    );
+    expect(onInjuredChange).toHaveBeenCalledWith([]);
+  });
+
+  it('does not show the injured toggle for a removed operative', () => {
+    render(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={'pm-plague-marine-warrior'}
+        selectedEquipmentIds={[]}
+        injuredOperativeIds={[]}
+        onInjuredChange={vi.fn()}
+      />
+    );
+
+    expect(
+      screen.queryByLabelText('Toggle injured: Plague Marine Warrior')
+    ).not.toBeInTheDocument();
+    // 6 active operatives → 6 injured toggles
+    const toggles = screen.getAllByRole('button', {
+      name: /Toggle injured: /i,
+    });
+    expect(toggles).toHaveLength(6);
+  });
+
+  it('does not show injured toggle in setup phase (onRosterChange provided)', () => {
+    render(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={null}
+        selectedEquipmentIds={[]}
+        onRosterChange={vi.fn()}
+        injuredOperativeIds={[]}
+        onInjuredChange={vi.fn()}
+      />
+    );
+
+    expect(
+      screen.queryByRole('button', { name: /Toggle injured: /i })
+    ).not.toBeInTheDocument();
+  });
+
+  // ------------------------------------------------------------------
+  // Plague Rounds weapon augmentation
+  // ------------------------------------------------------------------
+
+  it('adds Poison and Severe rules to Boltgun when Plague Rounds are selected', () => {
+    render(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={null}
+        selectedEquipmentIds={['plague-rounds']}
+        onRosterChange={vi.fn()}
+      />
+    );
+
+    // The Warrior has a Boltgun — Poison and Severe should appear in its rules
+    const poisonBadges = screen.getAllByText('Poison');
+    expect(poisonBadges.length).toBeGreaterThan(0);
+    const severeBadges = screen.getAllByText('Severe');
+    expect(severeBadges.length).toBeGreaterThan(0);
+  });
+
+  it('does not add extra Poison/Severe rules when Plague Rounds are not selected', () => {
+    const { rerender } = render(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={null}
+        selectedEquipmentIds={[]}
+        onRosterChange={vi.fn()}
+      />
+    );
+
+    // Count Poison occurrences without Plague Rounds (only from weapons that
+    // already have it, e.g. Plague sword and Plague spewer)
+    const poisonCountWithout = screen.getAllByText('Poison').length;
+
+    rerender(
+      <OperativeRosterManager
+        faction={faction}
+        removedOperativeId={null}
+        selectedEquipmentIds={['plague-rounds']}
+        onRosterChange={vi.fn()}
+      />
+    );
+
+    // With Plague Rounds, Boltgun and Bolt pistol also gain Poison → more occurrences
+    const poisonCountWith = screen.getAllByText('Poison').length;
+    expect(poisonCountWith).toBeGreaterThan(poisonCountWithout);
+  });
 });

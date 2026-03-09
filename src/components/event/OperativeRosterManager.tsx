@@ -7,6 +7,9 @@
  * grenade weapon (ballisticSkill 3+ instead of 4+) into the Bombardier's
  * OperativeCard (Grenadier ability — unlimited use, improved hit stat).
  *
+ * When Plague Rounds are selected, the Boltgun and Bolt pistol weapon
+ * profiles are augmented with the Poison and Severe special rules.
+ *
  * In play phase (onRosterChange omitted), shows a pill selector so the
  * player can view a single operative's card at a time.
  */
@@ -33,6 +36,10 @@ interface OperativeRosterManagerProps {
   incapacitatedOperativeIds?: string[];
   /** Called when an operative's incapacitated status is toggled. Defaults to no-op. */
   onIncapacitatedChange?: (incapacitatedOperativeIds: string[]) => void;
+  /** IDs of operatives currently marked as Injured. Defaults to []. */
+  injuredOperativeIds?: string[];
+  /** Called when an operative's injured status is toggled. Defaults to no-op. */
+  onInjuredChange?: (injuredOperativeIds: string[]) => void;
 }
 
 /** Shared profile type used for weapon profile extraction. */
@@ -158,6 +165,8 @@ export function OperativeRosterManager({
   onRosterChange,
   incapacitatedOperativeIds = [],
   onIncapacitatedChange = () => {},
+  injuredOperativeIds = [],
+  onInjuredChange = () => {},
 }: OperativeRosterManagerProps) {
   const isPlayPhase = !onRosterChange;
 
@@ -192,12 +201,54 @@ export function OperativeRosterManager({
     return buildKrakGrenadierWeapon(profile);
   }, [krakGrenadesSelected]);
 
+  const plagueRoundsSelected = selectedEquipmentIds.includes(
+    QUICK_PLAY_DEFAULTS.PLAGUE_ROUNDS_ID
+  );
+
+  // When Plague Rounds are selected, augment Boltgun and Bolt pistol profiles
+  // with the Poison and Severe weapon rules.
+  const plagueRoundsWeapons = useMemo(() => {
+    if (!plagueRoundsSelected) return null;
+    const poisonRule = {
+      name: 'Poison',
+      description: 'Subtract 1 from the Defence characteristic of the target.',
+    };
+    const severeRule = {
+      name: 'Severe',
+      description: 'Dice results of 4+ that hit are critical hits.',
+    };
+    return faction.weapons.map((weapon) => {
+      const lowerName = weapon.name.toLowerCase();
+      if (lowerName !== 'boltgun' && lowerName !== 'bolt pistol') return weapon;
+      return {
+        ...weapon,
+        profiles: weapon.profiles.map((profile) => {
+          const existingNames = profile.specialRules.map((r) => r.name);
+          const extraRules = [
+            ...(existingNames.includes('Poison') ? [] : [poisonRule]),
+            ...(existingNames.includes('Severe') ? [] : [severeRule]),
+          ];
+          return {
+            ...profile,
+            specialRules: [...profile.specialRules, ...extraRules],
+          };
+        }),
+      };
+    });
+  }, [plagueRoundsSelected, faction.weapons]);
+
   const augmentedWeapons = useMemo(() => {
-    let weapons = faction.weapons;
+    // Start with plague rounds augmentations (if active), otherwise base weapons
+    let weapons: Weapon[] = plagueRoundsWeapons ?? faction.weapons;
     if (grenadierWeapon) weapons = [...weapons, grenadierWeapon];
     if (krakGrenadierWeapon) weapons = [...weapons, krakGrenadierWeapon];
     return weapons;
-  }, [faction.weapons, grenadierWeapon, krakGrenadierWeapon]);
+  }, [
+    faction.weapons,
+    plagueRoundsWeapons,
+    grenadierWeapon,
+    krakGrenadierWeapon,
+  ]);
 
   const bombardierWeaponIds = useMemo(() => {
     if (!blightGrenadesSelected && !krakGrenadesSelected) return undefined;
@@ -236,6 +287,14 @@ export function OperativeRosterManager({
       ? incapacitatedOperativeIds.filter((id) => id !== operativeId)
       : [...incapacitatedOperativeIds, operativeId];
     onIncapacitatedChange(updated);
+  };
+
+  const handleInjuredToggle = (operativeId: string) => {
+    const isInjured = injuredOperativeIds.includes(operativeId);
+    const updated = isInjured
+      ? injuredOperativeIds.filter((id) => id !== operativeId)
+      : [...injuredOperativeIds, operativeId];
+    onInjuredChange(updated);
   };
 
   const handleFocusPill = (operativeId: string) => {
@@ -353,9 +412,9 @@ export function OperativeRosterManager({
 
         const hasGrenadeAugment =
           isBombardier && (blightGrenadesSelected || krakGrenadesSelected);
-        const weaponsForCard = hasGrenadeAugment
-          ? augmentedWeapons
-          : faction.weapons;
+        // Always pass augmentedWeapons so Plague Rounds augmentations apply to
+        // all operatives; for the Bombardier with grenades, also add grenade IDs.
+        const weaponsForCard = augmentedWeapons;
         const selectedWeaponIdsForCard = hasGrenadeAugment
           ? bombardierWeaponIds
           : undefined;
@@ -374,7 +433,7 @@ export function OperativeRosterManager({
             />
 
             <div className="operative-slot-footer">
-              {/* Incapacitated toggle — only for active (non-removed) operatives */}
+              {/* Status toggles — only for active (non-removed) operatives in play phase */}
               <div className="footer-left">
                 {!isRemoved && (
                   <button
@@ -385,6 +444,19 @@ export function OperativeRosterManager({
                     aria-label={`Toggle incapacitated: ${operative.name}`}
                   >
                     {isIncapacitated ? '💀 Incapacitated' : '✅ Active'}
+                  </button>
+                )}
+                {!isRemoved && isPlayPhase && (
+                  <button
+                    type="button"
+                    className={`injured-toggle-button ${injuredOperativeIds.includes(operative.id) ? 'active' : ''}`}
+                    onClick={() => handleInjuredToggle(operative.id)}
+                    aria-pressed={injuredOperativeIds.includes(operative.id)}
+                    aria-label={`Toggle injured: ${operative.name}`}
+                  >
+                    {injuredOperativeIds.includes(operative.id)
+                      ? '🩹 Injured'
+                      : '💪 Healthy'}
                   </button>
                 )}
               </div>

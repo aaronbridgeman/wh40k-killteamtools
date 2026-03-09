@@ -103,6 +103,7 @@ export function getInitialGameState(gameNumber: 1 | 2 | 3): GameEventState {
     commandPoints: QUICK_PLAY_DEFAULTS.STARTING_COMMAND_POINTS,
     turningPoints: {},
     incapacitatedOperativeIds: [],
+    injuredOperativeIds: [],
     gamePhase: 'setup',
     opposition: '',
     critOp: '',
@@ -267,6 +268,9 @@ export function loadEventState(): QuickPlayEventState | null {
             turningPoint: game.turningPoint,
             commandPoints: game.commandPoints,
             incapacitatedOperativeIds,
+            injuredOperativeIds: Array.isArray(game.injuredOperativeIds)
+              ? game.injuredOperativeIds
+              : [],
             turningPoints,
             gamePhase,
             opposition: game.opposition ?? '',

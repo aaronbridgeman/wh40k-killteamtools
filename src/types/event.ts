@@ -89,6 +89,13 @@ export interface GameEventState {
    */
   incapacitatedOperativeIds: string[];
   /**
+   * IDs of operatives currently marked as Injured.
+   * An injured operative has dropped below half wounds during the game.
+   * Tracked for reference only — no stat changes are applied in Quick Play.
+   * When Plague Bells are selected, injury has no stat effect (already the case).
+   */
+  injuredOperativeIds: string[];
+  /**
    * Current phase of this game.
    * 'setup': player is configuring the roster, equipment, and objectives.
    * 'playing': game is in progress (TP 1–4 active).

@@ -74,6 +74,10 @@ export const QUICK_PLAY_DEFAULTS = {
   KRAK_GRENADIER_WEAPON_ID: 'event-krak-grenades-bombardier',
   /** Maximum number of equipment items a kill team may select (Kill Team rules: up to 4 items total) */
   MAX_EQUIPMENT_SELECTIONS: 4,
+  /** ID of the Plague Bells faction equipment item */
+  PLAGUE_BELLS_ID: 'plague-bells',
+  /** ID of the Plague Rounds faction equipment item */
+  PLAGUE_ROUNDS_ID: 'plague-rounds',
 } as const;
 
 // Quick Play Event — generic firefight ploy always available

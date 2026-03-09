@@ -81,6 +81,13 @@ export function GamePlayView({
     [game, onChange]
   );
 
+  const handleInjuredChange = useCallback(
+    (injuredOperativeIds: string[]) => {
+      onChange({ ...game, injuredOperativeIds });
+    },
+    [game, onChange]
+  );
+
   const handleKillOpChange = useCallback(
     (delta: number) => {
       const next = Math.max(0, game.killOpKillCount + delta);
@@ -139,38 +146,42 @@ export function GamePlayView({
     <div className="game-play-view">
       {/* ── 1. Context bar: objectives (only shown when at least one is set) ── */}
       {(game.critOp || game.tacOp || game.opposition) && (
-      <div className="play-context-bar" role="region" aria-label="Game context">
-        <div className="context-objectives">
-          {game.critOp && (
-            <span className="context-badge crit-op-badge">
-              <span className="context-badge-label">Crit Op</span>
-              <span className="context-badge-value">{game.critOp}</span>
-            </span>
-          )}
-          {game.tacOp && (
-            <div className="tac-op-wrapper">
-              <span className="context-badge tac-op-badge">
-                <span className="context-badge-label">Tac Op</span>
-                <span className="context-badge-value">{game.tacOp}</span>
+        <div
+          className="play-context-bar"
+          role="region"
+          aria-label="Game context"
+        >
+          <div className="context-objectives">
+            {game.critOp && (
+              <span className="context-badge crit-op-badge">
+                <span className="context-badge-label">Crit Op</span>
+                <span className="context-badge-value">{game.critOp}</span>
               </span>
-              {tacOpEntry?.description && (
-                <p
-                  className="tac-op-reminder"
-                  aria-label="Tac Op scoring reminder"
-                >
-                  📋 {tacOpEntry.description}
-                </p>
-              )}
-            </div>
-          )}
-          {game.opposition && (
-            <span className="context-badge opp-badge">
-              <span className="context-badge-label">vs.</span>
-              <span className="context-badge-value">{game.opposition}</span>
-            </span>
-          )}
+            )}
+            {game.tacOp && (
+              <div className="tac-op-wrapper">
+                <span className="context-badge tac-op-badge">
+                  <span className="context-badge-label">Tac Op</span>
+                  <span className="context-badge-value">{game.tacOp}</span>
+                </span>
+                {tacOpEntry?.description && (
+                  <p
+                    className="tac-op-reminder"
+                    aria-label="Tac Op scoring reminder"
+                  >
+                    📋 {tacOpEntry.description}
+                  </p>
+                )}
+              </div>
+            )}
+            {game.opposition && (
+              <span className="context-badge opp-badge">
+                <span className="context-badge-label">vs.</span>
+                <span className="context-badge-value">{game.opposition}</span>
+              </span>
+            )}
+          </div>
         </div>
-      </div>
       )}
 
       {/* ── 2. Combined stats: CP + Kill counter + Kill Op score ─────── */}
@@ -333,6 +344,8 @@ export function GamePlayView({
           selectedEquipmentIds={game.selectedEquipmentIds}
           incapacitatedOperativeIds={game.incapacitatedOperativeIds}
           onIncapacitatedChange={handleIncapacitatedChange}
+          injuredOperativeIds={game.injuredOperativeIds}
+          onInjuredChange={handleInjuredChange}
         />
       </section>
 
