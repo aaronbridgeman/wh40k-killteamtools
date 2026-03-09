@@ -590,6 +590,19 @@
           ]
         }
       ]
+    },
+    {
+      "id": "poison-vents",
+      "name": "Poison Vents",
+      "category": "faction",
+      "description": "Whenever an enemy operative that does not have one of your Poison tokens is activated within 3\" of a friendly operative, roll a D3. On a result of 3, that enemy operative gains a Poison token.",
+      "restrictedToKeywords": ["PLAGUE MARINE"],
+      "effects": [
+        {
+          "type": "aura",
+          "description": "Roll a D3 when an enemy operative without a Poison token activates within 3\" of a friendly operative; on a 3 it gains a Poison token."
+        }
+      ]
     }
   ],
   "restrictions": {

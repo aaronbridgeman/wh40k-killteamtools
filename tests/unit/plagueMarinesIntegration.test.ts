@@ -371,6 +371,48 @@ describe('Plague Marines Faction Integration', () => {
     });
   });
 
+  describe('Equipment', () => {
+    it('should have 4 equipment items', () => {
+      expect(faction.equipment).toBeDefined();
+      expect(faction.equipment).toHaveLength(4);
+    });
+
+    it('should have all faction equipment items', () => {
+      const equipmentNames = faction.equipment?.map((e) => e.name);
+      expect(equipmentNames).toContain('Plague Bells');
+      expect(equipmentNames).toContain('Blight Grenades');
+      expect(equipmentNames).toContain('Plague Rounds');
+      expect(equipmentNames).toContain('Poison Vents');
+    });
+
+    it('should have Poison Vents as faction equipment', () => {
+      const poisonVents = faction.equipment?.find(
+        (e) => e.id === 'poison-vents'
+      );
+      expect(poisonVents).toBeDefined();
+      expect(poisonVents?.category).toBe('faction');
+      expect(poisonVents?.restrictedToKeywords).toContain('PLAGUE MARINE');
+    });
+
+    it('should have Poison Vents with aura effect', () => {
+      const poisonVents = faction.equipment?.find(
+        (e) => e.id === 'poison-vents'
+      );
+      expect(poisonVents?.effects).toBeDefined();
+      expect(poisonVents?.effects).toHaveLength(1);
+      expect(poisonVents?.effects?.[0].type).toBe('aura');
+    });
+
+    it('should have Poison Vents description referencing Poison tokens and D3', () => {
+      const poisonVents = faction.equipment?.find(
+        (e) => e.id === 'poison-vents'
+      );
+      expect(poisonVents?.description).toContain('Poison token');
+      expect(poisonVents?.description).toContain('D3');
+      expect(poisonVents?.description).toContain('3"');
+    });
+  });
+
   describe('Ploys', () => {
     it('should have 8 ploys', () => {
       expect(faction.ploys).toBeDefined();
