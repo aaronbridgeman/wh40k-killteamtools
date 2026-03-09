@@ -427,6 +427,141 @@ export function advanceTurningPoint(game: GameEventState): GameEventState {
 }
 
 // ---------------------------------------------------------------------------
+// Markdown report generation
+// ---------------------------------------------------------------------------
+
+/**
+ * Generates a Markdown-formatted event report combining all game results,
+ * kill counts, equipment selections, and learnings log entries.
+ *
+ * The output is suitable for saving as a `.md` file or pasting into notes.
+ *
+ * @param event - The full quick play event state
+ * @param learnings - All learning entries for the event
+ * @param equipmentNames - Optional mapping of equipment ID → display name for
+ *   the equipment summary lines (falls back to raw IDs if not provided).
+ * @returns A Markdown string ready for download or clipboard.
+ */
+export function generateMarkdownReport(
+  event: QuickPlayEventState,
+  learnings: LearningEntry[],
+  equipmentNames: Record<string, string> = {}
+): string {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  // ── Header ────────────────────────────────────────────────────────────
+  const lines: string[] = [
+    `# Kill Team Quick Play Event Report`,
+    ``,
+    `**Date:** ${dateStr}  `,
+    event.eventName ? `**Event:** ${event.eventName}  ` : '',
+    `**Faction:** Plague Marines`,
+    ``,
+  ];
+
+  // ── Event summary ─────────────────────────────────────────────────────
+  const results = event.games.map((g) => {
+    if (g.gamePhase !== 'playing') return null;
+    if (g.playerVP > g.opponentVP) return 'Win';
+    if (g.playerVP < g.opponentVP) return 'Loss';
+    return 'Draw';
+  });
+  const wins = results.filter((r) => r === 'Win').length;
+  const losses = results.filter((r) => r === 'Loss').length;
+  const draws = results.filter((r) => r === 'Draw').length;
+  const totalPlayerVP = event.games.reduce((s, g) => s + g.playerVP, 0);
+  const totalOpponentVP = event.games.reduce((s, g) => s + g.opponentVP, 0);
+
+  lines.push(`## Event Summary`);
+  lines.push(``);
+  lines.push(`| Record | Your VP | Opp VP |`);
+  lines.push(`|--------|---------|--------|`);
+  lines.push(
+    `| ${wins}W / ${losses}L / ${draws}D | ${totalPlayerVP} | ${totalOpponentVP} |`
+  );
+  lines.push(``);
+
+  // ── Per-game details ──────────────────────────────────────────────────
+  lines.push(`## Game Results`);
+  lines.push(``);
+
+  event.games.forEach((game, idx) => {
+    const resultEmoji =
+      results[idx] === 'Win' ? '🏆' : results[idx] === 'Loss' ? '💀' : '🤝';
+    const resultLabel = results[idx] ?? 'Not played';
+
+    lines.push(`### Game ${game.gameNumber} — ${resultEmoji} ${resultLabel}`);
+    lines.push(``);
+
+    if (game.opposition) lines.push(`**Opponent:** ${game.opposition}  `);
+    if (game.critOp) lines.push(`**Crit Op:** ${game.critOp}  `);
+    if (game.tacOp) lines.push(`**Tac Op:** ${game.tacOp}  `);
+    if (game.opponentCount > 0)
+      lines.push(`**Opponent Operatives:** ${game.opponentCount}  `);
+    lines.push(``);
+
+    lines.push(`| Your VP | Opp VP | Kill Op Kills |`);
+    lines.push(`|---------|--------|---------------|`);
+    lines.push(
+      `| ${game.playerVP} | ${game.opponentVP} | ${game.killOpKillCount}${game.opponentCount > 0 ? `/${game.opponentCount}` : ''} |`
+    );
+    lines.push(``);
+
+    // Equipment
+    if (game.selectedEquipmentIds.length > 0) {
+      lines.push(`**Equipment used:**`);
+      game.selectedEquipmentIds.forEach((id) => {
+        const name = equipmentNames[id] ?? id;
+        lines.push(`- ${name}`);
+      });
+      lines.push(``);
+    }
+
+    // Incapacitated operatives
+    if (game.incapacitatedOperativeIds.length > 0) {
+      lines.push(
+        `**Friendly operatives incapacitated:** ${game.incapacitatedOperativeIds.length}`
+      );
+      lines.push(``);
+    }
+
+    lines.push(`---`);
+    lines.push(``);
+  });
+
+  // ── Learnings log ─────────────────────────────────────────────────────
+  if (learnings.length > 0) {
+    lines.push(`## Learnings & Notes`);
+    lines.push(``);
+    learnings.forEach((entry, i) => {
+      const ts = new Date(entry.timestamp).toLocaleString('en-GB', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      const context = [entry.oppositionTeam, entry.critOp, entry.tacOp]
+        .filter(Boolean)
+        .join(' · ');
+      lines.push(
+        `${i + 1}. ${entry.text}${context ? `  \n   _[${context}]_` : ''}${` — ${ts}`}`
+      );
+    });
+    lines.push(``);
+  }
+
+  // Filter out consecutive blank lines
+  return lines
+    .filter((line, i, arr) => !(line === '' && arr[i - 1] === ''))
+    .join('\n');
+}
+
+// ---------------------------------------------------------------------------
 // Google Drive — stub (not yet implemented)
 // ---------------------------------------------------------------------------
 

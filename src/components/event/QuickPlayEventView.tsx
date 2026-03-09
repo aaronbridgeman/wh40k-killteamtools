@@ -23,6 +23,7 @@ import {
   saveLearningsLog,
   loadLearningsLog,
   clearLearningsLog,
+  generateMarkdownReport,
 } from '@/services/eventStorage';
 import { Faction, Equipment } from '@/types';
 import {
@@ -149,6 +150,39 @@ export function QuickPlayEventView() {
       setEventViewMode('game');
     }
   }, []);
+
+  /**
+   * Generates a Markdown report of the full event and triggers a browser
+   * download of the resulting `.md` file.
+   */
+  const handleDownloadReport = useCallback(() => {
+    if (!faction) return;
+
+    // Build a name → display-name map so equipment IDs resolve to human-readable names
+    const factionEq = faction.equipment ?? [];
+    const universalEq = universalEquipment;
+    const equipmentNames: Record<string, string> = {};
+    [...factionEq, ...universalEq].forEach((eq) => {
+      equipmentNames[eq.id] = eq.name;
+    });
+
+    const md = generateMarkdownReport(
+      eventState,
+      learningEntries,
+      equipmentNames
+    );
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const slug = (eventState.eventName || 'kill-team-event')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+    a.download = `${slug}-report.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [eventState, learningEntries, faction, universalEquipment]);
 
   // ------------------------------------------------------------------
   // Render
@@ -310,6 +344,13 @@ export function QuickPlayEventView() {
                 />
 
                 <div className="event-reset-section">
+                  <button
+                    className="event-download-button"
+                    onClick={handleDownloadReport}
+                    aria-label="Download event report as Markdown file"
+                  >
+                    📥 Download Event Report
+                  </button>
                   <button
                     className="event-reset-button"
                     onClick={handleReset}

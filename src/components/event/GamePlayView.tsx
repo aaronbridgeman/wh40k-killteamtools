@@ -27,6 +27,7 @@ import { useCallback } from 'react';
 import { Faction, Equipment, Ploy } from '@/types';
 import { GameEventState } from '@/types/event';
 import { QUICK_PLAY_DEFAULTS } from '@/constants';
+import { TAC_OPS } from '@/data/missions/missions';
 import {
   getTurningPointState,
   getInitialTurningPointState,
@@ -129,6 +130,11 @@ export function GamePlayView({
 
   const level = killOpLevel(game.killOpKillCount, game.opponentCount);
 
+  // Tac Op description lookup — show scoring reminder in context bar
+  const tacOpEntry = game.tacOp
+    ? TAC_OPS.find((o) => o.name === game.tacOp)
+    : undefined;
+
   return (
     <div className="game-play-view">
       {/* ── 1. Context bar: objectives ────────────────────────────────── */}
@@ -141,10 +147,20 @@ export function GamePlayView({
             </span>
           )}
           {game.tacOp && (
-            <span className="context-badge tac-op-badge">
-              <span className="context-badge-label">Tac Op</span>
-              <span className="context-badge-value">{game.tacOp}</span>
-            </span>
+            <div className="tac-op-wrapper">
+              <span className="context-badge tac-op-badge">
+                <span className="context-badge-label">Tac Op</span>
+                <span className="context-badge-value">{game.tacOp}</span>
+              </span>
+              {tacOpEntry?.description && (
+                <p
+                  className="tac-op-reminder"
+                  aria-label="Tac Op scoring reminder"
+                >
+                  📋 {tacOpEntry.description}
+                </p>
+              )}
+            </div>
           )}
           {game.opposition && (
             <span className="context-badge opp-badge">

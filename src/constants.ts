@@ -72,6 +72,8 @@ export const QUICK_PLAY_DEFAULTS = {
   KRAK_GRENADES_ID: 'krak-grenades',
   /** Synthetic weapon ID injected into Bombardier's OperativeCard when krak grenades are selected */
   KRAK_GRENADIER_WEAPON_ID: 'event-krak-grenades-bombardier',
+  /** Maximum number of equipment items a kill team may select (Kill Team rules: up to 4 items total) */
+  MAX_EQUIPMENT_SELECTIONS: 4,
 } as const;
 
 // Quick Play Event — generic firefight ploy always available

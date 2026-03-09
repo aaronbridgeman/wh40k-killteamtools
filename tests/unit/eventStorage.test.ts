@@ -18,6 +18,7 @@ import {
   getTurningPointState,
   updateTurningPointState,
   advanceTurningPoint,
+  generateMarkdownReport,
 } from '@/services/eventStorage';
 import { QuickPlayEventState, GameEventState, LearningEntry } from '@/types/event';
 import { QUICK_PLAY_DEFAULTS, GAME_DEFAULTS } from '@/constants';
@@ -532,6 +533,98 @@ describe('eventStorage', () => {
       expect(loaded.games[1].opponentVP).toBe(12);
       expect(loaded.games[2].playerVP).toBe(0);
       expect(loaded.games[2].opponentVP).toBe(0);
+    });
+  });
+
+  // ------------------------------------------------------------------
+  // generateMarkdownReport
+  // ------------------------------------------------------------------
+
+  describe('generateMarkdownReport', () => {
+    it('includes the report heading', () => {
+      const state = getInitialEventState();
+      const md = generateMarkdownReport(state, []);
+      expect(md).toContain('# Kill Team Quick Play Event Report');
+    });
+
+    it('includes the event name when provided', () => {
+      const state = getInitialEventState();
+      state.eventName = 'Test Tournament';
+      const md = generateMarkdownReport(state, []);
+      expect(md).toContain('Test Tournament');
+    });
+
+    it('includes per-game headings for all 3 games', () => {
+      const state = getInitialEventState();
+      const md = generateMarkdownReport(state, []);
+      expect(md).toContain('### Game 1');
+      expect(md).toContain('### Game 2');
+      expect(md).toContain('### Game 3');
+    });
+
+    it('reflects win/loss/draw results correctly', () => {
+      const state = getInitialEventState();
+      // Game 1: win
+      state.games[0].gamePhase = 'playing';
+      state.games[0].playerVP = 10;
+      state.games[0].opponentVP = 5;
+      // Game 2: loss
+      state.games[1].gamePhase = 'playing';
+      state.games[1].playerVP = 3;
+      state.games[1].opponentVP = 8;
+
+      const md = generateMarkdownReport(state, []);
+      expect(md).toContain('🏆 Win');
+      expect(md).toContain('💀 Loss');
+    });
+
+    it('includes the opponent and ops when set', () => {
+      const state = getInitialEventState();
+      state.games[0].gamePhase = 'playing';
+      state.games[0].opposition = 'Grey Knights';
+      state.games[0].critOp = 'No Prisoners';
+      state.games[0].tacOp = 'Assassinate';
+
+      const md = generateMarkdownReport(state, []);
+      expect(md).toContain('Grey Knights');
+      expect(md).toContain('No Prisoners');
+      expect(md).toContain('Assassinate');
+    });
+
+    it('includes learnings when provided', () => {
+      const state = getInitialEventState();
+      const learnings: LearningEntry[] = [
+        {
+          id: '1',
+          text: 'Remember to use Icon Bearer early',
+          timestamp: new Date('2026-03-09T10:00:00').toISOString(),
+        },
+      ];
+      const md = generateMarkdownReport(state, learnings);
+      expect(md).toContain('## Learnings & Notes');
+      expect(md).toContain('Remember to use Icon Bearer early');
+    });
+
+    it('uses equipment display names from the lookup map', () => {
+      const state = getInitialEventState();
+      state.games[0].gamePhase = 'playing';
+      state.games[0].selectedEquipmentIds = ['blight-grenades'];
+
+      const md = generateMarkdownReport(state, [], {
+        'blight-grenades': 'Blight Grenades',
+      });
+      expect(md).toContain('Blight Grenades');
+    });
+
+    it('includes the W/L/D summary in the event summary section', () => {
+      const state = getInitialEventState();
+      state.games[0].gamePhase = 'playing';
+      state.games[0].playerVP = 15;
+      state.games[0].opponentVP = 8;
+
+      const md = generateMarkdownReport(state, []);
+      expect(md).toContain('## Event Summary');
+      expect(md).toContain('1W');
     });
   });
 });

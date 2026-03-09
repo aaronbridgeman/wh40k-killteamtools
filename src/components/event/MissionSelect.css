@@ -1,0 +1,60 @@
+/* MissionSelect component styles */
+
+.mission-select {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.mission-select-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mission-select-dropdown {
+  width: 100%;
+  padding: 0.5rem var(--spacing-sm);
+  background-color: var(--nurgle-surface-raised);
+  color: var(--nurgle-text);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  appearance: auto;
+}
+
+.mission-select-dropdown:focus {
+  outline: 2px solid var(--nurgle-accent);
+  outline-offset: 1px;
+}
+
+.mission-select-custom-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem var(--spacing-sm);
+  background-color: var(--nurgle-surface-raised);
+  color: var(--nurgle-text);
+  border: 1px solid var(--nurgle-accent);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.mission-select-custom-input:focus {
+  outline: 2px solid var(--nurgle-accent);
+  outline-offset: 1px;
+}
+
+.mission-select-description {
+  font-size: 0.8rem;
+  color: var(--nurgle-text-muted);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.5;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: rgba(74, 124, 63, 0.1);
+  border-left: 2px solid var(--nurgle-primary);
+  border-radius: 0 4px 4px 0;
+}

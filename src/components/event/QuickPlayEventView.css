@@ -147,6 +147,28 @@
   text-align: center;
   border-top: 1px solid var(--nurgle-border);
   margin-top: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.event-download-button {
+  background-color: transparent;
+  color: var(--nurgle-accent);
+  border: 1px solid var(--nurgle-primary);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.event-download-button:hover {
+  background-color: rgba(74, 124, 63, 0.15);
+  border-color: var(--nurgle-accent);
 }
 
 .event-reset-button {

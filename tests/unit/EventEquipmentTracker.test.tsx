@@ -204,7 +204,7 @@ describe('EventEquipmentTracker', () => {
     );
   });
 
-  it('shows note about Bombardier grenade bonus', () => {
+  it('shows note about Bombardier grenade bonus including Toxic rule', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
@@ -217,6 +217,9 @@ describe('EventEquipmentTracker', () => {
 
     expect(
       screen.getByText(/Bombardier's grenades do not count towards this limit/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Toxic rule/i)
     ).toBeInTheDocument();
   });
 
@@ -240,5 +243,66 @@ describe('EventEquipmentTracker', () => {
     expect(screen.getByText('Ammo Cache')).toBeInTheDocument();
     expect(screen.getByText(/Generic Equipment/i)).toBeInTheDocument();
     expect(screen.getByText(/Faction Equipment/i)).toBeInTheDocument();
+  });
+
+  it('does not select a 5th item when the 4-item limit is reached', () => {
+    const onChange = vi.fn();
+    // Build 4 mock universal items and pre-select all 4
+    const extra1: Equipment = { id: 'extra-1', name: 'Extra 1', category: 'universal', description: '' };
+    const extra2: Equipment = { id: 'extra-2', name: 'Extra 2', category: 'universal', description: '' };
+    const extra3: Equipment = { id: 'extra-3', name: 'Extra 3', category: 'universal', description: '' };
+    const extra4: Equipment = { id: 'extra-4', name: 'Extra 4', category: 'universal', description: '' };
+    const universalEquipment = [extra1, extra2, extra3, extra4];
+
+    render(
+      <EventEquipmentTracker
+        faction={mockFaction}
+        universalEquipment={universalEquipment}
+        selectedEquipmentIds={['extra-1', 'extra-2', 'extra-3', 'extra-4']}
+        blightGrenadeUsesRemaining={2}
+        onChange={onChange}
+      />
+    );
+
+    // Clicking an already-unselected item (Plague Rounds — faction) should not call onChange
+    fireEvent.click(screen.getByLabelText('Select Plague Rounds'));
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('shows the 4-item limit warning when all slots are filled', () => {
+    render(
+      <EventEquipmentTracker
+        faction={mockFaction}
+        universalEquipment={[]}
+        selectedEquipmentIds={[
+          QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID,
+          'plague-rounds',
+          'universal-1',
+          'universal-2',
+        ]}
+        blightGrenadeUsesRemaining={2}
+        onChange={vi.fn()}
+      />
+    );
+
+    expect(
+      screen.getByText(/Maximum 4 equipment items selected/i)
+    ).toBeInTheDocument();
+  });
+
+  it('does not show the limit warning when fewer than 4 items are selected', () => {
+    render(
+      <EventEquipmentTracker
+        faction={mockFaction}
+        universalEquipment={[]}
+        selectedEquipmentIds={['plague-rounds']}
+        blightGrenadeUsesRemaining={2}
+        onChange={vi.fn()}
+      />
+    );
+
+    expect(
+      screen.queryByText(/Maximum 4 equipment items selected/i)
+    ).not.toBeInTheDocument();
   });
 });
