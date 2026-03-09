@@ -1,11 +1,12 @@
 /**
  * EventEquipmentTracker — equipment selection and usage tracking per game.
  *
- * Renders the three Plague Marines faction equipment items (sourced from the
- * loaded faction data). Blight Grenade uses are tracked with a simple
- * counter; the LimitedItemTracker component is not used here because the
- * tracker integrates tightly with equipment selection state and uses a
- * custom inline display that better suits the event app's compact layout.
+ * Renders the Plague Marines faction equipment items (sourced from the
+ * loaded faction data) together with any universal equipment. Blight Grenade
+ * uses are tracked with a simple counter.
+ *
+ * Kill Team rules allow a maximum of 4 equipment items per kill team across
+ * faction and universal equipment combined. This limit is enforced here.
  *
  * @see QUICK_PLAY_EVENT_SPEC.md — Equipment Selection & Tracking
  */
@@ -63,6 +64,13 @@ export function EventEquipmentTracker({
         grenadeUses = QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES;
       }
     } else {
+      // Enforce 4-item maximum across faction and universal equipment
+      if (
+        selectedEquipmentIds.length >=
+        QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS
+      ) {
+        return;
+      }
       // Select
       updated = [...selectedEquipmentIds, item.id];
     }
@@ -129,7 +137,7 @@ export function EventEquipmentTracker({
             <p className="grenade-note">
               ℹ️ The Bombardier&apos;s grenades do not count towards this limit
               (Grenadier ability). His grenades are shown on his operative card
-              with +1 Hit stat (4+ → 3+).
+              with +1 Hit stat (4+ → 3+) and the Toxic rule.
             </p>
           </div>
         )}
@@ -139,6 +147,15 @@ export function EventEquipmentTracker({
 
   return (
     <div className="equipment-tracker">
+      {/* 4-item limit warning */}
+      {selectedEquipmentIds.length >=
+        QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS && (
+        <p className="equipment-limit-warning" role="status" aria-live="polite">
+          ⚠️ Maximum {QUICK_PLAY_DEFAULTS.MAX_EQUIPMENT_SELECTIONS} equipment
+          items selected. Deselect an item to choose a different one.
+        </p>
+      )}
+
       {/* Faction-specific equipment */}
       {factionEquipment.length > 0 && (
         <div className="equipment-group">

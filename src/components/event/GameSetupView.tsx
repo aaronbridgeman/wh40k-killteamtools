@@ -14,8 +14,10 @@
 import { useCallback } from 'react';
 import { Faction, Equipment } from '@/types';
 import { GameEventState } from '@/types/event';
+import { CRIT_OPS, TAC_OPS } from '@/data/missions/missions';
 import { QuickOperativeSelector } from './QuickOperativeSelector';
 import { EventEquipmentTracker } from './EventEquipmentTracker';
+import { MissionSelect } from './MissionSelect';
 import './GameSetupView.css';
 
 interface GameSetupViewProps {
@@ -151,39 +153,21 @@ export function GameSetupView({
             />
           </div>
           <div className="setup-detail-field">
-            <label
-              className="setup-detail-label"
-              htmlFor={`crit-op-${game.gameNumber}`}
-            >
-              Crit Op
-            </label>
-            <input
-              id={`crit-op-${game.gameNumber}`}
-              className="setup-detail-input"
-              type="text"
+            <MissionSelect
+              label="Crit Op"
+              options={CRIT_OPS}
               value={game.critOp}
-              onChange={(e) => onChange({ ...game, critOp: e.target.value })}
-              placeholder="e.g. No Prisoners"
-              maxLength={60}
-              aria-label="Critical Operation"
+              onChange={(val) => onChange({ ...game, critOp: val })}
+              placeholder="Enter custom Critical Op…"
             />
           </div>
           <div className="setup-detail-field">
-            <label
-              className="setup-detail-label"
-              htmlFor={`tac-op-${game.gameNumber}`}
-            >
-              Tac Op
-            </label>
-            <input
-              id={`tac-op-${game.gameNumber}`}
-              className="setup-detail-input"
-              type="text"
+            <MissionSelect
+              label="Tac Op"
+              options={TAC_OPS}
               value={game.tacOp}
-              onChange={(e) => onChange({ ...game, tacOp: e.target.value })}
-              placeholder="e.g. Assassinate"
-              maxLength={60}
-              aria-label="Tactical Operation"
+              onChange={(val) => onChange({ ...game, tacOp: val })}
+              placeholder="Enter custom Tactical Op…"
             />
           </div>
         </div>
