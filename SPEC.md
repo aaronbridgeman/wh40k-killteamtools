@@ -87,26 +87,29 @@ Provide a comprehensive digital toolset for Kill Team players to:
 │       └── deploy.yml          # GitHub Pages deployment
 ├── docs/                        # GitHub Pages output directory
 ├── public/                      # Static assets
-│   ├── images/
-│   │   └── operatives/         # Operative images by faction
-│   └── pdfs/                   # Official rule PDFs (future)
+│   └── images/
+│       └── operatives/         # Operative images by faction
 ├── src/
 │   ├── components/             # React components
 │   │   ├── common/            # Reusable UI components
 │   │   ├── datacard/          # Operative datacard components
+│   │   ├── equipment/         # Equipment selection components
+│   │   ├── event/             # Quick play event components
 │   │   ├── faction/           # Faction selection and display
-│   │   └── rules/             # Rule expansion components
+│   │   ├── game/              # Game mode components
+│   │   ├── rules/             # Rule expansion components
+│   │   └── team/              # Team builder components
 │   ├── data/                   # Configuration data
 │   │   ├── factions/          # Faction-specific configs
 │   │   │   ├── angels-of-death/
 │   │   │   │   ├── faction.json
-│   │   │   │   ├── operatives/
 │   │   │   │   └── rules.ts    # Faction-specific logic
 │   │   │   └── plague-marines/
 │   │   │       ├── faction.json
-│   │   │       ├── operatives/
+│   │   │       ├── matchup-tips.json
 │   │   │       └── rules.ts
-│   │   ├── schemas/           # JSON schemas for validation
+│   │   ├── equipment/         # Universal equipment data
+│   │   ├── missions/          # Mission definitions
 │   │   └── weapons/           # Weapon rule definitions
 │   ├── hooks/                  # Custom React hooks
 │   ├── services/              # Business logic services
@@ -118,13 +121,10 @@ Provide a comprehensive digital toolset for Kill Team players to:
 │   │   ├── operative.ts
 │   │   ├── weapon.ts
 │   │   └── game.ts
-│   ├── utils/                  # Utility functions
 │   ├── App.tsx                # Main application component
 │   └── main.tsx               # Application entry point
 ├── tests/
-│   ├── unit/                   # Unit tests
-│   ├── integration/           # Integration tests
-│   └── fixtures/              # Test data
+│   └── unit/                   # Unit tests
 ├── .gitignore
 ├── package.json
 ├── tsconfig.json
@@ -486,11 +486,10 @@ npm run preview     # Preview production build
 
 1. Create faction directory in `src/data/factions/{faction-id}/`
 2. Create `faction.json` with faction metadata
-3. Create operative configs in `operatives/` subdirectory
-4. Create faction-specific logic in `rules.ts` if needed
-5. Add faction images to `public/images/operatives/{faction-id}/`
-6. Write unit tests for faction data
-7. Update faction registry
+3. Create faction-specific logic in `rules.ts` if needed
+4. Add faction images to `public/images/operatives/{faction-id}/`
+5. Write unit tests for faction data
+6. Update faction registry
 
 ### 9.3 Code Review Checklist
 
@@ -504,7 +503,7 @@ npm run preview     # Preview production build
 
 ## 10. Future Enhancements
 
-**Note**: For a comprehensive analysis of missing features and detailed implementation plan, see [MISSING_FEATURES_PLAN.md](./MISSING_FEATURES_PLAN.md).
+For a prioritised roadmap of future features, see [FEATURE_ROADMAP.md](./FEATURE_ROADMAP.md).
 
 ### 10.1 Potential Features
 

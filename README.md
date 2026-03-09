@@ -199,7 +199,7 @@ The PWA configuration includes:
 
 ### First-Time Setup
 
-If you're setting up this repository for the first time or if deployments are failing with a 404 error, GitHub Pages needs to be enabled in the repository settings. See [GITHUB_PAGES_SETUP.md](./GITHUB_PAGES_SETUP.md) for detailed setup instructions.
+If you're setting up this repository for the first time or if deployments are failing with a 404 error, GitHub Pages needs to be enabled in the repository settings.
 
 **Quick Setup:**
 
@@ -215,7 +215,6 @@ The repository includes automated tools for cleaning up merged branches:
 
 - **Automated workflow**: Runs weekly to delete merged branches (see `.github/workflows/cleanup-branches.yml`)
 - **Manual script**: Run `./scripts/cleanup-branches.sh` to clean up branches on-demand
-- See [BRANCH_CLEANUP.md](./BRANCH_CLEANUP.md) for detailed documentation
 
 To prevent branch accumulation:
 
@@ -255,7 +254,6 @@ MIT License - see LICENSE file for details
 ### Planning & Roadmap
 
 - [Feature Roadmap](./FEATURE_ROADMAP.md) - Visual roadmap and quick reference for future features
-- [Missing Features Plan](./MISSING_FEATURES_PLAN.md) - Comprehensive implementation plan for missing Kill Team features
 - [Technical Specification](./SPEC.md) - Detailed technical requirements and roadmap
 
 ### Development Documentation
@@ -266,8 +264,6 @@ MIT License - see LICENSE file for details
 
 ### Operations & Deployment
 
-- [Branch Cleanup Documentation](./BRANCH_CLEANUP.md) - Repository maintenance guidelines
-- [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md) - Deployment configuration
 - [Version Management](./VERSION_MANAGEMENT.md) - Version control and release process
 
 ### External Links

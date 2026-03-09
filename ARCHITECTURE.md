@@ -30,7 +30,7 @@ Kill Team Dataslate is a client-side React application built with TypeScript and
 - **Fully Client-Side**: No backend server required
 - **Data-Driven**: All game data stored in JSON configuration files
 - **Type-Safe**: Comprehensive TypeScript type system
-- **Tested**: 190+ unit tests with high coverage
+- **Tested**: 350+ unit tests with high coverage
 - **Responsive**: Mobile-first design approach
 - **Accessible**: WCAG 2.1 AA compliance
 
@@ -812,7 +812,7 @@ Services receive dependencies as parameters:
 
 ### Test Coverage
 
-- **190+ unit tests** covering core functionality
+- **350+ unit tests** covering core functionality
 - Target: 80%+ code coverage
 - Focus on critical business logic
 

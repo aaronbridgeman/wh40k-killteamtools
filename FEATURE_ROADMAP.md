@@ -286,7 +286,6 @@ Terrain System
 
 ## 📚 Related Documents
 
-- [MISSING_FEATURES_PLAN.md](./MISSING_FEATURES_PLAN.md) - Detailed implementation plan
 - [SPEC.md](./SPEC.md) - Technical specification
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - System architecture
 - [CONTRIBUTING.md](./CONTRIBUTING.md) - Contribution guide
