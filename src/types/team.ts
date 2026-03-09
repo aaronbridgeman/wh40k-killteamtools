@@ -45,6 +45,8 @@ export interface TeamState {
   ruleChoices: FactionRuleChoices | null;
   /** Selected equipment (maximum 4 items per kill team rules) */
   selectedEquipment?: Equipment[];
+  /** Selected opponent kill team ID (used for matchup tips) */
+  opponentTeamId?: string | null;
 }
 
 /**

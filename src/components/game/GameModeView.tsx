@@ -6,6 +6,7 @@ import { OperativeSelector } from '../team/OperativeSelector';
 import { SelectedTeamView } from '../team/SelectedTeamView';
 import { FactionRulesSelector } from '../team/FactionRulesSelector';
 import { GameManagement } from './GameManagement';
+import { OpponentSelector } from './OpponentSelector';
 import { loadFaction, FactionId } from '@/services/dataLoader';
 import {
   saveGameModeState,
@@ -164,6 +165,19 @@ export function GameModeView() {
     }));
   };
 
+  const handleOpponentSelect = (
+    opponentId: string | null,
+    team: 'alpha' | 'bravo'
+  ) => {
+    setGameModeState((prev) => ({
+      ...prev,
+      [team]: {
+        ...prev[team],
+        opponentTeamId: opponentId,
+      },
+    }));
+  };
+
   const handleUpdateGameTracking = (gameTracking: GameTrackingState) => {
     setGameModeState((prev) => ({
       ...prev,
@@ -214,6 +228,8 @@ export function GameModeView() {
           bravoOperatives={gameModeState.bravo.selectedOperatives}
           alphaFaction={alphaFaction}
           bravoFaction={bravoFaction}
+          alphaOpponentTeamId={gameModeState.alpha.opponentTeamId}
+          bravoOpponentTeamId={gameModeState.bravo.opponentTeamId}
           onUpdateGameTracking={handleUpdateGameTracking}
         />
       ) : (
@@ -226,6 +242,13 @@ export function GameModeView() {
               handleFactionSelect(factionId, activeTeam)
             }
           />
+
+          {currentTeamState.factionId === 'plague-marines' && (
+            <OpponentSelector
+              selectedOpponentId={currentTeamState.opponentTeamId}
+              onOpponentSelect={(id) => handleOpponentSelect(id, activeTeam)}
+            />
+          )}
 
           {loading && <div className="loading">Loading faction data...</div>}
 

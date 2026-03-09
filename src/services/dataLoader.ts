@@ -3,6 +3,7 @@
  */
 
 import { Faction } from '@/types';
+import { OpponentKillTeam, PlagueMarinesMatchupTips } from '@/types/opponent';
 
 /**
  * Available faction IDs
@@ -75,4 +76,21 @@ export function validateFaction(faction: unknown): faction is Faction {
     f.restrictions &&
     f.metadata
   );
+}
+
+/**
+ * Load the list of opponent kill teams
+ */
+export async function loadOpponentKillTeams(): Promise<OpponentKillTeam[]> {
+  const module = await import('@/data/opponents/kill-teams.json');
+  return module.default as OpponentKillTeam[];
+}
+
+/**
+ * Load Plague Marines matchup tips
+ */
+export async function loadPlagueMarinesMatchupTips(): Promise<PlagueMarinesMatchupTips> {
+  const module =
+    await import('@/data/factions/plague-marines/matchup-tips.json');
+  return module.default as PlagueMarinesMatchupTips;
 }

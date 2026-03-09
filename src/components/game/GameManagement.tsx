@@ -14,6 +14,7 @@ import {
   decrementLimitedItemUse,
 } from '@/services/limitedItemTracker';
 import { LimitedItemTracker } from '@/components/common';
+import { MatchupTipsPanel } from './MatchupTipsPanel';
 import './GameManagement.css';
 
 interface GameManagementProps {
@@ -22,6 +23,10 @@ interface GameManagementProps {
   bravoOperatives: SelectedOperative[];
   alphaFaction: Faction | null;
   bravoFaction: Faction | null;
+  /** Selected opponent team ID for Kill Team Alpha (used when Alpha is Plague Marines) */
+  alphaOpponentTeamId?: string | null;
+  /** Selected opponent team ID for Kill Team Bravo (used when Bravo is Plague Marines) */
+  bravoOpponentTeamId?: string | null;
   onUpdateGameTracking: (gameTracking: GameTrackingState) => void;
 }
 
@@ -31,6 +36,8 @@ export function GameManagement({
   bravoOperatives,
   alphaFaction,
   bravoFaction,
+  alphaOpponentTeamId,
+  bravoOpponentTeamId,
   onUpdateGameTracking,
 }: GameManagementProps) {
   const handleTurningPointChange = (delta: number) => {
@@ -240,6 +247,18 @@ export function GameManagement({
   return (
     <div className="game-management">
       <h2>Game Management</h2>
+
+      {/* Plague Marines Strategy Advisor – shown when either team uses Plague Marines */}
+      {(alphaFaction?.id === 'plague-marines' ||
+        bravoFaction?.id === 'plague-marines') && (
+        <MatchupTipsPanel
+          opponentTeamId={
+            alphaFaction?.id === 'plague-marines'
+              ? alphaOpponentTeamId
+              : bravoOpponentTeamId
+          }
+        />
+      )}
 
       {/* Turning Point */}
       <section className="tracking-section">
