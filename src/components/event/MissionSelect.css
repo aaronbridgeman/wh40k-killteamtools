@@ -70,3 +70,103 @@
   border-left: 2px solid var(--nurgle-primary);
   border-radius: 0 4px 4px 0;
 }
+
+/* ── Rich Crit Op detail panel ──────────────────────────────────────────── */
+
+.mission-select-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.mission-select-section {
+  background-color: rgba(74, 124, 63, 0.07);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 6px;
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.mission-select-section-title {
+  margin: 0 0 var(--spacing-xs);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mission-select-list {
+  margin: 0;
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mission-select-list li {
+  font-size: 0.82rem;
+  color: var(--nurgle-text);
+  line-height: 1.5;
+}
+
+.mission-select-rule-text {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--nurgle-text);
+  line-height: 1.5;
+}
+
+/* Individual mission action card */
+.mission-select-action {
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 4px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.mission-select-action:last-child {
+  margin-bottom: 0;
+}
+
+.mission-select-action-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  margin-bottom: 0.2rem;
+}
+
+.mission-select-action-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--nurgle-text);
+}
+
+.mission-select-action-ap {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--nurgle-gold, #c9a84c);
+  background-color: rgba(201, 168, 76, 0.12);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mission-select-action-desc {
+  margin: 0 0 0.25rem;
+  font-size: 0.82rem;
+  color: var(--nurgle-text);
+  line-height: 1.5;
+}
+
+.mission-select-action-restrictions {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--nurgle-text-muted);
+  font-style: italic;
+  line-height: 1.4;
+}
