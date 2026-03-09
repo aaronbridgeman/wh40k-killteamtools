@@ -11,12 +11,13 @@
  * gameplay controls.
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Faction, Equipment } from '@/types';
 import { GameEventState } from '@/types/event';
 import { CRIT_OPS, TAC_OPS } from '@/data/missions/missions';
 import { loadOpponentKillTeams } from '@/services/dataLoader';
 import { OpponentKillTeam } from '@/types/opponent';
+import { MatchupTipsPanel } from '@/components/game/MatchupTipsPanel';
 import { QuickOperativeSelector } from './QuickOperativeSelector';
 import { EventEquipmentTracker } from './EventEquipmentTracker';
 import { MissionSelect } from './MissionSelect';
@@ -47,6 +48,12 @@ export function GameSetupView({
   useEffect(() => {
     loadOpponentKillTeams().then(setOpponentTeams).catch(console.error);
   }, []);
+
+  /** ID of the currently selected opposing kill team, derived from its name */
+  const selectedOpponentId = useMemo(
+    () => opponentTeams.find((t) => t.name === game.opposition)?.id ?? null,
+    [opponentTeams, game.opposition]
+  );
 
   const handleRosterChange = useCallback(
     (removedOperativeId: string | null) => {
@@ -98,9 +105,16 @@ export function GameSetupView({
               id={`opposition-${game.gameNumber}`}
               className="setup-detail-input"
               value={game.opposition}
-              onChange={(e) =>
-                onChange({ ...game, opposition: e.target.value })
-              }
+              onChange={(e) => {
+                const selectedTeam = opponentTeams.find(
+                  (t) => t.name === e.target.value
+                );
+                onChange({
+                  ...game,
+                  opposition: e.target.value,
+                  opponentCount: selectedTeam ? selectedTeam.model_count : 0,
+                });
+              }}
               aria-label="Opposition kill team"
             >
               <option value="">— Select opposing kill team —</option>
@@ -155,6 +169,9 @@ export function GameSetupView({
           </div>
         </div>
       </section>
+
+      {/* 1a — Matchup tips (shown when an opponent is selected) */}
+      <MatchupTipsPanel opponentTeamId={selectedOpponentId} />
 
       {/* 2 — Operative roster */}
       <section className="setup-section" aria-labelledby="setup-roster-title">
