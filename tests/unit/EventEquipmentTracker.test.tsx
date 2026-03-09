@@ -43,6 +43,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
         onChange={vi.fn()}
@@ -57,6 +58,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
         onChange={vi.fn()}
@@ -71,6 +73,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={['plague-rounds']}
         blightGrenadeUsesRemaining={2}
         onChange={vi.fn()}
@@ -86,6 +89,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
         onChange={onChange}
@@ -101,6 +105,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={['plague-rounds']}
         blightGrenadeUsesRemaining={2}
         onChange={onChange}
@@ -115,6 +120,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
         blightGrenadeUsesRemaining={2}
         onChange={vi.fn()}
@@ -133,6 +139,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[]}
         blightGrenadeUsesRemaining={2}
         onChange={vi.fn()}
@@ -147,6 +154,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
         blightGrenadeUsesRemaining={2}
         onChange={onChange}
@@ -164,6 +172,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
         blightGrenadeUsesRemaining={0}
         onChange={vi.fn()}
@@ -180,6 +189,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
         blightGrenadeUsesRemaining={1}
         onChange={onChange}
@@ -198,6 +208,7 @@ describe('EventEquipmentTracker', () => {
     render(
       <EventEquipmentTracker
         faction={mockFaction}
+        universalEquipment={[]}
         selectedEquipmentIds={[QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID]}
         blightGrenadeUsesRemaining={2}
         onChange={vi.fn()}
@@ -207,5 +218,27 @@ describe('EventEquipmentTracker', () => {
     expect(
       screen.getByText(/Bombardier's grenades do not count towards this limit/i)
     ).toBeInTheDocument();
+  });
+
+  it('renders universal equipment items in a separate section', () => {
+    const mockUniversal: Equipment = {
+      id: 'ammo-cache',
+      name: 'Ammo Cache',
+      category: 'universal',
+      description: 'Resupply ammo once per TP.',
+    };
+    render(
+      <EventEquipmentTracker
+        faction={mockFaction}
+        universalEquipment={[mockUniversal]}
+        selectedEquipmentIds={[]}
+        blightGrenadeUsesRemaining={2}
+        onChange={vi.fn()}
+      />
+    );
+
+    expect(screen.getByText('Ammo Cache')).toBeInTheDocument();
+    expect(screen.getByText(/Generic Equipment/i)).toBeInTheDocument();
+    expect(screen.getByText(/Faction Equipment/i)).toBeInTheDocument();
   });
 });

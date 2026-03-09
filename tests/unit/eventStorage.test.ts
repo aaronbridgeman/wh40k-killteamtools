@@ -49,9 +49,9 @@ describe('eventStorage', () => {
       expect(state.activeGameIndex).toBe(0);
     });
 
-    it('returns state with empty learnings', () => {
+    it('returns empty learningEntries', () => {
       const state = getInitialEventState();
-      expect(state.learnings).toBe('');
+      expect(state.learningEntries).toEqual([]);
     });
 
     it('returns state with correct schema version', () => {
@@ -106,9 +106,9 @@ describe('eventStorage', () => {
       expect(game.turningPoints).toEqual({});
     });
 
-    it('returns empty injuredOperativeIds', () => {
+    it('returns empty incapacitatedOperativeIds', () => {
       const game = getInitialGameState(1);
-      expect(game.injuredOperativeIds).toEqual([]);
+      expect(game.incapacitatedOperativeIds).toEqual([]);
     });
   });
 
@@ -118,9 +118,9 @@ describe('eventStorage', () => {
       expect(tp.selectedStrategicPloyId).toBeNull();
     });
 
-    it('returns empty used firefight ploys', () => {
+    it('returns empty firefightPloyCounts', () => {
       const tp = getInitialTurningPointState();
-      expect(tp.usedFirefightPloyIds).toEqual([]);
+      expect(tp.firefightPloyCounts).toEqual({});
     });
   });
 
@@ -133,7 +133,7 @@ describe('eventStorage', () => {
       const state = getInitialEventState();
       state.eventName = 'Test Event';
       state.setupComplete = true;
-      state.learnings = 'Game 1 notes';
+      state.learningEntries = [{ id: '1', text: 'Game 1 notes', timestamp: new Date().toISOString() }];
 
       saveEventState(state);
       const loaded = loadEventState();
@@ -141,7 +141,8 @@ describe('eventStorage', () => {
       expect(loaded).not.toBeNull();
       expect(loaded!.eventName).toBe('Test Event');
       expect(loaded!.setupComplete).toBe(true);
-      expect(loaded!.learnings).toBe('Game 1 notes');
+      expect(loaded!.learningEntries).toHaveLength(1);
+      expect(loaded!.learningEntries[0].text).toBe('Game 1 notes');
       expect(loaded!.games).toHaveLength(3);
     });
 
@@ -168,16 +169,16 @@ describe('eventStorage', () => {
   });
 
   describe('loadEventState (migration)', () => {
-    it('adds injuredOperativeIds to games that lack the field (old save migration)', () => {
-      // Simulate an old save that predates injuredOperativeIds
+    it('migrates v1 save: adds incapacitatedOperativeIds, converts usedFirefightPloyIds→firefightPloyCounts, adds learningEntries', () => {
+      // Simulate an old v1 save that predates the v2 schema
       const oldState = {
         version: 1,
         eventName: 'Old Event',
         setupComplete: true,
         activeGameIndex: 0,
-        learnings: '',
+        learnings: 'Old free-text learnings',
         games: [
-          { gameNumber: 1, removedOperativeId: 'pm-plague-marine-warrior', selectedEquipmentIds: ['blight-grenades'], blightGrenadeUsesRemaining: 1, turningPoint: 2, commandPoints: 3, turningPoints: { 1: { selectedStrategicPloyId: 'contagion', usedFirefightPloyIds: [] } } },
+          { gameNumber: 1, removedOperativeId: 'pm-plague-marine-warrior', selectedEquipmentIds: ['blight-grenades'], blightGrenadeUsesRemaining: 1, turningPoint: 2, commandPoints: 3, turningPoints: { 1: { selectedStrategicPloyId: 'contagion', usedFirefightPloyIds: ['virulent-poison'] } } },
           { gameNumber: 2, removedOperativeId: null, selectedEquipmentIds: [], blightGrenadeUsesRemaining: 2, turningPoint: 0, commandPoints: 0, turningPoints: {} },
           { gameNumber: 3, removedOperativeId: null, selectedEquipmentIds: [], blightGrenadeUsesRemaining: 2, turningPoint: 0, commandPoints: 0, turningPoints: {} },
         ],
@@ -187,10 +188,16 @@ describe('eventStorage', () => {
       const loaded = loadEventState()!;
       expect(loaded).not.toBeNull();
 
-      // All games should have injuredOperativeIds defaulted to []
+      // All games should have incapacitatedOperativeIds defaulted to []
       loaded.games.forEach((game) => {
-        expect(game.injuredOperativeIds).toEqual([]);
+        expect(game.incapacitatedOperativeIds).toEqual([]);
       });
+
+      // usedFirefightPloyIds converted to firefightPloyCounts
+      expect(loaded.games[0].turningPoints[1].firefightPloyCounts).toEqual({ 'virulent-poison': 1 });
+
+      // learnings string is dropped; learningEntries is an empty array
+      expect(loaded.learningEntries).toEqual([]);
 
       // All existing fields should be preserved without modification
       expect(loaded.games[0].gameNumber).toBe(1);
@@ -240,7 +247,7 @@ describe('eventStorage', () => {
       const game: GameEventState = {
         ...getInitialGameState(1),
         turningPoints: {
-          2: { selectedStrategicPloyId: 'contagion', usedFirefightPloyIds: [] },
+          2: { selectedStrategicPloyId: 'contagion', firefightPloyCounts: {} },
         },
       };
       const tp = getTurningPointState(game, 2);
@@ -251,7 +258,7 @@ describe('eventStorage', () => {
       const game = getInitialGameState(1);
       const tp = getTurningPointState(game, 3);
       expect(tp.selectedStrategicPloyId).toBeNull();
-      expect(tp.usedFirefightPloyIds).toEqual([]);
+      expect(tp.firefightPloyCounts).toEqual({});
     });
   });
 
@@ -260,22 +267,20 @@ describe('eventStorage', () => {
       const game = getInitialGameState(1);
       const updatedGame = updateTurningPointState(game, 1, {
         selectedStrategicPloyId: 'lumbering-death',
-        usedFirefightPloyIds: ['virulent-poison'],
+        firefightPloyCounts: { 'virulent-poison': 1 },
       });
 
       expect(updatedGame.turningPoints[1].selectedStrategicPloyId).toBe(
         'lumbering-death'
       );
-      expect(updatedGame.turningPoints[1].usedFirefightPloyIds).toContain(
-        'virulent-poison'
-      );
+      expect(updatedGame.turningPoints[1].firefightPloyCounts['virulent-poison']).toBe(1);
     });
 
     it('does not mutate the original game state', () => {
       const game = getInitialGameState(1);
       updateTurningPointState(game, 1, {
         selectedStrategicPloyId: 'cloud-of-flies',
-        usedFirefightPloyIds: [],
+        firefightPloyCounts: {},
       });
       expect(game.turningPoints[1]).toBeUndefined();
     });
@@ -302,7 +307,7 @@ describe('eventStorage', () => {
       const updated = advanceTurningPoint(game);
       expect(updated.turningPoints[2]).toBeDefined();
       expect(updated.turningPoints[2].selectedStrategicPloyId).toBeNull();
-      expect(updated.turningPoints[2].usedFirefightPloyIds).toEqual([]);
+      expect(updated.turningPoints[2].firefightPloyCounts).toEqual({});
     });
 
     it('does not overwrite an existing TP state when advancing', () => {
@@ -310,7 +315,7 @@ describe('eventStorage', () => {
         ...getInitialGameState(1),
         turningPoint: 1,
         turningPoints: {
-          2: { selectedStrategicPloyId: 'nurglings', usedFirefightPloyIds: ['curse-of-rot'] },
+          2: { selectedStrategicPloyId: 'nurglings', firefightPloyCounts: { 'curse-of-rot': 1 } },
         },
       };
       const updated = advanceTurningPoint(game);
@@ -326,11 +331,13 @@ describe('eventStorage', () => {
   describe('full state round-trip', () => {
     it('persists and restores a complex event state', () => {
       const state: QuickPlayEventState = {
-        version: 1,
+        version: 2,
         eventName: 'Nurgle Cup',
         setupComplete: true,
         activeGameIndex: 1,
-        learnings: 'Keep Icon Bearer alive for free Contagion.',
+        learningEntries: [
+          { id: '1', text: 'Keep Icon Bearer alive for free Contagion.', timestamp: new Date().toISOString() },
+        ],
         games: [
           {
             gameNumber: 1,
@@ -339,11 +346,11 @@ describe('eventStorage', () => {
             blightGrenadeUsesRemaining: 1,
             turningPoint: 3,
             commandPoints: 4,
-            injuredOperativeIds: ['pm-plague-marine-bombardier'],
+            incapacitatedOperativeIds: ['pm-plague-marine-bombardier'],
             turningPoints: {
-              1: { selectedStrategicPloyId: 'contagion', usedFirefightPloyIds: ['virulent-poison'] },
-              2: { selectedStrategicPloyId: 'cloud-of-flies', usedFirefightPloyIds: [] },
-              3: { selectedStrategicPloyId: null, usedFirefightPloyIds: [] },
+              1: { selectedStrategicPloyId: 'contagion', firefightPloyCounts: { 'virulent-poison': 2 } },
+              2: { selectedStrategicPloyId: 'cloud-of-flies', firefightPloyCounts: {} },
+              3: { selectedStrategicPloyId: null, firefightPloyCounts: {} },
             },
           },
           getInitialGameState(2),
@@ -356,13 +363,14 @@ describe('eventStorage', () => {
 
       expect(loaded.eventName).toBe('Nurgle Cup');
       expect(loaded.activeGameIndex).toBe(1);
-      expect(loaded.learnings).toBe('Keep Icon Bearer alive for free Contagion.');
+      expect(loaded.learningEntries).toHaveLength(1);
+      expect(loaded.learningEntries[0].text).toBe('Keep Icon Bearer alive for free Contagion.');
       expect(loaded.games[0].removedOperativeId).toBe('pm-plague-marine-warrior');
       expect(loaded.games[0].blightGrenadeUsesRemaining).toBe(1);
       expect(loaded.games[0].turningPoint).toBe(3);
       expect(loaded.games[0].turningPoints[1].selectedStrategicPloyId).toBe('contagion');
-      expect(loaded.games[0].turningPoints[1].usedFirefightPloyIds).toContain('virulent-poison');
-      expect(loaded.games[0].injuredOperativeIds).toContain('pm-plague-marine-bombardier');
+      expect(loaded.games[0].turningPoints[1].firefightPloyCounts['virulent-poison']).toBe(2);
+      expect(loaded.games[0].incapacitatedOperativeIds).toContain('pm-plague-marine-bombardier');
     });
   });
 });

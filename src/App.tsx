@@ -41,7 +41,13 @@ const CHAPTER_TACTICS_PRIMARY = 'chapter_tactics_primary';
 const CHAPTER_TACTICS_SECONDARY = 'chapter_tactics_secondary';
 
 function App() {
-  const [viewMode, setViewMode] = useState<ViewMode>('home');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    // Support standalone PWA launch via ?view=quick-play-event URL parameter
+    const params = new URLSearchParams(window.location.search);
+    const viewParam = params.get('view');
+    if (viewParam === 'quick-play-event') return 'quick-play-event';
+    return 'home';
+  });
   const [teamViewMode, setTeamViewMode] =
     useState<TeamViewMode>('faction-info');
   const [selectedFactionId, setSelectedFactionId] = useState<

@@ -213,16 +213,11 @@
   background-color: var(--nurgle-surface-raised);
   border: 1px solid var(--nurgle-border);
   border-radius: 8px;
-  cursor: pointer;
   transition:
     border-color 0.2s ease,
     opacity 0.2s ease;
-  /* Button element resets */
   width: 100%;
   text-align: left;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
 }
 
 .firefight-ploy-card.affordable {
@@ -230,13 +225,11 @@
 }
 
 .firefight-ploy-card.used {
-  opacity: 0.55;
-  cursor: default;
+  border-color: var(--nurgle-accent);
 }
 
 .firefight-ploy-card.unaffordable {
-  opacity: 0.45;
-  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .ff-ploy-info {
@@ -254,6 +247,10 @@
   color: var(--nurgle-accent);
 }
 
+.firefight-ploy-card.used .ff-ploy-name {
+  color: var(--nurgle-accent);
+}
+
 .ff-ploy-cost {
   font-size: 0.75rem;
   color: var(--nurgle-gold);
@@ -268,14 +265,78 @@
   line-height: 1.45;
 }
 
-.ff-used-badge {
+/* Actions area (use + undo buttons + count) */
+.ff-ploy-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.ff-use-button {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--nurgle-primary);
+  background-color: var(--nurgle-primary);
+  color: var(--nurgle-text);
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.ff-use-button:hover:not(:disabled) {
+  background-color: var(--nurgle-accent);
+  border-color: var(--nurgle-accent);
+}
+
+.ff-use-button:disabled,
+.ff-use-button.cannot-afford {
+  background-color: transparent;
+  border-color: var(--nurgle-border);
+  color: var(--nurgle-text-muted);
+  cursor: not-allowed;
+}
+
+.ff-undo-button {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px var(--spacing-xs);
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid var(--nurgle-border);
+  background-color: transparent;
+  color: var(--nurgle-text-muted);
+  font-family: inherit;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.ff-undo-button:hover:not(:disabled) {
+  color: var(--nurgle-text);
+  border-color: var(--nurgle-text);
+}
+
+.ff-use-count {
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--nurgle-text-muted);
-  background-color: var(--nurgle-surface);
-  border: 1px solid var(--nurgle-border);
-  border-radius: 4px;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  color: var(--nurgle-accent);
   white-space: nowrap;
-  align-self: center;
+}
+
+/* Icon Bearer status indicator */
+.icon-bearer-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--nurgle-text-muted);
+  margin: 0 0 var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--nurgle-surface-raised);
+  border-radius: 6px;
+  border: 1px solid var(--nurgle-border);
 }

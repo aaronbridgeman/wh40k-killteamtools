@@ -1,5 +1,5 @@
 /**
- * LearningsTracker CSS — free-text notes at the bottom of the view.
+ * LearningsTracker CSS — note submission form at the bottom of the view.
  */
 
 .learnings-tracker {
@@ -10,13 +10,42 @@
   border-radius: 12px;
 }
 
+.learnings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+  gap: var(--spacing-md);
+}
+
 .learnings-title {
-  margin: 0 0 var(--spacing-sm);
+  margin: 0;
   font-size: 1rem;
   font-weight: 700;
   color: var(--nurgle-accent);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+.view-log-button {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--nurgle-primary);
+  background-color: transparent;
+  color: var(--nurgle-accent);
+  font-family: inherit;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  white-space: nowrap;
+}
+
+.view-log-button:hover {
+  background-color: var(--nurgle-primary);
+  color: var(--nurgle-text);
 }
 
 .learnings-subtitle {
@@ -26,9 +55,15 @@
   font-style: italic;
 }
 
+.learnings-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
 .learnings-textarea {
   width: 100%;
-  min-height: 120px;
+  min-height: 80px;
   padding: var(--spacing-md);
   background-color: var(--nurgle-surface-raised);
   border: 1px solid var(--nurgle-border);
@@ -50,4 +85,71 @@
 .learnings-textarea::placeholder {
   color: var(--nurgle-text-muted);
   opacity: 0.6;
+}
+
+/* Optional metadata fields */
+.learnings-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xs) var(--spacing-sm);
+}
+
+.meta-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.meta-input {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 4px;
+  color: var(--nurgle-text);
+  font-size: 0.8rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.meta-input:focus {
+  outline: none;
+  border-color: var(--nurgle-accent);
+}
+
+.meta-input::placeholder {
+  color: var(--nurgle-text-muted);
+  opacity: 0.6;
+}
+
+/* Submit button */
+.submit-learning-button {
+  align-self: flex-end;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--nurgle-primary);
+  border: 1px solid var(--nurgle-primary);
+  border-radius: 8px;
+  color: var(--nurgle-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-learning-button:hover:not(:disabled) {
+  background-color: var(--nurgle-accent);
+  border-color: var(--nurgle-accent);
+}
+
+.submit-learning-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

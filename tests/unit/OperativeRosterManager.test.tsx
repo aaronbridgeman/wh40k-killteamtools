@@ -177,108 +177,108 @@ describe('OperativeRosterManager', () => {
   });
 
   // ------------------------------------------------------------------
-  // Injured toggle
+  // Incapacitated toggle
   // ------------------------------------------------------------------
 
-  it('shows a Healthy injured-toggle button for each non-removed operative', () => {
+  it('shows an Active incapacitated-toggle button for each non-removed operative', () => {
     render(
       <OperativeRosterManager
         faction={faction}
         removedOperativeId={null}
         selectedEquipmentIds={[]}
         onRosterChange={vi.fn()}
-        injuredOperativeIds={[]}
-        onInjuredChange={vi.fn()}
+        incapacitatedOperativeIds={[]}
+        onIncapacitatedChange={vi.fn()}
       />
     );
 
-    // 7 operatives, none removed → 7 injured toggles
+    // 7 operatives, none removed → 7 incapacitated toggles
     const toggles = screen.getAllByRole('button', {
-      name: /Toggle injured: /i,
+      name: /Toggle incapacitated: /i,
     });
     expect(toggles).toHaveLength(7);
-    toggles.forEach((btn) => expect(btn).toHaveTextContent('💚 Healthy'));
+    toggles.forEach((btn) => expect(btn).toHaveTextContent('✅ Active'));
   });
 
-  it('shows Injured badge on toggle for an injured operative', () => {
+  it('shows Incapacitated badge on toggle for an incapacitated operative', () => {
     render(
       <OperativeRosterManager
         faction={faction}
         removedOperativeId={null}
         selectedEquipmentIds={[]}
         onRosterChange={vi.fn()}
-        injuredOperativeIds={['pm-plague-marine-warrior']}
-        onInjuredChange={vi.fn()}
+        incapacitatedOperativeIds={['pm-plague-marine-warrior']}
+        onIncapacitatedChange={vi.fn()}
       />
     );
 
     expect(
-      screen.getByLabelText('Toggle injured: Plague Marine Warrior')
+      screen.getByLabelText('Toggle incapacitated: Plague Marine Warrior')
     ).toHaveAttribute('aria-pressed', 'true');
     expect(
-      screen.getByLabelText('Toggle injured: Plague Marine Warrior')
-    ).toHaveTextContent('🩸 Injured');
+      screen.getByLabelText('Toggle incapacitated: Plague Marine Warrior')
+    ).toHaveTextContent('💀 Incapacitated');
   });
 
-  it('calls onInjuredChange with the operative added when toggled from Healthy to Injured', () => {
-    const onInjuredChange = vi.fn();
+  it('calls onIncapacitatedChange with the operative added when toggled from Active to Incapacitated', () => {
+    const onIncapacitatedChange = vi.fn();
     render(
       <OperativeRosterManager
         faction={faction}
         removedOperativeId={null}
         selectedEquipmentIds={[]}
         onRosterChange={vi.fn()}
-        injuredOperativeIds={[]}
-        onInjuredChange={onInjuredChange}
+        incapacitatedOperativeIds={[]}
+        onIncapacitatedChange={onIncapacitatedChange}
       />
     );
 
     fireEvent.click(
-      screen.getByLabelText('Toggle injured: Plague Marine Warrior')
+      screen.getByLabelText('Toggle incapacitated: Plague Marine Warrior')
     );
-    expect(onInjuredChange).toHaveBeenCalledWith(
+    expect(onIncapacitatedChange).toHaveBeenCalledWith(
       expect.arrayContaining(['pm-plague-marine-warrior'])
     );
   });
 
-  it('calls onInjuredChange with the operative removed when toggled from Injured to Healthy', () => {
-    const onInjuredChange = vi.fn();
+  it('calls onIncapacitatedChange with the operative removed when toggled from Incapacitated to Active', () => {
+    const onIncapacitatedChange = vi.fn();
     render(
       <OperativeRosterManager
         faction={faction}
         removedOperativeId={null}
         selectedEquipmentIds={[]}
         onRosterChange={vi.fn()}
-        injuredOperativeIds={['pm-plague-marine-warrior']}
-        onInjuredChange={onInjuredChange}
+        incapacitatedOperativeIds={['pm-plague-marine-warrior']}
+        onIncapacitatedChange={onIncapacitatedChange}
       />
     );
 
     fireEvent.click(
-      screen.getByLabelText('Toggle injured: Plague Marine Warrior')
+      screen.getByLabelText('Toggle incapacitated: Plague Marine Warrior')
     );
-    expect(onInjuredChange).toHaveBeenCalledWith([]);
+    expect(onIncapacitatedChange).toHaveBeenCalledWith([]);
   });
 
-  it('does not show the injured toggle for a removed operative', () => {
+  it('does not show the incapacitated toggle for a removed operative', () => {
     render(
       <OperativeRosterManager
         faction={faction}
         removedOperativeId={'pm-plague-marine-warrior'}
         selectedEquipmentIds={[]}
         onRosterChange={vi.fn()}
-        injuredOperativeIds={[]}
-        onInjuredChange={vi.fn()}
+        incapacitatedOperativeIds={[]}
+        onIncapacitatedChange={vi.fn()}
       />
     );
 
-    // 6 active operatives → 6 injured toggles (removed one has no toggle)
+    // 6 active operatives → 6 incapacitated toggles (removed one has no toggle)
     const toggles = screen.getAllByRole('button', {
-      name: /Toggle injured: /i,
+      name: /Toggle incapacitated: /i,
     });
     expect(toggles).toHaveLength(6);
     expect(
-      screen.queryByLabelText('Toggle injured: Plague Marine Warrior')
+      screen.queryByLabelText('Toggle incapacitated: Plague Marine Warrior')
     ).not.toBeInTheDocument();
   });
 });

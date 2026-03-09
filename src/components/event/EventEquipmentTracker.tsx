@@ -15,8 +15,10 @@ import { QUICK_PLAY_DEFAULTS } from '@/constants';
 import './EventEquipmentTracker.css';
 
 interface EventEquipmentTrackerProps {
-  /** Loaded Plague Marines faction data (provides equipment list) */
+  /** Loaded Plague Marines faction data (provides faction equipment list) */
   faction: Faction;
+  /** Universal (generic) equipment items available to any faction */
+  universalEquipment: Equipment[];
   /** IDs of currently selected equipment items */
   selectedEquipmentIds: string[];
   /** Remaining Blight Grenade uses for this game */
@@ -38,11 +40,12 @@ interface EventEquipmentTrackerProps {
  */
 export function EventEquipmentTracker({
   faction,
+  universalEquipment,
   selectedEquipmentIds,
   blightGrenadeUsesRemaining,
   onChange,
 }: EventEquipmentTrackerProps) {
-  const equipment: Equipment[] = faction.equipment ?? [];
+  const factionEquipment: Equipment[] = faction.equipment ?? [];
   const grenadeSelected = selectedEquipmentIds.includes(
     QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
   );
@@ -73,73 +76,90 @@ export function EventEquipmentTracker({
     }
   };
 
+  /** Renders a single equipment item row with checkbox and optional grenade tracker */
+  const renderEquipmentItem = (item: Equipment) => {
+    const isSelected = selectedEquipmentIds.includes(item.id);
+    const isGrenades = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID;
+    const checkboxId = `equip-${item.id}`;
+
+    return (
+      <div key={item.id}>
+        <label
+          className={`equipment-item ${isSelected ? 'selected' : ''}`}
+          htmlFor={checkboxId}
+        >
+          <input
+            type="checkbox"
+            id={checkboxId}
+            className="equipment-checkbox"
+            checked={isSelected}
+            onChange={() => handleToggle(item)}
+            aria-label={`Select ${item.name}`}
+          />
+          <div className="equipment-info">
+            <p className={`equipment-name ${isSelected ? 'selected' : ''}`}>
+              {item.name}
+            </p>
+            <p className="equipment-description">{item.description}</p>
+          </div>
+        </label>
+
+        {/* Blight Grenade usage tracker (shown when grenades are selected) */}
+        {isGrenades && isSelected && (
+          <div className="grenade-tracker">
+            <p className="grenade-tracker-title">💥 Blight Grenade Uses</p>
+            <div className="grenade-uses">
+              <span className="uses-label">Remaining:</span>
+              <span
+                className={`uses-count ${blightGrenadeUsesRemaining === 0 ? 'expended' : ''}`}
+                aria-label={`${blightGrenadeUsesRemaining} of ${QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES} grenade uses remaining`}
+              >
+                {blightGrenadeUsesRemaining} /{' '}
+                {QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES}
+              </span>
+              <button
+                className="use-grenade-button"
+                onClick={handleUseGrenade}
+                disabled={blightGrenadeUsesRemaining === 0}
+                aria-label="Use one Blight Grenade (counts against battle limit)"
+              >
+                Use Grenade
+              </button>
+            </div>
+            <p className="grenade-note">
+              ℹ️ The Bombardier&apos;s grenades do not count towards this limit
+              (Grenadier ability). His grenades are shown on his operative card
+              with +1 Hit stat (4+ → 3+).
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="equipment-tracker">
-      {equipment.length === 0 && (
-        <p style={{ color: 'var(--nurgle-text-muted)' }}>
-          No faction equipment available.
-        </p>
+      {/* Faction-specific equipment */}
+      {factionEquipment.length > 0 && (
+        <div className="equipment-group">
+          <p className="equipment-group-label">☠️ Faction Equipment</p>
+          {factionEquipment.map(renderEquipmentItem)}
+        </div>
       )}
 
-      {equipment.map((item) => {
-        const isSelected = selectedEquipmentIds.includes(item.id);
-        const isGrenades = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID;
-        const checkboxId = `equip-${item.id}`;
+      {/* Universal (generic) equipment */}
+      {universalEquipment.length > 0 && (
+        <div className="equipment-group">
+          <p className="equipment-group-label">🎒 Generic Equipment</p>
+          {universalEquipment.map(renderEquipmentItem)}
+        </div>
+      )}
 
-        return (
-          <div key={item.id}>
-            <label
-              className={`equipment-item ${isSelected ? 'selected' : ''}`}
-              htmlFor={checkboxId}
-            >
-              <input
-                type="checkbox"
-                id={checkboxId}
-                className="equipment-checkbox"
-                checked={isSelected}
-                onChange={() => handleToggle(item)}
-                aria-label={`Select ${item.name}`}
-              />
-              <div className="equipment-info">
-                <p className={`equipment-name ${isSelected ? 'selected' : ''}`}>
-                  {item.name}
-                </p>
-                <p className="equipment-description">{item.description}</p>
-              </div>
-            </label>
-
-            {/* Blight Grenade usage tracker (shown when grenades are selected) */}
-            {isGrenades && isSelected && (
-              <div className="grenade-tracker">
-                <p className="grenade-tracker-title">💥 Blight Grenade Uses</p>
-                <div className="grenade-uses">
-                  <span className="uses-label">Remaining:</span>
-                  <span
-                    className={`uses-count ${blightGrenadeUsesRemaining === 0 ? 'expended' : ''}`}
-                    aria-label={`${blightGrenadeUsesRemaining} of ${QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES} grenade uses remaining`}
-                  >
-                    {blightGrenadeUsesRemaining} /{' '}
-                    {QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES}
-                  </span>
-                  <button
-                    className="use-grenade-button"
-                    onClick={handleUseGrenade}
-                    disabled={blightGrenadeUsesRemaining === 0}
-                    aria-label="Use one Blight Grenade (counts against battle limit)"
-                  >
-                    Use Grenade
-                  </button>
-                </div>
-                <p className="grenade-note">
-                  ℹ️ The Bombardier&apos;s grenades do not count towards this
-                  limit (Grenadier ability). His grenades are shown on his
-                  operative card with +1 Hit stat (4+ → 3+).
-                </p>
-              </div>
-            )}
-          </div>
-        );
-      })}
+      {factionEquipment.length === 0 && universalEquipment.length === 0 && (
+        <p style={{ color: 'var(--nurgle-text-muted)' }}>
+          No equipment available.
+        </p>
+      )}
 
       {grenadeSelected && (
         <p
@@ -147,6 +167,7 @@ export function EventEquipmentTracker({
             fontSize: '0.8rem',
             color: 'var(--nurgle-text-muted)',
             fontStyle: 'italic',
+            marginTop: '0.5rem',
           }}
         >
           Bombardier&apos;s operative card now shows Blight Grenades with 3+ Hit

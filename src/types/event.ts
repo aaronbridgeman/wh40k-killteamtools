@@ -9,14 +9,38 @@
  */
 
 /**
+ * A single learning / note entry submitted during or after the event.
+ */
+export interface LearningEntry {
+  /** Unique identifier (timestamp-based) */
+  id: string;
+  /** The note text */
+  text: string;
+  /** ISO 8601 timestamp when the entry was submitted */
+  timestamp: string;
+  /** Optional: the opposing kill team faction */
+  oppositionTeam?: string;
+  /** Optional: the Critical Operation played */
+  critOp?: string;
+  /** Optional: the Tactical Objective played */
+  tacOp?: string;
+  /** Optional: the map / killzone used */
+  map?: string;
+}
+
+/**
  * State for a single turning point within a game, tracking ploy selections
- * and which firefight ploys have been used.
+ * and how many times each firefight ploy has been used.
  */
 export interface TurningPointState {
   /** ID of the strategic ploy selected at the start of this turning point, or null if not yet chosen */
   selectedStrategicPloyId: string | null;
-  /** IDs of firefight ploys that have been used during this turning point */
-  usedFirefightPloyIds: string[];
+  /**
+   * Number of times each firefight ploy has been used this turning point,
+   * keyed by ploy ID. Absent keys mean 0 uses.
+   * Replaces the old `usedFirefightPloyIds: string[]` field (schema v1).
+   */
+  firefightPloyCounts: Record<string, number>;
 }
 
 /**
@@ -55,11 +79,11 @@ export interface GameEventState {
    */
   turningPoints: Record<number, TurningPointState>;
   /**
-   * IDs of operatives currently marked as Injured.
-   * An injured operative is still active but visually flagged.
+   * IDs of operatives currently marked as Incapacitated (removed from play).
+   * An incapacitated operative is still on the roster but is out of action.
    * Physical wound tracking is handled on-board.
    */
-  injuredOperativeIds: string[];
+  incapacitatedOperativeIds: string[];
 }
 
 /**
@@ -87,8 +111,9 @@ export interface QuickPlayEventState {
    */
   games: GameEventState[];
   /**
-   * Shared free-text notes / learnings, displayed at the bottom of the view
-   * and persisted across all 3 games.
+   * Log of learning entries submitted during or after the event.
+   * Each entry is a short note with optional metadata (opponent, ops, map).
+   * Replaces the old `learnings: string` field (schema v1).
    */
-  learnings: string;
+  learningEntries: LearningEntry[];
 }

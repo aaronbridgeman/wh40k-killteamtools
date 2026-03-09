@@ -10,19 +10,27 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { loadFaction, FactionId } from '@/services/dataLoader';
+import { loadUniversalEquipment } from '@/services/equipmentLoader';
 import {
   saveEventState,
   loadEventState,
   clearEventState,
   getInitialEventState,
 } from '@/services/eventStorage';
-import { Faction } from '@/types';
-import { QuickPlayEventState, GameEventState } from '@/types/event';
+import { Faction, Equipment } from '@/types';
+import {
+  QuickPlayEventState,
+  GameEventState,
+  LearningEntry,
+} from '@/types/event';
 import { QUICK_PLAY_DEFAULTS } from '@/constants';
 import { EventSetup } from './EventSetup';
 import { GamePanel } from './GamePanel';
 import { LearningsTracker } from './LearningsTracker';
+import { LearningsLog } from './LearningsLog';
 import './QuickPlayEventView.css';
+
+type EventViewMode = 'game' | 'log';
 
 /**
  * Main container for the Plague Marines Quick Play Event feature.
@@ -30,10 +38,12 @@ import './QuickPlayEventView.css';
  */
 export function QuickPlayEventView() {
   const [faction, setFaction] = useState<Faction | null>(null);
+  const [universalEquipment, setUniversalEquipment] = useState<Equipment[]>([]);
   const [loadingFaction, setLoadingFaction] = useState(true);
   const [factionError, setFactionError] = useState<string | null>(null);
   const [eventState, setEventState] =
     useState<QuickPlayEventState>(getInitialEventState);
+  const [eventViewMode, setEventViewMode] = useState<EventViewMode>('game');
 
   // ------------------------------------------------------------------
   // Load Plague Marines faction data on mount (reuses dataLoader service)
@@ -53,6 +63,9 @@ export function QuickPlayEventView() {
       .finally(() => {
         setLoadingFaction(false);
       });
+
+    // Load universal equipment synchronously
+    setUniversalEquipment(loadUniversalEquipment());
   }, []);
 
   // ------------------------------------------------------------------
@@ -102,9 +115,25 @@ export function QuickPlayEventView() {
     []
   );
 
-  /** Update the shared learnings / notes */
-  const handleLearningsChange = useCallback((learnings: string) => {
-    setEventState((prev) => ({ ...prev, learnings }));
+  /** Add a learning entry to the log */
+  const handleLearningSubmit = useCallback((entry: LearningEntry) => {
+    setEventState((prev) => ({
+      ...prev,
+      learningEntries: [...prev.learningEntries, entry],
+    }));
+  }, []);
+
+  /** Delete a learning entry by ID */
+  const handleLearningDelete = useCallback((id: string) => {
+    setEventState((prev) => ({
+      ...prev,
+      learningEntries: prev.learningEntries.filter((e) => e.id !== id),
+    }));
+  }, []);
+
+  /** Clear all learning entries */
+  const handleLearningsClearAll = useCallback(() => {
+    setEventState((prev) => ({ ...prev, learningEntries: [] }));
   }, []);
 
   /** Reset the entire event with user confirmation */
@@ -116,6 +145,7 @@ export function QuickPlayEventView() {
     ) {
       clearEventState();
       setEventState(getInitialEventState());
+      setEventViewMode('game');
     }
   }, []);
 
@@ -158,48 +188,63 @@ export function QuickPlayEventView() {
             </div>
           ) : (
             <>
-              {/* Game selector tabs */}
-              <nav className="game-tabs" aria-label="Game selection">
-                {eventState.games.map((game, index) => (
-                  <button
-                    key={game.gameNumber}
-                    className={`game-tab ${index === eventState.activeGameIndex ? 'active' : ''}`}
-                    onClick={() => handleSelectGame(index)}
-                    aria-pressed={index === eventState.activeGameIndex}
-                  >
-                    Game {game.gameNumber}
-                  </button>
-                ))}
-              </nav>
-
-              <main className="event-main">
-                {activeGame && (
-                  <GamePanel
-                    game={activeGame}
-                    gameIndex={eventState.activeGameIndex}
-                    faction={faction}
-                    onChange={(updated) =>
-                      handleGameChange(eventState.activeGameIndex, updated)
-                    }
+              {eventViewMode === 'log' ? (
+                <main className="event-main">
+                  <LearningsLog
+                    entries={eventState.learningEntries}
+                    onDelete={handleLearningDelete}
+                    onClearAll={handleLearningsClearAll}
+                    onBack={() => setEventViewMode('game')}
                   />
-                )}
+                </main>
+              ) : (
+                <>
+                  {/* Game selector tabs */}
+                  <nav className="game-tabs" aria-label="Game selection">
+                    {eventState.games.map((game, index) => (
+                      <button
+                        key={game.gameNumber}
+                        className={`game-tab ${index === eventState.activeGameIndex ? 'active' : ''}`}
+                        onClick={() => handleSelectGame(index)}
+                        aria-pressed={index === eventState.activeGameIndex}
+                      >
+                        Game {game.gameNumber}
+                      </button>
+                    ))}
+                  </nav>
 
-                {/* Learnings — shared across all 3 games, always at the bottom */}
-                <LearningsTracker
-                  value={eventState.learnings}
-                  onChange={handleLearningsChange}
-                />
+                  <main className="event-main">
+                    {activeGame && (
+                      <GamePanel
+                        game={activeGame}
+                        gameIndex={eventState.activeGameIndex}
+                        faction={faction}
+                        universalEquipment={universalEquipment}
+                        onChange={(updated) =>
+                          handleGameChange(eventState.activeGameIndex, updated)
+                        }
+                      />
+                    )}
 
-                <div className="event-reset-section">
-                  <button
-                    className="event-reset-button"
-                    onClick={handleReset}
-                    aria-label="Reset event — clears all saved data"
-                  >
-                    ⚠️ Reset Event
-                  </button>
-                </div>
-              </main>
+                    {/* Learnings tracker — shared across all 3 games, always at the bottom */}
+                    <LearningsTracker
+                      entries={eventState.learningEntries}
+                      onSubmit={handleLearningSubmit}
+                      onViewLog={() => setEventViewMode('log')}
+                    />
+
+                    <div className="event-reset-section">
+                      <button
+                        className="event-reset-button"
+                        onClick={handleReset}
+                        aria-label="Reset event — clears all saved data"
+                      >
+                        ⚠️ Reset Event
+                      </button>
+                    </div>
+                  </main>
+                </>
+              )}
             </>
           )}
         </>

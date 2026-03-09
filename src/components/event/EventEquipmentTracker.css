@@ -132,3 +132,23 @@
   margin: var(--spacing-sm) 0 0;
   font-style: italic;
 }
+
+/* Equipment groups (faction vs generic) */
+.equipment-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.equipment-group:last-child {
+  margin-bottom: 0;
+}
+
+.equipment-group-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--nurgle-text-muted);
+  margin: 0 0 var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--nurgle-border);
+}
