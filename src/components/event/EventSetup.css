@@ -1,0 +1,93 @@
+/**
+ * EventSetup CSS
+ * First-run setup screen styles.
+ */
+
+.event-setup {
+  max-width: 480px;
+  margin: var(--spacing-xl) auto;
+  padding: var(--spacing-xl);
+  background-color: var(--nurgle-surface);
+  border: 2px solid var(--nurgle-border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.setup-icon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: var(--spacing-md);
+}
+
+.setup-title {
+  margin: 0 0 var(--spacing-sm);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+}
+
+.setup-description {
+  color: var(--nurgle-text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 var(--spacing-xl);
+  line-height: 1.5;
+}
+
+.setup-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.setup-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  text-align: left;
+}
+
+.setup-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--nurgle-text-muted);
+}
+
+.setup-input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 6px;
+  color: var(--nurgle-text);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.setup-input:focus {
+  outline: none;
+  border-color: var(--nurgle-accent);
+}
+
+.setup-input::placeholder {
+  color: var(--nurgle-text-muted);
+  opacity: 0.6;
+}
+
+.setup-submit {
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--nurgle-primary);
+  border: none;
+  border-radius: 8px;
+  color: var(--nurgle-text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+  margin-top: var(--spacing-sm);
+}
+
+.setup-submit:hover {
+  background-color: var(--nurgle-accent);
+  box-shadow: 0 0 12px var(--nurgle-accent-glow);
+}

@@ -1,0 +1,163 @@
+/**
+ * Nurgle-themed CSS for the Quick Play Event feature.
+ *
+ * All custom properties are scoped to .quick-play-event so they cannot
+ * affect the rest of the application. Base layout tokens (--spacing-*) are
+ * inherited from :root in index.css.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Nurgle colour palette                                               */
+/* ------------------------------------------------------------------ */
+.quick-play-event {
+  --nurgle-bg: #0f1a0e;
+  --nurgle-surface: #1c2e1a;
+  --nurgle-surface-raised: #243d21;
+  --nurgle-primary: #4a7c3f;
+  --nurgle-accent: #7ab648;
+  --nurgle-accent-glow: rgba(122, 182, 72, 0.35);
+  --nurgle-text: #d4e8c2;
+  --nurgle-text-muted: #8aad7a;
+  --nurgle-border: #3a5c35;
+  --nurgle-gold: #c9a227;
+  --nurgle-danger: #8b2020;
+  --nurgle-disabled: #3a4a38;
+
+  background-color: var(--nurgle-bg);
+  color: var(--nurgle-text);
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ------------------------------------------------------------------ */
+/* Header                                                              */
+/* ------------------------------------------------------------------ */
+.event-header {
+  background: linear-gradient(135deg, #0a1209, #1c3a18);
+  border-bottom: 2px solid var(--nurgle-border);
+  padding: var(--spacing-lg) var(--spacing-md);
+  text-align: center;
+}
+
+.event-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  text-shadow: 0 0 12px var(--nurgle-accent-glow);
+  letter-spacing: 0.05em;
+}
+
+.event-subtitle {
+  margin: var(--spacing-xs) 0 0;
+  font-size: 0.9rem;
+  color: var(--nurgle-text-muted);
+}
+
+.event-name-badge {
+  display: inline-block;
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: var(--nurgle-gold);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* Loading / error states                                              */
+/* ------------------------------------------------------------------ */
+.event-loading,
+.event-error {
+  padding: var(--spacing-xl) var(--spacing-md);
+  text-align: center;
+}
+
+.event-loading {
+  color: var(--nurgle-text-muted);
+  font-style: italic;
+}
+
+.event-error {
+  color: #ef4444;
+}
+
+/* ------------------------------------------------------------------ */
+/* Game tabs                                                           */
+/* ------------------------------------------------------------------ */
+.game-tabs {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  justify-content: center;
+  border-bottom: 1px solid var(--nurgle-border);
+  background-color: var(--nurgle-surface);
+}
+
+.game-tab {
+  flex: 1;
+  max-width: 160px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 2px solid var(--nurgle-border);
+  border-radius: 8px;
+  color: var(--nurgle-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.game-tab:hover {
+  border-color: var(--nurgle-primary);
+  color: var(--nurgle-text);
+}
+
+.game-tab.active {
+  border-color: var(--nurgle-accent);
+  color: var(--nurgle-accent);
+  box-shadow: 0 0 8px var(--nurgle-accent-glow);
+}
+
+/* ------------------------------------------------------------------ */
+/* Main content area                                                   */
+/* ------------------------------------------------------------------ */
+.event-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+/* ------------------------------------------------------------------ */
+/* Reset button (bottom of page)                                       */
+/* ------------------------------------------------------------------ */
+.event-reset-section {
+  padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+  text-align: center;
+  border-top: 1px solid var(--nurgle-border);
+  margin-top: var(--spacing-xl);
+}
+
+.event-reset-button {
+  background-color: transparent;
+  color: var(--nurgle-text-muted);
+  border: 1px solid var(--nurgle-border);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.event-reset-button:hover {
+  color: var(--nurgle-danger);
+  border-color: var(--nurgle-danger);
+}

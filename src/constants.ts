@@ -7,6 +7,7 @@
 export const STORAGE_KEYS = {
   TEAM_STATE: 'kill-team-selected-team',
   GAME_MODE_STATE: 'kill-team-game-mode',
+  QUICK_PLAY_EVENT: 'kill-team-quick-play-event',
 } as const;
 
 // Team Identifiers
@@ -22,6 +23,7 @@ export const VIEW_MODES = {
   ACTIONS: 'actions',
   GENERAL_RULES: 'general-rules',
   GAME_MODE: 'game-mode',
+  QUICK_PLAY_EVENT: 'quick-play-event',
 } as const;
 
 // Team View Modes
@@ -38,6 +40,28 @@ export const GAME_DEFAULTS = {
   MAX_TURNING_POINT: 4,
   MIN_COMMAND_POINTS: 0,
   MAX_COMMAND_POINTS: 20,
+} as const;
+
+// Quick Play Event Defaults
+export const QUICK_PLAY_DEFAULTS = {
+  /** Number of games in a quick play event (Nurgle's sacred number 3) */
+  GAME_COUNT: 3,
+  /** Total operatives in a Plague Marines roster (Nurgle's sacred number 7) */
+  ROSTER_SIZE: 7,
+  /** Starting CP per game — player adds manually via CPTracker (+/−) */
+  STARTING_COMMAND_POINTS: 0,
+  /** Maximum Blight Grenade uses per game */
+  MAX_BLIGHT_GRENADE_USES: 2,
+  /** Current schema version for QuickPlayEventState */
+  SCHEMA_VERSION: 1,
+  /** Faction ID for the quick play event */
+  FACTION_ID: 'plague-marines',
+  /** ID of the Blight Grenades equipment item */
+  BLIGHT_GRENADES_ID: 'blight-grenades',
+  /** ID of the Plague Marine Bombardier operative */
+  BOMBARDIER_ID: 'pm-plague-marine-bombardier',
+  /** Synthetic weapon ID injected into Bombardier's OperativeCard when grenades are selected */
+  GRENADIER_WEAPON_ID: 'event-blight-grenades-bombardier',
 } as const;
 
 // Error Messages

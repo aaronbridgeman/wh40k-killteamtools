@@ -1,0 +1,64 @@
+/**
+ * CPTracker CSS — Command Point display and adjustment.
+ */
+
+.cp-tracker {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 8px;
+}
+
+.cp-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex: 1;
+}
+
+.cp-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.cp-button {
+  width: 36px;
+  height: 36px;
+  background-color: var(--nurgle-primary);
+  border: none;
+  border-radius: 50%;
+  color: var(--nurgle-text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+
+.cp-button:hover:not(:disabled) {
+  background-color: var(--nurgle-accent);
+}
+
+.cp-button:disabled {
+  background-color: var(--nurgle-disabled);
+  color: var(--nurgle-text-muted);
+  cursor: not-allowed;
+}
+
+.cp-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--nurgle-gold);
+  min-width: 2.5ch;
+  text-align: center;
+  line-height: 1;
+}

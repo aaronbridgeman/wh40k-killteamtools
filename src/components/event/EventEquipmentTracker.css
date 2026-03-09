@@ -1,0 +1,134 @@
+/**
+ * EventEquipmentTracker CSS
+ */
+
+.equipment-tracker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* Equipment item row */
+.equipment-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.equipment-item:hover {
+  border-color: var(--nurgle-primary);
+}
+
+.equipment-item.selected {
+  border-color: var(--nurgle-accent);
+  background-color: rgba(74, 124, 63, 0.15);
+}
+
+.equipment-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--nurgle-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.equipment-info {
+  flex: 1;
+}
+
+.equipment-name {
+  font-weight: 700;
+  color: var(--nurgle-text);
+  margin: 0 0 var(--spacing-xs);
+}
+
+.equipment-name.selected {
+  color: var(--nurgle-accent);
+}
+
+.equipment-description {
+  font-size: 0.85rem;
+  color: var(--nurgle-text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Blight grenade uses section */
+.grenade-tracker {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 8px;
+}
+
+.grenade-tracker-title {
+  margin: 0 0 var(--spacing-sm);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.grenade-uses {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.uses-label {
+  font-size: 1rem;
+  color: var(--nurgle-text);
+  font-weight: 600;
+}
+
+.uses-count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  min-width: 2ch;
+  text-align: center;
+}
+
+.uses-count.expended {
+  color: var(--nurgle-danger);
+}
+
+.use-grenade-button {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--nurgle-primary);
+  border: none;
+  border-radius: 6px;
+  color: var(--nurgle-text);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease;
+}
+
+.use-grenade-button:hover:not(:disabled) {
+  background-color: var(--nurgle-accent);
+}
+
+.use-grenade-button:disabled {
+  background-color: var(--nurgle-disabled);
+  color: var(--nurgle-text-muted);
+  cursor: not-allowed;
+}
+
+.grenade-note {
+  font-size: 0.8rem;
+  color: var(--nurgle-text-muted);
+  margin: var(--spacing-sm) 0 0;
+  font-style: italic;
+}

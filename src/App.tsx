@@ -10,6 +10,7 @@ import { EquipmentSelector } from './components/equipment/EquipmentSelector';
 import { SelectedTeamView } from './components/team/SelectedTeamView';
 import { FactionRulesSelector } from './components/team/FactionRulesSelector';
 import { GameModeView } from './components/game/GameModeView';
+import { QuickPlayEventView } from './components/event/QuickPlayEventView';
 import { loadFaction, FactionId } from './services/dataLoader';
 import { loadUniversalEquipment } from './services/equipmentLoader';
 import {
@@ -32,7 +33,8 @@ type ViewMode =
   | 'weapon-rules'
   | 'actions'
   | 'general-rules'
-  | 'game-mode';
+  | 'game-mode'
+  | 'quick-play-event';
 type TeamViewMode = 'faction-info' | 'team-selection';
 
 const CHAPTER_TACTICS_PRIMARY = 'chapter_tactics_primary';
@@ -215,6 +217,12 @@ function App() {
           >
             Weapon Rules
           </button>
+          <button
+            className={`nav-button ${viewMode === 'quick-play-event' ? 'active' : ''}`}
+            onClick={() => setViewMode('quick-play-event')}
+          >
+            ☠️ Quick Play
+          </button>
         </nav>
       </header>
 
@@ -359,6 +367,7 @@ function App() {
         {viewMode === 'actions' && <ActionsPage />}
         {viewMode === 'general-rules' && <GeneralRulesPage />}
         {viewMode === 'weapon-rules' && <WeaponRulesPage />}
+        {viewMode === 'quick-play-event' && <QuickPlayEventView />}
       </main>
 
       <footer className="app-footer">
