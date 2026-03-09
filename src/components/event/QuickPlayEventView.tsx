@@ -57,6 +57,14 @@ export function QuickPlayEventView() {
 
   const { canInstall, isInstalled, isIos, install } = usePwaInstall();
 
+  // True only when the app is served from the dedicated standalone Quick Play
+  // page (/quick-play/).  When accessed from the main app shell the manifest
+  // in scope is for the full tool, so clicking "install" would install the
+  // whole app — not just Quick Play.
+  const isOnQuickPlayPage =
+    window.location.pathname.endsWith('/quick-play/') ||
+    window.location.pathname.endsWith('/quick-play');
+
   // ------------------------------------------------------------------
   // Load Plague Marines faction data on mount (reuses dataLoader service)
   // ------------------------------------------------------------------
@@ -231,7 +239,7 @@ export function QuickPlayEventView() {
         </p>
 
         {/* PWA install button — only shown when relevant */}
-        {!isInstalled && canInstall && (
+        {!isInstalled && isOnQuickPlayPage && canInstall && (
           <button
             type="button"
             className="event-install-button"
@@ -241,7 +249,7 @@ export function QuickPlayEventView() {
             📲 Add to Home Screen
           </button>
         )}
-        {!isInstalled && isIos && !canInstall && (
+        {!isInstalled && isOnQuickPlayPage && isIos && !canInstall && (
           <div className="event-ios-install">
             <button
               type="button"
@@ -273,6 +281,17 @@ export function QuickPlayEventView() {
               </div>
             )}
           </div>
+        )}
+        {/* When viewed inside the main app, offer a link to the standalone
+            Quick Play page where the browser can install *just* this feature */}
+        {!isInstalled && !isOnQuickPlayPage && (
+          <a
+            href="/wh40k-killteamtools/quick-play/"
+            className="event-install-button"
+            aria-label="Open the Quick Play standalone page to install it as a separate app"
+          >
+            📲 Install Quick Play App
+          </a>
         )}
       </header>
 

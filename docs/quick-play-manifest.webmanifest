@@ -1,0 +1,38 @@
+{
+  "name": "Kill Team Quick Play",
+  "short_name": "KT Quick Play",
+  "description": "Plague Marines Quick Play Event tracker for Warhammer 40K Kill Team",
+  "theme_color": "#1a1a2e",
+  "background_color": "#0f0f1e",
+  "display": "standalone",
+  "scope": "/wh40k-killteamtools/quick-play/",
+  "start_url": "/wh40k-killteamtools/quick-play/",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/wh40k-killteamtools/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/wh40k-killteamtools/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/wh40k-killteamtools/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/wh40k-killteamtools/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["games", "utilities"]
+}
