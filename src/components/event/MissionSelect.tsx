@@ -6,9 +6,12 @@
  * so the player can type a custom operation name.
  *
  * When a predefined option is selected its description is shown below the
- * dropdown as a play-time reminder of the scoring criteria. For Crit Ops with
- * rich data (mission_actions, victory_points, additional_rules) the full
- * reference detail is displayed so players can consult it during play.
+ * dropdown as a play-time reminder of the scoring criteria. For entries with
+ * rich data (mission_actions, victory_points, additional_rules, reveal_condition)
+ * the full reference detail is displayed so players can consult it during play.
+ *
+ * When options include an `archetype` field the dropdown groups them with
+ * HTML <optgroup> elements for easier navigation.
  */
 
 import { useId } from 'react';
@@ -40,9 +43,28 @@ function isCustomValue(value: string, options: MissionEntry[]): boolean {
 }
 
 /**
+ * Groups named (non-custom) options by their `archetype` field.
+ * Returns a list of [archetypeName, entries] pairs in insertion order.
+ * Entries without an archetype are grouped under the empty-string key.
+ */
+function groupByArchetype(
+  options: MissionEntry[]
+): Array<[string, MissionEntry[]]> {
+  const named = options.filter((o) => o.id !== 'custom');
+  const map = new Map<string, MissionEntry[]>();
+  for (const o of named) {
+    const key = o.archetype ?? '';
+    if (!map.has(key)) map.set(key, []);
+    map.get(key)!.push(o);
+  }
+  return Array.from(map.entries());
+}
+
+/**
  * Dropdown + optional custom text input for mission selection.
- * Rich Crit Op details (mission actions, VP, additional rules) are shown inline
- * when a structured entry is selected.
+ * Rich details (mission actions, VP, additional rules, reveal condition) are
+ * shown inline when a structured entry is selected. Options are grouped by
+ * archetype when the entries include that field.
  */
 export function MissionSelect({
   label,
@@ -68,7 +90,13 @@ export function MissionSelect({
       selectedOption.victory_points?.length ||
       (Array.isArray(selectedOption.additional_rules)
         ? selectedOption.additional_rules.length > 0
-        : Boolean(selectedOption.additional_rules)));
+        : Boolean(selectedOption.additional_rules)) ||
+      Boolean(selectedOption.reveal_condition));
+
+  // Determine whether to use <optgroup> grouping
+  const archetypeGroups = groupByArchetype(options);
+  const useGroups =
+    archetypeGroups.length > 1 || archetypeGroups[0]?.[0] !== '';
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const chosen = e.target.value;
@@ -95,13 +123,23 @@ export function MissionSelect({
         aria-label={label}
       >
         <option value="">— Select {label} —</option>
-        {options
-          .filter((o) => o.id !== 'custom')
-          .map((o) => (
-            <option key={o.id} value={o.name}>
-              {o.name}
-            </option>
-          ))}
+        {useGroups
+          ? archetypeGroups.map(([archetype, ops]) => (
+              <optgroup key={archetype || '__ungrouped'} label={archetype}>
+                {ops.map((o) => (
+                  <option key={o.id} value={o.name}>
+                    {o.name}
+                  </option>
+                ))}
+              </optgroup>
+            ))
+          : options
+              .filter((o) => o.id !== 'custom')
+              .map((o) => (
+                <option key={o.id} value={o.name}>
+                  {o.name}
+                </option>
+              ))}
         <option value={CUSTOM_VALUE}>Custom / Other…</option>
       </select>
 
@@ -119,7 +157,7 @@ export function MissionSelect({
         />
       )}
 
-      {/* Rich Crit Op detail panel */}
+      {/* Rich detail panel */}
       {hasRichDetail && selectedOption && (
         <div className="mission-select-detail" aria-live="polite">
           {/* Brief description summary */}
@@ -127,6 +165,16 @@ export function MissionSelect({
             <p className="mission-select-description">
               📋 {selectedOption.description}
             </p>
+          )}
+
+          {/* Reveal condition */}
+          {selectedOption.reveal_condition && (
+            <div className="mission-select-section">
+              <h4 className="mission-select-section-title">👁 Reveal</h4>
+              <p className="mission-select-rule-text">
+                {selectedOption.reveal_condition}
+              </p>
+            </div>
           )}
 
           {/* Additional setup / special rules */}
@@ -196,7 +244,7 @@ export function MissionSelect({
         </div>
       )}
 
-      {/* Simple description for entries without rich detail (e.g. Tac Ops) */}
+      {/* Simple description for entries without rich detail */}
       {!hasRichDetail && selectedOption?.description && (
         <p className="mission-select-description" aria-live="polite">
           📋 {selectedOption.description}

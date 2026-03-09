@@ -28,15 +28,25 @@ export interface MissionEntry {
    * Empty for the 'Custom / Other' sentinel entry.
    */
   description: string;
-  /** Mission-specific actions operatives can perform (Crit Ops only). */
+  /** Mission-specific actions operatives can perform. */
   mission_actions?: MissionAction[];
-  /** Scoring criteria for the operation (Crit Ops only). */
+  /** Scoring criteria for the operation. */
   victory_points?: string[];
   /**
-   * Additional setup or special rules for the operation (Crit Ops only).
+   * Additional setup or special rules for the operation.
    * May be a single string or an array of strings.
    */
   additional_rules?: string | string[];
+  /**
+   * Archetype this tac op belongs to (e.g. 'Recon', 'Infiltration').
+   * Used to group entries in the dropdown.
+   */
+  archetype?: string;
+  /**
+   * The condition under which this tac op is revealed to the opponent.
+   * Applies to tac ops only.
+   */
+  reveal_condition?: string;
 }
 
 /** Sentinel id / value used when the player wants to type a custom name. */
@@ -223,105 +233,242 @@ export const CRIT_OPS: MissionEntry[] = [
 
 /** Standard Tactical Operations available in Kill Team competitive play. */
 export const TAC_OPS: MissionEntry[] = [
-  // ── Seek & Destroy ────────────────────────────────────────────────────
+  // ── Recon ─────────────────────────────────────────────────────────────
   {
-    id: 'assassinate',
-    name: 'Assassinate',
+    id: 'flank',
+    name: 'Flank',
+    archetype: 'Recon',
+    reveal_condition: 'Strategic Gambit',
     description:
-      'Score 2VP if the enemy leader is incapacitated during the game.',
+      'Control left and right flanks in enemy territory to score up to 2VP per turning point.',
+    additional_rules: [
+      "Divide the killzone into two flanks (left and right) by drawing a line from the centre of each player's killzone edge.",
+      "An operative contests a flank while both wholly within it and wholly within their opponent's territory.",
+      'Friendly operatives control a flank if the total APL stat of those contesting it is greater than that of enemy operatives.',
+    ],
+    victory_points: [
+      'At the end of each turning point after the first: Score 1VP for each flank friendly operatives control.',
+      'In the fourth turning point: Score 2VP for a controlled flank if friendly operatives also controlled it at the end of the third turning point.',
+      'Maximum 2VP per turning point.',
+    ],
   },
   {
-    id: 'target-acquired',
-    name: 'Target Acquired',
+    id: 'scout-enemy-movement',
+    name: 'Scout Enemy Movement',
+    archetype: 'Recon',
+    reveal_condition:
+      'First time a friendly operative performs the Scout action.',
     description:
-      'Secretly mark an enemy operative before the game; score 2VP if they are incapacitated.',
+      'Monitor enemy operatives using the Scout action to score 1VP per monitored enemy visible to friendlies.',
+    mission_actions: [
+      {
+        name: 'Scout',
+        ap_cost: 1,
+        description:
+          'Select one ready enemy operative visible to and more than 6" from the active operative. Target is monitored until the Ready step of the next Strategy phase.',
+        restrictions:
+          'Cannot perform with an Engage order, during the first turning point, or while within control range of an enemy operative.',
+      },
+    ],
+    victory_points: [
+      'At the end of each turning point after the first: Score 1VP for each monitored enemy operative visible to friendly operatives.',
+      'Maximum 2VP per turning point.',
+    ],
   },
   {
-    id: 'neutralise',
-    name: 'Neutralise',
+    id: 'retrieval',
+    name: 'Retrieval',
+    archetype: 'Recon',
+    reveal_condition: 'First time you score VP from this Tac Op.',
     description:
-      'Score 1VP at the end of each TP (2–4) where you incapacitate at least one operative.',
-  },
-  {
-    id: 'demolish',
-    name: 'Demolish',
-    description:
-      'Score VP for destroying terrain features or markers in enemy territory.',
-  },
-  // ── Security ──────────────────────────────────────────────────────────
-  {
-    id: 'hold-firm',
-    name: 'Hold Firm',
-    description:
-      'Score 1VP at the end of TPs 2, 3, and 4 if you control your home objective marker.',
-  },
-  {
-    id: 'defend-ground',
-    name: 'Defend Ground',
-    description:
-      'Score VP for controlling more objective markers than your opponent at game end.',
-  },
-  {
-    id: 'no-way-through',
-    name: 'No Way Through',
-    description:
-      'Score 1VP at the end of each TP where no enemy operatives are in your half.',
-  },
-  {
-    id: 'cut-off',
-    name: 'Cut Off',
-    description:
-      'Score VP if you control more table quarters than your opponent at the end of the game.',
+      'Search objective markers to collect Retrieval mission markers and score VP.',
+    mission_actions: [
+      {
+        name: 'Retrieve',
+        ap_cost: 1,
+        description:
+          'If the active operative controls an objective marker not yet searched by friendly operatives, the active operative now carries a Retrieval mission marker.',
+        restrictions:
+          'Cannot perform during the first turning point, while within control range of an enemy operative, or if already carrying a Retrieval mission marker.',
+      },
+    ],
+    victory_points: [
+      'Score 1VP the first time each objective marker is searched by friendly operatives.',
+      'At the end of the battle: Score 1VP for each Retrieval mission marker friendly operatives are carrying.',
+    ],
   },
   // ── Infiltration ──────────────────────────────────────────────────────
   {
-    id: 'behind-enemy-lines',
-    name: 'Behind Enemy Lines',
+    id: 'track-enemy',
+    name: 'Track Enemy',
+    archetype: 'Infiltration',
+    reveal_condition: 'First time you score VP from this Tac Op.',
     description:
-      'Score 1VP for each friendly operative wholly within enemy territory at game end (max 3VP).',
+      'Track hidden enemy operatives with Concealed friendlies to score up to 2VP per turning point.',
+    additional_rules: [
+      'An enemy operative is tracked if it is a valid target for a friendly operative within 6" that has a Conceal order.',
+      'The tracking friendly operative must not be a valid target for the tracked enemy and cannot be within enemy control range.',
+    ],
+    victory_points: [
+      'At the end of each turning point after the first: Score 1VP if one enemy operative is tracked (2VP if turning point 4).',
+      'Score 2VP if two or more enemy operatives are being tracked.',
+      'Maximum 2VP per turning point.',
+    ],
   },
   {
-    id: 'advance',
-    name: 'Advance',
+    id: 'steal-intelligence',
+    name: 'Steal Intelligence',
+    archetype: 'Infiltration',
+    reveal_condition: 'The first time an enemy operative is incapacitated.',
     description:
-      'Score 1VP at the end of TPs 3 and 4 if you control an objective marker in enemy territory.',
+      'Collect Intelligence markers from incapacitated enemies and carry them to score VP.',
+    additional_rules: [
+      'When an enemy operative is incapacitated, place an Intelligence marker within its control range before it is removed.',
+      'Friendly operatives can carry up to two Intelligence markers (one ignores the condition of the Pick Up action).',
+    ],
+    victory_points: [
+      'At the end of each turning point after the first: Score 1VP if friendly operatives are carrying any Intelligence markers.',
+      'At the end of the battle: Score 1VP for each Intelligence marker friendly operatives are carrying.',
+    ],
   },
   {
-    id: 'establish-presence',
-    name: 'Establish Presence',
+    id: 'plant-devices',
+    name: 'Plant Devices',
+    archetype: 'Infiltration',
+    reveal_condition:
+      'First time a friendly operative performs the Plant Device action.',
     description:
-      'Score VP for having operatives distributed across different zones of the killzone.',
+      'Plant Device tokens on objective markers, including enemy-contested ones, to score VP.',
+    mission_actions: [
+      {
+        name: 'Plant Device',
+        ap_cost: 1,
+        description:
+          'One objective marker the active operative controls gains a friendly Device token.',
+        restrictions:
+          'Cannot perform during the first turning point, while within control range of an enemy operative, or if that marker already has your Device token.',
+      },
+    ],
+    victory_points: [
+      "At the end of each turning point after the first: Score 1VP if your opponent's objective marker has your Device token.",
+      'Score 1VP for each other objective marker the enemy contests that has your Device token.',
+      'Maximum 2VP per turning point.',
+    ],
+  },
+  // ── Security ──────────────────────────────────────────────────────────
+  {
+    id: 'plant-banner',
+    name: 'Plant Banner',
+    archetype: 'Security',
+    reveal_condition: 'When you perform the Plant Banner action.',
+    description:
+      'Plant your Banner in enemy territory and hold it to score up to 2VP per turning point.',
+    mission_actions: [
+      {
+        name: 'Plant Banner',
+        ap_cost: 1,
+        description:
+          "Place a Banner marker within the active operative's control range, wholly within the opponent's territory and more than 5\" from a neutral killzone edge.",
+        restrictions:
+          'Cannot perform during the first turning point, while within control range of an enemy operative, or if a friendly operative has already performed this action this battle.',
+      },
+    ],
+    victory_points: [
+      "At the end of each turning point after the first: Score 1VP if the Banner is in the opponent's territory and controlled by friendly operatives.",
+      'Score 2VP instead if the above is true and no enemy operatives contest the Banner.',
+      'The Banner must be in the killzone (not carried) to score.',
+    ],
   },
   {
-    id: 'seize-ground',
-    name: 'Seize Ground',
+    id: 'martyrs',
+    name: 'Martyrs',
+    archetype: 'Security',
+    reveal_condition:
+      'First time a friendly operative is incapacitated while contesting an objective marker.',
     description:
-      'Score 1VP at the end of each TP where you control the central objective marker.',
-  },
-  // ── Intel ─────────────────────────────────────────────────────────────
-  {
-    id: 'gain-intelligence',
-    name: 'Gain Intelligence',
-    description:
-      'Score 1VP at the end of each TP where you activate more operatives than your opponent.',
-  },
-  {
-    id: 'recon',
-    name: 'Recon',
-    description:
-      'Score VP for moving operatives within range of the enemy deployment zone.',
-  },
-  {
-    id: 'vital-information',
-    name: 'Vital Information',
-    description:
-      'Score VP for controlling intel markers at the end of the game.',
+      'Sacrifice operatives on objectives to generate Martyr tokens worth VP when removed.',
+    additional_rules: [
+      'When a friendly operative is incapacitated while contesting an objective marker, add a Martyr token to that marker.',
+      'Tokens are only generated the first time each specific operative is incapacitated.',
+    ],
+    victory_points: [
+      'At the end of each turning point after the first: Remove Martyr tokens from objective markers friendly operatives contest; score 1VP per token removed.',
+      'Score 2VP per token instead if friendly operatives also control that marker.',
+      'Maximum 2VP per turning point.',
+    ],
   },
   {
-    id: 'mark-their-turf',
-    name: 'Mark Their Turf',
+    id: 'envoy',
+    name: 'Envoy',
+    archetype: 'Security',
+    reveal_condition: 'First time you select an envoy.',
     description:
-      "Score VP for performing actions near or within the opponent's deployment zone.",
+      'Designate an envoy each turning point to score VP for reaching enemy territory unharmed.',
+    additional_rules: [
+      'Strategic Gambit (TP 2+): Select one friendly operative to be the envoy (cannot be the same operative twice or an operative ignored for kill op scoring).',
+      'Envoy status lasts until the Ready step of the next Strategy phase.',
+    ],
+    victory_points: [
+      'At the end of each turning point after the first: Score 1VP if the envoy is in enemy territory and not within enemy control range.',
+      'Score 2VP instead if the above is true AND the envoy has not lost any wounds during that turning point.',
+    ],
+  },
+  // ── Seek & Destroy ────────────────────────────────────────────────────
+  {
+    id: 'sweep-and-clear',
+    name: 'Sweep & Clear',
+    archetype: 'Seek & Destroy',
+    reveal_condition:
+      'First enemy incapacitated on an objective marker OR first time a friendly operative performs the Clear action.',
+    description:
+      'Incapacitate enemies on objectives and Clear markers to score up to 2VP per turning point.',
+    mission_actions: [
+      {
+        name: 'Clear',
+        ap_cost: 1,
+        description:
+          'One objective marker the active operative controls is cleared for this turning point.',
+        restrictions:
+          'Cannot perform during the first turning point or while within control range of an enemy operative.',
+      },
+    ],
+    additional_rules: [
+      'When an enemy operative is incapacitated while contesting an objective marker, add a Swept token to that marker until the Ready step of the next Strategy phase.',
+    ],
+    victory_points: [
+      'At the end of each turning point after the first: Score 1VP if friendly operatives control an objective marker with your Swept token.',
+      'Score 2VP instead if the above is true AND the marker is also cleared.',
+      'Maximum 2VP per turning point.',
+    ],
+  },
+  {
+    id: 'route',
+    name: 'Route',
+    archetype: 'Seek & Destroy',
+    reveal_condition: 'First time you score VP from this Tac Op.',
+    description:
+      "Incapacitate enemies near the opponent's drop zone to score VP, with a bonus for high-Wounds targets.",
+    victory_points: [
+      'Whenever a friendly operative incapacitates an enemy: Score 1VP if the friendly operative is within 6" of the opponent\'s drop zone.',
+      'Score 2VP instead if the above is true AND the incapacitated operative had a Wounds stat of 12 or more.',
+      'Maximum 2VP per turning point.',
+    ],
+  },
+  {
+    id: 'dominate',
+    name: 'Dominate',
+    archetype: 'Seek & Destroy',
+    reveal_condition:
+      'First time an enemy operative is incapacitated by a friendly operative.',
+    description:
+      'Earn Dominate tokens for each kill; cash them in at the end of TPs 3 and 4 for up to 3VP.',
+    additional_rules: [
+      'Friendly operatives gain 1 Dominate token each time they incapacitate an enemy operative.',
+    ],
+    victory_points: [
+      'At the end of turning points 3 and 4: Score 1VP for each Dominate token removed from friendly operatives that are not incapacitated.',
+      'Maximum 3VP per turning point.',
+    ],
   },
   {
     id: 'custom',
