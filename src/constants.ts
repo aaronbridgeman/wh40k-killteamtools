@@ -54,8 +54,8 @@ export const QUICK_PLAY_DEFAULTS = {
   STARTING_COMMAND_POINTS: 0,
   /** Maximum Blight Grenade uses per game */
   MAX_BLIGHT_GRENADE_USES: 2,
-  /** Current schema version for QuickPlayEventState (v4 adds selectedStrategicPloyIds array replacing selectedStrategicPloyId; v3 adds gamePhase, opposition, critOp, tacOp, killOpKillCount; moves learningEntries to separate storage) */
-  SCHEMA_VERSION: 4,
+  /** Current schema version for QuickPlayEventState (v5 adds opponentCount; v4 adds selectedStrategicPloyIds array replacing selectedStrategicPloyId; v3 adds gamePhase, opposition, critOp, tacOp, killOpKillCount; moves learningEntries to separate storage) */
+  SCHEMA_VERSION: 5,
   /** Faction ID for the quick play event */
   FACTION_ID: 'plague-marines',
   /** ID of the Blight Grenades equipment item */
@@ -68,6 +68,10 @@ export const QUICK_PLAY_DEFAULTS = {
   CONTAGION_PLOY_ID: 'contagion',
   /** Synthetic weapon ID injected into Bombardier's OperativeCard when grenades are selected */
   GRENADIER_WEAPON_ID: 'event-blight-grenades-bombardier',
+  /** ID of the Krak Grenades universal equipment item */
+  KRAK_GRENADES_ID: 'krak-grenades',
+  /** Synthetic weapon ID injected into Bombardier's OperativeCard when krak grenades are selected */
+  KRAK_GRENADIER_WEAPON_ID: 'event-krak-grenades-bombardier',
 } as const;
 
 // Quick Play Event — generic firefight ploy always available

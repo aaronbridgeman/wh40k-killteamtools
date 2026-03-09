@@ -1,31 +1,37 @@
 /**
  * GamePlayView — focused play-phase screen for one game.
  *
- * Shown when game.gamePhase === 'playing'. Deliberately shows only what is
- * needed during a live game:
+ * Shown when game.gamePhase === 'playing'. Layout (top to bottom):
  *
- *  1. Context bar — Crit Op, Tac Op, Kill Op counter + level (above everything)
- *  2. TP navigation + CP tracker + strategic ploy selection  (TurningPointPloys)
- *  3. Active strategic ploy banner
- *  4. Firefight ploys (interactive)
+ *  1. Context bar — Crit Op, Tac Op, Opposition badges
+ *  2. Combined stats — CP tracker + Kill counter + Kill Op score (compact row)
+ *  3. TP navigation + strategic ploy selection + firefight ploys  (TurningPointPloys)
+ *  4. Faction rules (reference)
  *  5. Equipment in use (compact, with grenade counter)
- *  6. Operative datacards (with incapacitate-only toggle)
+ *  6. Active strategic ploy banner (moved here, below equipment)
+ *  7. Operative datacards (pill selector → single card view)
  *
  * A "← Back to Setup" link lets the player edit setup details if needed.
  *
- * Kill Op levels (enemy kills → estimated VP tier):
- *   0 kills  → not scored
- *   1 kill   → Level 1
- *   2 kills  → Level 2
- *   3+ kills → Level 3
+ * Kill Op score thresholds (when opponentCount > 0):
+ *   0 kills            → not scored
+ *   < half opponent    → Level 1
+ *   ≥ half opponent    → Level 2
+ *   = all opponents    → Level 3
+ * Fallback (opponentCount === 0):
+ *   1 kill → Level 1 · 2 kills → Level 2 · 3+ kills → Level 3
  */
 
 import { useCallback } from 'react';
-import { Faction, Equipment } from '@/types';
+import { Faction, Equipment, Ploy } from '@/types';
 import { GameEventState } from '@/types/event';
-import { QUICK_PLAY_DEFAULTS } from '@/constants';
+import {
+  QUICK_PLAY_DEFAULTS,
+} from '@/constants';
+import { getTurningPointState, getInitialTurningPointState } from '@/services/eventStorage';
 import { TurningPointPloys } from './TurningPointPloys';
 import { OperativeRosterManager } from './OperativeRosterManager';
+import { CPTracker } from './CPTracker';
 import './GamePlayView.css';
 
 interface GamePlayViewProps {
@@ -39,12 +45,21 @@ interface GamePlayViewProps {
   onChange: (updatedGame: GameEventState) => void;
 }
 
-/** Maps a kill count to a descriptive Kill Op level string. */
-function killOpLevel(kills: number): string {
+/**
+ * Maps a kill count to a descriptive Kill Op level string.
+ * When opponentCount is provided (> 0), uses proportional thresholds.
+ */
+function killOpLevel(kills: number, opponentCount: number): string {
   if (kills === 0) return '—';
-  if (kills === 1) return 'Level 1';
-  if (kills === 2) return 'Level 2';
-  return 'Level 3';
+  if (opponentCount > 0) {
+    if (kills >= opponentCount) return 'Level 3';
+    if (kills >= Math.ceil(opponentCount / 2)) return 'Level 2';
+    return 'Level 1';
+  }
+  // Fallback: fixed thresholds
+  if (kills >= 3) return 'Level 3';
+  if (kills >= 2) return 'Level 2';
+  return 'Level 1';
 }
 
 /**
@@ -71,6 +86,13 @@ export function GamePlayView({
     [game, onChange]
   );
 
+  const handleCpChange = useCallback(
+    (commandPoints: number) => {
+      onChange({ ...game, commandPoints });
+    },
+    [game, onChange]
+  );
+
   const handleBackToSetup = useCallback(() => {
     onChange({ ...game, gamePhase: 'setup' });
   }, [game, onChange]);
@@ -89,11 +111,23 @@ export function GamePlayView({
     game.selectedEquipmentIds.includes(e.id)
   );
 
-  const level = killOpLevel(game.killOpKillCount);
+  // Active strategic ploys for current TP (to render after equipment)
+  const isStarted = game.turningPoint > 0;
+  const currentTpState = isStarted
+    ? getTurningPointState(game, game.turningPoint)
+    : getInitialTurningPointState();
+  const strategicPloys: Ploy[] = (faction.ploys ?? []).filter((p) => p.type === 'strategy');
+  const activePloys: Ploy[] = isStarted
+    ? currentTpState.selectedStrategicPloyIds
+        .map((id) => strategicPloys.find((p) => p.id === id))
+        .filter((p): p is Ploy => p !== undefined)
+    : [];
+
+  const level = killOpLevel(game.killOpKillCount, game.opponentCount);
 
   return (
     <div className="game-play-view">
-      {/* ── 1. Context bar: objectives + kill op ─────────────────────── */}
+      {/* ── 1. Context bar: objectives ────────────────────────────────── */}
       <div className="play-context-bar" role="region" aria-label="Game context">
         <div className="context-objectives">
           {game.critOp && (
@@ -115,41 +149,67 @@ export function GamePlayView({
             </span>
           )}
         </div>
+      </div>
 
-        {/* Kill Op counter */}
-        <div className="kill-op-tracker" aria-label="Kill Operation tracker">
-          <span className="kill-op-label">💀 Kill Op</span>
-          <button
-            type="button"
-            className="kill-op-btn"
-            onClick={() => handleKillOpChange(-1)}
-            disabled={game.killOpKillCount <= 0}
-            aria-label="Decrease kill count"
-          >
-            −
-          </button>
+      {/* ── 2. Combined stats: CP + Kill counter + Kill Op score ─────── */}
+      <div className="play-stats-bar" role="region" aria-label="Game statistics">
+        {/* Command Points */}
+        <div className="stats-item stats-cp">
+          <CPTracker commandPoints={game.commandPoints} onChange={handleCpChange} />
+        </div>
+
+        {/* Kill counter + Kill Op score */}
+        <div className="stats-item stats-kills" aria-label="Kill Operation tracker">
+          <span className="stats-label">💀 Kill Op</span>
+          <div className="stats-counter">
+            <button
+              type="button"
+              className="stats-btn"
+              onClick={() => handleKillOpChange(-1)}
+              disabled={game.killOpKillCount <= 0}
+              aria-label="Decrease kill count"
+            >
+              −
+            </button>
+            <span
+              className="stats-count"
+              aria-label={`${game.killOpKillCount} kills`}
+              aria-live="polite"
+            >
+              {game.killOpKillCount}
+              {game.opponentCount > 0 && (
+                <span className="stats-of-total">/{game.opponentCount}</span>
+              )}
+            </span>
+            <button
+              type="button"
+              className="stats-btn"
+              onClick={() => handleKillOpChange(1)}
+              disabled={game.opponentCount > 0 && game.killOpKillCount >= game.opponentCount}
+              aria-label="Increase kill count"
+            >
+              +
+            </button>
+          </div>
           <span
-            className="kill-op-count"
-            aria-label={`${game.killOpKillCount} kills`}
-            aria-live="polite"
+            className={`stats-level ${level === '—' ? 'unscored' : ''}`}
+            aria-label={`Kill Op ${level}`}
           >
-            {game.killOpKillCount}
-          </span>
-          <button
-            type="button"
-            className="kill-op-btn"
-            onClick={() => handleKillOpChange(1)}
-            aria-label="Increase kill count"
-          >
-            +
-          </button>
-          <span className="kill-op-level" aria-label={`Kill Op ${level}`}>
             {level}
           </span>
         </div>
       </div>
 
-      {/* ── 1b. Faction rules ─────────────────────────────────────────── */}
+      {/* ── 3. TP nav, strategic & firefight ploys ────────────────────── */}
+      <TurningPointPloys
+        game={game}
+        faction={faction}
+        onChange={onChange}
+        removedOperativeId={game.removedOperativeId}
+        incapacitatedOperativeIds={game.incapacitatedOperativeIds}
+      />
+
+      {/* ── 4. Faction rules ──────────────────────────────────────────── */}
       {faction.rules.length > 0 && (
         <div className="play-faction-rules" role="region" aria-label="Faction rules">
           <p className="play-faction-rules-title">⚜️ Faction Rules</p>
@@ -166,15 +226,6 @@ export function GamePlayView({
           </div>
         </div>
       )}
-
-      {/* ── 2–4. TP nav, CP, strategic & firefight ploys ──────────────── */}
-      <TurningPointPloys
-        game={game}
-        faction={faction}
-        onChange={onChange}
-        removedOperativeId={game.removedOperativeId}
-        incapacitatedOperativeIds={game.incapacitatedOperativeIds}
-      />
 
       {/* ── 5. Equipment in use ───────────────────────────────────────── */}
       {selectedEquipment.length > 0 && (
@@ -208,7 +259,28 @@ export function GamePlayView({
         </div>
       )}
 
-      {/* ── 6. Operative datacards ────────────────────────────────────── */}
+      {/* ── 6. Active strategic ploy banner (below equipment) ─────────── */}
+      {activePloys.length > 0 && (
+        <div className="active-ploy-banner" role="status" aria-live="polite">
+          <p className="active-ploy-label">
+            ⚔️ Active Strategic Ploy{activePloys.length > 1 ? 's' : ''}
+          </p>
+          {activePloys.map((activePloy) => (
+            <div key={activePloy.id} className="active-ploy-entry">
+              <p className="active-ploy-name">{activePloy.name}</p>
+              <p className="active-ploy-desc">{activePloy.description}</p>
+              {activePloy.cost_modifiers &&
+                activePloy.cost_modifiers.length > 0 && (
+                  <p className="active-ploy-desc active-ploy-modifier">
+                    💡 {activePloy.cost_modifiers.join(' ')}
+                  </p>
+                )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── 7. Operative datacards ────────────────────────────────────── */}
       <section
         className="play-operatives-section"
         aria-labelledby="play-operatives-title"

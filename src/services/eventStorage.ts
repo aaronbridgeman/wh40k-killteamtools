@@ -57,6 +57,7 @@ interface LegacyGameStateV1 {
   critOp?: string;
   tacOp?: string;
   killOpKillCount?: number;
+  opponentCount?: number;
 }
 
 /** Schema v1/v2 root state — may include learningEntries (moved to separate storage in v3) */
@@ -104,6 +105,7 @@ export function getInitialGameState(gameNumber: 1 | 2 | 3): GameEventState {
     critOp: '',
     tacOp: '',
     killOpKillCount: 0,
+    opponentCount: 0,
   };
 }
 
@@ -165,6 +167,8 @@ export function saveEventState(state: QuickPlayEventState): void {
  *            rename `learnings`→`learningEntries`.
  *  v2 → v3: add `gamePhase`, `opposition`, `critOp`, `tacOp`, `killOpKillCount`;
  *            migrate `learningEntries` from event state to separate learnings storage.
+ *  v3 → v4: replace `selectedStrategicPloyId` with `selectedStrategicPloyIds` array.
+ *  v4 → v5: add `opponentCount` per game.
  *
  * @returns The persisted event state, or null if unavailable
  */
@@ -263,6 +267,7 @@ export function loadEventState(): QuickPlayEventState | null {
             critOp: game.critOp ?? '',
             tacOp: game.tacOp ?? '',
             killOpKillCount: game.killOpKillCount ?? 0,
+            opponentCount: game.opponentCount ?? 0,
           };
         }
       );

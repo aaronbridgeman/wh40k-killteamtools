@@ -105,6 +105,12 @@ export interface GameEventState {
    * Used to track Kill Op scoring.
    */
   killOpKillCount: number;
+  /**
+   * Total number of operatives on the opponent's team.
+   * Used to compute Kill Op score thresholds (level tiers).
+   * 0 means not set; falls back to fixed thresholds (1=L1, 2=L2, 3+=L3).
+   */
+  opponentCount: number;
 }
 
 /**

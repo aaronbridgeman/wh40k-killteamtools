@@ -109,6 +109,30 @@ export function GameSetupView({
           <div className="setup-detail-field">
             <label
               className="setup-detail-label"
+              htmlFor={`opponent-count-${game.gameNumber}`}
+            >
+              Opponent Count
+            </label>
+            <input
+              id={`opponent-count-${game.gameNumber}`}
+              className="setup-detail-input"
+              type="number"
+              min={0}
+              max={20}
+              value={game.opponentCount || ''}
+              onChange={(e) =>
+                onChange({
+                  ...game,
+                  opponentCount: Math.max(0, parseInt(e.target.value, 10) || 0),
+                })
+              }
+              placeholder="e.g. 8"
+              aria-label="Opponent operative count"
+            />
+          </div>
+          <div className="setup-detail-field">
+            <label
+              className="setup-detail-label"
               htmlFor={`opposition-${game.gameNumber}`}
             >
               vs. Team

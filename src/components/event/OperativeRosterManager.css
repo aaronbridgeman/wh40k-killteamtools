@@ -15,6 +15,87 @@
   line-height: 1.5;
 }
 
+/* ── Play-phase operative pill selector ───────────────────────────── */
+.play-operative-pills {
+  margin-bottom: var(--spacing-sm);
+}
+
+.play-pills-hint {
+  font-size: 0.8rem;
+  color: var(--nurgle-text-muted);
+  margin: 0 0 var(--spacing-xs);
+}
+
+.operative-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.play-operative-pill {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid var(--nurgle-border);
+  background-color: var(--nurgle-surface-raised);
+  color: var(--nurgle-text-muted);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+  line-height: 1.4;
+}
+
+.play-operative-pill.active:hover {
+  border-color: var(--nurgle-primary);
+  color: var(--nurgle-text);
+}
+
+.play-operative-pill.focused {
+  background-color: rgba(74, 124, 63, 0.25);
+  border-color: var(--nurgle-accent);
+  color: var(--nurgle-accent);
+  box-shadow: 0 0 6px var(--nurgle-accent-glow);
+}
+
+.play-operative-pill.incapacitated {
+  border-color: #c4a35a;
+  color: #c4a35a;
+  opacity: 0.8;
+}
+
+.play-operative-pill.removed {
+  border-color: var(--nurgle-danger);
+  color: var(--nurgle-danger);
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.pill-cross {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.pill-removed,
+.pill-incap {
+  font-size: 0.7rem;
+  opacity: 0.9;
+}
+
+.play-pills-selected-note {
+  font-size: 0.78rem;
+  color: var(--nurgle-text-muted);
+  margin: var(--spacing-xs) 0 0;
+  font-style: italic;
+}
+
+.play-pills-selected-note strong {
+  color: var(--nurgle-accent);
+}
+
 /* Each operative slot: card + toggle button */
 .operative-slot {
   border: 1px solid var(--nurgle-border);
