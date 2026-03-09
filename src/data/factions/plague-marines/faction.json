@@ -592,8 +592,8 @@
       ]
     },
     {
-      "id": "miasma-of-contagion",
-      "name": "Miasma of Contagion",
+      "id": "poison-vents",
+      "name": "Poison Vents",
       "category": "faction",
       "description": "Whenever an enemy operative that does not have one of your Poison tokens is activated within 3\" of a friendly operative, roll a D3. On a result of 3, that enemy operative gains a Poison token.",
       "restrictedToKeywords": ["PLAGUE MARINE"],
