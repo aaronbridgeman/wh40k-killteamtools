@@ -19,6 +19,10 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
   } | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  // Tracks whether the tooltip is currently shown via mouse hover.
+  // Used to prevent the onClick handler from immediately closing the tooltip
+  // on touch devices, where onMouseEnter fires just before onClick.
+  const isMouseHoveringRef = useRef(false);
   const expansion = expandWeaponRule(ruleName, value);
 
   // Position tooltip near the click
@@ -64,7 +68,7 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
     }
   }, [showTooltip, positionTooltip]);
 
-  // Close tooltip on Escape key
+  // Close tooltip on Escape key, or when clicking outside on touch devices
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && showTooltip) {
@@ -73,9 +77,27 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
       }
     };
 
+    const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node) &&
+        (!tooltipRef.current ||
+          !tooltipRef.current.contains(event.target as Node))
+      ) {
+        isMouseHoveringRef.current = false;
+        setShowTooltip(false);
+      }
+    };
+
     if (showTooltip) {
       document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
+      document.addEventListener('mousedown', handleOutsideClick);
+      document.addEventListener('touchstart', handleOutsideClick);
+      return () => {
+        document.removeEventListener('keydown', handleEscape);
+        document.removeEventListener('mousedown', handleOutsideClick);
+        document.removeEventListener('touchstart', handleOutsideClick);
+      };
     }
   }, [showTooltip]);
 
@@ -88,7 +110,23 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    setShowTooltip(!showTooltip);
+    // On touch devices, onMouseEnter fires just before onClick and sets
+    // isMouseHoveringRef=true + showTooltip=true. If we allowed the normal
+    // toggle here the tooltip would immediately hide again. Instead, when the
+    // tooltip is already visible due to a hover-simulation we leave it open;
+    // the click-outside handler (added in the effect above) handles dismissal.
+    if (isMouseHoveringRef.current) return;
+    setShowTooltip((prev) => !prev);
+  };
+
+  const handleMouseEnter = () => {
+    isMouseHoveringRef.current = true;
+    setShowTooltip(true);
+  };
+
+  const handleMouseLeave = () => {
+    isMouseHoveringRef.current = false;
+    setShowTooltip(false);
   };
 
   return (
@@ -100,8 +138,8 @@ export function RuleTooltip({ ruleName, value }: RuleTooltipProps) {
         aria-describedby={showTooltip ? tooltipId : undefined}
         aria-expanded={showTooltip}
         onClick={handleClick}
-        onMouseEnter={() => setShowTooltip(true)}
-        onMouseLeave={() => setShowTooltip(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         onFocus={() => setShowTooltip(true)}
         onBlur={(e) => {
           // Only hide if focus is leaving the container
