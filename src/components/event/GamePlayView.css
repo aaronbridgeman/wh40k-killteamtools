@@ -260,7 +260,7 @@
   color: var(--nurgle-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin: 0 0 var(--spacing-sm);
+  margin: 0;
 }
 
 .play-equip-list {
@@ -544,10 +544,133 @@
 }
 
 /* ── Tac Op wrapper + reminder ──────────────────────────────────── */
+.context-op-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
 .tac-op-wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
+}
+
+/* Context badge as clickable button for full details */
+.context-badge-btn {
+  background: transparent;
+  border: 1px solid var(--nurgle-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+  transition: border-color 0.2s ease;
+}
+
+.context-badge-btn:hover {
+  border-color: var(--nurgle-accent);
+}
+
+.crit-op-badge.context-badge-btn {
+  border-color: var(--nurgle-gold);
+}
+
+.tac-op-badge.context-badge-btn {
+  border-color: var(--nurgle-primary);
+}
+
+.crit-op-badge.context-badge-btn .context-badge-label {
+  color: var(--nurgle-gold);
+}
+
+.tac-op-badge.context-badge-btn .context-badge-label {
+  color: var(--nurgle-accent);
+}
+
+.context-badge-chevron {
+  font-size: 0.65rem;
+  color: var(--nurgle-text-muted);
+  margin-left: auto;
+}
+
+/* Op detail panel (full Crit Op / Tac Op details) */
+.op-details-panel {
+  padding: var(--spacing-sm);
+  background-color: rgba(74, 124, 63, 0.05);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.op-details-desc {
+  font-size: 0.8rem;
+  color: var(--nurgle-accent);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.op-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.op-details-heading {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--nurgle-text-muted);
+  margin: 0;
+}
+
+.op-details-text {
+  font-size: 0.78rem;
+  color: var(--nurgle-text);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.op-details-action {
+  padding: var(--spacing-xs) 0;
+  border-top: 1px solid var(--nurgle-border);
+}
+
+.op-details-action-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--nurgle-gold);
+  margin: 0 0 2px;
+}
+
+.op-details-restriction {
+  font-size: 0.72rem;
+  color: var(--nurgle-text-muted);
+  font-style: italic;
+  margin: 2px 0 0;
+  line-height: 1.4;
+}
+
+.op-details-vp-list {
+  list-style: disc;
+  padding-left: 1.2em;
+  margin: 0;
+}
+
+.op-details-vp-item {
+  font-size: 0.78rem;
+  color: var(--nurgle-text);
+  line-height: 1.45;
+  margin-bottom: 2px;
 }
 
 .tac-op-reminder {
@@ -561,6 +684,40 @@
   border-left: 2px solid var(--nurgle-primary);
   border-radius: 0 4px 4px 0;
   max-width: 300px;
+}
+
+/* ── Undo button for equipment use ──────────────────────────────── */
+.play-equip-undo-btn {
+  padding: 2px var(--spacing-sm);
+  background-color: transparent;
+  border: 1px solid var(--nurgle-border);
+  border-radius: 4px;
+  color: var(--nurgle-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.play-equip-undo-btn:hover {
+  border-color: var(--nurgle-accent);
+  color: var(--nurgle-text);
+}
+
+/* Expended equipment item */
+.play-equip-item.expended-item {
+  opacity: 0.6;
+  border-color: var(--nurgle-disabled);
+}
+
+/* ── Strategic Advisor in play view ─────────────────────────────── */
+.play-strategic-advisor {
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 /* ── Mobile responsive fixes ────────────────────────────────────── */

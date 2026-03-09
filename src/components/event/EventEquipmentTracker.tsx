@@ -25,14 +25,18 @@ interface EventEquipmentTrackerProps {
   selectedEquipmentIds: string[];
   /** Remaining Blight Grenade uses for this game */
   blightGrenadeUsesRemaining: number;
+  /** Remaining uses per quantity-limited equipment item, keyed by equipment ID */
+  equipmentUsesRemaining: Record<string, number>;
   /**
    * Called when equipment selection or grenade usage changes.
    * @param selectedEquipmentIds - Updated list of selected equipment IDs
    * @param blightGrenadeUsesRemaining - Updated grenade use count
+   * @param equipmentUsesRemaining - Updated uses remaining for all quantity-limited items
    */
   onChange: (
     selectedEquipmentIds: string[],
-    blightGrenadeUsesRemaining: number
+    blightGrenadeUsesRemaining: number,
+    equipmentUsesRemaining: Record<string, number>
   ) => void;
 }
 
@@ -45,6 +49,7 @@ export function EventEquipmentTracker({
   universalEquipment,
   selectedEquipmentIds,
   blightGrenadeUsesRemaining,
+  equipmentUsesRemaining,
   onChange,
 }: EventEquipmentTrackerProps) {
   const factionEquipment: Equipment[] = faction.equipment ?? [];
@@ -63,6 +68,7 @@ export function EventEquipmentTracker({
     const isSelected = selectedEquipmentIds.includes(item.id);
     let updated: string[];
     let grenadeUses = blightGrenadeUsesRemaining;
+    let updatedEquipmentUses = { ...equipmentUsesRemaining };
 
     if (isSelected) {
       // Deselect
@@ -70,6 +76,10 @@ export function EventEquipmentTracker({
       // Reset grenade uses when deselecting
       if (item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID) {
         grenadeUses = QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES;
+      }
+      // Reset uses for quantity-limited items on deselect
+      if (item.quantity && item.quantity > 1) {
+        updatedEquipmentUses = { ...updatedEquipmentUses, [item.id]: item.quantity };
       }
     } else {
       // Enforce 4-item maximum across faction and universal equipment
@@ -79,8 +89,11 @@ export function EventEquipmentTracker({
       ) {
         return;
       }
-      // Select
+      // Select — initialize uses for quantity-limited items
       updated = [...selectedEquipmentIds, item.id];
+      if (item.quantity && item.quantity > 1 && !(item.id in updatedEquipmentUses)) {
+        updatedEquipmentUses = { ...updatedEquipmentUses, [item.id]: item.quantity };
+      }
     }
 
     // Auto-collapse when reaching max; auto-expand when below max
@@ -91,7 +104,7 @@ export function EventEquipmentTracker({
       setExpanded(true);
     }
 
-    onChange(updated, grenadeUses);
+    onChange(updated, grenadeUses, updatedEquipmentUses);
   };
 
   /** Renders a single equipment item row with checkbox */

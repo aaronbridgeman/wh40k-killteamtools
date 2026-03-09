@@ -23,18 +23,21 @@
  *   1 kill → Level 1 · 2 kills → Level 2 · 3+ kills → Level 3
  */
 
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useEffect, useState } from 'react';
 import { Faction, Equipment, Ploy } from '@/types';
 import { GameEventState } from '@/types/event';
 import { QUICK_PLAY_DEFAULTS } from '@/constants';
-import { TAC_OPS } from '@/data/missions/missions';
+import { CRIT_OPS, TAC_OPS } from '@/data/missions/missions';
 import {
   getTurningPointState,
   getInitialTurningPointState,
 } from '@/services/eventStorage';
+import { loadOpponentKillTeams } from '@/services/dataLoader';
+import { OpponentKillTeam } from '@/types/opponent';
 import { TurningPointPloys } from './TurningPointPloys';
 import { OperativeRosterManager } from './OperativeRosterManager';
 import { CPTracker } from './CPTracker';
+import { MatchupTipsPanel } from '@/components/game/MatchupTipsPanel';
 import './GamePlayView.css';
 
 interface GamePlayViewProps {
@@ -137,17 +140,24 @@ export function GamePlayView({
 
   const level = killOpLevel(game.killOpKillCount, game.opponentCount);
 
-  // Tac Op description lookup — show scoring reminder in context bar
+  // Tac Op & Crit Op full details lookup
   const tacOpEntry = game.tacOp
     ? TAC_OPS.find((o) => o.name === game.tacOp)
     : undefined;
+  const critOpEntry = game.critOp
+    ? CRIT_OPS.find((o) => o.name === game.critOp)
+    : undefined;
 
-  // Section collapse state (true = expanded, false = collapsed)
+  // Section collapse state (true = collapsed, false/absent = expanded)
   const [sectionsCollapsed, setSectionsCollapsed] = useState<
     Record<string, boolean>
   >({
     rules: true, // faction rules collapsed by default (reference only)
     score: false,
+    equipment: false,
+    critOpDetails: true,
+    tacOpDetails: true,
+    advisor: true,
   });
 
   const toggleSection = (key: string) => {
@@ -156,8 +166,75 @@ export function GamePlayView({
 
   const isSectionCollapsed = (key: string) => !!sectionsCollapsed[key];
 
+  // Load opponent teams to resolve the opponent ID for the MatchupTipsPanel
+  const [opponentTeams, setOpponentTeams] = useState<OpponentKillTeam[]>([]);
+  useEffect(() => {
+    loadOpponentKillTeams().then(setOpponentTeams).catch(console.error);
+  }, []);
+  const selectedOpponentId = useMemo(
+    () => opponentTeams.find((t) => t.name === game.opposition)?.id ?? null,
+    [opponentTeams, game.opposition]
+  );
+
   // Floating sidebar visibility
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  /** Use one charge of a quantity-limited equipment item */
+  const handleEquipUse = useCallback(
+    (itemId: string) => {
+      const current = game.equipmentUsesRemaining[itemId] ?? 0;
+      if (current <= 0) return;
+      if (itemId === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID) {
+        onChange({
+          ...game,
+          blightGrenadeUsesRemaining: Math.max(0, game.blightGrenadeUsesRemaining - 1),
+          equipmentUsesRemaining: {
+            ...game.equipmentUsesRemaining,
+            [itemId]: current - 1,
+          },
+        });
+      } else {
+        onChange({
+          ...game,
+          equipmentUsesRemaining: {
+            ...game.equipmentUsesRemaining,
+            [itemId]: current - 1,
+          },
+        });
+      }
+    },
+    [game, onChange]
+  );
+
+  /** Undo the last use of a quantity-limited equipment item */
+  const handleEquipUndo = useCallback(
+    (item: Equipment) => {
+      const maxUses = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
+        ? QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES
+        : (item.quantity ?? 1);
+      const current = game.equipmentUsesRemaining[item.id] ?? maxUses;
+      if (current >= maxUses) return;
+      if (item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID) {
+        onChange({
+          ...game,
+          blightGrenadeUsesRemaining: Math.min(maxUses, game.blightGrenadeUsesRemaining + 1),
+          equipmentUsesRemaining: {
+            ...game.equipmentUsesRemaining,
+            [item.id]: current + 1,
+          },
+        });
+      } else {
+        onChange({
+          ...game,
+          equipmentUsesRemaining: {
+            ...game.equipmentUsesRemaining,
+            [item.id]: current + 1,
+          },
+        });
+      }
+    },
+    [game, onChange]
+  );
 
   return (
     <div className="game-play-view">
@@ -266,18 +343,130 @@ export function GamePlayView({
         >
           <div className="context-objectives">
             {game.critOp && (
-              <span className="context-badge crit-op-badge">
-                <span className="context-badge-label">Crit Op</span>
-                <span className="context-badge-value">{game.critOp}</span>
-              </span>
+              <div className="context-op-wrapper">
+                <button
+                  type="button"
+                  className="context-badge crit-op-badge context-badge-btn"
+                  onClick={() => toggleSection('critOpDetails')}
+                  aria-expanded={!isSectionCollapsed('critOpDetails')}
+                  aria-label={`${isSectionCollapsed('critOpDetails') ? 'Show' : 'Hide'} Crit Op details`}
+                >
+                  <span className="context-badge-label">Crit Op</span>
+                  <span className="context-badge-value">{game.critOp}</span>
+                  <span className="context-badge-chevron">
+                    {isSectionCollapsed('critOpDetails') ? '▶' : '▼'}
+                  </span>
+                </button>
+                {!isSectionCollapsed('critOpDetails') && critOpEntry && (
+                  <div className="op-details-panel" aria-label="Crit Op details">
+                    {critOpEntry.description && (
+                      <p className="op-details-desc">{critOpEntry.description}</p>
+                    )}
+                    {critOpEntry.additional_rules && (
+                      <div className="op-details-section">
+                        <p className="op-details-heading">Setup:</p>
+                        <p className="op-details-text">
+                          {Array.isArray(critOpEntry.additional_rules)
+                            ? critOpEntry.additional_rules.join(' ')
+                            : critOpEntry.additional_rules}
+                        </p>
+                      </div>
+                    )}
+                    {critOpEntry.mission_actions && critOpEntry.mission_actions.length > 0 && (
+                      <div className="op-details-section">
+                        <p className="op-details-heading">Actions:</p>
+                        {critOpEntry.mission_actions.map((action, i) => (
+                          <div key={i} className="op-details-action">
+                            <p className="op-details-action-name">
+                              {action.name} ({action.ap_cost}AP)
+                            </p>
+                            <p className="op-details-text">{action.description}</p>
+                            {action.restrictions && (
+                              <p className="op-details-restriction">⚠️ {action.restrictions}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {critOpEntry.victory_points && critOpEntry.victory_points.length > 0 && (
+                      <div className="op-details-section">
+                        <p className="op-details-heading">VP:</p>
+                        <ul className="op-details-vp-list">
+                          {critOpEntry.victory_points.map((vp, i) => (
+                            <li key={i} className="op-details-vp-item">{vp}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             )}
             {game.tacOp && (
-              <div className="tac-op-wrapper">
-                <span className="context-badge tac-op-badge">
+              <div className="context-op-wrapper tac-op-wrapper">
+                <button
+                  type="button"
+                  className="context-badge tac-op-badge context-badge-btn"
+                  onClick={() => toggleSection('tacOpDetails')}
+                  aria-expanded={!isSectionCollapsed('tacOpDetails')}
+                  aria-label={`${isSectionCollapsed('tacOpDetails') ? 'Show' : 'Hide'} Tac Op details`}
+                >
                   <span className="context-badge-label">Tac Op</span>
                   <span className="context-badge-value">{game.tacOp}</span>
-                </span>
-                {tacOpEntry?.description && (
+                  <span className="context-badge-chevron">
+                    {isSectionCollapsed('tacOpDetails') ? '▶' : '▼'}
+                  </span>
+                </button>
+                {!isSectionCollapsed('tacOpDetails') && tacOpEntry && (
+                  <div className="op-details-panel" aria-label="Tac Op details">
+                    {tacOpEntry.description && (
+                      <p className="op-details-desc">{tacOpEntry.description}</p>
+                    )}
+                    {tacOpEntry.reveal_condition && (
+                      <div className="op-details-section">
+                        <p className="op-details-heading">Reveal:</p>
+                        <p className="op-details-text">{tacOpEntry.reveal_condition}</p>
+                      </div>
+                    )}
+                    {tacOpEntry.additional_rules && (
+                      <div className="op-details-section">
+                        <p className="op-details-heading">Setup:</p>
+                        <p className="op-details-text">
+                          {Array.isArray(tacOpEntry.additional_rules)
+                            ? tacOpEntry.additional_rules.join(' ')
+                            : tacOpEntry.additional_rules}
+                        </p>
+                      </div>
+                    )}
+                    {tacOpEntry.mission_actions && tacOpEntry.mission_actions.length > 0 && (
+                      <div className="op-details-section">
+                        <p className="op-details-heading">Actions:</p>
+                        {tacOpEntry.mission_actions.map((action, i) => (
+                          <div key={i} className="op-details-action">
+                            <p className="op-details-action-name">
+                              {action.name} ({action.ap_cost}AP)
+                            </p>
+                            <p className="op-details-text">{action.description}</p>
+                            {action.restrictions && (
+                              <p className="op-details-restriction">⚠️ {action.restrictions}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {tacOpEntry.victory_points && tacOpEntry.victory_points.length > 0 && (
+                      <div className="op-details-section">
+                        <p className="op-details-heading">VP:</p>
+                        <ul className="op-details-vp-list">
+                          {tacOpEntry.victory_points.map((vp, i) => (
+                            <li key={i} className="op-details-vp-item">{vp}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {isSectionCollapsed('tacOpDetails') && tacOpEntry?.description && (
                   <p
                     className="tac-op-reminder"
                     aria-label="Tac Op scoring reminder"
@@ -409,58 +598,78 @@ export function GamePlayView({
         </div>
       )}
 
-      {/* ── 5. Equipment in use ───────────────────────────────────────── */}
+      {/* ── 5. Equipment in use (collapsible) ────────────────────────── */}
       {selectedEquipment.length > 0 && (
         <div
           id="play-equipment"
           className="play-equipment-summary"
           aria-label="Equipment in use"
         >
-          <p className="play-equip-title">🎒 Equipment</p>
-          <ul className="play-equip-list">
-            {selectedEquipment.map((item) => {
-              const isGrenades =
-                item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID;
-              return (
-                <li key={item.id} className="play-equip-item">
-                  <div className="play-equip-title-row">
-                    <span className="play-equip-name">{item.name}</span>
-                    {isGrenades && (
-                      <>
-                        <span
-                          className={`play-equip-uses ${game.blightGrenadeUsesRemaining === 0 ? 'expended' : ''}`}
-                          aria-label={`${game.blightGrenadeUsesRemaining} of ${QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES} uses remaining`}
-                        >
-                          {game.blightGrenadeUsesRemaining}/
-                          {QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES}
-                        </span>
-                        <button
-                          type="button"
-                          className="play-equip-use-btn"
-                          onClick={() =>
-                            onChange({
-                              ...game,
-                              blightGrenadeUsesRemaining: Math.max(
-                                0,
-                                game.blightGrenadeUsesRemaining - 1
-                              ),
-                            })
-                          }
-                          disabled={game.blightGrenadeUsesRemaining === 0}
-                          aria-label="Use one Blight Grenade"
-                        >
-                          💥 Use
-                        </button>
-                      </>
+          <button
+            type="button"
+            className="play-section-toggle"
+            onClick={() => toggleSection('equipment')}
+            aria-expanded={!isSectionCollapsed('equipment')}
+            aria-controls="play-equipment-content"
+          >
+            <span className="play-equip-title">🎒 Equipment</span>
+            <span className="play-section-chevron">
+              {isSectionCollapsed('equipment') ? '▶' : '▼'}
+            </span>
+          </button>
+          {!isSectionCollapsed('equipment') && (
+            <ul id="play-equipment-content" className="play-equip-list">
+              {selectedEquipment.map((item) => {
+                const maxUses = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
+                  ? QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES
+                  : (item.quantity ?? 1);
+                const isLimited = maxUses > 1;
+                const usesRemaining = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
+                  ? (game.equipmentUsesRemaining[item.id] ?? game.blightGrenadeUsesRemaining)
+                  : (game.equipmentUsesRemaining[item.id] ?? maxUses);
+                const isExpended = isLimited && usesRemaining <= 0;
+                return (
+                  <li key={item.id} className={`play-equip-item ${isExpended ? 'expended-item' : ''}`}>
+                    <div className="play-equip-title-row">
+                      <span className="play-equip-name">{item.name}</span>
+                      {isLimited && (
+                        <>
+                          <span
+                            className={`play-equip-uses ${isExpended ? 'expended' : ''}`}
+                            aria-label={`${usesRemaining} of ${maxUses} uses remaining`}
+                          >
+                            {usesRemaining}/{maxUses}
+                          </span>
+                          {usesRemaining < maxUses && (
+                            <button
+                              type="button"
+                              className="play-equip-undo-btn"
+                              onClick={() => handleEquipUndo(item)}
+                              aria-label={`Undo last use of ${item.name}`}
+                            >
+                              ↩ Undo
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            className="play-equip-use-btn"
+                            onClick={() => handleEquipUse(item.id)}
+                            disabled={isExpended}
+                            aria-label={`Use one ${item.name}`}
+                          >
+                            💥 Use
+                          </button>
+                        </>
+                      )}
+                    </div>
+                    {item.description && (
+                      <p className="play-equip-desc">{item.description}</p>
                     )}
-                  </div>
-                  {item.description && (
-                    <p className="play-equip-desc">{item.description}</p>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       )}
 
@@ -482,6 +691,17 @@ export function GamePlayView({
                 )}
             </div>
           ))}
+        </div>
+      )}
+
+      {/* ── 6b. Strategic Advisor (collapsible, collapsed by default) ── */}
+      {game.opposition && (
+        <div
+          id="play-advisor"
+          className="play-strategic-advisor"
+          role="region"
+        >
+          <MatchupTipsPanel opponentTeamId={selectedOpponentId} />
         </div>
       )}
 

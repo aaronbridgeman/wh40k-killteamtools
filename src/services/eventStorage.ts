@@ -63,6 +63,8 @@ interface LegacyGameStateV1 {
   opponentVP?: number;
   // v7 optional fields (may be absent when migrating from v6)
   iconBearerInEnemyTerritory?: boolean;
+  // v8 optional fields (may be absent when migrating from v7)
+  equipmentUsesRemaining?: Record<string, number>;
 }
 
 /** Schema v1/v2 root state — may include learningEntries (moved to separate storage in v3) */
@@ -101,6 +103,7 @@ export function getInitialGameState(gameNumber: 1 | 2 | 3): GameEventState {
     removedOperativeId: null,
     selectedEquipmentIds: [],
     blightGrenadeUsesRemaining: QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES,
+    equipmentUsesRemaining: {},
     turningPoint: 0,
     commandPoints: QUICK_PLAY_DEFAULTS.STARTING_COMMAND_POINTS,
     turningPoints: {},
@@ -268,6 +271,7 @@ export function loadEventState(): QuickPlayEventState | null {
             removedOperativeId: game.removedOperativeId,
             selectedEquipmentIds: game.selectedEquipmentIds,
             blightGrenadeUsesRemaining: game.blightGrenadeUsesRemaining,
+            equipmentUsesRemaining: game.equipmentUsesRemaining ?? {},
             turningPoint: game.turningPoint,
             commandPoints: game.commandPoints,
             incapacitatedOperativeIds,

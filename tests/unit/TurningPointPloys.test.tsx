@@ -36,7 +36,8 @@ describe('TurningPointPloys', () => {
   });
 
   it('shows all 4 strategic ploys', () => {
-    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1 };
+    // Give enough CP so sections are not auto-collapsed
+    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1, commandPoints: 5 };
     render(
       <TurningPointPloys game={game} faction={faction} onChange={vi.fn()} {...defaultRosterProps} />
     );
@@ -48,7 +49,8 @@ describe('TurningPointPloys', () => {
   });
 
   it('shows all faction firefight ploys plus Command Reroll', () => {
-    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1 };
+    // Give enough CP so firefight section is not auto-collapsed
+    const game: GameEventState = { ...getInitialGameState(1), turningPoint: 1, commandPoints: 5 };
     render(
       <TurningPointPloys game={game} faction={faction} onChange={vi.fn()} {...defaultRosterProps} />
     );
@@ -90,6 +92,7 @@ describe('TurningPointPloys', () => {
     const game: GameEventState = {
       ...getInitialGameState(1),
       turningPoint: 1,
+      commandPoints: 5,
       turningPoints: {
         1: { selectedStrategicPloyIds: ['contagion'], firefightPloyCounts: {} },
       },
@@ -159,6 +162,7 @@ describe('TurningPointPloys', () => {
     const game: GameEventState = {
       ...getInitialGameState(1),
       turningPoint: 1,
+      commandPoints: 4, // CP > 0 so firefight section stays expanded
       turningPoints: {
         1: {
           selectedStrategicPloyIds: [],
@@ -235,6 +239,9 @@ describe('TurningPointPloys', () => {
       <TurningPointPloys game={game} faction={faction} onChange={vi.fn()} {...defaultRosterProps} />
     );
 
+    // Expand firefight section (auto-collapsed because CP = 0)
+    fireEvent.click(screen.getByLabelText(/Expand firefight ploys/i));
+
     // All Use buttons should be disabled when CP = 0
     const useButtons = screen.getAllByRole('button', {
       name: /— Cannot afford/i,
@@ -290,6 +297,9 @@ describe('TurningPointPloys', () => {
         incapacitatedOperativeIds={[]}
       />
     );
+
+    // Expand strategic section (auto-collapsed because CP = 0)
+    fireEvent.click(screen.getByLabelText(/Expand strategic ploys/i));
 
     // All strategic ploy buttons should be disabled (0 CP, all cost 1 CP)
     const ployButtons = screen.getAllByRole('button', {
@@ -379,6 +389,9 @@ describe('TurningPointPloys', () => {
       />
     );
 
+    // Expand strategic section (auto-collapsed because CP = 0 and no ploys are affordable)
+    fireEvent.click(screen.getByLabelText(/Expand strategic ploys/i));
+
     // Icon Bearer active but NOT in enemy territory → Contagion costs 1CP, button disabled (0 CP)
     const contagionButton = screen.getByLabelText(/Select strategic ploy: Contagion/i);
     expect(contagionButton).toBeDisabled();
@@ -395,6 +408,9 @@ describe('TurningPointPloys', () => {
         incapacitatedOperativeIds={[]}
       />
     );
+
+    // Expand strategic section (auto-collapsed because CP = 0)
+    fireEvent.click(screen.getByLabelText(/Expand strategic ploys/i));
 
     // Icon Bearer removed → Contagion costs 1CP, button disabled (0 CP)
     const contagionButton = screen.getByLabelText(/Select strategic ploy: Contagion/i);
@@ -413,6 +429,9 @@ describe('TurningPointPloys', () => {
         incapacitatedOperativeIds={[QUICK_PLAY_DEFAULTS.ICON_BEARER_ID]}
       />
     );
+
+    // Expand strategic section (auto-collapsed because CP = 0)
+    fireEvent.click(screen.getByLabelText(/Expand strategic ploys/i));
 
     const contagionButton = screen.getByLabelText(/Select strategic ploy: Contagion/i);
     expect(contagionButton).toBeDisabled();

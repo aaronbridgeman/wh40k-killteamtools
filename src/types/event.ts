@@ -71,6 +71,12 @@ export interface GameEventState {
    */
   blightGrenadeUsesRemaining: number;
   /**
+   * Remaining uses per equipment item for quantity-limited items (e.g. grenades).
+   * Keyed by equipment ID. Absent keys mean the item is either unlimited or
+   * not yet used. Initialized from the item's `quantity` field when selected.
+   */
+  equipmentUsesRemaining: Record<string, number>;
+  /**
    * Current turning point (1–4).
    * 0 indicates the game has not started yet (still in setup phase).
    */
