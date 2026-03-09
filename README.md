@@ -2,6 +2,13 @@
 
 A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, providing comprehensive faction rules, operative datacards, and team building tools with offline support.
 
+## 🔗 Live Application
+
+| Link | Description |
+|------|-------------|
+| [**🎮 Full App**](https://aaronbridgeman.github.io/wh40k-killteamtools/) | Complete tool — all tabs and features |
+| [**☠️ Quick Play (Standalone)**](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) | Focused Plague Marines tournament tracker — no other tabs, maximized for play |
+
 ## 🎯 Features
 
 ### Progressive Web App
@@ -267,3 +274,4 @@ MIT License - see LICENSE file for details
 
 - [GitHub Repository](https://github.com/aaronbridgeman/wh40k-killteamtools)
 - [Live Application](https://aaronbridgeman.github.io/wh40k-killteamtools/)
+- [☠️ Quick Play — Standalone View](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) *(Plague Marines tournament tracker, no navigation tabs)*

@@ -40,12 +40,15 @@ type TeamViewMode = 'faction-info' | 'team-selection';
 const CHAPTER_TACTICS_PRIMARY = 'chapter_tactics_primary';
 const CHAPTER_TACTICS_SECONDARY = 'chapter_tactics_secondary';
 
+// When launched via ?view=quick-play-event the nav is hidden to maximize
+// focus during play (standalone quick play experience)
+const standaloneQuickPlay =
+  new URLSearchParams(window.location.search).get('view') ===
+  'quick-play-event';
+
 function App() {
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
-    // Support standalone PWA launch via ?view=quick-play-event URL parameter
-    const params = new URLSearchParams(window.location.search);
-    const viewParam = params.get('view');
-    if (viewParam === 'quick-play-event') return 'quick-play-event';
+    if (standaloneQuickPlay) return 'quick-play-event';
     return 'home';
   });
   const [teamViewMode, setTeamViewMode] =
@@ -192,44 +195,46 @@ function App() {
       <header className="app-header">
         <h1>Kill Team Dataslate</h1>
         <p className="subtitle">Warhammer 40,000 Kill Team Reference Tool</p>
-        <nav className="nav-buttons">
-          <button
-            className={`nav-button ${viewMode === 'home' ? 'active' : ''}`}
-            onClick={() => setViewMode('home')}
-          >
-            Single Team
-          </button>
-          <button
-            className={`nav-button ${viewMode === 'game-mode' ? 'active' : ''}`}
-            onClick={() => setViewMode('game-mode')}
-          >
-            Game Mode
-          </button>
-          <button
-            className={`nav-button ${viewMode === 'actions' ? 'active' : ''}`}
-            onClick={() => setViewMode('actions')}
-          >
-            Actions
-          </button>
-          <button
-            className={`nav-button ${viewMode === 'general-rules' ? 'active' : ''}`}
-            onClick={() => setViewMode('general-rules')}
-          >
-            Rules
-          </button>
-          <button
-            className={`nav-button ${viewMode === 'weapon-rules' ? 'active' : ''}`}
-            onClick={() => setViewMode('weapon-rules')}
-          >
-            Weapon Rules
-          </button>
-          <button
-            className={`nav-button ${viewMode === 'quick-play-event' ? 'active' : ''}`}
-            onClick={() => setViewMode('quick-play-event')}
-          >
-            ☠️ Quick Play
-          </button>
-        </nav>
+        {!standaloneQuickPlay && (
+          <nav className="nav-buttons">
+            <button
+              className={`nav-button ${viewMode === 'home' ? 'active' : ''}`}
+              onClick={() => setViewMode('home')}
+            >
+              Single Team
+            </button>
+            <button
+              className={`nav-button ${viewMode === 'game-mode' ? 'active' : ''}`}
+              onClick={() => setViewMode('game-mode')}
+            >
+              Game Mode
+            </button>
+            <button
+              className={`nav-button ${viewMode === 'actions' ? 'active' : ''}`}
+              onClick={() => setViewMode('actions')}
+            >
+              Actions
+            </button>
+            <button
+              className={`nav-button ${viewMode === 'general-rules' ? 'active' : ''}`}
+              onClick={() => setViewMode('general-rules')}
+            >
+              Rules
+            </button>
+            <button
+              className={`nav-button ${viewMode === 'weapon-rules' ? 'active' : ''}`}
+              onClick={() => setViewMode('weapon-rules')}
+            >
+              Weapon Rules
+            </button>
+            <button
+              className={`nav-button ${viewMode === 'quick-play-event' ? 'active' : ''}`}
+              onClick={() => setViewMode('quick-play-event')}
+            >
+              ☠️ Quick Play
+            </button>
+          </nav>
+        )}
       </header>
 
       <main className="app-main">
