@@ -298,6 +298,11 @@ describe('OperativeRosterManager', () => {
       />
     );
 
+    // Champion is focused by default — click the champion pill to show all cards
+    fireEvent.click(
+      screen.getByLabelText("Hide Plague Marine Champion's card")
+    );
+
     const toggles = screen.getAllByRole('button', {
       name: /Toggle injured: /i,
     });
@@ -314,6 +319,11 @@ describe('OperativeRosterManager', () => {
         injuredOperativeIds={['pm-plague-marine-warrior']}
         onInjuredChange={vi.fn()}
       />
+    );
+
+    // Champion is focused by default — click the warrior pill to see the warrior's card
+    fireEvent.click(
+      screen.getByLabelText("Show Plague Marine Warrior's card")
     );
 
     expect(
@@ -336,6 +346,11 @@ describe('OperativeRosterManager', () => {
       />
     );
 
+    // Champion is focused by default — click the warrior pill to focus the warrior's card
+    fireEvent.click(
+      screen.getByLabelText("Show Plague Marine Warrior's card")
+    );
+
     fireEvent.click(
       screen.getByLabelText('Toggle injured: Plague Marine Warrior')
     );
@@ -356,6 +371,11 @@ describe('OperativeRosterManager', () => {
       />
     );
 
+    // Champion is focused by default — click the warrior pill to focus the warrior's card
+    fireEvent.click(
+      screen.getByLabelText("Show Plague Marine Warrior's card")
+    );
+
     fireEvent.click(
       screen.getByLabelText('Toggle injured: Plague Marine Warrior')
     );
@@ -373,9 +393,16 @@ describe('OperativeRosterManager', () => {
       />
     );
 
+    // Warrior is removed — its toggle must not appear regardless of focus
     expect(
       screen.queryByLabelText('Toggle injured: Plague Marine Warrior')
     ).not.toBeInTheDocument();
+
+    // Click champion pill to show all cards and verify count
+    fireEvent.click(
+      screen.getByLabelText("Hide Plague Marine Champion's card")
+    );
+
     // 6 active operatives → 6 injured toggles
     const toggles = screen.getAllByRole('button', {
       name: /Toggle injured: /i,

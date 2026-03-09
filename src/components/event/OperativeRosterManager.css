@@ -251,3 +251,35 @@
 .roster-summary strong {
   color: var(--nurgle-accent);
 }
+
+/* ── Mobile responsive fixes ────────────────────────────────────── */
+@media (max-width: 480px) {
+  /* Stack footer buttons vertically on narrow screens so they don't overflow */
+  .operative-slot-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-left {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .footer-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  /* Larger tap targets on mobile */
+  .incapacitated-toggle-button,
+  .injured-toggle-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.8rem;
+  }
+
+  /* Pill selector: ensure pills are large enough to tap */
+  .play-operative-pill {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.85rem;
+  }
+}

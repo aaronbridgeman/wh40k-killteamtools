@@ -192,10 +192,10 @@ function App() {
 
   return (
     <div className="app">
-      <header className="app-header">
-        <h1>Kill Team Dataslate</h1>
-        <p className="subtitle">Warhammer 40,000 Kill Team Reference Tool</p>
-        {!standaloneQuickPlay && (
+      {!standaloneQuickPlay && (
+        <header className="app-header">
+          <h1>Kill Team Dataslate</h1>
+          <p className="subtitle">Warhammer 40,000 Kill Team Reference Tool</p>
           <nav className="nav-buttons">
             <button
               className={`nav-button ${viewMode === 'home' ? 'active' : ''}`}
@@ -234,8 +234,8 @@ function App() {
               ☠️ Quick Play
             </button>
           </nav>
-        )}
-      </header>
+        </header>
+      )}
 
       <main className="app-main">
         {viewMode === 'home' && (
@@ -381,13 +381,15 @@ function App() {
         {viewMode === 'quick-play-event' && <QuickPlayEventView />}
       </main>
 
-      <footer className="app-footer">
-        <p>
-          This is an unofficial fan-made tool. Warhammer 40,000 and Kill Team
-          are registered trademarks of Games Workshop Ltd.
-        </p>
-        <p className="version-info">{getFullVersionInfo()}</p>
-      </footer>
+      {!standaloneQuickPlay && (
+        <footer className="app-footer">
+          <p>
+            This is an unofficial fan-made tool. Warhammer 40,000 and Kill Team
+            are registered trademarks of Games Workshop Ltd.
+          </p>
+          <p className="version-info">{getFullVersionInfo()}</p>
+        </footer>
+      )}
     </div>
   );
 }

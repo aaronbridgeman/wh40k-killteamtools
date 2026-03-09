@@ -538,3 +538,41 @@
   border-radius: 0 4px 4px 0;
   max-width: 300px;
 }
+
+/* ── Mobile responsive fixes ────────────────────────────────────── */
+@media (max-width: 480px) {
+  /* Stats bar: stack CP and Kill Op vertically */
+  .play-stats-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats-cp {
+    min-width: unset;
+  }
+
+  .stats-kills {
+    justify-content: center;
+  }
+
+  /* Context bar: allow badge values to wrap on narrow screens */
+  .context-badge-value {
+    white-space: normal;
+    max-width: none;
+  }
+
+  /* Score section: tighter gap */
+  .play-score-grid {
+    gap: var(--spacing-sm);
+  }
+
+  .play-score-input {
+    width: 3.5rem;
+    font-size: 1.25rem;
+  }
+
+  /* Operatives section: less padding */
+  .play-operatives-section {
+    padding: var(--spacing-sm);
+  }
+}

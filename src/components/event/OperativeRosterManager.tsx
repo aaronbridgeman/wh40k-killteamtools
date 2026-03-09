@@ -170,9 +170,10 @@ export function OperativeRosterManager({
 }: OperativeRosterManagerProps) {
   const isPlayPhase = !onRosterChange;
 
-  // Play-phase: which operative's card is focused (null = show all)
+  // Play-phase: which operative's card is focused (null = show all).
+  // Defaults to the Leader (Champion) so only one card is shown on load.
   const [focusedOperativeId, setFocusedOperativeId] = useState<string | null>(
-    null
+    () => faction.operatives.find((op) => op.type === 'Leader')?.id ?? null
   );
 
   const blightGrenadesSelected = selectedEquipmentIds.includes(

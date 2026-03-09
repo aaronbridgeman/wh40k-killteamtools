@@ -32,6 +32,7 @@ import {
   LearningEntry,
 } from '@/types/event';
 import { QUICK_PLAY_DEFAULTS } from '@/constants';
+import { usePwaInstall } from '@/hooks/usePwaInstall';
 import { GamePanel } from './GamePanel';
 import { LearningsTracker } from './LearningsTracker';
 import { LearningsLog } from './LearningsLog';
@@ -52,6 +53,9 @@ export function QuickPlayEventView() {
     useState<QuickPlayEventState>(getInitialEventState);
   const [learningEntries, setLearningEntries] = useState<LearningEntry[]>([]);
   const [eventViewMode, setEventViewMode] = useState<EventViewMode>('game');
+  const [showIosInstructions, setShowIosInstructions] = useState(false);
+
+  const { canInstall, isInstalled, isIos, install } = usePwaInstall();
 
   // ------------------------------------------------------------------
   // Load Plague Marines faction data on mount (reuses dataLoader service)
@@ -225,6 +229,51 @@ export function QuickPlayEventView() {
           Plague Marines — {QUICK_PLAY_DEFAULTS.GAME_COUNT} Games of
           Grandfather&apos;s Glory
         </p>
+
+        {/* PWA install button — only shown when relevant */}
+        {!isInstalled && canInstall && (
+          <button
+            type="button"
+            className="event-install-button"
+            onClick={install}
+            aria-label="Install Quick Play as an app on your device"
+          >
+            📲 Add to Home Screen
+          </button>
+        )}
+        {!isInstalled && isIos && !canInstall && (
+          <div className="event-ios-install">
+            <button
+              type="button"
+              className="event-install-button event-install-button--ios"
+              onClick={() => setShowIosInstructions((v) => !v)}
+              aria-expanded={showIosInstructions}
+              aria-controls="ios-install-instructions"
+            >
+              📲 Add to Home Screen
+            </button>
+            {showIosInstructions && (
+              <div
+                id="ios-install-instructions"
+                className="event-ios-instructions"
+                role="tooltip"
+              >
+                <p>To install on iOS:</p>
+                <ol>
+                  <li>
+                    Tap the <strong>Share</strong> button (□↑) in Safari
+                  </li>
+                  <li>
+                    Select <strong>Add to Home Screen</strong>
+                  </li>
+                  <li>
+                    Tap <strong>Add</strong>
+                  </li>
+                </ol>
+              </div>
+            )}
+          </div>
+        )}
       </header>
 
       {loadingFaction && (

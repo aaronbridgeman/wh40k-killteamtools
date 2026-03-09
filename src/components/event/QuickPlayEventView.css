@@ -54,6 +54,71 @@
   color: var(--nurgle-text-muted);
 }
 
+/* ------------------------------------------------------------------ */
+/* PWA install button                                                  */
+/* ------------------------------------------------------------------ */
+.event-install-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  color: var(--nurgle-accent);
+  border: 1px solid var(--nurgle-primary);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.event-install-button:hover {
+  background-color: rgba(74, 124, 63, 0.2);
+  border-color: var(--nurgle-accent);
+}
+
+.event-install-button--ios {
+  border-style: dashed;
+}
+
+.event-ios-install {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-ios-instructions {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--nurgle-surface-raised);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: var(--nurgle-text);
+  text-align: left;
+  max-width: 260px;
+}
+
+.event-ios-instructions p {
+  margin: 0 0 var(--spacing-xs);
+  font-weight: 600;
+  color: var(--nurgle-text-muted);
+}
+
+.event-ios-instructions ol {
+  margin: 0;
+  padding-left: var(--spacing-lg);
+  line-height: 1.7;
+}
+
+.event-ios-instructions strong {
+  color: var(--nurgle-accent);
+}
+
 .event-name-badge {
   display: inline-block;
   margin-top: var(--spacing-sm);
@@ -264,4 +329,25 @@
 .game-tab-result {
   margin-left: 4px;
   font-size: 0.85rem;
+}
+
+/* ── Mobile responsive fixes ────────────────────────────────────── */
+@media (max-width: 380px) {
+  .event-title {
+    font-size: 1.4rem;
+  }
+
+  /* Compact game tabs on very narrow screens */
+  .game-tab {
+    font-size: 0.8rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  /* Tournament standings: tighter on small screens */
+  .tournament-standings {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
 }
