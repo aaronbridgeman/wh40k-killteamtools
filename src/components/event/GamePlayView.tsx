@@ -137,7 +137,8 @@ export function GamePlayView({
 
   return (
     <div className="game-play-view">
-      {/* ── 1. Context bar: objectives ────────────────────────────────── */}
+      {/* ── 1. Context bar: objectives (only shown when at least one is set) ── */}
+      {(game.critOp || game.tacOp || game.opposition) && (
       <div className="play-context-bar" role="region" aria-label="Game context">
         <div className="context-objectives">
           {game.critOp && (
@@ -170,6 +171,7 @@ export function GamePlayView({
           )}
         </div>
       </div>
+      )}
 
       {/* ── 2. Combined stats: CP + Kill counter + Kill Op score ─────── */}
       <div
