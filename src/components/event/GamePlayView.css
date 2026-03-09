@@ -413,3 +413,108 @@
   font-size: 0.7rem;
   color: var(--nurgle-text-muted);
 }
+
+/* ── Final score section ─────────────────────────────────────────── */
+.play-score-section {
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 12px;
+  padding: var(--spacing-lg);
+}
+
+.play-score-title {
+  margin: 0 0 var(--spacing-md);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--nurgle-border);
+  padding-bottom: var(--spacing-sm);
+}
+
+.play-score-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+
+.play-score-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.play-score-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--nurgle-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.play-score-counter {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.play-score-btn {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--nurgle-surface-raised);
+  color: var(--nurgle-text);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.play-score-btn:hover:not(:disabled) {
+  background-color: var(--nurgle-primary);
+  border-color: var(--nurgle-accent);
+}
+
+.play-score-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.play-score-input {
+  width: 4rem;
+  text-align: center;
+  background-color: var(--nurgle-surface-raised);
+  color: var(--nurgle-text);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 6px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: inherit;
+  padding: var(--spacing-xs) 0;
+  -moz-appearance: textfield;
+}
+
+.play-score-input::-webkit-outer-spin-button,
+.play-score-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.play-score-result {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--nurgle-accent);
+  min-width: 5rem;
+  text-align: center;
+  padding: var(--spacing-sm);
+}

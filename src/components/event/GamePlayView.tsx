@@ -10,6 +10,7 @@
  *  5. Equipment in use (compact, with grenade counter)
  *  6. Active strategic ploy banner (moved here, below equipment)
  *  7. Operative datacards (pill selector → single card view)
+ *  8. Final score — player VP / opponent VP counters + W/L/D result
  *
  * A "← Back to Setup" link lets the player edit setup details if needed.
  *
@@ -25,10 +26,11 @@
 import { useCallback } from 'react';
 import { Faction, Equipment, Ploy } from '@/types';
 import { GameEventState } from '@/types/event';
+import { QUICK_PLAY_DEFAULTS } from '@/constants';
 import {
-  QUICK_PLAY_DEFAULTS,
-} from '@/constants';
-import { getTurningPointState, getInitialTurningPointState } from '@/services/eventStorage';
+  getTurningPointState,
+  getInitialTurningPointState,
+} from '@/services/eventStorage';
 import { TurningPointPloys } from './TurningPointPloys';
 import { OperativeRosterManager } from './OperativeRosterManager';
 import { CPTracker } from './CPTracker';
@@ -116,7 +118,9 @@ export function GamePlayView({
   const currentTpState = isStarted
     ? getTurningPointState(game, game.turningPoint)
     : getInitialTurningPointState();
-  const strategicPloys: Ploy[] = (faction.ploys ?? []).filter((p) => p.type === 'strategy');
+  const strategicPloys: Ploy[] = (faction.ploys ?? []).filter(
+    (p) => p.type === 'strategy'
+  );
   const activePloys: Ploy[] = isStarted
     ? currentTpState.selectedStrategicPloyIds
         .map((id) => strategicPloys.find((p) => p.id === id))
@@ -152,14 +156,24 @@ export function GamePlayView({
       </div>
 
       {/* ── 2. Combined stats: CP + Kill counter + Kill Op score ─────── */}
-      <div className="play-stats-bar" role="region" aria-label="Game statistics">
+      <div
+        className="play-stats-bar"
+        role="region"
+        aria-label="Game statistics"
+      >
         {/* Command Points */}
         <div className="stats-item stats-cp">
-          <CPTracker commandPoints={game.commandPoints} onChange={handleCpChange} />
+          <CPTracker
+            commandPoints={game.commandPoints}
+            onChange={handleCpChange}
+          />
         </div>
 
         {/* Kill counter + Kill Op score */}
-        <div className="stats-item stats-kills" aria-label="Kill Operation tracker">
+        <div
+          className="stats-item stats-kills"
+          aria-label="Kill Operation tracker"
+        >
           <span className="stats-label">💀 Kill Op</span>
           <div className="stats-counter">
             <button
@@ -185,7 +199,10 @@ export function GamePlayView({
               type="button"
               className="stats-btn"
               onClick={() => handleKillOpChange(1)}
-              disabled={game.opponentCount > 0 && game.killOpKillCount >= game.opponentCount}
+              disabled={
+                game.opponentCount > 0 &&
+                game.killOpKillCount >= game.opponentCount
+              }
               aria-label="Increase kill count"
             >
               +
@@ -211,7 +228,11 @@ export function GamePlayView({
 
       {/* ── 4. Faction rules ──────────────────────────────────────────── */}
       {faction.rules.length > 0 && (
-        <div className="play-faction-rules" role="region" aria-label="Faction rules">
+        <div
+          className="play-faction-rules"
+          role="region"
+          aria-label="Faction rules"
+        >
           <p className="play-faction-rules-title">⚜️ Faction Rules</p>
           <div className="play-faction-rules-list">
             {faction.rules.map((rule) => (
@@ -295,6 +316,123 @@ export function GamePlayView({
           incapacitatedOperativeIds={game.incapacitatedOperativeIds}
           onIncapacitatedChange={handleIncapacitatedChange}
         />
+      </section>
+
+      {/* ── 8. Final score ───────────────────────────────────────────── */}
+      <section
+        className="play-score-section"
+        aria-labelledby="play-score-title"
+      >
+        <h3 className="play-score-title" id="play-score-title">
+          🏆 Final Score
+        </h3>
+        <div className="play-score-grid">
+          <div className="play-score-field">
+            <label
+              className="play-score-label"
+              htmlFor={`player-vp-${game.gameNumber}`}
+            >
+              Your VP
+            </label>
+            <div className="play-score-counter">
+              <button
+                type="button"
+                className="play-score-btn"
+                onClick={() =>
+                  onChange({
+                    ...game,
+                    playerVP: Math.max(0, game.playerVP - 1),
+                  })
+                }
+                disabled={game.playerVP <= 0}
+                aria-label="Decrease your victory points"
+              >
+                −
+              </button>
+              <input
+                id={`player-vp-${game.gameNumber}`}
+                className="play-score-input"
+                type="number"
+                min={0}
+                value={game.playerVP}
+                onChange={(e) =>
+                  onChange({
+                    ...game,
+                    playerVP: Math.max(0, parseInt(e.target.value, 10) || 0),
+                  })
+                }
+                aria-label="Your victory points"
+              />
+              <button
+                type="button"
+                className="play-score-btn"
+                onClick={() =>
+                  onChange({ ...game, playerVP: game.playerVP + 1 })
+                }
+                aria-label="Increase your victory points"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <div className="play-score-result" aria-live="polite">
+            {game.playerVP > game.opponentVP
+              ? '🏆 Win'
+              : game.playerVP < game.opponentVP
+                ? '💀 Loss'
+                : '🤝 Draw'}
+          </div>
+
+          <div className="play-score-field">
+            <label
+              className="play-score-label"
+              htmlFor={`opponent-vp-${game.gameNumber}`}
+            >
+              Opp VP
+            </label>
+            <div className="play-score-counter">
+              <button
+                type="button"
+                className="play-score-btn"
+                onClick={() =>
+                  onChange({
+                    ...game,
+                    opponentVP: Math.max(0, game.opponentVP - 1),
+                  })
+                }
+                disabled={game.opponentVP <= 0}
+                aria-label="Decrease opponent victory points"
+              >
+                −
+              </button>
+              <input
+                id={`opponent-vp-${game.gameNumber}`}
+                className="play-score-input"
+                type="number"
+                min={0}
+                value={game.opponentVP}
+                onChange={(e) =>
+                  onChange({
+                    ...game,
+                    opponentVP: Math.max(0, parseInt(e.target.value, 10) || 0),
+                  })
+                }
+                aria-label="Opponent victory points"
+              />
+              <button
+                type="button"
+                className="play-score-btn"
+                onClick={() =>
+                  onChange({ ...game, opponentVP: game.opponentVP + 1 })
+                }
+                aria-label="Increase opponent victory points"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── Back to setup link ───────────────────────────────────────── */}

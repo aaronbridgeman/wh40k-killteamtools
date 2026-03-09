@@ -54,8 +54,8 @@ export const QUICK_PLAY_DEFAULTS = {
   STARTING_COMMAND_POINTS: 0,
   /** Maximum Blight Grenade uses per game */
   MAX_BLIGHT_GRENADE_USES: 2,
-  /** Current schema version for QuickPlayEventState (v5 adds opponentCount; v4 adds selectedStrategicPloyIds array replacing selectedStrategicPloyId; v3 adds gamePhase, opposition, critOp, tacOp, killOpKillCount; moves learningEntries to separate storage) */
-  SCHEMA_VERSION: 5,
+  /** Current schema version for QuickPlayEventState (v6 adds playerVP, opponentVP; v5 adds opponentCount; v4 adds selectedStrategicPloyIds array replacing selectedStrategicPloyId; v3 adds gamePhase, opposition, critOp, tacOp, killOpKillCount; moves learningEntries to separate storage) */
+  SCHEMA_VERSION: 6,
   /** Faction ID for the quick play event */
   FACTION_ID: 'plague-marines',
   /** ID of the Blight Grenades equipment item */

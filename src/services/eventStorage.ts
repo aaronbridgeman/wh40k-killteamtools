@@ -35,7 +35,7 @@ const LEARNINGS_STORAGE_KEY = STORAGE_KEYS.LEARNINGS_LOG;
 /** Schema v1/v2/v3 turning point — used single `selectedStrategicPloyId` or v4 `selectedStrategicPloyIds` */
 interface LegacyTurningPointStateV1 {
   selectedStrategicPloyId?: string | null; // v1/v2/v3 single ploy (legacy)
-  selectedStrategicPloyIds?: string[];     // v4+ multiple ploys
+  selectedStrategicPloyIds?: string[]; // v4+ multiple ploys
   usedFirefightPloyIds?: string[];
   firefightPloyCounts?: Record<string, number>;
 }
@@ -58,6 +58,9 @@ interface LegacyGameStateV1 {
   tacOp?: string;
   killOpKillCount?: number;
   opponentCount?: number;
+  // v6 optional fields (may be absent when migrating from v5)
+  playerVP?: number;
+  opponentVP?: number;
 }
 
 /** Schema v1/v2 root state — may include learningEntries (moved to separate storage in v3) */
@@ -106,6 +109,8 @@ export function getInitialGameState(gameNumber: 1 | 2 | 3): GameEventState {
     tacOp: '',
     killOpKillCount: 0,
     opponentCount: 0,
+    playerVP: 0,
+    opponentVP: 0,
   };
 }
 
@@ -169,6 +174,7 @@ export function saveEventState(state: QuickPlayEventState): void {
  *            migrate `learningEntries` from event state to separate learnings storage.
  *  v3 → v4: replace `selectedStrategicPloyId` with `selectedStrategicPloyIds` array.
  *  v4 → v5: add `opponentCount` per game.
+ *  v5 → v6: add `playerVP`, `opponentVP` per game.
  *
  * @returns The persisted event state, or null if unavailable
  */
@@ -237,7 +243,7 @@ export function loadEventState(): QuickPlayEventState | null {
                   tpVal.selectedStrategicPloyIds
                 )
                   ? tpVal.selectedStrategicPloyIds // already v4 format
-                  : tpVal.selectedStrategicPloyId  // migrate from v1/v2/v3
+                  : tpVal.selectedStrategicPloyId // migrate from v1/v2/v3
                     ? [tpVal.selectedStrategicPloyId]
                     : [],
                 firefightPloyCounts: tpCounts,
@@ -268,6 +274,8 @@ export function loadEventState(): QuickPlayEventState | null {
             tacOp: game.tacOp ?? '',
             killOpKillCount: game.killOpKillCount ?? 0,
             opponentCount: game.opponentCount ?? 0,
+            playerVP: game.playerVP ?? 0,
+            opponentVP: game.opponentVP ?? 0,
           };
         }
       );

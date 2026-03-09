@@ -108,7 +108,9 @@ function buildGrenadierWeapon(faction: Faction): Weapon {
  * with the Hit stat improved by 1 (4+ → 3+) per the Grenadier ability.
  * Uses do not count toward any use limit.
  */
-function buildKrakGrenadierWeapon(universalWeaponProfile: WeaponProfileData | undefined): Weapon {
+function buildKrakGrenadierWeapon(
+  universalWeaponProfile: WeaponProfileData | undefined
+): Weapon {
   return {
     id: QUICK_PLAY_DEFAULTS.KRAK_GRENADIER_WEAPON_ID,
     name: 'Krak Grenades (Grenadier)',
@@ -118,7 +120,10 @@ function buildKrakGrenadierWeapon(universalWeaponProfile: WeaponProfileData | un
     profiles: [
       {
         attacks: universalWeaponProfile?.attacks ?? 4,
-        ballisticSkill: Math.max(1, (universalWeaponProfile?.ballisticSkill ?? 4) - 1),
+        ballisticSkill: Math.max(
+          1,
+          (universalWeaponProfile?.ballisticSkill ?? 4) - 1
+        ),
         damage: universalWeaponProfile?.damage ?? 4,
         criticalDamage: universalWeaponProfile?.criticalDamage ?? 5,
         specialRules: [
@@ -157,7 +162,9 @@ export function OperativeRosterManager({
   const isPlayPhase = !onRosterChange;
 
   // Play-phase: which operative's card is focused (null = show all)
-  const [focusedOperativeId, setFocusedOperativeId] = useState<string | null>(null);
+  const [focusedOperativeId, setFocusedOperativeId] = useState<string | null>(
+    null
+  );
 
   const blightGrenadesSelected = selectedEquipmentIds.includes(
     QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
@@ -176,7 +183,12 @@ export function OperativeRosterManager({
     if (!krakGrenadesSelected) return null;
     // Krak profile comes from universal equipment data (passed via faction or universal list)
     // We use the defaults from the universal.json krak-grenades entry
-    const profile: WeaponProfileData = { attacks: 4, ballisticSkill: 4, damage: 4, criticalDamage: 5 };
+    const profile: WeaponProfileData = {
+      attacks: 4,
+      ballisticSkill: 4,
+      damage: 4,
+      criticalDamage: 5,
+    };
     return buildKrakGrenadierWeapon(profile);
   }, [krakGrenadesSelected]);
 
@@ -190,14 +202,17 @@ export function OperativeRosterManager({
   const bombardierWeaponIds = useMemo(() => {
     if (!blightGrenadesSelected && !krakGrenadesSelected) return undefined;
     const extras: string[] = [];
-    if (blightGrenadesSelected) extras.push(QUICK_PLAY_DEFAULTS.GRENADIER_WEAPON_ID);
-    if (krakGrenadesSelected) extras.push(QUICK_PLAY_DEFAULTS.KRAK_GRENADIER_WEAPON_ID);
+    if (blightGrenadesSelected)
+      extras.push(QUICK_PLAY_DEFAULTS.GRENADIER_WEAPON_ID);
+    if (krakGrenadesSelected)
+      extras.push(QUICK_PLAY_DEFAULTS.KRAK_GRENADIER_WEAPON_ID);
     const bombardier = faction.operatives.find(
       (op) => op.id === QUICK_PLAY_DEFAULTS.BOMBARDIER_ID
     );
     if (!bombardier) return extras;
     const loadoutNames: string[] =
-      (bombardier as Operative & { fixed_loadout?: string[] }).fixed_loadout ?? [];
+      (bombardier as Operative & { fixed_loadout?: string[] }).fixed_loadout ??
+      [];
     const baseIds = faction.weapons
       .filter((w) => loadoutNames.includes(w.name))
       .map((w) => w.id);
@@ -224,36 +239,46 @@ export function OperativeRosterManager({
   };
 
   const handleFocusPill = (operativeId: string) => {
-    setFocusedOperativeId((prev) => (prev === operativeId ? null : operativeId));
+    setFocusedOperativeId((prev) =>
+      prev === operativeId ? null : operativeId
+    );
   };
 
   const activeCount = faction.operatives.length - (removedOperativeId ? 1 : 0);
 
   // Operatives to render cards for (all, or just the focused one in play phase)
-  const visibleOperatives = isPlayPhase && focusedOperativeId
-    ? faction.operatives.filter((op) => op.id === focusedOperativeId)
-    : faction.operatives;
+  const visibleOperatives =
+    isPlayPhase && focusedOperativeId
+      ? faction.operatives.filter((op) => op.id === focusedOperativeId)
+      : faction.operatives;
 
   return (
     <div className="roster-manager">
       {/* Setup-phase intro */}
       {!isPlayPhase && (
         <p className="roster-intro">
-          Select one non-leader operative to remove from this game. The remaining{' '}
-          <strong>{activeCount}</strong> operatives will field this game.
+          Select one non-leader operative to remove from this game. The
+          remaining <strong>{activeCount}</strong> operatives will field this
+          game.
         </p>
       )}
 
       {/* Play-phase: operative pill selector */}
       {isPlayPhase && (
-        <div className="play-operative-pills" role="group" aria-label="Select operative to view">
+        <div
+          className="play-operative-pills"
+          role="group"
+          aria-label="Select operative to view"
+        >
           <p className="play-pills-hint">
             Tap an operative to view their card:
           </p>
           <div className="operative-pills-row">
             {faction.operatives.map((operative) => {
               const isRemoved = operative.id === removedOperativeId;
-              const isIncapacitated = incapacitatedOperativeIds.includes(operative.id);
+              const isIncapacitated = incapacitatedOperativeIds.includes(
+                operative.id
+              );
               const isFocused = focusedOperativeId === operative.id;
 
               let pillClass = 'play-operative-pill';
@@ -280,12 +305,22 @@ export function OperativeRosterManager({
                   }
                 >
                   {isFocused && (
-                    <span className="pill-cross" aria-hidden="true">✕ </span>
+                    <span className="pill-cross" aria-hidden="true">
+                      ✕{' '}
+                    </span>
                   )}
                   {operative.name}
-                  {isRemoved && <span className="pill-removed" aria-hidden="true"> ✕</span>}
+                  {isRemoved && (
+                    <span className="pill-removed" aria-hidden="true">
+                      {' '}
+                      ✕
+                    </span>
+                  )}
                   {isIncapacitated && !isRemoved && (
-                    <span className="pill-incap" aria-hidden="true"> 💀</span>
+                    <span className="pill-incap" aria-hidden="true">
+                      {' '}
+                      💀
+                    </span>
                   )}
                 </button>
               );
@@ -295,7 +330,10 @@ export function OperativeRosterManager({
             <p className="play-pills-selected-note">
               Showing:{' '}
               <strong>
-                {faction.operatives.find((o) => o.id === focusedOperativeId)?.name}
+                {
+                  faction.operatives.find((o) => o.id === focusedOperativeId)
+                    ?.name
+                }
               </strong>{' '}
               — tap again to show all.
             </p>
@@ -306,14 +344,21 @@ export function OperativeRosterManager({
       {visibleOperatives.map((operative) => {
         const isLeader = operative.type === 'Leader';
         const isRemoved = operative.id === removedOperativeId;
-        const isIncapacitated = incapacitatedOperativeIds.includes(operative.id);
+        const isIncapacitated = incapacitatedOperativeIds.includes(
+          operative.id
+        );
         const isBombardier = operative.id === QUICK_PLAY_DEFAULTS.BOMBARDIER_ID;
         const anotherRemoved =
           !isRemoved && removedOperativeId !== null && !isLeader;
 
-        const hasGrenadeAugment = isBombardier && (blightGrenadesSelected || krakGrenadesSelected);
-        const weaponsForCard = hasGrenadeAugment ? augmentedWeapons : faction.weapons;
-        const selectedWeaponIdsForCard = hasGrenadeAugment ? bombardierWeaponIds : undefined;
+        const hasGrenadeAugment =
+          isBombardier && (blightGrenadesSelected || krakGrenadesSelected);
+        const weaponsForCard = hasGrenadeAugment
+          ? augmentedWeapons
+          : faction.weapons;
+        const selectedWeaponIdsForCard = hasGrenadeAugment
+          ? bombardierWeaponIds
+          : undefined;
 
         return (
           <div

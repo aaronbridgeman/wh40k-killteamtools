@@ -166,3 +166,80 @@
   color: var(--nurgle-danger);
   border-color: var(--nurgle-danger);
 }
+
+/* ------------------------------------------------------------------ */
+/* Tournament standings bar                                            */
+/* ------------------------------------------------------------------ */
+.tournament-standings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--nurgle-surface);
+  border: 1px solid var(--nurgle-border);
+  border-radius: 10px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: var(--spacing-sm) var(--spacing-md) 0;
+}
+
+.standings-record {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.standings-item {
+  min-width: 2rem;
+  text-align: center;
+}
+
+.standings-win {
+  color: var(--nurgle-accent);
+}
+
+.standings-loss {
+  color: var(--nurgle-danger);
+}
+
+.standings-draw {
+  color: var(--nurgle-gold);
+}
+
+.standings-sep {
+  color: var(--nurgle-text-muted);
+  font-weight: 400;
+}
+
+.standings-vp {
+  font-size: 0.9rem;
+  color: var(--nurgle-text-muted);
+}
+
+.standings-vp-you {
+  font-weight: 700;
+  color: var(--nurgle-text);
+}
+
+.standings-vp-opp {
+  font-weight: 700;
+  color: var(--nurgle-text);
+}
+
+.standings-vp-sep {
+  color: var(--nurgle-text-muted);
+}
+
+.standings-vp-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Game tab result badge                                               */
+/* ------------------------------------------------------------------ */
+.game-tab-result {
+  margin-left: 4px;
+  font-size: 0.85rem;
+}

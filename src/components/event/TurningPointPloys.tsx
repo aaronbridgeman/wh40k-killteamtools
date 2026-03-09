@@ -205,9 +205,7 @@ export function TurningPointPloys({
       const cpDelta = isCurrentlySelected ? effectiveCost : -effectiveCost;
 
       const updatedIds = isCurrentlySelected
-        ? currentTpState.selectedStrategicPloyIds.filter(
-            (id) => id !== ploy.id
-          )
+        ? currentTpState.selectedStrategicPloyIds.filter((id) => id !== ploy.id)
         : [...currentTpState.selectedStrategicPloyIds, ploy.id];
 
       const updatedWithTp = updateTurningPointState(game, game.turningPoint, {
@@ -219,13 +217,7 @@ export function TurningPointPloys({
         commandPoints: clampCp(game.commandPoints + cpDelta),
       });
     },
-    [
-      game,
-      onChange,
-      isStarted,
-      currentTpState,
-      iconBearerActive,
-    ]
+    [game, onChange, isStarted, currentTpState, iconBearerActive]
   );
 
   /**
