@@ -94,6 +94,12 @@
   gap: var(--spacing-xs) var(--spacing-sm);
 }
 
+@media (max-width: 480px) {
+  .learnings-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
 .meta-field {
   display: flex;
   flex-direction: column;

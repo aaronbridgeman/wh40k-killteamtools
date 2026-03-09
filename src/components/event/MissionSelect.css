@@ -17,18 +17,30 @@
 .mission-select-dropdown {
   width: 100%;
   padding: 0.5rem var(--spacing-sm);
+  padding-right: calc(var(--spacing-md) + 1rem);
   background-color: var(--nurgle-surface-raised);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aad7a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-sm) center;
   color: var(--nurgle-text);
   border: 1px solid var(--nurgle-border);
   border-radius: 4px;
   font-size: 0.9rem;
+  font-family: inherit;
   cursor: pointer;
-  appearance: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
 }
 
 .mission-select-dropdown:focus {
   outline: 2px solid var(--nurgle-accent);
   outline-offset: 1px;
+}
+
+.mission-select-dropdown option {
+  background-color: var(--nurgle-surface-raised);
+  color: var(--nurgle-text);
 }
 
 .mission-select-custom-input {
