@@ -158,6 +158,33 @@
   color: var(--nurgle-danger);
 }
 
+/* Injured toggle button — same base style, amber colouring when active */
+.injured-toggle-button {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid var(--nurgle-border);
+  color: var(--nurgle-text-muted);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.injured-toggle-button:hover {
+  border-color: #c4a35a;
+  color: #c4a35a;
+}
+
+.injured-toggle-button.active {
+  background-color: rgba(196, 163, 90, 0.2);
+  border-color: #c4a35a;
+  color: #c4a35a;
+}
+
 /* Remove / Restore toggle button */
 .roster-toggle-button {
   padding: var(--spacing-xs) var(--spacing-md);
