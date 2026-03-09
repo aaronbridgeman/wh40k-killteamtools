@@ -22,10 +22,12 @@ describe('loadOpponentKillTeams', () => {
       expect(team.id).toBeTruthy();
       expect(team.name).toBeTruthy();
       expect(team.faction).toBeTruthy();
-      expect(typeof team.model_count).toBe('number');
-      expect(team.model_count).toBeGreaterThan(0);
+      expect(team.model_count === null || typeof team.model_count === 'number').toBe(true);
+      if (team.model_count !== null) {
+        expect(team.model_count).toBeGreaterThan(0);
+      }
       expect(team.archetype).toBeTruthy();
-      expect(['S', 'A', 'B', 'C']).toContain(team.tier);
+      expect(team.tier === null || ['S', 'A', 'B', 'C'].includes(team.tier)).toBe(true);
       expect(team.tips_category).toBeTruthy();
       expect(Array.isArray(team.specific_tips)).toBe(true);
     });
@@ -47,6 +49,37 @@ describe('loadOpponentKillTeams', () => {
     expect(canoptek?.tier).toBe('S');
     expect(canoptek?.tips_category).toBe('elite_shooting_teams');
     expect(canoptek?.model_count).toBe(6);
+  });
+
+  it('should contain the newly added teams with correct structure', async () => {
+    const teams = await loadOpponentKillTeams();
+
+    const legionary = teams.find((t) => t.id === 'legionary');
+    expect(legionary).toBeDefined();
+    expect(legionary?.tier).toBe('A');
+    expect(legionary?.tips_category).toBe('elite_marines_and_chaos');
+    expect(legionary?.model_count).toBeNull();
+
+    const goremongers = teams.find((t) => t.id === 'goremongers');
+    expect(goremongers).toBeDefined();
+    expect(goremongers?.tier).toBeNull();
+    expect(goremongers?.tips_category).toBe('melee_heavy_teams');
+
+    const blooded = teams.find((t) => t.id === 'blooded');
+    expect(blooded).toBeDefined();
+    expect(blooded?.tips_category).toBe('horde_teams');
+
+    const warpcoven = teams.find((t) => t.id === 'warpcoven');
+    expect(warpcoven).toBeDefined();
+    expect(warpcoven?.tips_category).toBe('elite_shooting_teams');
+
+    const hunterClade = teams.find((t) => t.id === 'hunter-clade');
+    expect(hunterClade).toBeDefined();
+    expect(hunterClade?.tips_category).toBe('shooty_teams_with_good_range');
+
+    const broodBrothers = teams.find((t) => t.id === 'brood-brothers');
+    expect(broodBrothers).toBeDefined();
+    expect(broodBrothers?.tips_category).toBe('horde_teams');
   });
 
   it('should have valid tips_category values', async () => {

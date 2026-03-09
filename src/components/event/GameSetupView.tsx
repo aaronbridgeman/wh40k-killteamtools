@@ -112,7 +112,7 @@ export function GameSetupView({
                 onChange({
                   ...game,
                   opposition: e.target.value,
-                  opponentCount: selectedTeam ? selectedTeam.model_count : 0,
+                  opponentCount: selectedTeam ? (selectedTeam.model_count ?? 0) : 0,
                 });
               }}
               aria-label="Opposition kill team"

@@ -24,12 +24,12 @@ export interface OpponentKillTeam {
   name: string;
   /** Faction the kill team belongs to */
   faction: string;
-  /** Standard operative count for this kill team */
-  model_count: number;
+  /** Standard operative count for this kill team, or null if variable/unknown */
+  model_count: number | null;
   /** Playstyle archetype */
   archetype: string;
-  /** Competitive tier rating */
-  tier: KillTeamTier;
+  /** Competitive tier rating, or null if unrated */
+  tier: KillTeamTier | null;
   /** Tips category used to look up matchup advice */
   tips_category: TipsCategory;
   /** Opponent-specific tips for Plague Marines players */
