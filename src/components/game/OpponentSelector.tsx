@@ -41,16 +41,19 @@ export function OpponentSelector({
         <option value="">— Select opponent (optional) —</option>
         {opponents.map((team) => (
           <option key={team.id} value={team.id}>
-            {team.name} ({team.faction}) — {team.model_count} models — Tier{' '}
-            {team.tier}
+            {team.name} ({team.faction}) —{' '}
+            {team.model_count !== null ? `${team.model_count} models` : 'variable size'} — Tier{' '}
+            {team.tier ?? '?'}
           </option>
         ))}
       </select>
       {selected && (
         <p className={styles.hint}>
-          {selected.model_count} operative
-          {selected.model_count !== 1 ? 's' : ''} ·{' '}
-          {selected.archetype.replace(/_/g, ' ')} · Tier {selected.tier}
+          {selected.model_count !== null
+            ? `${selected.model_count} operative${selected.model_count !== 1 ? 's' : ''}`
+            : 'variable size'}{' '}
+          · {selected.archetype.replace(/_/g, ' ')} · Tier{' '}
+          {selected.tier ?? '?'}
         </p>
       )}
     </div>

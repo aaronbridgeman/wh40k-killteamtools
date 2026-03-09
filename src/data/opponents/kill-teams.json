@@ -1,5 +1,89 @@
 [
   {
+    "id": "legionary",
+    "name": "Legionary",
+    "faction": "Chaos Space Marines",
+    "model_count": null,
+    "archetype": "elite_marines_and_chaos",
+    "tier": "A",
+    "tips_category": "elite_marines_and_chaos",
+    "specific_tips": [
+      "Trade up with melee ploys to remove expensive enemy elites in one activation.",
+      "Focus fire on one threat at a time to fully remove key guns or leaders.",
+      "Exploit attrition and resilience by accepting chip damage but prioritizing trades."
+    ]
+  },
+  {
+    "id": "goremongers",
+    "name": "Goremongers",
+    "faction": "World Eaters",
+    "model_count": null,
+    "archetype": "melee_heavy",
+    "tier": null,
+    "tips_category": "melee_heavy_teams",
+    "specific_tips": [
+      "Make them charge through your threat zone so you have follow-up counter-charges.",
+      "Layer screens and counter-chargers to blunt the first wave.",
+      "Exploit retaliatory and Ceaseless-style bonuses on counter-attacks."
+    ]
+  },
+  {
+    "id": "blooded",
+    "name": "Blooded",
+    "faction": "Chaos",
+    "model_count": null,
+    "archetype": "horde_shoot_melee",
+    "tier": null,
+    "tips_category": "horde_teams",
+    "specific_tips": [
+      "Advance aggressively into the mid-board to force fights around central objectives.",
+      "Use blast and grenades to punish models bunching behind cover.",
+      "Pick off mission-action specialists and leaders early."
+    ]
+  },
+  {
+    "id": "warpcoven",
+    "name": "Warpcoven",
+    "faction": "Thousand Sons",
+    "model_count": null,
+    "archetype": "elite_psyker_shoot",
+    "tier": null,
+    "tips_category": "elite_shooting_teams",
+    "specific_tips": [
+      "Use terrain and obscuring ploys to cross the board while minimising incoming fire.",
+      "Target their sorcerers and key gunners on vantage points first.",
+      "Capitalise on any failed focus fire by punishing exposed attackers."
+    ]
+  },
+  {
+    "id": "hunter-clade",
+    "name": "Hunter Clade",
+    "faction": "Adeptus Mechanicus",
+    "model_count": null,
+    "archetype": "shooty_teams_with_good_range",
+    "tier": null,
+    "tips_category": "shooty_teams_with_good_range",
+    "specific_tips": [
+      "Use terrain and obscuring ploys to cross firing lanes safely.",
+      "Bait overextension with a durable operative on an objective, then punish.",
+      "Target special weapons and vantage holders first."
+    ]
+  },
+  {
+    "id": "brood-brothers",
+    "name": "Brood Brothers",
+    "faction": "Genestealer Cult",
+    "model_count": null,
+    "archetype": "horde_shooty",
+    "tier": null,
+    "tips_category": "horde_teams",
+    "specific_tips": [
+      "Advance aggressively into the mid-board to contest objectives.",
+      "Prioritise multi-target attacks on packed shooting blobs.",
+      "Remove key support characters and special weapons early."
+    ]
+  },
+  {
     "id": "fellgor-ravagers",
     "name": "Fellgor Ravagers",
     "faction": "Chaos",

@@ -58,7 +58,10 @@ export function MatchupTipsPanel({ opponentTeamId }: MatchupTipsPanelProps) {
               <h4 className={styles.sectionTitle}>
                 vs {opponent.name}
                 <span className={styles.badge}>
-                  Tier {opponent.tier} · {opponent.model_count} models
+                  {opponent.tier !== null ? `Tier ${opponent.tier}` : 'Unrated'} ·{' '}
+                  {opponent.model_count !== null
+                    ? `${opponent.model_count} models`
+                    : 'variable size'}
                 </span>
               </h4>
 
