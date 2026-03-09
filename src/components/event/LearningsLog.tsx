@@ -27,6 +27,7 @@ interface LearningsLogProps {
 function formatTimestamp(iso: string): string {
   try {
     const d = new Date(iso);
+    if (isNaN(d.getTime())) return 'Unknown date';
     return d.toLocaleString(undefined, {
       month: 'short',
       day: 'numeric',
@@ -34,7 +35,7 @@ function formatTimestamp(iso: string): string {
       minute: '2-digit',
     });
   } catch {
-    return iso;
+    return 'Unknown date';
   }
 }
 

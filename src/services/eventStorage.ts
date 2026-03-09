@@ -16,6 +16,7 @@ import {
   QuickPlayEventState,
   GameEventState,
   TurningPointState,
+  LearningEntry,
 } from '@/types/event';
 import {
   STORAGE_KEYS,
@@ -25,6 +26,41 @@ import {
 } from '@/constants';
 
 const STORAGE_KEY = STORAGE_KEYS.QUICK_PLAY_EVENT;
+
+// ---------------------------------------------------------------------------
+// Legacy schema types for migration
+// ---------------------------------------------------------------------------
+
+/** Schema v1 turning point — used `usedFirefightPloyIds: string[]` */
+interface LegacyTurningPointStateV1 {
+  selectedStrategicPloyId: string | null;
+  usedFirefightPloyIds?: string[];
+  firefightPloyCounts?: Record<string, number>;
+}
+
+/** Schema v1 game — used `injuredOperativeIds: string[]` */
+interface LegacyGameStateV1 {
+  gameNumber: 1 | 2 | 3;
+  removedOperativeId: string | null;
+  selectedEquipmentIds: string[];
+  blightGrenadeUsesRemaining: number;
+  turningPoint: number;
+  commandPoints: number;
+  turningPoints: Record<string, LegacyTurningPointStateV1>;
+  injuredOperativeIds?: string[];
+  incapacitatedOperativeIds?: string[];
+}
+
+/** Schema v1 root state — used `learnings: string` */
+interface LegacyEventStateV1 {
+  version?: number;
+  eventName: string;
+  setupComplete: boolean;
+  activeGameIndex: number;
+  games: LegacyGameStateV1[];
+  learnings?: string;
+  learningEntries?: LearningEntry[];
+}
 
 // ---------------------------------------------------------------------------
 // Initial state factories
@@ -124,7 +160,7 @@ export function loadEventState(): QuickPlayEventState | null {
       return null;
     }
 
-    const parsed = JSON.parse(serialised) as Record<string, unknown>;
+    const parsed = JSON.parse(serialised) as LegacyEventStateV1;
 
     // Basic structural validation
     if (
@@ -132,75 +168,74 @@ export function loadEventState(): QuickPlayEventState | null {
       typeof parsed === 'object' &&
       'games' in parsed &&
       Array.isArray(parsed.games) &&
-      (parsed.games as unknown[]).length === QUICK_PLAY_DEFAULTS.GAME_COUNT &&
+      parsed.games.length === QUICK_PLAY_DEFAULTS.GAME_COUNT &&
       typeof parsed.setupComplete === 'boolean'
     ) {
       // Migrate each game's fields to the current schema
-      const migratedGames = (
-        parsed.games as Array<Record<string, unknown>>
-      ).map((game) => {
-        // v1 → v2: rename injuredOperativeIds → incapacitatedOperativeIds
-        const incapacitatedOperativeIds =
-          game.incapacitatedOperativeIds ?? game.injuredOperativeIds ?? [];
+      const migratedGames = parsed.games.map(
+        (game: LegacyGameStateV1): GameEventState => {
+          // v1 → v2: rename injuredOperativeIds → incapacitatedOperativeIds
+          const incapacitatedOperativeIds: string[] = Array.isArray(
+            game.incapacitatedOperativeIds
+          )
+            ? game.incapacitatedOperativeIds
+            : Array.isArray(game.injuredOperativeIds)
+              ? game.injuredOperativeIds
+              : [];
 
-        // v1 → v2: convert usedFirefightPloyIds (string[]) → firefightPloyCounts (Record<string, number>)
-        let firefightPloyCounts: Record<string, number> =
-          (game.firefightPloyCounts as Record<string, number>) ?? {};
-        if (
-          !game.firefightPloyCounts &&
-          Array.isArray(game.usedFirefightPloyIds)
-        ) {
-          // Legacy: each ploy in the list was used exactly once
-          firefightPloyCounts = {};
-          (game.usedFirefightPloyIds as string[]).forEach((id) => {
-            firefightPloyCounts[id] = 1;
-          });
-        }
-
-        // v1 → v2: migrate turning points
-        const turningPoints: Record<number, TurningPointState> = {};
-        if (game.turningPoints && typeof game.turningPoints === 'object') {
-          for (const [tpKey, tpVal] of Object.entries(
-            game.turningPoints as Record<string, Record<string, unknown>>
-          )) {
-            let tpCounts: Record<string, number> =
-              (tpVal.firefightPloyCounts as Record<string, number>) ?? {};
-            if (
-              !tpVal.firefightPloyCounts &&
-              Array.isArray(tpVal.usedFirefightPloyIds)
-            ) {
-              tpCounts = {};
-              (tpVal.usedFirefightPloyIds as string[]).forEach((id) => {
-                tpCounts[id] = 1;
-              });
+          // v1 → v2: migrate turning points
+          const turningPoints: Record<number, TurningPointState> = {};
+          if (game.turningPoints && typeof game.turningPoints === 'object') {
+            for (const [tpKey, tpVal] of Object.entries(game.turningPoints)) {
+              const tpCounts: Record<string, number> = {};
+              if (tpVal.firefightPloyCounts !== undefined) {
+                // Already v2 format — sanitise values to ensure they are numbers
+                for (const [k, v] of Object.entries(
+                  tpVal.firefightPloyCounts
+                )) {
+                  tpCounts[k] = typeof v === 'number' ? v : 0;
+                }
+              } else if (Array.isArray(tpVal.usedFirefightPloyIds)) {
+                // Legacy v1: each entry in the list counts as one use
+                tpVal.usedFirefightPloyIds.forEach((id) => {
+                  tpCounts[id] = 1;
+                });
+              }
+              turningPoints[Number(tpKey)] = {
+                selectedStrategicPloyId: tpVal.selectedStrategicPloyId ?? null,
+                firefightPloyCounts: tpCounts,
+              };
             }
-            turningPoints[Number(tpKey)] = {
-              selectedStrategicPloyId:
-                (tpVal.selectedStrategicPloyId as string | null) ?? null,
-              firefightPloyCounts: tpCounts,
-            };
           }
-        }
 
-        return {
-          ...game,
-          incapacitatedOperativeIds,
-          firefightPloyCounts,
-          turningPoints,
-        } as unknown as GameEventState;
-      });
+          return {
+            gameNumber: game.gameNumber,
+            removedOperativeId: game.removedOperativeId,
+            selectedEquipmentIds: game.selectedEquipmentIds,
+            blightGrenadeUsesRemaining: game.blightGrenadeUsesRemaining,
+            turningPoint: game.turningPoint,
+            commandPoints: game.commandPoints,
+            incapacitatedOperativeIds,
+            turningPoints,
+          };
+        }
+      );
 
       // v1 → v2: rename learnings (string) → learningEntries (array)
-      const learningEntries = Array.isArray(parsed.learningEntries)
+      const learningEntries: LearningEntry[] = Array.isArray(
+        parsed.learningEntries
+      )
         ? parsed.learningEntries
         : [];
 
       return {
-        ...parsed,
+        version: QUICK_PLAY_DEFAULTS.SCHEMA_VERSION,
+        eventName: parsed.eventName,
+        setupComplete: parsed.setupComplete,
+        activeGameIndex: parsed.activeGameIndex,
         games: migratedGames,
         learningEntries,
-        version: QUICK_PLAY_DEFAULTS.SCHEMA_VERSION,
-      } as QuickPlayEventState;
+      };
     }
 
     // Invalid structure — clear corrupted data

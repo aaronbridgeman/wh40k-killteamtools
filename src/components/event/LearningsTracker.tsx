@@ -87,7 +87,7 @@ export function LearningsTracker({
       if (!trimmed) return;
 
       const entry: LearningEntry = {
-        id: `learning-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        id: crypto.randomUUID(),
         text: trimmed,
         timestamp: new Date().toISOString(),
         ...(oppositionTeam.trim() && { oppositionTeam: oppositionTeam.trim() }),

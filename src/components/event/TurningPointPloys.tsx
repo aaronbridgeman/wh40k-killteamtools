@@ -49,6 +49,76 @@ interface TurningPointPloysProps {
   incapacitatedOperativeIds: string[];
 }
 
+interface FirefightPloyRowProps {
+  ployId: string;
+  ployName: string;
+  ployCost: number;
+  ployDesc: string;
+  useCount: number;
+  isStarted: boolean;
+  canAfford: boolean;
+  onUse: (id: string, cost: number) => void;
+  onUndo: (id: string, cost: number) => void;
+}
+
+/** Renders a single firefight ploy row with use/undo buttons and use-count badge. */
+function FirefightPloyRow({
+  ployId,
+  ployName,
+  ployCost,
+  ployDesc,
+  useCount,
+  isStarted,
+  canAfford,
+  onUse,
+  onUndo,
+}: FirefightPloyRowProps) {
+  let cardClass = 'firefight-ploy-card';
+  if (useCount > 0) cardClass += ' used';
+  else if (canAfford) cardClass += ' affordable';
+  else cardClass += ' unaffordable';
+
+  return (
+    <div key={ployId} className={cardClass}>
+      <div className="ff-ploy-info">
+        <p className="ff-ploy-name">{ployName}</p>
+        <p className="ff-ploy-cost">{ployCost}CP</p>
+        <p className="ff-ploy-desc">{ployDesc}</p>
+      </div>
+      <div className="ff-ploy-actions">
+        {useCount > 0 && (
+          <button
+            type="button"
+            className="ff-undo-button"
+            onClick={() => onUndo(ployId, ployCost)}
+            disabled={!isStarted}
+            aria-label={`Undo last use of ${ployName}`}
+          >
+            ↩ Undo
+          </button>
+        )}
+        {useCount > 0 && (
+          <span
+            className="ff-use-count"
+            aria-label={`Used ${useCount} time${useCount !== 1 ? 's' : ''} this turning point`}
+          >
+            ✓ ×{useCount}
+          </span>
+        )}
+        <button
+          type="button"
+          className={`ff-use-button ${!canAfford ? 'cannot-afford' : ''}`}
+          onClick={() => onUse(ployId, ployCost)}
+          disabled={!isStarted || !canAfford}
+          aria-label={`${ployName} — ${canAfford ? 'Use ploy' : 'Cannot afford'}`}
+        >
+          Use ({ployCost}CP)
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /** Clamps a CP value to the valid range [MIN, MAX]. */
 function clampCp(cp: number): number {
   return Math.max(
@@ -229,60 +299,6 @@ export function TurningPointPloys({
   // Helpers for rendering firefight ploy rows
   // ------------------------------------------------------------------
 
-  const renderFirefightPloyRow = (
-    ployId: string,
-    ployName: string,
-    ployCost: number,
-    ployDesc: string
-  ) => {
-    const useCount = currentTpState.firefightPloyCounts[ployId] ?? 0;
-    const canAfford = game.commandPoints >= ployCost;
-    let cardClass = 'firefight-ploy-card';
-    if (useCount > 0) cardClass += ' used';
-    else if (canAfford) cardClass += ' affordable';
-    else cardClass += ' unaffordable';
-
-    return (
-      <div key={ployId} className={cardClass}>
-        <div className="ff-ploy-info">
-          <p className="ff-ploy-name">{ployName}</p>
-          <p className="ff-ploy-cost">{ployCost}CP</p>
-          <p className="ff-ploy-desc">{ployDesc}</p>
-        </div>
-        <div className="ff-ploy-actions">
-          {useCount > 0 && (
-            <button
-              type="button"
-              className="ff-undo-button"
-              onClick={() => handleUndoFirefightPloy(ployId, ployCost)}
-              disabled={!isStarted}
-              aria-label={`Undo last use of ${ployName}`}
-            >
-              ↩ Undo
-            </button>
-          )}
-          {useCount > 0 && (
-            <span
-              className="ff-use-count"
-              aria-label={`Used ${useCount} time${useCount !== 1 ? 's' : ''} this turning point`}
-            >
-              ✓ ×{useCount}
-            </span>
-          )}
-          <button
-            type="button"
-            className={`ff-use-button ${!canAfford ? 'cannot-afford' : ''}`}
-            onClick={() => handleUseFirefightPloy(ployId, ployCost)}
-            disabled={!isStarted || !canAfford}
-            aria-label={`${ployName} — ${canAfford ? 'Use ploy' : 'Cannot afford'}`}
-          >
-            Use ({ployCost}CP)
-          </button>
-        </div>
-      </div>
-    );
-  };
-
   // ------------------------------------------------------------------
   // Render
   // ------------------------------------------------------------------
@@ -420,21 +436,35 @@ export function TurningPointPloys({
       <div>
         <p className="firefight-ploys-title">Firefight Ploys</p>
         <div className="firefight-ploy-list">
-          {firefightPloys.map((ploy) =>
-            renderFirefightPloyRow(
-              ploy.id,
-              ploy.name,
-              ploy.cost,
-              ploy.description
-            )
-          )}
+          {firefightPloys.map((ploy) => (
+            <FirefightPloyRow
+              key={ploy.id}
+              ployId={ploy.id}
+              ployName={ploy.name}
+              ployCost={ploy.cost}
+              ployDesc={ploy.description}
+              useCount={currentTpState.firefightPloyCounts[ploy.id] ?? 0}
+              isStarted={isStarted}
+              canAfford={game.commandPoints >= ploy.cost}
+              onUse={handleUseFirefightPloy}
+              onUndo={handleUndoFirefightPloy}
+            />
+          ))}
           {/* Generic Command Reroll ploy — always available */}
-          {renderFirefightPloyRow(
-            COMMAND_REROLL_PLOY.id,
-            COMMAND_REROLL_PLOY.name,
-            COMMAND_REROLL_PLOY.cost,
-            COMMAND_REROLL_PLOY.description
-          )}
+          <FirefightPloyRow
+            key={COMMAND_REROLL_PLOY.id}
+            ployId={COMMAND_REROLL_PLOY.id}
+            ployName={COMMAND_REROLL_PLOY.name}
+            ployCost={COMMAND_REROLL_PLOY.cost}
+            ployDesc={COMMAND_REROLL_PLOY.description}
+            useCount={
+              currentTpState.firefightPloyCounts[COMMAND_REROLL_PLOY.id] ?? 0
+            }
+            isStarted={isStarted}
+            canAfford={game.commandPoints >= COMMAND_REROLL_PLOY.cost}
+            onUse={handleUseFirefightPloy}
+            onUndo={handleUndoFirefightPloy}
+          />
         </div>
       </div>
     </div>
