@@ -33,7 +33,8 @@ export default defineConfig({
       manifest: {
         name: 'Kill Team Dataslate',
         short_name: 'KT Dataslate',
-        description: 'A reference tool for Warhammer 40K Kill Team gameplay assistance',
+        description:
+          'A reference tool for Warhammer 40K Kill Team gameplay assistance',
         theme_color: '#1a1a2e',
         background_color: '#0f0f1e',
         display: 'standalone',
@@ -45,26 +46,26 @@ export default defineConfig({
             src: '/wh40k-killteamtools/icons/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
-            purpose: 'any'
+            purpose: 'any',
           },
           {
             src: '/wh40k-killteamtools/icons/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
-            purpose: 'maskable'
+            purpose: 'maskable',
           },
           {
             src: '/wh40k-killteamtools/icons/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any'
+            purpose: 'any',
           },
           {
             src: '/wh40k-killteamtools/icons/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'maskable'
-          }
+            purpose: 'maskable',
+          },
         ],
         categories: ['games', 'utilities'],
         shortcuts: [
@@ -73,16 +74,26 @@ export default defineConfig({
             short_name: 'Factions',
             description: 'Browse available Kill Team factions',
             url: '/wh40k-killteamtools/',
-            icons: [{ src: '/wh40k-killteamtools/icons/icon-192x192.png', sizes: '192x192' }]
+            icons: [
+              {
+                src: '/wh40k-killteamtools/icons/icon-192x192.png',
+                sizes: '192x192',
+              },
+            ],
           },
           {
             name: 'Nurgle Quick Play',
             short_name: 'Quick Play',
             description: 'Plague Marines Quick Play Event tracker',
             url: '/wh40k-killteamtools/?view=quick-play-event',
-            icons: [{ src: '/wh40k-killteamtools/icons/icon-192x192.png', sizes: '192x192' }]
-          }
-        ]
+            icons: [
+              {
+                src: '/wh40k-killteamtools/icons/icon-192x192.png',
+                sizes: '192x192',
+              },
+            ],
+          },
+        ],
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
@@ -94,24 +105,30 @@ export default defineConfig({
               cacheName: 'google-fonts-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
               },
               cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          }
-        ]
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
       },
       devOptions: {
         enabled: true,
-        type: 'module'
-      }
-    })
+        type: 'module',
+      },
+    }),
   ],
   base: '/wh40k-killteamtools/',
   build: {
     outDir: 'docs',
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        quickPlay: path.resolve(__dirname, 'quick-play/index.html'),
+      },
+    },
   },
   resolve: {
     alias: {
