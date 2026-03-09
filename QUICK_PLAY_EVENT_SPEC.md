@@ -352,19 +352,19 @@ All tests follow the existing patterns in `tests/unit/`. Run with `npm run test`
 | TypeScript types (`src/types/event.ts`) | ✅ Skeleton |
 | localStorage persistence | ✅ Skeleton |
 | Google Drive persistence | 🔲 Stub only — awaiting Open Question #1 |
-| `QuickPlayEventView` | ✅ Skeleton |
-| `EventSetup` | ✅ Skeleton |
-| `GamePanel` + game tabs | ✅ Skeleton |
-| `OperativeRosterManager` (reuses `OperativeCard`) | ✅ Skeleton |
-| `EventEquipmentTracker` (reuses `LimitedItemTracker`) | ✅ Skeleton |
-| `TurningPointPloys` | ✅ Skeleton |
-| `CPTracker` | ✅ Skeleton |
-| Firefight ploy display | ✅ Skeleton |
-| `LearningsTracker` | ✅ Skeleton |
-| Nurgle green CSS theme | ✅ Skeleton |
+| `QuickPlayEventView` | ✅ Complete |
+| `EventSetup` | ✅ Complete |
+| `GamePanel` + game tabs | ✅ Complete |
+| `OperativeRosterManager` (reuses `OperativeCard`) | ✅ Complete |
+| `EventEquipmentTracker` (reuses `LimitedItemTracker`) | ✅ Complete |
+| `TurningPointPloys` | ✅ Complete |
+| `CPTracker` | ✅ Complete |
+| Firefight ploy display | ✅ Complete |
+| `LearningsTracker` | ✅ Complete |
+| Nurgle green CSS theme | ✅ Complete |
 | App navigation integration | ✅ Complete |
-| Service unit tests | ✅ Skeleton |
-| Component unit tests | ✅ Skeleton |
+| Service unit tests (`eventStorage.test.ts`) | ✅ Complete |
+| Component unit tests (CPTracker, EventEquipmentTracker, OperativeRosterManager, TurningPointPloys) | ✅ Complete |
 | `ARCHITECTURE.md` updated | ✅ Complete |
 | `SPEC.md` updated | ✅ Complete |
 | `README.md` updated | ✅ Complete |
