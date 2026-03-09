@@ -371,6 +371,48 @@ describe('Plague Marines Faction Integration', () => {
     });
   });
 
+  describe('Equipment', () => {
+    it('should have 4 equipment items', () => {
+      expect(faction.equipment).toBeDefined();
+      expect(faction.equipment).toHaveLength(4);
+    });
+
+    it('should have all faction equipment items', () => {
+      const equipmentNames = faction.equipment?.map((e) => e.name);
+      expect(equipmentNames).toContain('Plague Bells');
+      expect(equipmentNames).toContain('Blight Grenades');
+      expect(equipmentNames).toContain('Plague Rounds');
+      expect(equipmentNames).toContain('Miasma of Contagion');
+    });
+
+    it('should have Miasma of Contagion as faction equipment', () => {
+      const miasma = faction.equipment?.find(
+        (e) => e.id === 'miasma-of-contagion'
+      );
+      expect(miasma).toBeDefined();
+      expect(miasma?.category).toBe('faction');
+      expect(miasma?.restrictedToKeywords).toContain('PLAGUE MARINE');
+    });
+
+    it('should have Miasma of Contagion with aura effect', () => {
+      const miasma = faction.equipment?.find(
+        (e) => e.id === 'miasma-of-contagion'
+      );
+      expect(miasma?.effects).toBeDefined();
+      expect(miasma?.effects).toHaveLength(1);
+      expect(miasma?.effects?.[0].type).toBe('aura');
+    });
+
+    it('should have Miasma of Contagion description referencing Poison tokens and D3', () => {
+      const miasma = faction.equipment?.find(
+        (e) => e.id === 'miasma-of-contagion'
+      );
+      expect(miasma?.description).toContain('Poison token');
+      expect(miasma?.description).toContain('D3');
+      expect(miasma?.description).toContain('3"');
+    });
+  });
+
   describe('Ploys', () => {
     it('should have 8 ploys', () => {
       expect(faction.ploys).toBeDefined();
