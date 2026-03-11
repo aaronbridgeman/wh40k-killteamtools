@@ -95,3 +95,19 @@
 .tipItem strong {
   color: var(--text-primary);
 }
+
+.keyThreat {
+  margin: 0.75rem 0 0 0;
+  padding: 0.5rem 0.75rem;
+  background-color: color-mix(in srgb, var(--danger-color, #c0392b) 12%, transparent);
+  border-left: 3px solid var(--danger-color, #c0392b);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.keyThreatLabel {
+  font-weight: 700;
+  color: var(--danger-color, #c0392b);
+}

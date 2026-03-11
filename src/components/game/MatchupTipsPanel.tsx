@@ -78,6 +78,13 @@ export function MatchupTipsPanel({ opponentTeamId }: MatchupTipsPanelProps) {
                 </>
               )}
 
+              {opponent.key_threat && (
+                <p className={styles.keyThreat}>
+                  <span className={styles.keyThreatLabel}>⚠ Key Threat:</span>{' '}
+                  {opponent.key_threat}
+                </p>
+              )}
+
               {matchupTips.length > 0 && (
                 <>
                   <p className={styles.subTitle}>

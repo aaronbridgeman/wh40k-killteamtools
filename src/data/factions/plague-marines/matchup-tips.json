@@ -37,8 +37,8 @@
       "detail": "Pre-plan paths to objectives and key vantage points; a mis-positioned operative may need multiple turning points to become relevant again."
     },
     {
-      "tip": "Use Poxwalkers (if available) as screens and action bots",
-      "detail": "Let cheap bodies do risky mission actions, screen charges, and body-block lanes while Plague Marines focus on killing and holding key points."
+      "tip": "Use the Bombardier as your mission action specialist",
+      "detail": "The Bombardier's Grenadier ability boosts grenade accuracy and adds the Toxic rule to Blight Grenades, making them a strong offensive option. Their standard boltgun loadout also makes them a safe choice for performing risky mission actions – keeping your melee specialists and Heavy Gunner focused on fighting and holding key points."
     }
   ],
   "matchup_tips": {
@@ -158,14 +158,14 @@
         "detail": "Park gunners on firing lanes that cover key objectives and routes, moving only when necessary to maintain angles and cover."
       }
     ],
-    "poxwalkers_and_cheap_bodies": [
+    "icon_bearer": [
       {
-        "tip": "Screen and zone out deep strike or infiltrate",
-        "detail": "Use them to create no-go zones where enemies cannot safely appear or charge without exposing themselves to Plague Marine counter-attacks."
+        "tip": "Deploy the Icon Bearer aggressively into opponent's territory",
+        "detail": "Once within the opponent's territory, the Icon of Contagion ability makes the 'Contagion' strategy ploy cost 0CP, giving you free Hit and Move debuffs on every nearby enemy."
       },
       {
-        "tip": "Handle risky mission actions",
-        "detail": "Assign them to actions that might leave a model exposed or out of position, keeping Plague Marines free for fighting and durable scoring."
+        "tip": "Use the Icon Bearer as an objective runner and screen",
+        "detail": "Their marker control bonus (APL treated as 1 higher) makes them ideal for contesting objectives; position them ahead of the warband to project control without exposing the heavy hitters."
       }
     ]
   }

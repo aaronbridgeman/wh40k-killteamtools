@@ -34,6 +34,8 @@ export interface OpponentKillTeam {
   tips_category: TipsCategory;
   /** Opponent-specific tips for Plague Marines players */
   specific_tips: string[];
+  /** The primary threat to watch for when facing this opponent */
+  key_threat?: string;
 }
 
 /**
