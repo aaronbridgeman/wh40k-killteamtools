@@ -120,10 +120,11 @@
     "tier": "S",
     "tips_category": "elite_marines_and_chaos",
     "specific_tips": [
-      "Trade up with melee ploys to remove expensive enemy elites in one activation.",
-      "Focus fire on one threat at a time to fully remove key guns or leaders.",
-      "Exploit attrition and resilience by accepting chip damage but prioritizing trades."
-    ]
+      "Wolf Scouts are aggressive melee hunters – they use 'Vanguard' to close quickly and overwhelm with brutal combat.",
+      "Use Poxwalkers as a front line to absorb the first charge, allowing Plague Marines to counter-shoot at Point Blank range.",
+      "Focus fire to fully remove one operative per turning point; wounded Wolf Scouts are still lethal in combat."
+    ],
+    "key_threat": "Precision shots and high-crit melee weapons."
   },
   {
     "id": "murderwing",
@@ -134,10 +135,11 @@
     "tier": "S",
     "tips_category": "elite_marines_and_chaos",
     "specific_tips": [
-      "Trade up with melee ploys using double fight and boosted melee output.",
-      "Focus fire to ensure full removal of their key operatives.",
-      "Exploit resilience to outlast in attrition."
-    ]
+      "Do not chase them. They have superior verticality and flight – let them come to you.",
+      "Use 'Dig In' to hold centre objectives and force them to engage on your terms.",
+      "Use the Malignant Plaguecaster's 'Revitilising Blight' to slow their movement if they get within 6 inches."
+    ],
+    "key_threat": "The Exarch's mobility and high-AP weaponry."
   },
   {
     "id": "corsair-voidscarred",
@@ -176,10 +178,11 @@
     "tier": "A",
     "tips_category": "elite_shooting_teams",
     "specific_tips": [
-      "Close distance using terrain and ploys.",
-      "Bait overextension with sacrificial positioning.",
-      "Target special weapons and vantage holders."
-    ]
+      "These are 'glass cannon' elites – they will use 'Vanguard' moves to box you in early.",
+      "Use Poxwalkers as a front line to absorb charges, allowing Plague Marines to counter-shoot at Point Blank range.",
+      "Bait overextension with a durable operative on an objective, then punish their exposed position."
+    ],
+    "key_threat": "Precision shots and high-crit melee weapons."
   },
   {
     "id": "kasrkin",
@@ -190,10 +193,11 @@
     "tier": "A",
     "tips_category": "shooty_teams_with_good_range",
     "specific_tips": [
-      "Use terrain and obscuring ploys to cross the board.",
-      "Bait overextension.",
-      "Target special weapons."
-    ]
+      "They rely on synergy and 'Elite' points; use 'Nurgle's Gift' to aura-debuff their BS/WS before they fire.",
+      "If you reach melee with them, they usually fold – get into close combat as quickly as possible.",
+      "Target the Melta gunner and Medic early to disrupt their key combos."
+    ],
+    "key_threat": "The Kasrkin 'Melta' combo which can ignore your Feel No Pain."
   },
   {
     "id": "inquisitorial-agents",
@@ -246,10 +250,11 @@
     "tier": "A",
     "tips_category": "sneaky_and_infiltration_teams",
     "specific_tips": [
-      "Guard flanks and backfield.",
-      "Sit durable bodies on objectives.",
-      "Use blast when they uncloak."
-    ]
+      "Use grenades (Blight/Krak) to flush them out of cover – they cannot easily tank blast damage.",
+      "Even a standard Bolter shot with 'Virulent Rounds' is highly lethal; you don't need special weapons to threaten them.",
+      "Leave a Plague Marine watching backfield objectives to intercept shadow-step grabs."
+    ],
+    "key_threat": "Mandrakes appearing from nowhere to snatch back-line objectives."
   },
   {
     "id": "nemesis-claw",
@@ -260,10 +265,11 @@
     "tier": "A",
     "tips_category": "elite_marines_and_chaos",
     "specific_tips": [
-      "Trade up.",
-      "Focus fire.",
-      "Attrition."
-    ]
+      "Elite vs. Elite – this comes down to the math of the '5+ FNP'; trade efficiently and never waste attacks.",
+      "Use 'Sickly Subsidence' to prevent them from falling back, forcing a protracted grind they cannot sustain.",
+      "Focus fire each activation to fully remove one operative rather than leaving multiple wounded."
+    ],
+    "key_threat": "High-damage power weapons and specialized strike tactics."
   },
   {
     "id": "tempestus-aquilons",
@@ -288,10 +294,11 @@
     "tier": "A",
     "tips_category": "melee_heavy_teams",
     "specific_tips": [
-      "Force charges through threat zone.",
-      "Layer screens.",
-      "Retaliatory bonuses."
-    ]
+      "They outnumber you but lack your durability; use 'Disgustingly Resilient' to soak up their erratic shooting.",
+      "In melee you win the war of attrition; prioritize killing their 'Spanner' or Leader to break their synergy.",
+      "Layer screens to control which Orks can charge you each activation, avoiding being overwhelmed."
+    ],
+    "key_threat": "Blighted targets being finished off by high-volume Ork melee."
   },
   {
     "id": "raveners",
@@ -302,10 +309,11 @@
     "tier": "A",
     "tips_category": "elite_marines_and_chaos",
     "specific_tips": [
-      "Trade up.",
-      "Focus.",
-      "Attrition."
-    ]
+      "Use terrain to 'base' yourself against a wall or corner so only one Ravener can engage you at a time.",
+      "The Plague Flail is your MVP here – use its multi-hit potential against their large bases.",
+      "Maintain a rear guard operative to intercept deep strike or tunneling maneuvers."
+    ],
+    "key_threat": "Deep strike/tunneling maneuvers that bypass your front line."
   },
   {
     "id": "celestian-insidiants",
@@ -348,5 +356,65 @@
       "Multi-target.",
       "Cull."
     ]
+  },
+  {
+    "id": "xv26-stealth-battlesuits",
+    "name": "XV26 Stealth Battlesuits",
+    "faction": "T'au Empire",
+    "model_count": 6,
+    "archetype": "stealth_shooting",
+    "tier": "A",
+    "tips_category": "sneaky_and_infiltration_teams",
+    "specific_tips": [
+      "Visibility is the issue; maneuver to within 6-9 inches to negate their camouflage bonuses.",
+      "Don't waste long-range bolter shots – move up aggressively under the 'Cloud of Flies' ploy to close the gap safely.",
+      "Once within short range, your toughness and high-damage melee let you trade favourably with their fragile suits."
+    ],
+    "key_threat": "Burst Cannons and Fusion Blasters that can one-shot a Marine."
+  },
+  {
+    "id": "farstalker-kinband",
+    "name": "Farstalker Kinband",
+    "faction": "T'au Empire",
+    "model_count": 10,
+    "archetype": "sneaky_shoot",
+    "tier": "A",
+    "tips_category": "sneaky_and_infiltration_teams",
+    "specific_tips": [
+      "Farstalker Kinband excel at holding cover at range; use 'Cloud of Flies' to advance safely and deny them clean shots.",
+      "Their Kroot bodies are fragile – use 'Virulent Rounds' on Bolters to threaten them without wasting special weapons.",
+      "Watch for Cold-Blooded hunter Kroot infiltrating your backfield; post a Plague Marine on rear objectives from Turn 1."
+    ],
+    "key_threat": "Kroot infiltrators claiming back-line objectives before you can respond."
+  },
+  {
+    "id": "exaction-squad",
+    "name": "Exaction Squad",
+    "faction": "Adeptus Arbites (Imperium)",
+    "model_count": 10,
+    "archetype": "semi_elite_shooty",
+    "tier": "A",
+    "tips_category": "shooty_teams_with_good_range",
+    "specific_tips": [
+      "They rely on 'Ruthless Efficiency' synergy; break their team coherence by eliminating their leader early.",
+      "Use 'Nurgle's Gift' to aura-debuff their BS/WS before they fire.",
+      "Get into melee as quickly as possible – their shooting is dangerous but they fold in close combat."
+    ],
+    "key_threat": "High-volume fire combined with their 'Ruthless Efficiency' rerolls can quickly bleed your operatives."
+  },
+  {
+    "id": "angels-of-death",
+    "name": "Angels of Death",
+    "faction": "Space Marines (Imperium)",
+    "model_count": 5,
+    "archetype": "elite_marines_and_chaos",
+    "tier": "A",
+    "tips_category": "elite_marines_and_chaos",
+    "specific_tips": [
+      "Angels of Death are supremely mobile and can strike anywhere; use 'Sickly Subsidence' to trap them in engagements they cannot escape.",
+      "Their highly specialized strike operatives can delete a Plague Marine per activation – never give them a free charge without a counter-charge waiting.",
+      "Use 'Nurgle's Gift' aura in TP1 to softcap their BS and WS before their strike operatives can get into optimal positions."
+    ],
+    "key_threat": "High-damage power weapons and specialized strike tactics."
   }
 ]
