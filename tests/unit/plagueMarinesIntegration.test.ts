@@ -456,4 +456,22 @@ describe('Plague Marines Faction Integration', () => {
       });
     });
   });
+
+  describe('Tac Op restrictions', () => {
+    it('should specify allowedTacOpArchetypes', () => {
+      expect(faction.restrictions.allowedTacOpArchetypes).toBeDefined();
+      expect(Array.isArray(faction.restrictions.allowedTacOpArchetypes)).toBe(true);
+    });
+
+    it('should allow only Seek & Destroy and Security archetypes', () => {
+      expect(faction.restrictions.allowedTacOpArchetypes).toHaveLength(2);
+      expect(faction.restrictions.allowedTacOpArchetypes).toContain('Seek & Destroy');
+      expect(faction.restrictions.allowedTacOpArchetypes).toContain('Security');
+    });
+
+    it('should not allow Recon or Infiltration archetypes', () => {
+      expect(faction.restrictions.allowedTacOpArchetypes).not.toContain('Recon');
+      expect(faction.restrictions.allowedTacOpArchetypes).not.toContain('Infiltration');
+    });
+  });
 });

@@ -608,6 +608,7 @@
   "restrictions": {
     "maxOperatives": 6,
     "minOperatives": 6,
+    "allowedTacOpArchetypes": ["Seek & Destroy", "Security"],
     "composition": {
       "total_operatives": 6,
       "selection_limits": {

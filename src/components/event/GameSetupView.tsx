@@ -55,6 +55,17 @@ export function GameSetupView({
     [opponentTeams, game.opposition]
   );
 
+  /**
+   * Tac Ops available for selection. When the faction specifies
+   * `allowedTacOpArchetypes`, only ops whose archetype is in that list are
+   * shown; otherwise all ops are available.
+   */
+  const availableTacOps = useMemo(() => {
+    const allowed = faction.restrictions.allowedTacOpArchetypes;
+    if (!allowed || allowed.length === 0) return TAC_OPS;
+    return TAC_OPS.filter((op) => op.archetype && allowed.includes(op.archetype));
+  }, [faction.restrictions.allowedTacOpArchetypes]);
+
   const handleRosterChange = useCallback(
     (removedOperativeId: string | null) => {
       onChange({ ...game, removedOperativeId });
@@ -161,7 +172,7 @@ export function GameSetupView({
           <div className="setup-detail-field">
             <MissionSelect
               label="Tac Op"
-              options={TAC_OPS}
+              options={availableTacOps}
               value={game.tacOp}
               onChange={(val) => onChange({ ...game, tacOp: val })}
               placeholder="Enter custom Tactical Op…"

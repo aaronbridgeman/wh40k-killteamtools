@@ -60,6 +60,14 @@ export interface TeamRestrictions {
   other?: string[];
   /** Detailed composition rules (new structure) */
   composition?: CompositionRules;
+  /**
+   * Tac Op archetypes this faction is allowed to select in Quick Play.
+   * When present, only Tac Ops whose `archetype` matches one of these values
+   * will be shown in the Tac Op dropdown. When absent, all Tac Ops are shown.
+   *
+   * Example: ["Seek & Destroy", "Security"]
+   */
+  allowedTacOpArchetypes?: string[];
 }
 
 export interface ChapterTactic {
