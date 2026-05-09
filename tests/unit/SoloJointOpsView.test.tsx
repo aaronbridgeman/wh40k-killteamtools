@@ -20,6 +20,12 @@ describe('SoloJointOpsView', () => {
     expect(
       screen.getByText('Turning Point 1 · Activation 2 · Active: Player Kill Team')
     ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next Turning Point' }));
+
+    expect(
+      screen.getByText('Turning Point 2 · Activation 0 · Active: NPO Team')
+    ).toBeInTheDocument();
   });
 
   it('creates and updates an NPO datacard', () => {
@@ -35,6 +41,10 @@ describe('SoloJointOpsView', () => {
 
     fireEvent.click(screen.getByRole('button', { name: '+1' }));
     expect(screen.getByText('Damage Taken: 1')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: '-1' }));
+    fireEvent.click(screen.getByRole('button', { name: '-1' }));
+    expect(screen.getByText('Damage Taken: 0')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('checkbox', { name: 'Injured' }));
     expect(screen.getByRole('checkbox', { name: 'Injured' })).toBeChecked();

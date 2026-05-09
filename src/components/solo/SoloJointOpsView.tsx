@@ -10,7 +10,7 @@ interface TrackedOperative {
 
 type ActivationSide = 'player' | 'npo';
 
-const getOperativeId = () =>
+const generateOperativeId = () =>
   `op-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
 export function SoloJointOpsView() {
@@ -44,7 +44,7 @@ export function SoloJointOpsView() {
     if (!normalizedName) return;
 
     const newOperative: TrackedOperative = {
-      id: getOperativeId(),
+      id: generateOperativeId(),
       name: normalizedName,
       damageTaken: 0,
       injured: false,
