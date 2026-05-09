@@ -59,6 +59,13 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Nurgle Green Theme**: Immersive green palette; sacred numbers 3 and 7 featured throughout
 - **Offline Persistence**: All state saved automatically to localStorage
 
+**Solo / Joint Ops** 🧪 *(Initial Implementation)*
+
+- **Starter List Builder**: Track both player and NPO operatives in one place
+- **Deployment Checklist**: Mark each side as deployed before activations begin
+- **Activation Flow Tracker**: Set initiative and step through alternating activations
+- **NPO Datacards (Starter)**: Track NPO damage and injured state
+
 ### Reference Pages
 
 - **Actions Reference**: Complete list of game actions with costs

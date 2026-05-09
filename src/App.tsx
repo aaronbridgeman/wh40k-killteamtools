@@ -11,6 +11,7 @@ import { SelectedTeamView } from './components/team/SelectedTeamView';
 import { FactionRulesSelector } from './components/team/FactionRulesSelector';
 import { GameModeView } from './components/game/GameModeView';
 import { QuickPlayEventView } from './components/event/QuickPlayEventView';
+import { SoloJointOpsView } from './components/solo/SoloJointOpsView';
 import { loadFaction, FactionId } from './services/dataLoader';
 import { loadUniversalEquipment } from './services/equipmentLoader';
 import {
@@ -34,21 +35,23 @@ type ViewMode =
   | 'actions'
   | 'general-rules'
   | 'game-mode'
-  | 'quick-play-event';
+  | 'quick-play-event'
+  | 'solo-joint-ops';
 type TeamViewMode = 'faction-info' | 'team-selection';
 
 const CHAPTER_TACTICS_PRIMARY = 'chapter_tactics_primary';
 const CHAPTER_TACTICS_SECONDARY = 'chapter_tactics_secondary';
 
+const queryView = new URLSearchParams(window.location.search).get('view');
+
 // When launched via ?view=quick-play-event the nav is hidden to maximize
 // focus during play (standalone quick play experience)
-const standaloneQuickPlay =
-  new URLSearchParams(window.location.search).get('view') ===
-  'quick-play-event';
+const standaloneQuickPlay = queryView === 'quick-play-event';
 
 function App() {
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
-    if (standaloneQuickPlay) return 'quick-play-event';
+    if (queryView === 'quick-play-event') return 'quick-play-event';
+    if (queryView === 'solo-joint-ops') return 'solo-joint-ops';
     return 'home';
   });
   const [teamViewMode, setTeamViewMode] =
@@ -233,6 +236,12 @@ function App() {
             >
               ☠️ Quick Play
             </button>
+            <button
+              className={`nav-button ${viewMode === 'solo-joint-ops' ? 'active' : ''}`}
+              onClick={() => setViewMode('solo-joint-ops')}
+            >
+              Solo/Joint Ops
+            </button>
           </nav>
         </header>
       )}
@@ -379,6 +388,7 @@ function App() {
         {viewMode === 'general-rules' && <GeneralRulesPage />}
         {viewMode === 'weapon-rules' && <WeaponRulesPage />}
         {viewMode === 'quick-play-event' && <QuickPlayEventView />}
+        {viewMode === 'solo-joint-ops' && <SoloJointOpsView />}
       </main>
 
       {!standaloneQuickPlay && (
