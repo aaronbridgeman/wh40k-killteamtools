@@ -342,6 +342,28 @@ JSON Schema will validate all configuration files to ensure:
 - Comprehensive testing of game rules
 - E2E tests for complete game flow
 
+### 4.4 Solo / Joint Ops (Initial Implementation)
+
+**Goal**: Start dedicated support for solo or joint operations versus non-player operatives (NPOs).
+
+#### Features
+
+1. **Dual Roster Starter**
+   - Track player and NPO operative lists in separate builders
+   - Remove operatives as setup changes
+
+2. **Deployment Checklist Starter**
+   - Mark each side as deployed
+
+3. **Activation Tracker Starter**
+   - Set initiative side
+   - Start and advance alternating activations
+   - Advance turning point and reset activation count
+
+4. **NPO Datacards Starter**
+   - Display NPO cards from roster entries
+   - Track damage taken and injured state
+
 ## 5. Data Extraction Strategy
 
 ### 5.1 PDF Processing Workflow

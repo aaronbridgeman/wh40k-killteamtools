@@ -1,0 +1,79 @@
+.solo-joint-ops-view {
+  display: grid;
+  gap: 1rem;
+}
+
+.solo-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--surface-color);
+  padding: 1rem;
+}
+
+.solo-card h3 {
+  margin-top: 0;
+}
+
+.team-builders {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.team-builder {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.team-builder ul {
+  padding-left: 1rem;
+  margin: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.team-builder li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input-row input {
+  flex: 1;
+}
+
+.deployment-grid,
+.activation-controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.activation-status {
+  margin: 1rem 0 0;
+  font-weight: 600;
+}
+
+.npo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.npo-card {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.npo-card h4 {
+  margin: 0 0 0.5rem;
+}

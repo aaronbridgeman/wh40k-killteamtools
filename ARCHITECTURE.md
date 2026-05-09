@@ -80,6 +80,7 @@ graph TD
     App --> AP[ActionsPage]
     App --> GRP[GeneralRulesPage]
     App --> QPE[QuickPlayEventView]
+    App --> SJO[SoloJointOpsView]
 
     QPE --> ES2[EventSetup]
     QPE --> GP[GamePanel]
@@ -326,6 +327,14 @@ The root component that manages:
 - Wound management
 - Status effects
 - Activation tracking
+
+#### Solo/Joint Ops Components (`components/solo/`)
+
+**SoloJointOpsView** (`components/solo/SoloJointOpsView.tsx`)
+
+- Starter workflow for solo/joint ops against NPOs
+- Includes player + NPO roster setup, deployment checklist, and activation tracker
+- Includes starter NPO datacards for damage and injured state tracking
 
 #### Rules Components
 
