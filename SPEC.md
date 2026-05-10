@@ -342,27 +342,29 @@ JSON Schema will validate all configuration files to ensure:
 - Comprehensive testing of game rules
 - E2E tests for complete game flow
 
-### 4.4 Solo / Joint Ops (Initial Implementation)
+### 4.4 Solo / Joint Ops
 
-**Goal**: Start dedicated support for solo or joint operations versus non-player operatives (NPOs).
+**Goal**: Provide dedicated support for solo or joint operations versus non-player operatives (NPOs) with game running, list building, and profile management.
 
 #### Features
 
-1. **Dual Roster Starter**
-   - Track player and NPO operative lists in separate builders
-   - Remove operatives as setup changes
+1. **Game Runner (Default Tab)**
+   - Deployment checklist for player/NPO
+   - Initiative and activation sequencing controls
+   - Runner cards for active list operatives with damage and injured tracking
 
-2. **Deployment Checklist Starter**
-   - Mark each side as deployed
+2. **List Builder**
+   - Manage player and NPO lists independently
+   - Assign a profile to each list operative
+   - `Datacard` profile selection is available and default for player entries
+   - Lists are persisted and support backup/import
 
-3. **Activation Tracker Starter**
-   - Set initiative side
-   - Start and advance alternating activations
-   - Advance turning point and reset activation count
-
-4. **NPO Datacards Starter**
-   - Display NPO cards from roster entries
-   - Track damage taken and injured state
+3. **Profile Manager**
+   - Create/edit/delete profiles used by list entries
+   - Profile data includes APL, Move, Save, Wounds
+   - Profile data includes ranged and melee weapon profiles
+   - Profile data includes behavior rules where applicable
+   - Profiles are persisted and support backup/import
 
 ## 5. Data Extraction Strategy
 

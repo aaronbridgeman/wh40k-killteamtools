@@ -4,10 +4,10 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 
 ## 🔗 Live Application
 
-| Link | Description |
-|------|-------------|
-| [**🎮 Full App**](https://aaronbridgeman.github.io/wh40k-killteamtools/) | Solo/Joint Ops + reference pages (Actions, Rules, Weapon Rules); Single Team mode removed |
-| [**☠️ Quick Play (Standalone)**](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) | Focused Plague Marines tournament tracker — launched via direct link with no other tabs |
+| Link                                                                                                          | Description                                                                               |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [**🎮 Full App**](https://aaronbridgeman.github.io/wh40k-killteamtools/)                                      | Solo/Joint Ops + reference pages (Actions, Rules, Weapon Rules); Single Team mode removed |
+| [**☠️ Quick Play (Standalone)**](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) | Focused Plague Marines tournament tracker — launched via direct link with no other tabs   |
 
 ## 🎯 Features
 
@@ -46,7 +46,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Operative Tracking**: Monitor wounds, injured status, and activations
 - **State Persistence**: Game state saved automatically
 
-**Quick Play Event** ☠️ *(Plague Marines — Tournament Companion)*
+**Quick Play Event** ☠️ _(Plague Marines — Tournament Companion)_
 
 - **3-Game Event Tracker**: Purpose-built for Plague Marines quick play tournaments
 - **"Remove One" Roster Mechanic**: Display all 7 operatives; remove exactly one non-leader per game
@@ -59,12 +59,13 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Nurgle Green Theme**: Immersive green palette; sacred numbers 3 and 7 featured throughout
 - **Offline Persistence**: All state saved automatically to localStorage
 
-**Solo / Joint Ops** 🧪 *(Initial Implementation)*
+**Solo / Joint Ops**
 
-- **Starter List Builder**: Track both player and NPO operatives in one place
-- **Deployment Checklist**: Mark each side as deployed before activations begin
-- **Activation Flow Tracker**: Set initiative and step through alternating activations
-- **NPO Datacards (Starter)**: Track NPO damage and injured state
+- **Game Runner**: Default tab with deployment, activation flow, and operative runner cards
+- **List Builder**: Build and persist player/NPO lists with profile assignment per operative
+- **Datacard Default Option**: Player list entries default to a `Datacard` profile option
+- **Profile Manager**: Create/edit/delete profile stat blocks with ranged/melee weapon profiles and behavior rules
+- **Backup/Restore**: Import and export lists and profiles as JSON backup files
 
 ### Reference Pages
 
@@ -277,4 +278,4 @@ MIT License - see LICENSE file for details
 
 - [GitHub Repository](https://github.com/aaronbridgeman/wh40k-killteamtools)
 - [Live Application](https://aaronbridgeman.github.io/wh40k-killteamtools/)
-- [☠️ Quick Play — Standalone View](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) *(Plague Marines tournament tracker, no navigation tabs)*
+- [☠️ Quick Play — Standalone View](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) _(Plague Marines tournament tracker, no navigation tabs)_
