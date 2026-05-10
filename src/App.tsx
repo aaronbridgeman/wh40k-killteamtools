@@ -25,6 +25,7 @@ const standaloneQuickPlay = queryView === 'quick-play-event';
 function App() {
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     if (queryView === 'quick-play-event') return 'quick-play-event';
+    if (queryView === 'solo-joint-ops') return 'solo-joint-ops';
     return 'solo-joint-ops';
   });
 
