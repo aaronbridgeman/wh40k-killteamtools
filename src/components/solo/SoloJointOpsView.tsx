@@ -395,6 +395,7 @@ function SoloListEditor({
             );
             setNewOperativeName('');
           }}
+          disabled={side === 'npo' && !selectedProfileId}
         >
           Add {sideLabel} Operative
         </button>
@@ -561,7 +562,7 @@ export function SoloJointOpsView() {
   const [selectedPlayerProfileForList, setSelectedPlayerProfileForList] =
     useState(DATACARD_PROFILE_ID);
   const [selectedNpoProfileForList, setSelectedNpoProfileForList] = useState(
-    initialState.profiles[0]?.id ?? DATACARD_PROFILE_ID
+    initialState.profiles[0]?.id ?? ''
   );
   const [editingProfileId, setEditingProfileId] = useState(
     initialState.profiles[0]?.id ?? ''
@@ -606,9 +607,7 @@ export function SoloJointOpsView() {
 
   useEffect(() => {
     setSelectedNpoProfileForList((prev) =>
-      prev !== DATACARD_PROFILE_ID && profileLookup.has(prev)
-        ? prev
-        : (state.profiles[0]?.id ?? DATACARD_PROFILE_ID)
+      profileLookup.has(prev) ? prev : (state.profiles[0]?.id ?? '')
     );
   }, [profileLookup, state.profiles]);
 
