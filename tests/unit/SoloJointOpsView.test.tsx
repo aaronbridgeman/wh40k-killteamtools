@@ -6,9 +6,15 @@ describe('SoloJointOpsView', () => {
   it('renders Game Runner as the default tab', () => {
     render(<SoloJointOpsView />);
 
-    expect(screen.getByRole('heading', { name: 'Game Runner' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'List Builder' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Profile Manager' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Game Runner' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'List Builder' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Profile Manager' })
+    ).toBeInTheDocument();
   });
 
   it('tracks activation order through start and next activation actions', () => {
@@ -26,7 +32,9 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Next Activation' }));
 
     expect(
-      screen.getByText('Turning Point 1 · Activation 2 · Active: Player Kill Team')
+      screen.getByText(
+        'Turning Point 1 · Activation 2 · Active: Player Kill Team'
+      )
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Next Turning Point' }));
@@ -48,7 +56,9 @@ describe('SoloJointOpsView', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
 
-    expect(screen.getByRole('heading', { name: 'Drone (NPO Team)' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Drone (NPO Team)' })
+    ).toBeInTheDocument();
     expect(screen.getByText('Damage Taken: 0')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: '+1' }));

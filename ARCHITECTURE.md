@@ -585,9 +585,9 @@ The root component that manages:
 - `getTurningPointState(game, tp)`: Get or initialise TP state
 - `updateTurningPointState(game, tp, state)`: Immutable TP state update
 - `advanceTurningPoint(game)`: Increment TP, initialise fresh TP state
-- `signInWithGoogle()` *(stub)*: Google Drive OAuth — not yet implemented
-- `saveEventStateToGoogleDrive(state)` *(stub)*: Drive save — not yet implemented
-- `loadEventStateFromGoogleDrive()` *(stub)*: Drive load — not yet implemented
+- `signInWithGoogle()` _(stub)_: Google Drive OAuth — not yet implemented
+- `saveEventStateToGoogleDrive(state)` _(stub)_: Drive save — not yet implemented
+- `loadEventStateFromGoogleDrive()` _(stub)_: Drive load — not yet implemented
 
 **Dependencies**: `localStorage`, `constants.ts`
 

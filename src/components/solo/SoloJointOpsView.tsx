@@ -1,4 +1,11 @@
-import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import './SoloJointOpsView.css';
 
 type ActivationSide = 'player' | 'npo';
@@ -225,7 +232,8 @@ const loadState = (): SoloJointOpsState => {
           ? maybe.turningPoint
           : fallback.turningPoint,
       activationNumber:
-        typeof maybe.activationNumber === 'number' && maybe.activationNumber >= 0
+        typeof maybe.activationNumber === 'number' &&
+        maybe.activationNumber >= 0
           ? maybe.activationNumber
           : fallback.activationNumber,
       activeSide: maybe.activeSide === 'npo' ? 'npo' : 'player',
@@ -243,7 +251,10 @@ const readFile = (file: File): Promise<string> =>
     reader.readAsText(file);
   });
 
-const getProfileName = (profiles: SoloProfile[], profileId: string): string | null =>
+const getProfileName = (
+  profiles: SoloProfile[],
+  profileId: string
+): string | null =>
   profiles.find((profile) => profile.id === profileId)?.name ?? null;
 
 function SoloListEditor({
@@ -277,7 +288,8 @@ function SoloListEditor({
   const [newOperativeName, setNewOperativeName] = useState('');
 
   const sideLabel = side === 'player' ? 'Player' : 'NPO';
-  const selectedList = lists.find((list) => list.id === selectedListId) ?? lists[0];
+  const selectedList =
+    lists.find((list) => list.id === selectedListId) ?? lists[0];
   if (!selectedList) {
     return null;
   }
@@ -332,14 +344,18 @@ function SoloListEditor({
         Delete List
       </button>
 
-      <label htmlFor={`${side}-operative-input`}>Add {sideLabel} Operative</label>
+      <label htmlFor={`${side}-operative-input`}>
+        Add {sideLabel} Operative
+      </label>
       <div className="input-row input-row-stack-mobile">
         <input
           id={`${side}-operative-input`}
           value={newOperativeName}
           onChange={(event) => setNewOperativeName(event.target.value)}
           placeholder={
-            side === 'player' ? 'e.g. Intercessor Sergeant' : 'e.g. Rebel Trooper'
+            side === 'player'
+              ? 'e.g. Intercessor Sergeant'
+              : 'e.g. Rebel Trooper'
           }
         />
         <select
@@ -347,7 +363,9 @@ function SoloListEditor({
           onChange={(event) => onSetSelectedProfile(event.target.value)}
           aria-label={`${sideLabel} profile selection`}
         >
-          {side === 'player' && <option value={DATACARD_PROFILE_ID}>Datacard</option>}
+          {side === 'player' && (
+            <option value={DATACARD_PROFILE_ID}>Datacard</option>
+          )}
           {profiles.map((profile) => (
             <option key={profile.id} value={profile.id}>
               {profile.name}
@@ -357,7 +375,11 @@ function SoloListEditor({
         <button
           type="button"
           onClick={() => {
-            onAddOperative(selectedList.id, newOperativeName, selectedProfileId);
+            onAddOperative(
+              selectedList.id,
+              newOperativeName,
+              selectedProfileId
+            );
             setNewOperativeName('');
           }}
         >
@@ -374,7 +396,8 @@ function SoloListEditor({
                 (
                 {operative.profileId === DATACARD_PROFILE_ID
                   ? 'Datacard'
-                  : getProfileName(profiles, operative.profileId) ?? 'Unknown profile'}
+                  : (getProfileName(profiles, operative.profileId) ??
+                    'Unknown profile')}
                 )
               </small>
             </span>
@@ -411,7 +434,9 @@ function ProfileWeaponEditor({
             onChange={(event) =>
               onChange(
                 weapons.map((item) =>
-                  item.id === weapon.id ? { ...item, name: event.target.value } : item
+                  item.id === weapon.id
+                    ? { ...item, name: event.target.value }
+                    : item
                 )
               )
             }
@@ -442,7 +467,9 @@ function ProfileWeaponEditor({
             onChange={(event) =>
               onChange(
                 weapons.map((item) =>
-                  item.id === weapon.id ? { ...item, skill: event.target.value } : item
+                  item.id === weapon.id
+                    ? { ...item, skill: event.target.value }
+                    : item
                 )
               )
             }
@@ -454,7 +481,9 @@ function ProfileWeaponEditor({
             onChange={(event) =>
               onChange(
                 weapons.map((item) =>
-                  item.id === weapon.id ? { ...item, damage: event.target.value } : item
+                  item.id === weapon.id
+                    ? { ...item, damage: event.target.value }
+                    : item
                 )
               )
             }
@@ -490,7 +519,9 @@ function ProfileWeaponEditor({
           />
           <button
             type="button"
-            onClick={() => onChange(weapons.filter((item) => item.id !== weapon.id))}
+            onClick={() =>
+              onChange(weapons.filter((item) => item.id !== weapon.id))
+            }
             disabled={weapons.length <= 1}
           >
             Remove
@@ -511,10 +542,11 @@ export function SoloJointOpsView() {
   const initialState = useMemo(() => loadState(), []);
   const [activeTab, setActiveTab] = useState<SoloTab>('game-runner');
   const [state, setState] = useState<SoloJointOpsState>(initialState);
-  const [runnerOperatives, setRunnerOperatives] = useState<RunnerOperative[]>([]);
-  const [selectedPlayerProfileForList, setSelectedPlayerProfileForList] = useState(
-    DATACARD_PROFILE_ID
+  const [runnerOperatives, setRunnerOperatives] = useState<RunnerOperative[]>(
+    []
   );
+  const [selectedPlayerProfileForList, setSelectedPlayerProfileForList] =
+    useState(DATACARD_PROFILE_ID);
   const [selectedNpoProfileForList, setSelectedNpoProfileForList] = useState(
     initialState.profiles[0]?.id ?? DATACARD_PROFILE_ID
   );
@@ -539,7 +571,9 @@ export function SoloJointOpsView() {
     playerLists[0] ??
     null;
   const selectedNpoList =
-    npoLists.find((list) => list.id === state.selectedNpoListId) ?? npoLists[0] ?? null;
+    npoLists.find((list) => list.id === state.selectedNpoListId) ??
+    npoLists[0] ??
+    null;
 
   const profileLookup = useMemo(
     () => new Map(state.profiles.map((profile) => [profile.id, profile])),
@@ -547,7 +581,8 @@ export function SoloJointOpsView() {
   );
 
   const activeTeamLabel = useMemo(
-    () => (state.activeSide === 'player' ? state.playerTeamName : state.npoTeamName),
+    () =>
+      state.activeSide === 'player' ? state.playerTeamName : state.npoTeamName,
     [state.activeSide, state.playerTeamName, state.npoTeamName]
   );
 
@@ -559,7 +594,7 @@ export function SoloJointOpsView() {
     setSelectedNpoProfileForList((prev) =>
       prev !== DATACARD_PROFILE_ID && profileLookup.has(prev)
         ? prev
-        : state.profiles[0]?.id ?? DATACARD_PROFILE_ID
+        : (state.profiles[0]?.id ?? DATACARD_PROFILE_ID)
     );
   }, [profileLookup, state.profiles]);
 
@@ -583,7 +618,10 @@ export function SoloJointOpsView() {
 
     setRunnerOperatives((prev) => {
       const existing = new Map(
-        prev.map((operative) => [`${operative.side}:${operative.sourceOperativeId}`, operative])
+        prev.map((operative) => [
+          `${operative.side}:${operative.sourceOperativeId}`,
+          operative,
+        ])
       );
 
       return activeOperatives.map((operative) => {
@@ -662,7 +700,11 @@ export function SoloJointOpsView() {
     });
   };
 
-  const addOperativeToList = (listId: string, operativeName: string, profileId: string) => {
+  const addOperativeToList = (
+    listId: string,
+    operativeName: string,
+    profileId: string
+  ) => {
     const normalized = operativeName.trim();
     if (!normalized) return;
     setState((prev) => ({
@@ -692,14 +734,19 @@ export function SoloJointOpsView() {
         list.id === listId
           ? {
               ...list,
-              operatives: list.operatives.filter((operative) => operative.id !== operativeId),
+              operatives: list.operatives.filter(
+                (operative) => operative.id !== operativeId
+              ),
             }
           : list
       ),
     }));
   };
 
-  const updateRunnerOperative = (operativeId: string, updates: Partial<RunnerOperative>) => {
+  const updateRunnerOperative = (
+    operativeId: string,
+    updates: Partial<RunnerOperative>
+  ) => {
     setRunnerOperatives((prev) =>
       prev.map((operative) =>
         operative.id === operativeId ? { ...operative, ...updates } : operative
@@ -751,7 +798,9 @@ export function SoloJointOpsView() {
     setState((prev) => {
       if (prev.profiles.length <= 1) return prev;
 
-      const nextProfiles = prev.profiles.filter((profile) => profile.id !== profileId);
+      const nextProfiles = prev.profiles.filter(
+        (profile) => profile.id !== profileId
+      );
       const fallbackProfileId = nextProfiles[0]?.id ?? DATACARD_PROFILE_ID;
 
       return {
@@ -764,7 +813,9 @@ export function SoloJointOpsView() {
               ? {
                   ...operative,
                   profileId:
-                    list.side === 'player' ? DATACARD_PROFILE_ID : fallbackProfileId,
+                    list.side === 'player'
+                      ? DATACARD_PROFILE_ID
+                      : fallbackProfileId,
                 }
               : operative
           ),
@@ -818,7 +869,9 @@ export function SoloJointOpsView() {
         !importedLists.some((list) => list.side === 'player') ||
         !importedLists.some((list) => list.side === 'npo')
       ) {
-        window.alert('Backup must include at least one player list and one NPO list.');
+        window.alert(
+          'Backup must include at least one player list and one NPO list.'
+        );
         return;
       }
 
@@ -833,7 +886,9 @@ export function SoloJointOpsView() {
         selectedNpoListId: firstNpo.id,
       }));
     } catch {
-      window.alert('Unable to import lists. Ensure the file is valid JSON backup data.');
+      window.alert(
+        'Unable to import lists. Ensure the file is valid JSON backup data.'
+      );
     } finally {
       event.target.value = '';
     }
@@ -860,7 +915,9 @@ export function SoloJointOpsView() {
       }));
       setEditingProfileId(importedProfiles[0].id);
     } catch {
-      window.alert('Unable to import profiles. Ensure the file is valid JSON backup data.');
+      window.alert(
+        'Unable to import profiles. Ensure the file is valid JSON backup data.'
+      );
     } finally {
       event.target.value = '';
     }
@@ -888,9 +945,15 @@ export function SoloJointOpsView() {
           {profile.wounds}
         </p>
         <p>
-          Ranged: {profile.rangedWeapons.map((weapon) => weapon.name).join(', ') || 'None'}
+          Ranged:{' '}
+          {profile.rangedWeapons.map((weapon) => weapon.name).join(', ') ||
+            'None'}
         </p>
-        <p>Melee: {profile.meleeWeapons.map((weapon) => weapon.name).join(', ') || 'None'}</p>
+        <p>
+          Melee:{' '}
+          {profile.meleeWeapons.map((weapon) => weapon.name).join(', ') ||
+            'None'}
+        </p>
         {profile.behaviorRules && <p>Behavior: {profile.behaviorRules}</p>}
       </div>
     );
@@ -905,7 +968,8 @@ export function SoloJointOpsView() {
       <header>
         <h2>Solo / Joint Ops</h2>
         <p>
-          Game runner, list builder, and profile manager for solo or joint operations.
+          Game runner, list builder, and profile manager for solo or joint
+          operations.
         </p>
       </header>
 
@@ -943,7 +1007,9 @@ export function SoloJointOpsView() {
                 <input
                   id="player-team-name"
                   value={state.playerTeamName}
-                  onChange={(event) => updateState({ playerTeamName: event.target.value })}
+                  onChange={(event) =>
+                    updateState({ playerTeamName: event.target.value })
+                  }
                 />
                 <label htmlFor="active-player-list">Active Player List</label>
                 <select
@@ -966,7 +1032,9 @@ export function SoloJointOpsView() {
                 <input
                   id="npo-team-name"
                   value={state.npoTeamName}
-                  onChange={(event) => updateState({ npoTeamName: event.target.value })}
+                  onChange={(event) =>
+                    updateState({ npoTeamName: event.target.value })
+                  }
                 />
                 <label htmlFor="active-npo-list">Active NPO List</label>
                 <select
@@ -993,7 +1061,9 @@ export function SoloJointOpsView() {
                 <input
                   type="checkbox"
                   checked={state.playerDeployed}
-                  onChange={(event) => updateState({ playerDeployed: event.target.checked })}
+                  onChange={(event) =>
+                    updateState({ playerDeployed: event.target.checked })
+                  }
                 />
                 {state.playerTeamName} Deployed
               </label>
@@ -1001,7 +1071,9 @@ export function SoloJointOpsView() {
                 <input
                   type="checkbox"
                   checked={state.npoDeployed}
-                  onChange={(event) => updateState({ npoDeployed: event.target.checked })}
+                  onChange={(event) =>
+                    updateState({ npoDeployed: event.target.checked })
+                  }
                 />
                 {state.npoTeamName} Deployed
               </label>
@@ -1016,7 +1088,9 @@ export function SoloJointOpsView() {
                 id="initiative-side"
                 value={state.initiative}
                 onChange={(event) =>
-                  updateState({ initiative: event.target.value as ActivationSide })
+                  updateState({
+                    initiative: event.target.value as ActivationSide,
+                  })
                 }
               >
                 <option value="player">{state.playerTeamName}</option>
@@ -1037,8 +1111,8 @@ export function SoloJointOpsView() {
               </button>
             </div>
             <p aria-live="polite" className="activation-status">
-              Turning Point {state.turningPoint} · Activation {state.activationNumber} ·
-              Active: {activeTeamLabel}
+              Turning Point {state.turningPoint} · Activation{' '}
+              {state.activationNumber} · Active: {activeTeamLabel}
             </p>
           </section>
 
@@ -1108,8 +1182,8 @@ export function SoloJointOpsView() {
         <section className="solo-card">
           <h3>List Builder</h3>
           <p>
-            Build and store player/NPO operative lists with profile assignments. Player lists
-            default to Datacard profile selection.
+            Build and store player/NPO operative lists with profile assignments.
+            Player lists default to Datacard profile selection.
           </p>
 
           <div className="team-builders">
@@ -1120,7 +1194,9 @@ export function SoloJointOpsView() {
                 selectedListId={selectedPlayerList.id}
                 profiles={state.profiles}
                 selectedProfileId={selectedPlayerProfileForList}
-                onSelectList={(listId) => updateState({ selectedPlayerListId: listId })}
+                onSelectList={(listId) =>
+                  updateState({ selectedPlayerListId: listId })
+                }
                 onCreateList={(name) => addList('player', name)}
                 onDeleteList={deleteList}
                 onRenameList={renameList}
@@ -1137,7 +1213,9 @@ export function SoloJointOpsView() {
                 selectedListId={selectedNpoList.id}
                 profiles={state.profiles}
                 selectedProfileId={selectedNpoProfileForList}
-                onSelectList={(listId) => updateState({ selectedNpoListId: listId })}
+                onSelectList={(listId) =>
+                  updateState({ selectedNpoListId: listId })
+                }
                 onCreateList={(name) => addList('npo', name)}
                 onDeleteList={deleteList}
                 onRenameList={renameList}
@@ -1152,7 +1230,10 @@ export function SoloJointOpsView() {
             <button type="button" onClick={exportLists}>
               Download Lists Backup
             </button>
-            <button type="button" onClick={() => listsImportRef.current?.click()}>
+            <button
+              type="button"
+              onClick={() => listsImportRef.current?.click()}
+            >
               Import Lists Backup
             </button>
             <input
@@ -1170,8 +1251,8 @@ export function SoloJointOpsView() {
         <section className="solo-card">
           <h3>Profile Manager</h3>
           <p>
-            Create and edit operative profiles used by lists. Profiles include core stats,
-            ranged/melee weapon profiles, and behavior rules.
+            Create and edit operative profiles used by lists. Profiles include
+            core stats, ranged/melee weapon profiles, and behavior rules.
           </p>
 
           <div className="profile-toolbar">
@@ -1207,7 +1288,9 @@ export function SoloJointOpsView() {
                 <input
                   value={activeProfile.name}
                   onChange={(event) =>
-                    updateProfile(activeProfile.id, { name: event.target.value })
+                    updateProfile(activeProfile.id, {
+                      name: event.target.value,
+                    })
                   }
                 />
               </label>
@@ -1229,7 +1312,9 @@ export function SoloJointOpsView() {
                 <input
                   value={activeProfile.move}
                   onChange={(event) =>
-                    updateProfile(activeProfile.id, { move: event.target.value })
+                    updateProfile(activeProfile.id, {
+                      move: event.target.value,
+                    })
                   }
                 />
               </label>
@@ -1238,7 +1323,9 @@ export function SoloJointOpsView() {
                 <input
                   value={activeProfile.save}
                   onChange={(event) =>
-                    updateProfile(activeProfile.id, { save: event.target.value })
+                    updateProfile(activeProfile.id, {
+                      save: event.target.value,
+                    })
                   }
                 />
               </label>
@@ -1272,12 +1359,16 @@ export function SoloJointOpsView() {
                 <ProfileWeaponEditor
                   title="Ranged"
                   weapons={activeProfile.rangedWeapons}
-                  onChange={(next) => updateProfile(activeProfile.id, { rangedWeapons: next })}
+                  onChange={(next) =>
+                    updateProfile(activeProfile.id, { rangedWeapons: next })
+                  }
                 />
                 <ProfileWeaponEditor
                   title="Melee"
                   weapons={activeProfile.meleeWeapons}
-                  onChange={(next) => updateProfile(activeProfile.id, { meleeWeapons: next })}
+                  onChange={(next) =>
+                    updateProfile(activeProfile.id, { meleeWeapons: next })
+                  }
                 />
               </div>
             </div>
@@ -1287,7 +1378,10 @@ export function SoloJointOpsView() {
             <button type="button" onClick={exportProfiles}>
               Download Profiles Backup
             </button>
-            <button type="button" onClick={() => profilesImportRef.current?.click()}>
+            <button
+              type="button"
+              onClick={() => profilesImportRef.current?.click()}
+            >
               Import Profiles Backup
             </button>
             <input
