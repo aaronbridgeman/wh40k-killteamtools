@@ -3,6 +3,14 @@ import { describe, expect, it } from 'vitest';
 import { SoloJointOpsView } from '@/components/solo/SoloJointOpsView';
 
 describe('SoloJointOpsView', () => {
+  it('renders Game Runner as the default tab', () => {
+    render(<SoloJointOpsView />);
+
+    expect(screen.getByRole('heading', { name: 'Game Runner' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'List Builder' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Profile Manager' })).toBeInTheDocument();
+  });
+
   it('tracks activation order through start and next activation actions', () => {
     render(<SoloJointOpsView />);
 
@@ -28,15 +36,19 @@ describe('SoloJointOpsView', () => {
     ).toBeInTheDocument();
   });
 
-  it('creates and updates an NPO datacard', () => {
+  it('creates and updates an NPO runner card from the list builder', () => {
     render(<SoloJointOpsView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
 
     fireEvent.change(screen.getByLabelText('Add NPO Operative'), {
       target: { value: 'Drone' },
     });
     fireEvent.click(screen.getByRole('button', { name: 'Add NPO Operative' }));
 
-    expect(screen.getByRole('heading', { name: 'Drone' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+
+    expect(screen.getByRole('heading', { name: 'Drone (NPO Team)' })).toBeInTheDocument();
     expect(screen.getByText('Damage Taken: 0')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: '+1' }));

@@ -59,12 +59,13 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Nurgle Green Theme**: Immersive green palette; sacred numbers 3 and 7 featured throughout
 - **Offline Persistence**: All state saved automatically to localStorage
 
-**Solo / Joint Ops** 🧪 *(Initial Implementation)*
+**Solo / Joint Ops**
 
-- **Starter List Builder**: Track both player and NPO operatives in one place
-- **Deployment Checklist**: Mark each side as deployed before activations begin
-- **Activation Flow Tracker**: Set initiative and step through alternating activations
-- **NPO Datacards (Starter)**: Track NPO damage and injured state
+- **Game Runner**: Default tab with deployment, activation flow, and operative runner cards
+- **List Builder**: Build and persist player/NPO lists with profile assignment per operative
+- **Datacard Default Option**: Player list entries default to a `Datacard` profile option
+- **Profile Manager**: Create/edit/delete profile stat blocks with ranged/melee weapon profiles and behavior rules
+- **Backup/Restore**: Import and export lists and profiles as JSON backup files
 
 ### Reference Pages
 
