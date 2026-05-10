@@ -20,6 +20,14 @@
   background: rgba(59, 130, 246, 0.18);
 }
 
+.import-message {
+  margin: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: rgba(59, 130, 246, 0.12);
+  padding: 0.5rem 0.75rem;
+}
+
 .solo-card {
   border: 1px solid var(--border-color);
   border-radius: 8px;

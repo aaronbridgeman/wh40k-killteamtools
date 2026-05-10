@@ -70,5 +70,9 @@ describe('SoloJointOpsView', () => {
 
     fireEvent.click(screen.getByRole('checkbox', { name: 'Injured' }));
     expect(screen.getByRole('checkbox', { name: 'Injured' })).toBeChecked();
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+    expect(screen.getByText(/Drone/)).toBeInTheDocument();
+    expect(screen.getAllByText(/NPO Trooper/).length).toBeGreaterThan(0);
   });
 });

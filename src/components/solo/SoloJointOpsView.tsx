@@ -63,6 +63,7 @@ interface SoloBackupFile {
 }
 
 const STORAGE_KEY = 'kill-team-solo-joint-ops-v2';
+const LEGACY_STORAGE_KEY = 'kill-team-solo-joint-ops';
 const DATACARD_PROFILE_ID = 'datacard';
 
 const generateId = (prefix: string) =>
@@ -186,58 +187,62 @@ const loadState = (): SoloJointOpsState => {
   const fallback = buildInitialState();
 
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return fallback;
+    for (const key of [STORAGE_KEY, LEGACY_STORAGE_KEY]) {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
 
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object') return fallback;
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') continue;
 
-    const maybe = parsed as Partial<SoloJointOpsState>;
-    if (!Array.isArray(maybe.profiles) || !Array.isArray(maybe.lists)) {
-      return fallback;
+      const maybe = parsed as Partial<SoloJointOpsState>;
+      if (!Array.isArray(maybe.profiles) || !Array.isArray(maybe.lists)) {
+        continue;
+      }
+
+      const profiles = maybe.profiles.filter(isValidProfile);
+      const lists = maybe.lists.filter(isValidList);
+      if (profiles.length === 0 || lists.length === 0) continue;
+
+      const playerList = lists.find((list) => list.side === 'player');
+      const npoList = lists.find((list) => list.side === 'npo');
+      if (!playerList || !npoList) continue;
+
+      return {
+        profiles,
+        lists,
+        selectedPlayerListId:
+          maybe.selectedPlayerListId &&
+          lists.some((list) => list.id === maybe.selectedPlayerListId)
+            ? maybe.selectedPlayerListId
+            : playerList.id,
+        selectedNpoListId:
+          maybe.selectedNpoListId &&
+          lists.some((list) => list.id === maybe.selectedNpoListId)
+            ? maybe.selectedNpoListId
+            : npoList.id,
+        playerTeamName: isString(maybe.playerTeamName)
+          ? maybe.playerTeamName
+          : fallback.playerTeamName,
+        npoTeamName: isString(maybe.npoTeamName)
+          ? maybe.npoTeamName
+          : fallback.npoTeamName,
+        playerDeployed: Boolean(maybe.playerDeployed),
+        npoDeployed: Boolean(maybe.npoDeployed),
+        initiative: maybe.initiative === 'npo' ? 'npo' : 'player',
+        turningPoint:
+          typeof maybe.turningPoint === 'number' && maybe.turningPoint > 0
+            ? maybe.turningPoint
+            : fallback.turningPoint,
+        activationNumber:
+          typeof maybe.activationNumber === 'number' &&
+          maybe.activationNumber >= 0
+            ? maybe.activationNumber
+            : fallback.activationNumber,
+        activeSide: maybe.activeSide === 'npo' ? 'npo' : 'player',
+      };
     }
 
-    const profiles = maybe.profiles.filter(isValidProfile);
-    const lists = maybe.lists.filter(isValidList);
-    if (profiles.length === 0 || lists.length === 0) return fallback;
-
-    const playerList = lists.find((list) => list.side === 'player');
-    const npoList = lists.find((list) => list.side === 'npo');
-    if (!playerList || !npoList) return fallback;
-
-    return {
-      profiles,
-      lists,
-      selectedPlayerListId:
-        maybe.selectedPlayerListId &&
-        lists.some((list) => list.id === maybe.selectedPlayerListId)
-          ? maybe.selectedPlayerListId
-          : playerList.id,
-      selectedNpoListId:
-        maybe.selectedNpoListId &&
-        lists.some((list) => list.id === maybe.selectedNpoListId)
-          ? maybe.selectedNpoListId
-          : npoList.id,
-      playerTeamName: isString(maybe.playerTeamName)
-        ? maybe.playerTeamName
-        : fallback.playerTeamName,
-      npoTeamName: isString(maybe.npoTeamName)
-        ? maybe.npoTeamName
-        : fallback.npoTeamName,
-      playerDeployed: Boolean(maybe.playerDeployed),
-      npoDeployed: Boolean(maybe.npoDeployed),
-      initiative: maybe.initiative === 'npo' ? 'npo' : 'player',
-      turningPoint:
-        typeof maybe.turningPoint === 'number' && maybe.turningPoint > 0
-          ? maybe.turningPoint
-          : fallback.turningPoint,
-      activationNumber:
-        typeof maybe.activationNumber === 'number' &&
-        maybe.activationNumber >= 0
-          ? maybe.activationNumber
-          : fallback.activationNumber,
-      activeSide: maybe.activeSide === 'npo' ? 'npo' : 'player',
-    };
+    return fallback;
   } catch {
     return fallback;
   }
@@ -247,7 +252,8 @@ const readFile = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result ?? ''));
-    reader.onerror = () => reject(new Error('Failed to read selected file.'));
+    reader.onerror = () =>
+      reject(reader.error ?? new Error('Failed to read selected file.'));
     reader.readAsText(file);
   });
 
@@ -553,6 +559,7 @@ export function SoloJointOpsView() {
   const [editingProfileId, setEditingProfileId] = useState(
     initialState.profiles[0]?.id ?? ''
   );
+  const [importMessage, setImportMessage] = useState<string | null>(null);
 
   const listsImportRef = useRef<HTMLInputElement | null>(null);
   const profilesImportRef = useRef<HTMLInputElement | null>(null);
@@ -861,7 +868,7 @@ export function SoloJointOpsView() {
         : [];
 
       if (importedLists.length === 0) {
-        window.alert('No valid lists were found in this backup file.');
+        setImportMessage('No valid lists were found in this backup file.');
         return;
       }
 
@@ -869,7 +876,7 @@ export function SoloJointOpsView() {
         !importedLists.some((list) => list.side === 'player') ||
         !importedLists.some((list) => list.side === 'npo')
       ) {
-        window.alert(
+        setImportMessage(
           'Backup must include at least one player list and one NPO list.'
         );
         return;
@@ -885,8 +892,9 @@ export function SoloJointOpsView() {
         selectedPlayerListId: firstPlayer.id,
         selectedNpoListId: firstNpo.id,
       }));
+      setImportMessage(`Imported ${importedLists.length} list(s).`);
     } catch {
-      window.alert(
+      setImportMessage(
         'Unable to import lists. Ensure the file is valid JSON backup data.'
       );
     } finally {
@@ -905,7 +913,7 @@ export function SoloJointOpsView() {
         : [];
 
       if (importedProfiles.length === 0) {
-        window.alert('No valid profiles were found in this backup file.');
+        setImportMessage('No valid profiles were found in this backup file.');
         return;
       }
 
@@ -914,8 +922,9 @@ export function SoloJointOpsView() {
         profiles: importedProfiles,
       }));
       setEditingProfileId(importedProfiles[0].id);
+      setImportMessage(`Imported ${importedProfiles.length} profile(s).`);
     } catch {
-      window.alert(
+      setImportMessage(
         'Unable to import profiles. Ensure the file is valid JSON backup data.'
       );
     } finally {
@@ -996,6 +1005,12 @@ export function SoloJointOpsView() {
           Profile Manager
         </button>
       </nav>
+
+      {importMessage && (
+        <p className="import-message" role="status">
+          {importMessage}
+        </p>
+      )}
 
       {activeTab === 'game-runner' && (
         <>
