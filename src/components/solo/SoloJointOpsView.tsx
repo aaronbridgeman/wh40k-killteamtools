@@ -67,7 +67,9 @@ const LEGACY_STORAGE_KEY = 'kill-team-solo-joint-ops';
 const DATACARD_PROFILE_ID = 'datacard';
 
 const generateUniqueId = (prefix: string) =>
-  `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+    ? `${prefix}-${crypto.randomUUID()}`
+    : `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
 const defaultWeapon = (name = 'Weapon Profile'): SoloWeaponProfile => ({
   id: generateUniqueId('weapon'),
@@ -257,9 +259,16 @@ const loadState = (): SoloJointOpsState => {
 const readFile = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result ?? ''));
-    reader.onerror = () =>
+    reader.onload = () => {
+      reader.onload = null;
+      reader.onerror = null;
+      resolve(String(reader.result ?? ''));
+    };
+    reader.onerror = () => {
+      reader.onload = null;
+      reader.onerror = null;
       reject(reader.error ?? new Error('Failed to read selected file.'));
+    };
     reader.readAsText(file);
   });
 
@@ -814,7 +823,7 @@ export function SoloJointOpsView() {
       const nextProfiles = prev.profiles.filter(
         (profile) => profile.id !== profileId
       );
-      const fallbackProfileId = nextProfiles[0]?.id ?? DATACARD_PROFILE_ID;
+      const fallbackProfileId = nextProfiles[0]?.id ?? '';
 
       return {
         ...prev,
@@ -828,7 +837,7 @@ export function SoloJointOpsView() {
                   profileId:
                     list.side === 'player'
                       ? DATACARD_PROFILE_ID
-                      : fallbackProfileId,
+                      : fallbackProfileId || operative.profileId,
                 }
               : operative
           ),
