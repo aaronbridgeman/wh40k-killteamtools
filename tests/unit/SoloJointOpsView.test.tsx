@@ -59,6 +59,9 @@ describe('SoloJointOpsView', () => {
     expect(
       screen.getByRole('heading', { name: 'Drone (NPO Team)' })
     ).toBeInTheDocument();
+    expect(
+      screen.getByText('APL 2 · Move 6" · Save 5+ · Wounds 7')
+    ).toBeInTheDocument();
     expect(screen.getByText('Damage Taken: 0')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: '+1' }));

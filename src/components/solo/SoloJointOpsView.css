@@ -26,6 +26,10 @@
   border-radius: 6px;
   background: rgba(59, 130, 246, 0.12);
   padding: 0.5rem 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .solo-card {

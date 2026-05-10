@@ -904,9 +904,11 @@ export function SoloJointOpsView() {
         selectedNpoListId: firstNpo.id,
       }));
       setImportMessage(`Imported ${importedLists.length} list(s).`);
-    } catch {
+    } catch (error) {
       setImportMessage(
-        'Unable to import lists. Ensure the file is valid JSON backup data.'
+        error instanceof SyntaxError
+          ? 'Unable to import lists: invalid JSON format.'
+          : 'Unable to import lists. Ensure the file contains valid list backup data.'
       );
     } finally {
       event.target.value = '';
@@ -934,9 +936,11 @@ export function SoloJointOpsView() {
       }));
       setEditingProfileId(importedProfiles[0].id);
       setImportMessage(`Imported ${importedProfiles.length} profile(s).`);
-    } catch {
+    } catch (error) {
       setImportMessage(
-        'Unable to import profiles. Ensure the file is valid JSON backup data.'
+        error instanceof SyntaxError
+          ? 'Unable to import profiles: invalid JSON format.'
+          : 'Unable to import profiles. Ensure the file contains valid profile backup data.'
       );
     } finally {
       event.target.value = '';
@@ -1022,9 +1026,17 @@ export function SoloJointOpsView() {
       </nav>
 
       {importMessage && (
-        <p className="import-message" role="status">
-          {importMessage}
-        </p>
+        <div
+          className="import-message"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <span>{importMessage}</span>
+          <button type="button" onClick={() => setImportMessage(null)}>
+            Dismiss
+          </button>
+        </div>
       )}
 
       {activeTab === 'game-runner' && (
