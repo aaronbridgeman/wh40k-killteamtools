@@ -27,11 +27,15 @@
 .nav-buttons {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-top: 1.5rem;
+  width: 100%;
 }
 
 .nav-button {
+  flex: 1 1 160px;
+  max-width: 220px;
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -232,6 +236,8 @@
   }
 
   .nav-button {
+    flex: 1 1 calc(50% - 0.5rem);
+    max-width: none;
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }

@@ -242,7 +242,7 @@ graph LR
 The root component that manages:
 
 - Global application state
-- View mode navigation (home, game mode, rules pages)
+- View mode navigation (Solo/Joint Ops, rules pages, quick play links)
 - Team building workflow
 - Faction selection and loading
 
