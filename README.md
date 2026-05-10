@@ -6,8 +6,8 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 
 | Link | Description |
 |------|-------------|
-| [**🎮 Full App**](https://aaronbridgeman.github.io/wh40k-killteamtools/) | Complete tool — all tabs and features |
-| [**☠️ Quick Play (Standalone)**](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) | Focused Plague Marines tournament tracker — no other tabs, maximized for play |
+| [**🎮 Full App**](https://aaronbridgeman.github.io/wh40k-killteamtools/) | Complete tool with Solo/Joint Ops as the default landing view |
+| [**☠️ Quick Play (Standalone)**](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) | Focused Plague Marines tournament tracker — launched via direct link with no other tabs |
 
 ## 🎯 Features
 
