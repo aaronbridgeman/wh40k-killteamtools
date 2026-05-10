@@ -66,11 +66,11 @@ const STORAGE_KEY = 'kill-team-solo-joint-ops-v2';
 const LEGACY_STORAGE_KEY = 'kill-team-solo-joint-ops';
 const DATACARD_PROFILE_ID = 'datacard';
 
-const generateId = (prefix: string) =>
+const generateUniqueId = (prefix: string) =>
   `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
 const defaultWeapon = (name = 'Weapon Profile'): SoloWeaponProfile => ({
-  id: generateId('weapon'),
+  id: generateUniqueId('weapon'),
   name,
   attacks: 4,
   skill: '4+',
@@ -80,7 +80,7 @@ const defaultWeapon = (name = 'Weapon Profile'): SoloWeaponProfile => ({
 });
 
 const defaultProfile = (): SoloProfile => ({
-  id: generateId('profile'),
+  id: generateUniqueId('profile'),
   name: 'NPO Trooper',
   apl: 2,
   move: '6"',
@@ -93,13 +93,13 @@ const defaultProfile = (): SoloProfile => ({
 
 const createDefaultLists = (): { player: SoloList; npo: SoloList } => ({
   player: {
-    id: generateId('list'),
+    id: generateUniqueId('list'),
     name: 'Player List',
     side: 'player',
     operatives: [],
   },
   npo: {
-    id: generateId('list'),
+    id: generateUniqueId('list'),
     name: 'NPO List',
     side: 'npo',
     operatives: [],
@@ -183,6 +183,11 @@ const isValidList = (value: unknown): value is SoloList => {
   );
 };
 
+/**
+ * Loads persisted solo/joint ops state from localStorage.
+ * Tries the current storage key first, then the legacy key for migration.
+ * Returns a fresh default state when stored data is missing or invalid.
+ */
 const loadState = (): SoloJointOpsState => {
   const fallback = buildInitialState();
 
@@ -248,6 +253,7 @@ const loadState = (): SoloJointOpsState => {
   }
 };
 
+/** Reads a backup file selected from an import input and returns its text content. */
 const readFile = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -257,6 +263,7 @@ const readFile = (file: File): Promise<string> =>
     reader.readAsText(file);
   });
 
+/** Resolves a profile ID to its display name, or null when not found. */
 const getProfileName = (
   profiles: SoloProfile[],
   profileId: string
@@ -635,7 +642,7 @@ export function SoloJointOpsView() {
         const key = `${operative.side}:${operative.id}`;
         const persisted = existing.get(key);
         return {
-          id: persisted?.id ?? generateId('runner-op'),
+          id: persisted?.id ?? generateUniqueId('runner-op'),
           sourceOperativeId: operative.id,
           side: operative.side,
           name: operative.name,
@@ -655,7 +662,7 @@ export function SoloJointOpsView() {
     const normalized = name.trim();
     if (!normalized) return;
     const newList: SoloList = {
-      id: generateId('list'),
+      id: generateUniqueId('list'),
       name: normalized,
       side,
       operatives: [],
@@ -723,7 +730,7 @@ export function SoloJointOpsView() {
               operatives: [
                 ...list.operatives,
                 {
-                  id: generateId('list-op'),
+                  id: generateUniqueId('list-op'),
                   name: normalized,
                   profileId,
                 },
@@ -831,6 +838,10 @@ export function SoloJointOpsView() {
     });
   };
 
+  /**
+   * Serializes backup payload JSON and triggers a browser download.
+   * Creates and revokes a temporary object URL for cleanup.
+   */
   const downloadBackup = (fileName: string, payload: object) => {
     const blob = new Blob([JSON.stringify(payload, null, 2)], {
       type: 'application/json;charset=utf-8',
@@ -935,6 +946,10 @@ export function SoloJointOpsView() {
   const activeProfile =
     state.profiles.find((profile) => profile.id === editingProfileId) ?? null;
 
+  /**
+   * Renders summary content for Datacard entries, resolved profiles,
+   * or a fallback when the referenced profile cannot be found.
+   */
   const renderProfileSummary = (profileId: string) => {
     if (profileId === DATACARD_PROFILE_ID) {
       return (

@@ -72,7 +72,8 @@ describe('SoloJointOpsView', () => {
     expect(screen.getByRole('checkbox', { name: 'Injured' })).toBeChecked();
 
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
-    expect(screen.getByText(/Drone/)).toBeInTheDocument();
-    expect(screen.getAllByText(/NPO Trooper/).length).toBeGreaterThan(0);
+    const npoListBuilder = screen.getByLabelText('NPO list builder');
+    expect(npoListBuilder).toHaveTextContent('Drone');
+    expect(npoListBuilder).toHaveTextContent('NPO Trooper');
   });
 });
