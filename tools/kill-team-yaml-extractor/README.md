@@ -26,4 +26,5 @@ Team reference sheet data from PDFs into YAML with AI assistance.
 - Keep official PDFs local; they are intentionally ignored by git.
 - Remove decorative content, page numbers, and image placeholders from outputs.
 - Split ploys into `strategy_ploys` and `firefight_ploys`.
-- Map `A HTD WR` or `A WS D WR` to `a`, `bs_ws`, `d`, and `rules`.
+- Map headers like `A HTD D WR`, `A BS D WR`, or `A WS D WR` to `a`,
+  `bs_ws`, `d`, and `rules`.
