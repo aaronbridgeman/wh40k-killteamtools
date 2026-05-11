@@ -1,0 +1,328 @@
+team:
+  name: Wrecka Krew
+  version: v1.4
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Waaagh!
+    cost: 1CP
+    description: Friendly WRECKA KREW operatives' melee weapons have the Balanced
+      weapon rule.
+  - name: Tuff Gitz
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly WRECKA KREW operative
+      that has an Engage order, you can re-roll one of your defence dice.
+  - name: Destruction
+    cost: 1CP
+    description: Friendly WRECKA KREW operatives' ranged weapons have the Saturate
+      weapon rule.
+  - name: Amped Up
+    cost: 1CP
+    description: Each friendly WRECKA KREW operative that has an Engage order can
+      immediately regain D3+1 lost wounds (roll separately for each).
+  firefight_ploys:
+  - name: Just A Scratch
+    cost: 1CP
+    description: Use this firefight ploy when an attack dice inflicts Normal Dmg on
+      a friendly WRECKA KREW operative (excluding BOMB SQUIG ). Ignore that inflicted
+      damage.
+  - name: Demolition Job
+    cost: 1CP
+    description: Use this firefight ploy after a friendly WRECKA KREW operative performs
+      the Fight or Shoot action, just before incapacitated operatives are removed
+      (if any). Place one of your Demolition markers within the target's control range
+      (if it's using a Blast weapon, the primary target). Whenever a friendly WRECKA
+      KREW operative (excluding BOMB SQUIG ) is shooting against, fighting against
+      or retaliating against an operative that's within 3" of that marker, you can
+      spend a Wrecka point for free (even if you have none). In the Ready step of
+      the next Strategy phase, remove that marker.
+  - name: Proppa Scrap
+    cost: 1CP
+    description: Use this firefight ploy during a friendly WRECKA KREW BREAKA BOY
+      or WRECKA KREW BOSS NOB operative's activation. During that activation, that
+      operative can perform two Fight actions.
+  - name: Kaboom!
+    cost: 1CP
+    description: Use this firefight ploy when a friendly WRECKA KREW operative performs
+      the Shoot action and a weapon with the Blast weapon rule is selected. Until
+      the end of that action, add 1" to that weapon's Blast and it has the Severe
+      weapon rule when shooting the primary target. You cannot use this ploy and the
+      Drill Rokkits rule (see equipment) during the same action. Note that Severe
+      doesn't generate a Wrecka point (as it's not a 6).
+  operatives:
+  - name: Boss Nob
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 14
+    weapons:
+    - name: Rokkit pistol
+      type: Ranged
+      a: 6
+      bs_ws: 5+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Blast 1"
+    - name: Two rokkit pistols (Focused)
+      type: Ranged
+      a: 6
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Blast 1"
+      - Ceaseless
+    - name: Two rokkit pistols (Salvo)
+      type: Ranged
+      a: 6
+      bs_ws: 5+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Blast 1"
+      - Salvo *
+    - name: Choppa
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Smash hammer
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Brutal
+    rules:
+    - name: Wrecka Boss
+      description: Whenever this operative performs a Fight or Shoot action excluding
+        Guard ), you gain 1 Wrecka point.
+      cost: 0AP
+    - name: '* Salvo'
+      description: Select up to two different valid targets that aren't within control
+        range of friendly operatives. Shoot with this weapon against both primary
+        targets in an order of your choice, then against all remaining secondary targets
+        in the same manner (roll each sequence separately). Each target (primary and
+        secondary) cannot be shot more than once during the action.
+      cost: 0AP
+  - name: Bomb Squig
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Explosives
+      type: Melee
+      a: 6
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Blast 1"
+      - Limited 1
+      - Exposive *
+    - name: Bite
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: '* Explosive'
+      description: This operative can perform the Shoot action with this weapon while
+        within control range of an enemy operative. Do not select a valid target.
+        Instead, this operative is always the primary target and cannot be in cover
+        or obscured.
+      cost: 0AP
+    - name: Stoopid
+      description: During the Firefight phase, whenever you determine this operative's
+        order, you cannot select Conceal. This operative cannot perform any actions
+        other than Charge , Dash , Fight , Reposition and Shoot , or use any weapons
+        that aren't on its datacard.
+      cost: 0AP
+    - name: Boom!
+      description: Whenever this operative is incapacitated during a battle in which
+        it hasn't used its explosives, roll one D6, or two D6 if you wish. If any
+        result is a 4+, this operative performs a free Shoot action with its explosives
+        before it's removed from the killzone.
+      cost: 0AP
+    - name: Expendable
+      description: "This operative is ignored for your opponent's kill/ elimination\
+        \ op (when it's incapacitated, and when determining your starting number of\
+        \ operatives). It's also ignored for victory conditions and scoring VPs if\
+        \ either require operatives to \u2018escape', \u2018survive' or be incapacitated\
+        \ by enemy operatives (if it escapes/survives/is incapacitated, determining\
+        \ how many operatives must escape/survive/be incapacitated, etc.)."
+      cost: 0AP
+  - name: Demolisha
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 12
+    weapons:
+    - name: Tankhammer (Bash)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: '* Detonate'
+      description: The first time this operative would inflict damage on an enemy
+        operative with this weapon profile during the battle, separately inflict D6+6
+        damage on that operative and each other operative within that enemy operative's
+        control range if it's a normal success, or 2D6+6 damage if it's a critical
+        success. Then the action ends and you gain 1 Wrecka point, plus 1 for each
+        operative that was incapacitated during that action. Damage from this weapon
+        rule cannot be ignored or reduced.
+      cost: 0AP
+    - name: Reckless Temperament
+      description: Normal Dmg of 4 or more inflicts 1 less damage on this operative;
+        if this operative has an Engage order, Critical Dmg of 4 or more also inflicts
+        1 less damage on this operative.
+      cost: 0AP
+  - name: Fighter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 12
+    weapons:
+    - name: Smash hammer
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Brutal
+    rules: []
+  - name: Krusha
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 12
+    weapons:
+    - name: Knucklebustas
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Brutal
+      - Shock
+      - Smash *
+    rules:
+    - name: '* Smash'
+      description: Whenever you strike, you can move the enemy operative in a straight
+        line increment of up to 1". If you do, it must finish the move further away
+        from this operative and in a location it can be placed. Then move this operative
+        in a straight line increment of up to 1", but it must end that move within
+        that enemy operative's control range (if either isn't possible, you cannot
+        move them).
+      cost: 0AP
+    - name: Armoured Up
+      description: Whenever an enemy operative is shooting this operative, or this
+        operative is fighting or retaliating, your opponent cannot retain attack dice
+        results of less than 6 as critical successes (e.g. as a result of the Lethal,
+        Rending or Severe weapon rules).
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 12
+    weapons:
+    - name: "\u2018Eavy rokkit launcha"
+      type: Melee
+      a: 6
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Blast 1"
+      - Heavy (Dash only)
+    - name: Rokkit launcha
+      type: Melee
+      a: 6
+      bs_ws: 5+
+      d: 4/5
+      rules:
+      - Blast 1"
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Kompetitive Streak
+      description: Once per Shoot action, if this operative shoots an enemy operative
+        that another friendly operative has already shot during this turning point,
+        you gain 1 Wrecka point. Determine this when you select a valid target, but
+        you can include any secondary targets when doing so (e.g. from the Blast weapon
+        rule).
+      cost: 0AP
+  - name: Rokkiteer
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 12
+    weapons:
+    - name: Pulse rokkit
+      type: Melee
+      a: 6
+      bs_ws: 5+
+      d: '-'
+      rules:
+      - Heavy (Reposition only)
+      - Limited 1
+      - Pulsa *
+    - name: Rokkit launcha
+      type: Melee
+      a: 6
+      bs_ws: 5+
+      d: 4/5
+      rules:
+      - Blast 1"
+    - name: Rokkit rack
+      type: Melee
+      a: 6
+      bs_ws: 5+
+      d: 4/5
+      rules:
+      - Blast 2"
+      - Heavy (Reposition only)
+      - Limited 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: '* Pulsa'
+      description: Don't select a valid target. Instead, place your Pulsa marker visible
+        to this operative, or on Vantage terrain of a terrain feature visible to this
+        operative. That
+      cost: 0AP
+    - name: marker gains 1 Pulsa point, then roll attack dice
+      description: it gains 1 additional Pulsa point for each success (to a maximum
+        of 3 additional points). Separately inflict D3 damage on each operative wholly
+        within x" of that marker, where x is that marker's Pulsa points. Then the
+        action ends.
+      cost: 0AP
+    - name: Shokkwav e
+      description: Whenever an operative is within x" of your Pulsa marker (see left),
+        worsen the Hit stat of its weapons by 1 and subtract 2" from its Move stat.
+        This is cumulative with being injured. X is that marker's Pulsa points. In
+        the Ready step of each Strategy phase, subtract 1 from your Pulsa marker's
+        points. If a Pulsa marker ever has 0 points, remove it.
+      cost: 0AP

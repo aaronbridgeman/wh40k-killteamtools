@@ -1,0 +1,331 @@
+team:
+  name: Battleclade
+  version: v1.3
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Infiltration
+  - Recon
+  strategy_ploys:
+  - name: Noospheric Possession
+    cost: 1CP
+    description: SUPPORT . Whenever a friendly BATTLECLADE SERVITOR operative is within
+      6" of a friendly BATTLECLADE AUTO-PROXY or BATTLECLADE SERVITOR UNDERSEER operative,that
+      friendly SERVITOR operative's weapons have the Accurate 1 weapon rule. For the
+      purposes of this SUPPORT rule and the Comms Device equipment, the AUTO-PROXY
+      or SERVITOR UNDERSEER operative must control your Comms Device marker to add
+      3" to its distance requirement for this rule.
+  - name: Duty Of Reclamation
+    cost: 1CP
+    description: Once per action, you can use the Command Reroll firefight ploy for
+      0CP if the attack or defence dice was rolled for a friendly BATTLECLADE operative
+      that contests an objective marker or one of your mission markers.
+  - name: Incantation Of The Iron Soul
+    cost: 1CP
+    description: 'Whenever an attack dice inflicts damage of 3 or more on a friendly
+      BATTLECLADE operative, roll one D6: on a 4+, subtract 1 from that inflicted
+      damage.'
+  - name: Prioritised Acquisition
+    cost: 1CP
+    description: "Select one objective marker or one of your mission markers. \u25CF\
+      \ Whenever determining control of that marker, treat the total APL stat of friendly\
+      \ BATTLECLADE operatives that contest it as 1 higher if at least one friendly\
+      \ BATTLECLADE operative contests that marker. Note this isn't a change to the\
+      \ APL stat, so any changes are cumulative with this. \u25CF Whenever a friendly\
+      \ BATTLECLADE operative is within 3\" of that marker, add 1 to the Atk stat\
+      \ of its melee weapons (to a maximum of 4)."
+  firefight_ploys:
+  - name: System Exorcism
+    cost: 1CP
+    description: Use this firefight ploy when you would activate a friendly BATTLECLADE
+      operative. Remove one rules effect or stat change your opponent has applied
+      to it (e.g. Poison token, -1APL, cannot be activated or perform actions, etc.),
+      then activate it. This ploy cannot allow it to regain lost wounds, ignore the
+      effects of being injured or remove mission pack rules.
+  - name: Remote Access
+    cost: 1CP
+    description: "Use this firefight ploy during a friendly BATTLECLADE TECH-PRIEST\
+      \ operative's activation. Once during that activation, you can use one of the\
+      \ following rules: \u25CF That operative doesn't require a marker to be within\
+      \ its control range to perform a mission action that usually requires this (this\
+      \ takes precedence over that action's conditions). Instead, the marker must\
+      \ be within 4\" of it and no enemy operatives can contest that marker. However,\
+      \ you can ignore enemy operatives within control range of other friendly BATTLECLADE\
+      \ operatives when determining this. \u25CF That operative doesn't require a\
+      \ hatchway's access point to be within its control range to perform an Operate\
+      \ Hatch action. Instead, that access point must be within 4\" of it."
+  - name: Auto-Ferric Supplication
+    cost: 1CP
+    description: Use this firefight ploy when an operative is shooting a friendly
+      BATTLECLADE TECH-PRIEST operative, at the start of the Roll Attack Dice step.
+      Until the end of the sequence, ignore the Piercing weapon rule.
+  - name: Servile Surrogacy
+    cost: 1CP
+    description: Use this firefight ploy when a friendly BATTLECLADE TECH-PRIEST operative
+      is selected as the valid target of a Shoot action or to fight against during
+      the Fight action. Select one friendly BATTLECLADE SERVITOR operative visible
+      to and within 3" of that first friendly operative to become the valid target
+      or to be fought against (as appropriate) instead (even if it wouldn't normally
+      be valid for this). If it's the Fight action, treat that SERVITOR operative
+      as being within the fighting operative's control range for the duration of that
+      action. If it's the Shoot action, that SERVITOR operative is only in cover or
+      obscured if the original target was. This ploy has no effect if it's the Shoot
+      action and the ranged weapon has the Blast or Torrent weapon rule.
+  operatives:
+  - name: Technoarcheologist
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 9
+    weapons:
+    - name: Eradication pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/2
+      rules:
+      - Rng 8"
+      - 1" Devastating 3
+      - Lethal 5+
+    - name: Servo-arc arm
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Severe
+      - Shock
+    rules:
+    - name: Seeker of Divine Arcana
+      description: STRATEGIC GAMBIT . You can immediately change this operative's
+        order and/or it can immediately perform a free Omniscanner , Fall Back , Place
+        Marker , Pick Up Marker, Reposition or mission action. If it's the Fall Back
+        or Reposition action and this operative isn't carrying a marker, it must end
+        that move either within your drop zone (if this isn't possible, then as close
+        as possible to it), or with an objective marker or one of your mission markers
+        within its control range.
+      cost: 1AP
+    - name: Omniscanner
+      description: "\U0001F7E2 Select one enemy operative visible to or within 8\"\
+        \ of this operative to gain one of your Omniscanner tokens. Whenever a friendly\
+        \ BATTLECLADE operative is shooting against, fighting against or retaliating\
+        \ against an enemy operative that has one of your Omniscanner tokens, that\
+        \ friendly operative's weapons have the Ceaseless weapon rule. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Servitor Underseer
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 9
+    weapons:
+    - name: Master-crafted radium pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 8"
+      - Balanced
+      - Rending
+    - name: Dataspikes
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Network Override
+      description: "\U0001F7E2 SUPPORT . Select one friendly BATTLECLADE SERVITOR\
+        \ operative within 6\" of either this operative or a friendly BATTLECLADE\
+        \ AUTO-PROXY operative to immediately NETWORK COUNTERACT (you don't have to\
+        \ TRANSFER POWER to do so) or perform a free Dash action. Continue this operative's\
+        \ activation after doing so. For the purposes of the Comms Device universal\
+        \ equipment, the operative the distance is being determined from must control\
+        \ that marker. \U0001F534 This operative can perform this action twice during\
+        \ its activation, but cannot perform this action while within control range\
+        \ of an enemy operative."
+      cost: 0AP
+  - name: Auto-Proxy Servitor
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Taser goad
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Lethal 5+
+      - Shock
+    rules:
+    - name: Achillan Eye
+      description: Whenever a friendly BATTLECLADE operative is shooting an enemy
+        operative visible to this operative, that friendly operative's ranged weapons
+        have the Saturate weapon rule. This rule has no effect if this operative is
+        within control range of an enemy operative.
+      cost: 1AP
+    - name: Gaze Of The Omnissiah
+      description: "\U0001F7E2 Select one enemy operative visible to this operative.\
+        \ Until the end of the turning point, whenever a friendly BATTLECLADE operative\
+        \ is shooting that enemy operative, you can use this"
+      cost: 0AP
+    - name: effect. If you do
+      description: "\u25CF That friendly operative's ranged weapons have the Seek\
+        \ Light weapon rule. \u25CF That enemy operative cannot be obscured. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Breacher Servitor
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Lascutter (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 2"
+      - Lethal 5+
+      - Piercing 2
+    - name: Lascutter (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 6"
+      - Lethal 5+
+    - name: Hydraulic pincer and lascutter
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules: []
+  - name: Combat Servitor
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Incendine igniter
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 6"
+      - Saturate
+      - Torrent 1"
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Phosphor blaster
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Blast 1"
+      - Severe
+    - name: Servo-claw
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Gun Servitor
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 11
+    weapons:
+    - name: Heavy arc rifle
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Heavy (Dash only)
+      - Piercing 1
+      - Stun
+    - name: Heavy bolter (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Piercing Crits 1
+    - name: Heavy bolter (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Augmetic claw
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Brutal
+    rules: []
+  - name: Technomedic Servitor
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Servo-chirurgic claw
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rending
+    rules:
+    - name: Mechanosuture Array
+      description: Once per turning point, when another friendly BATTLECLADE operative
+        would be incapacitated while visible to and within 3" of this operative, you
+        can use this rule, providing neither this nor that operative is within control
+        range of an enemy operative. If you do, that friendly operative isn't incapacitated,
+        has 1 wound remaining and cannot be incapacitated for the remainder of the
+        action. After that action, that friendly operative can immediately perform
+        a free Dash action, but must end that move within this operative's control
+        range. If this rule was used during that friendly operative's activation,
+        that activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 1AP
+    - name: Expedient Repair
+      description: "\U0001F7E2 Select one friendly BATTLECLADE operative within this\
+        \ operative's control range to regain up to D3+3 lost wounds. It cannot be\
+        \ an operative that the Mechanosuture Array rule was used on during this turning\
+        \ point. \U0001F534 This operative cannot perform this action while within\
+        \ control range of an enemy operative."
+      cost: 0AP

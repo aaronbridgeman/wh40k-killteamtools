@@ -1,0 +1,328 @@
+team:
+  name: Goremongers
+  version: v1.4
+  last_updated: 19 November 2025
+  archetypes:
+  - Recon
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Enhanced Violence
+    cost: 1CP
+    description: "Whenever a friendly GOREMONGER operative's GORE TANK is: \u25CF\
+      \ Half, its melee weapons have the Balanced weapon rule. \u25CF Full, its melee\
+      \ weapons have the Relentless weapon rule."
+  - name: Augmented Endurance
+    cost: 1CP
+    description: "Whenever an operative is shooting a friendly GOREMONGER operative,\
+      \ if that friendly operative's GORE TANK is: \u25CF Half, you can re-roll one\
+      \ of your defence dice. \u25CF Full, you can re-roll any of your defence dice."
+  - name: Gory Tenacity
+    cost: 1CP
+    description: Whenever a friendly GOREMONGER operative is fighting or retaliating,
+      the first time your opponent strikes it during that sequence, halve the damage
+      inflicted (rounding up and to a minimum of 2).
+  - name: Hunt For Blood
+    cost: 1CP
+    description: Select one friendly GOREMONGER operative. If it has a Conceal order,
+      change it to Engage. Then it can immediately perform a free Charge action, but
+      cannot move more than 3" during that action.
+  firefight_ploys:
+  - name: Unbridled Aggression
+    cost: 1CP
+    description: Use this firefight ploy when a friendly GOREMONGER operative is fighting
+      during an activation in which it performed the Charge action, at the end of
+      the Roll Attack Dice step. Until the end of that sequence, that operative's
+      melee weapons have the Severe weapon rule.
+  - name: Gorethirst
+    cost: 1CP
+    description: Use this firefight ploy when you would counteract. You can do so
+      with one friendly GOREMONGER operative that has a Conceal order, but you must
+      change its order to Engage and it cannot perform any actions other than Charge
+      , Shoot or Fight during that counteraction.
+  - name: Destructive Demise
+    cost: 1CP
+    description: "Use this firefight ploy when a friendly GOREMONGER operative is\
+      \ incapacitated, before it's removed from the killzone. Inflict damage determined\
+      \ by that friendly operative's GORE TANK on one enemy operative within that\
+      \ friendly operative's control range. Inflict: \u25CF D3 if empty. \u25CF D3+1\
+      \ if half. \u25CF D3+2 if full."
+  - name: Lacerate Flesh
+    cost: 1CP
+    description: Use this firefight ploy when a friendly GOREMONGER operative with
+      an empty GORE TANK is activated or counteracts. Increase that operative's GORE
+      TANK . At the end of that activation/counteraction, decrease its GORE TANK (you
+      cannot use this decrease to use a SANGUAVITAE rule); if you cannot decrease
+      its GORE TANK , inflict D3 damage on it.
+  operatives:
+  - name: Blood Herald
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 11
+    weapons:
+    - name: Icon of Khorne
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 8"
+      - Saturate
+    - name: Chainblade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: Khorne's Favour
+      description: Once during each of this operative's activations, before or after
+        it performs an action, if its GORE TANK is empty, you can increase its GORE
+        TANK .
+      cost: 0AP
+    - name: Impending Apotheosis
+      description: Once per battle, when an attack dice inflicts Normal Dmg on this
+        operative, you can ignore that inflicted damage.
+      cost: 0AP
+  - name: Bloodtaker
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Ritual blade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Ritual *
+    rules:
+    - name: '* Ritual'
+      description: Whenever this operative is using this weapon, the first time you
+        inflict damage on an operative within its control range during that sequence,
+        you can increase this operative's GORE TANK . Note this is cumulative with
+        the normal rules for increasing its GORE TANK (i.e. if it incapacitates an
+        operative within its control range).
+      cost: 1AP
+    - name: Transfusion Ritual
+      description: "\U0001F7E2 Decrease this operative's GORE TANK . Instead of using\
+        \ a SANGUAVITAE rule, you can increase the GORE TANK of one other friendly\
+        \ GOREMONGER operative within 8\" of this operative. \U0001F534 This operative\
+        \ cannot perform this action while within control range of an enemy operative,\
+        \ or if its GORE TANK is empty."
+      cost: 0AP
+  - name: Impaler
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Fleshskewer (ranged)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Stun
+      - Drag *
+      - Prey *
+    - name: Fleshskewer (stab)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: '* Drag'
+      description: Whenever this operative is shooting with this weapon, at the start
+        of the Resolve Attack Dice step (before inflicting damage), you can move the
+        target up to x". X is your total number of successful unblocked attack dice,
+        multiplied by 2. The target must be moved to a location it can be placed as
+        close as possible to this operative, determined by the x" you choose to use.
+        The move must be done in one or more straight-line increments, and increments
+        are always rounded up to the nearest inch. Whenever the target is dropping
+        during that move, ignore the vertical distance.
+      cost: 0AP
+    - name: '* Prey'
+      description: Whenever this operative is shooting with this weapon, in the Resolve
+        Attack Dice step, after resolving the Drag weapon rule (if you choose to),
+        you can discard any of your successful unblocked attack dice. In other words,
+        you can choose not to inflict damage with any number of them.
+      cost: 0AP
+  - name: Inciter
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: (focused)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/2
+      rules:
+      - Rng 8"
+      - Ceaseless
+      - Devastating 1
+      - Rending
+    - name: (point-blank)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Rending
+    rules:
+    - name: Incite the Hunt
+      description: Whenever this operative incapacitates an enemy operative from more
+        than 2" away, before that enemy operative is removed from the killzone, you
+        can increase the GORE TANK of one friendly GOREMONGER operative within 8"
+        of that enemy operative. Whenever this operative inflicts damage on an enemy
+        operative with either profile of its dual autopistols but doesn't incapacitate
+        it, that enemy operative gains one of your Bleeding tokens (if it doesn't
+        already have one). During a friendly GOREMONGER operative's activation or
+        counteraction, before or after it performs an action, if it's within 8" of
+        an enemy operative that has one of your Bleeding tokens, you can remove that
+        token and increase that friendly operative's GORE TANK .
+      cost: 1AP
+    - name: Dash And Spray
+      description: "\U0001F7E2 Perform a free Dash action and a free Shoot action\
+        \ with this operative in any order. You can only select dual autopistols (focused)\
+        \ for that Shoot action. \U0001F534 This operative cannot perform this action\
+        \ while it has a Conceal order, or while within control range of an enemy\
+        \ operative."
+      cost: 0AP
+  - name: Skullclaimer
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Great chainaxe
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Brutal
+    rules:
+    - name: Brutish
+      description: Whenever an attack dice would inflict Critical Dmg on this operative,
+        you can choose for that attack dice to inflict Normal Dmg instead.
+      cost: 0AP
+    - name: Claim Skull
+      description: Once per turning point, if this operative incapacitates an enemy
+        operative with its great chainaxe, you gain 1CP.
+      cost: 0AP
+  - name: Stalker
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Pickrippers
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: Climbing Picks
+      description: Whenever this operative is climbing up, you can treat the vertical
+        distance as 2" (regardless of how far the operative actually moves vertically).
+      cost: 0AP
+    - name: Rooftop Stalker
+      description: Whenever this operative is fighting during an activation in which
+        it dropped from Vantage terrain at least 2" higher than the killzone floor,
+        or whenever this operative is fighting against an enemy operative that's on
+        Vantage terrain at least 2" higher than the killzone floor, this operative's
+        melee weapons have the Relentless weapon rule.
+      cost: 0AP
+  - name: Aspirant
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Chainglaive
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: Obsessive Bloodlust
+      description: Once during each of this operative's activations, when this operative
+        ends the Fight action, if it's no longer within control range of enemy operatives,
+        you can use this rule. If you do, it can immediately perform a free Charge
+        action (even if it's already performed the Charge action during that activation),
+        but it cannot move more than 2" during that action. Doing so doesn't prevent
+        it from performing the Charge , Dash or Reposition action afterwards during
+        that activation. FACTION RULE (REPEATED) SANGUAVITAE Each SANGUAVITAE rule
+        specifies when it can be used, and you must decrease the operative's GORE
+        TANK to do so. You cannot use the same SANGUAVITAE rule more than once per
+        activation or counteraction, and you cannot use more than two SANGUAVITAE
+        rules per activation or counteraction. You cannot use Mania and Fury during
+        the same activation. Sanguavitae When Effect Fury During a friendly GOREMONGER
+        operative's activation, before or after it performs an action. That operative
+        can perform two Fight actions during that activation, and the second one is
+        free. Mania During a friendly GOREMONGER operative's activation, before or
+        after it performs an action. Until the start of that operative's next activation,
+        add 1 to its APL stat. Rage When a friendly GOREMONGER operative performs
+        the Fight action. Until the end of that action, add 1 to the Atk stat of that
+        operative's melee weapons. Rake When a friendly GOREMONGER operative performs
+        the Charge action When that operative finishes moving during that action,
+        you can inflict D3 damage on one enemy operative within its control range.
+        Rejuvenate During a friendly GOREMONGER operative's activation or counteraction,
+        before or after it performs an action. That operative regains D3+1 lost wounds.
+        Surge When a friendly GOREMONGER operative performs the Charge or Reposition
+        action. Until the end of that action, add 1" to that operative's Move stat.
+      cost: 0AP

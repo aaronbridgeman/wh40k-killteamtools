@@ -1,0 +1,467 @@
+npo_operatives:
+- name: Barbgaunt
+  stats:
+    apl: 2
+    mv: 6"
+    sv: 4+
+    w: 12
+  weapons:
+  - name: Barblauncher Rng 8" (Mobile)
+    type: Ranged
+    a: 5
+    bs_ws: 4+
+    d: 3/5
+    rules:
+    - Blast 2"
+  - name: Barblauncher Rng 8" (Stationary)
+    type: Ranged
+    a: 5
+    bs_ws: 4+
+    d: 3/5
+    rules:
+    - Blast 2"
+    - Ceaseless
+    - Heavy
+  - name: Claws & teeth
+    type: Melee
+    a: 3
+    bs_ws: 4+
+    d: 2/3
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This NPO will move to an ideal position to shoot the enemy. When
+      activated, if it can perform the Shoot action during that activation, give it
+      an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover.
+      If possible, to a location where there's a valid target that isn't obscured,
+      if not, to a location where there's an objective marker visible to this NPO.
+      2. Shoot . 3. Reposition to cover. If possible, to a location where there's
+      a valid target that isn't obscured, if not, to a location that's appropriate
+      to better win the mission (a subsequent Dash action can fulfil these, if able).
+      4. Dash to cover. If possible, to a location where there's a valid target that
+      isn't obscured, if not, to a location that's appropriate to better win the mission.
+    cost: 0AP
+- name: C'Tan Shard Of The Nightbringer
+  stats:
+    apl: 3
+    mv: 6"
+    sv: 3+
+    w: 14
+  weapons:
+  - name: Gaze of death
+    type: Ranged
+    a: 4
+    bs_ws: 3+
+    d: 5/0
+    rules:
+    - Rng 6"
+    - Devastating 5
+    - Severe
+  - name: Scythe of the Nightbringer
+    type: Melee
+    a: 4
+    bs_ws: 4+
+    d: 4/5
+    rules:
+    - Severe
+    - Shock
+    - Stun
+  rules:
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will shoot
+      if it can't. 1. Fight . 2. Charge the closest player operative via the shortest
+      possible route. 3. Shoot . 4. Reposition towards the closest player operative.
+    cost: 0AP
+  - name: Mighty Foe
+    description: This operative cannot have a Conceal order and cannot be in cover,
+      obscured, readied or expended (meaning it can activate multiple times per turning
+      point and the turning point will end when all other operatives are expended).
+    cost: 0AP
+  - name: Whenever it's the NPOs' turn to activate, roll one D6
+    description: on a 4+, activate this NPO (or skip the activation if it isn't in
+      the killzone); on a 1-3, activate another ready NPO (or skip the activation
+      if there aren't any in the killzone). This operative can perform two Fight actions
+      during its activation, but cannot move more than 12" per turning point.
+    cost: 0AP
+  - name: Necrodermis
+    description: This operative cannot be injured and its stats cannot be changed.
+      Whenever an operative is shooting this operative, worsen the x of the Piercing
+      weapon rule by 1 (if any). Note that Piercing 1 would therefore be ignored.
+    cost: 0AP
+  - name: Indomitable Reanimation
+    description: Whenever this operative is incapacitated, before it's removed from
+      the killzone, place a Reanimation marker underneath the centre of its base.
+      Then remove it as incapacitated, also removing any tokens and rules effects
+      it had (eg. Poison token). In the Ready step of the next Strategy phase, roll
+    cost: 0AP
+  - name: D3-1. After that many activations have been completed
+    description: "\u25CF Set up this operative with an Engage order on the centre\
+      \ of that Reanimation marker. If there are any operatives that prevent this,\
+      \ set them up as though this operative ended a move there, (see Domineering\
+      \ Presence below). \u25CF This operative regains all lost wounds. \u25CF Remove\
+      \ that Reanimation marker."
+    cost: 0AP
+  - name: Domineering Presence
+    description: This operative can move through parts of terrain features (including
+      Wall terrain features) as if they were not there (taking precedence over the
+      terrain feature's rules) but must end those moves in a location it can be placed.
+      When this operative moves through Light terrain, remove that terrain from the
+      killzone unless it's attached to Heavy terrain. This operative can move through
+      operatives, and can end its move and be set up over their bases. If it does,
+      remove those operatives from the killzone and set them up in a location they
+      can be placed within control range of this operative (if possible) and as close
+      to their previous position as possible.Whenever another operative is on Vantage
+      terrain, if it's visible to and within 2" horizontally of this operative (or
+      vice versa), it's within this operative's control range.
+    cost: 0AP
+- name: Canoptek Macrocyte
+  stats:
+    apl: 2
+    mv: 7"
+    sv: 4+
+    w: 7
+  weapons:
+  - name: Gauss scalpel
+    type: Ranged
+    a: 4
+    bs_ws: 4+
+    d: 2/3
+    rules:
+    - Piercing 1
+  - name: Tesla caster (Focused)
+    type: Ranged
+    a: 4
+    bs_ws: 4+
+    d: 2/3
+    rules: []
+  - name: Tesla caster (Living lightning)
+    type: Ranged
+    a: 4
+    bs_ws: 4+
+    d: 2/3
+    rules:
+    - Blast 2"
+  - name: Claws & tail
+    type: Melee
+    a: 3
+    bs_ws: 4+
+    d: 3/4
+    rules: []
+  rules:
+  - name: Aggressive Defence Construct
+    description: If this operative is incapacitated by a player
+    cost: 0AP
+  - name: operative within 2" of it, roll one D3
+    description: on a 2+, inflict damage on that player operative equal to the result.
+    cost: 0AP
+  - name: Behaviour
+    description: See NECRON WARRIOR . Finally, if it has a tesla caster, it will always
+      use the living lightning profile if it would target more than one player operative
+      and no NPOs. 1. Fight . 2. Shoot . 3. Reposition . If possible, to a location
+      where there's a valid target that isn't obscured, if not, to a location that's
+      appropriate for the NPOs to better win the mission (a subsequent Dash action
+      can fulfil these, if able). 4. Dash . If possible, to a location where there's
+      a valid target that isn't obscured. If not, to a location that's appropriate
+      for the NPOs to better win the mission.
+    cost: 0AP
+- name: Canoptek Scarab Swarm
+  stats:
+    apl: 2
+    mv: 6"
+    sv: 5+
+    w: 10
+  weapons:
+  - name: Feeder mandibles
+    type: Melee
+    a: 5
+    bs_ws: 4+
+    d: 1/2
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will seek
+      cover on its way. When activated, if it can perform either of its first two
+      actions during that activation, give it an Engage order. If it cannot, give
+      it a Conceal order. It will perform the Operate Hatch action where necessary
+      to fulfil its behaviour. 1. Fight . 2. Charge the closest player operative via
+      the shortest possible route. 3. Reposition towards the closest player operative,
+      to cover if possible (a subsequent Dash action can fulfil this, if able). 4.
+      Dash towards the closest player operative, to cover if possible. Kill Team Reference
+      Sheet by James And The Giant Squig - v1.0 (updated 19 November 2025) TYPHON
+      MISSION PACK THREAT PRINCIPLE
+    cost: 0AP
+  - name: When making decisions for NPOs, use the threat principle
+    description: 'go with the option that''s worst for you. This can determine which
+      ready NPO activates, how an NPO moves, shoots and fights, how to resolve their
+      dice, etc. There are a few examples below (containing decisions in order of
+      priority) that you can use as a guide, but if one option feels worse for you
+      - in particular to stop you winning the mission - go with that. If you still
+      cannot decide, randomly choose one. ACTIVATION PRIORITY Multiple NPOs are ready,
+      so the player(s) activate the NPO that: 1. Can perform the Shoot or Fight action
+      (as determined by its behaviour), and is the most threatening to do so (e.g.
+      is more likely to incapacitate a player operative, is more likely to prevent
+      the player(s) winning, etc.). 2. Is not in cover from a player operative. 3.
+      Is closer to a player operative. SETTING UP NPOS NPOs must be set up as specified
+      by the mission, but if there are multiple valid'
+    cost: 0AP
+  - name: options, the player(s) set up each NPO so that it's
+    description: 1. More likely to prevent the player(s) winning. 2. Better able to
+      perform the Charge , Shoot or Fight action (as determined by the higher priority
+      of the NPOs behaviour). 3. Not a valid target. FIGHT ACTION An NPO performs
+      the Fight action and multiple player operatives are within its
+    cost: 0AP
+  - name: control range. It fights the player operative that
+    description: 1. It's more likely to incapacitate. 2. Is more likely to help the
+      player(s) win. 3. Is ready. SHOOT ACTION An NPO performs the Shoot action and
+      multiple player operatives are valid
+    cost: 0AP
+  - name: targets. It shoots the player operative that
+    description: 1. It's more likely to incapacitate. 2. Is not obscured. 3. Is not
+      in cover. 4. Is closest. 5. Is ready. NPO DATACARDS
+    cost: 0AP
+- name: Canoptek Tomb Crawler
+  stats:
+    apl: 2
+    mv: 5"
+    sv: 3+
+    w: 21
+  weapons:
+  - name: Twin gauss reapers (Focused)
+    type: Ranged
+    a: 5
+    bs_ws: 4+
+    d: 4/5
+    rules:
+    - Piercing 1
+    - Punishing
+  - name: Twin gauss reapers (Sweeping)
+    type: Ranged
+    a: 4
+    bs_ws: 4+
+    d: 4/5
+    rules:
+    - Piercing 1
+    - Punishing
+    - Torrent 1"
+  - name: Transdimensional isolator
+    type: Melee
+    a: 5
+    bs_ws: 4+
+    d: 5/6
+    rules:
+    - Dimensional Banishment*
+  - name: Claws
+    type: Melee
+    a: 4
+    bs_ws: 4+
+    d: 4/4
+    rules:
+    - Brutal
+  rules:
+  - name: Weapon Sentinel
+    description: Whenever you're selecting a valid target, if this operative has a
+      Conceal order, it cannot use Light terrain for cover. While this can allow this
+      operative to be targeted (assuming it's visible), it doesn't remove its cover
+      save (if any).
+    cost: 0AP
+  - name: Steadfast
+    description: Whenever determining control of a marker, you can treat this operative's
+      APL stat as 3. If you do, this takes precedence over all other rules, meaning
+      any changes to its APL stat are ignored for this.
+    cost: 0AP
+  - name: '* Dimensional Banishment'
+    description: After this operative uses this weapon, if you inflicted damage or
+      retained any critical successes, if the target wasn't incapacitated, roll
+    cost: 0AP
+  - name: 2D6
+    description: if the result is higher than the target's remaining wounds, the target
+      is incapacitated.
+    cost: 0AP
+  - name: Behaviour
+    description: See NECRON WARRIOR . Finally, if it has twin gauss reapers, it will
+      always use the sweeping profile if it would target more than one player operative.
+      1. Fight . 2. Shoot . 3. Reposition . If possible, to a location where there's
+      a valid target that isn't obscured, if not, to a location that's appropriate
+      for the NPOs to better win the mission (a subsequent Dash action can fulfil
+      these, if able). 4. Dash . If possible, to a location where there's a valid
+      target that isn't obscured, if not, to a location that's appropriate for the
+      NPOs to better win the mission.
+    cost: 0AP
+- name: Hormagaunt
+  stats:
+    apl: 2
+    mv: 7"
+    sv: 5+
+    w: 7
+  weapons:
+  - name: Scything talons
+    type: Melee
+    a: 4
+    bs_ws: 3+
+    d: 3/4
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will seek
+      cover on its way. When activated, if it can perform either of its first two
+      actions during that activation, give it an Engage order. If it cannot, give
+      it a Conceal order 1. Fight . 2. Charge the closest player operative via the
+      shortest possible route. 3. Reposition towards the closest player operative,
+      to cover if possible (a subsequent Dash action can fulfil this, if able). 4.
+      Dash towards the closest player operative, to cover if possible.
+    cost: 0AP
+- name: Necron Warrior
+  stats:
+    apl: 2
+    mv: 5"
+    sv: 4+
+    w: 9
+  weapons:
+  - name: Gauss flayer
+    type: Ranged
+    a: 4
+    bs_ws: 4+
+    d: 3/4
+    rules:
+    - Piercing 1
+  - name: Gauss reaper
+    type: Ranged
+    a: 4
+    bs_ws: 3+
+    d: 3/4
+    rules:
+    - Rng 8"
+    - Piercing 1
+  - name: Combat attachment
+    type: Melee
+    a: 3
+    bs_ws: 4+
+    d: 3/4
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This NPO will move to an ideal position to shoot the enemy, but will
+      fight if it can't do anything else. When activated, if it will perform the Shoot
+      or Fight action during that activation, give it an Engage order. If it cannot,
+      give it a Conceal order. It will perform the Operate Hatch action where necessary
+      to fulfil its behaviour. 1. Fall Back . If possible, to a location where there's
+      a valid target that isn't obscured, if not, to a location that's appropriate
+      for the NPOs to better win the mission. 2. Shoot . 3. Reposition . If possible,
+      to a location where there's a valid target that isn't obscured. If not, to a
+      location that's appropriate for the NPOs to better win the mission (a subsequent
+      Dash action can fulfil these, if able). 4. Dash . If possible, to a location
+      where there's a valid target that isn't obscured. If not, to a location that's
+      appropriate for the NPOs to better win the mission. 5. Fight .
+    cost: 0AP
+- name: Ravener
+  stats:
+    apl: 3
+    mv: 7"
+    sv: 5+
+    w: 20
+  weapons:
+  - name: Scything talons
+    type: Melee
+    a: 5
+    bs_ws: 3+
+    d: 4/5
+    rules: []
+  rules:
+  - name: Predatory Xenoform
+    description: This operative can perform two Fight actions during its activation.
+    cost: 0AP
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will seek
+      cover on its way. When activated, if it can perform either of its first two
+      actions during that activation, give it an Engage order. If it cannot, give
+      it a Conceal order. 1. Fight . 2. Charge the closest player operative via the
+      shortest possible route. 3. Reposition towards the closest player operative,
+      to cover if possible (a subsequent Dash action can fulfil this, if able). 4.
+      Dash towards the closest player operative, to cover if possible.
+    cost: 0AP
+- name: Ripper Swarm
+  stats:
+    apl: 2
+    mv: 6"
+    sv: 5+
+    w: 7
+  weapons:
+  - name: Claws & teeth
+    type: Melee
+    a: 5
+    bs_ws: 4+
+    d: 1/2
+    rules: []
+  rules:
+  - name: Hidden Horrors
+    description: Whenever this operative has a Conceal order and is in cover, it cannot
+      be selected as a valid target, taking precedence over all other rules (e.g.
+      Seek, Vantage terrain) except being within 2".
+    cost: 0AP
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will seek
+      cover on its way. When activated, if it can perform either of its first two
+      actions during that activation, give it an Engage order. If it cannot, give
+      it a Conceal order. 1. Fight . 2. Charge the closest player operative via the
+      shortest possible route. 3. Reposition towards the closest player operative,
+      to cover if possible (a subsequent Dash action can fulfil this, if able). 4.
+      Dash towards the closest player operative, to cover if possible.
+    cost: 0AP
+- name: Termagant
+  stats:
+    apl: 2
+    mv: 6"
+    sv: 5+
+    w: 7
+  weapons:
+  - name: Fleshborer
+    type: Melee
+    a: 4
+    bs_ws: 4+
+    d: 3/4
+    rules: []
+  - name: Claws & teeth
+    type: Melee
+    a: 3
+    bs_ws: 4+
+    d: 2/3
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This NPO will move to an ideal position to shoot the enemy. When
+      activated, if it can perform the Shoot action during that activation, give it
+      an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover.
+      If possible, to a location where there's a valid target that isn't obscured,
+      if not, to a location where there's an objective marker visible to this NPO.
+      2 2. Shoot . 3. Reposition to cover. If possible, to a location where there's
+      a valid target that isn't obscured, if not, to a location that's appropriate
+      to better win the mission (a subsequent Dash action can fulfil these, if able).
+      4. Dash to cover. If possible, to a location where there's a valid target that
+      isn't obscured, if not, to a location that's appropriate to better win the mission.
+    cost: 0AP
+- name: Von Ryan'S Leaper
+  stats:
+    apl: 7
+    mv: 7"
+    sv: 5+
+    w: 12
+  weapons:
+  - name: Scything talons
+    type: Melee
+    a: 5
+    bs_ws: 3+
+    d: 4/5
+    rules: []
+  rules:
+  - name: Predatory Xenoform
+    description: This operative can perform two Fight actions during its activation
+    cost: 0AP
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will seek
+      cover on its way. When activated, if it can perform either of its first two
+      actions during that activation, give it an Engage order. If it cannot, give
+      it a Conceal order. 1. Fight . 2. Charge the closest player operative via the
+      shortest possible route. 3. Reposition towards the closest player operative,
+      to cover if possible (a subsequent Dash action can fulfil this, if able). 4.
+      Dash towards the closest player operative, to cover if possible.
+    cost: 0AP

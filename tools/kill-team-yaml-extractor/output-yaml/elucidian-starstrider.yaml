@@ -1,0 +1,368 @@
+team:
+  name: Elucidian Starstrider
+  version: v1.4
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Recon
+  - Security
+  strategy_ploys:
+  - name: Lethal Proximity
+    cost: 1CP
+    description: Whenever a friendly ELUCIDIAN STARSTRIDER operative is shooting an
+      operative within 6" of it, that friendly operative's ranged weapons (excluding
+      PRIVATEER SUPPORT ASSET weapons) have the Balanced weapon rule
+  - name: Stake Claim
+    cost: 1CP
+    description: Place your Claim marker in the killzone. Whenever a friendly ELUCIDIAN
+      STARSTRIDER operative is shooting against, fighting against or retaliating against
+      an enemy operative that's within 3" of that marker, in the Roll Attack Dice
+      step, you can retain one of your fails as a normal success instead of discarding
+      it, or retain one of your normal successes as a critical success instead. At
+      the end of the turning point, remove your Claim marker from the killzone.
+  - name: Undaunted Explorers
+    cost: 1CP
+    description: The first time an attack dice inflicts damage on each friendly ELUCIDIAN
+      STARSTRIDER operative during the turning point in the Resolve Attack Dice step,
+      you can halve that inflicted damage (rounding up, to a minimum of 2).
+  - name: Quick March
+    cost: 1CP
+    description: Whenever a friendly ELUCIDIAN STARSTRIDER operative performs the
+      Reposition action during its activation, you can use this rule. If you do, add
+      1" to its Move stat until the end of that activation, but it must end that move
+      closer to your opponent's drop zone and cannot use a PRIVATEER SUPPORT ASSET
+      during that activation.
+  firefight_ploys:
+  - name: Combined Arms
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      ELUCIDIAN STARSTRIDER operative, if it's shooting an enemy operative that's
+      been shot by another friendly ELUCIDIAN STARSTRIDER operative during this turning
+      point. You can re-roll any of your attack dice. You cannot use this ploy while
+      shooting
+  - name: Survivalist
+    cost: 1CP
+    description: Use this firefight ploy when a friendly ELUCIDIAN STARSTRIDER operative
+      is activated. That friendly operative regains up to D3+2 lost wounds and during
+      that activation you can ignore any changes to its APL stat.
+  - name: Great Endurance
+    cost: 1CP
+    description: Use this firefight ploy during a friendly ELUCIDIAN STARSTRIDER NAVIS
+      operative's activation. Until the end of the activation, add 1 to its APL stat.
+  - name: Well-Drilled
+    cost: 1CP
+    description: Use this firefight ploy when a friendly ELUCIDIAN STARSTRIDER NAVIS
+      operative is activated. Select one other ready friendly ELUCIDIAN STARSTRIDER
+      NAVIS operative visible to and within 3" of that operative. When that first
+      friendly operative is expended, you can activate that other friendly operative
+      before your opponent activates. When that other operative is expended, your
+      opponent then activates as normal.
+  operatives:
+  - name: Elucia Vhane
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Heirloom relic pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Piercing Crits 1
+      - Seek Light
+    - name: cane-rapier
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Disruption Field
+      description: Whenever an operative is shooting this operative, ignore the Piercing
+        weapon rule.
+      cost: 0AP
+    - name: Digital Lasers
+      description: Whenever this operative performs the Fight action, at the start
+        of the Roll Attack Dice step, you can use this rule. If you do, inflict 1
+        damage on the enemy operative in that sequence.
+      cost: 0AP
+    - name: Merciless
+      description: Whenever this operative is shooting against, fighting against or
+        retaliating against an enemy operative that was already wounded when the action
+        started, this operative's weapons have the Balanced weapon rule; if the weapon
+        already has that weapon rule, it has the Ceaseless weapon rule instead of
+        Balanced.
+      cost: 0AP
+    - name: Reputation to Maintain
+      description: The first time this operative incapacitates an enemy operative
+        during the battle, you can either gain 1 additional CP or use an additional
+        WARRANT OF TRADE rule (up to five uses per battle, instead of four). Note
+        that you still cannot use the same WARRANT OF TRADE rule more than once per
+        battle.
+      cost: 0AP
+  - name: Canid
+    stats:
+      apl: 2
+      mv: 8"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Vicious bite
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rending
+    rules:
+    - name: Beast
+      description: This operative cannot perform any actions other than Charge , Dash
+        , Fall Back , Fight , Gather , Guard , Reposition , Pick Up Marker and Place
+        Marker . It cannot use any weapons that aren't on its datacard.
+      cost: 0AP
+    - name: Loyal Companion
+      description: Whenever an enemy operative performs the Fight action, if this
+        operative is a valid operative to fight against, you can force them to select
+        this operative to fight against instead. Whenever an enemy operative ends
+        the Charge action within control range of another friendly ELUCIDIAN STARSTRIDER
+        operative within 3" of this operative, if this operative isn't within control
+        range of enemy operatives, this operative can immediately perform a free Charge
+        action (you can change its order to Engage to do so), but must end that move
+        within control range of that enemy operative.
+      cost: 1AP
+    - name: Gather
+      description: "\U0001F7E2 Perform a free Dash or Reposition action with this\
+        \ operative. During that move, you can perform a free Pick Up Marker or Place\
+        \ Marker action with this operative (you can determine control during that\
+        \ action to do so), and any remaining move distance it had from the Dash or\
+        \ Reposition action can be used after it does so."
+      cost: 0AP
+  - name: Death Cult Executioner
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Dartmask
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 1/1
+      rules:
+      - Rng 6"
+      - Lethal 5+
+      - Silent
+      - Stun
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Rapid Reflexes
+      description: Whenever an operative is shooting this operative, ignore the Piercing
+        weapon rule.
+      cost: 0AP
+    - name: Bladed Stance
+      description: Whenever this operative is fighting or retaliating, you can resolve
+        one of your successes before the normal order. If you do, that success must
+        be used to block.
+      cost: 0AP
+    - name: Zealot
+      description: If this operative is incapacitated during the Fight action, you
+        can strike the enemy operative in that sequence with one of your unresolved
+        successes before this operative is removed from the killzone.
+      cost: 1AP
+    - name: Trained Assassin
+      description: "\U0001F7E2 Change this operative's order. \U0001F534 This operative\
+        \ cannot perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Lectro-Maester
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Voltaic pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 8"
+      - 1" Devastating 1
+      - Rending
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Creed
+      description: Once during each of this operative's activations, it can perform
+        the Pick Up Marker, Place Marker or a mission action for 1 less AP.
+      cost: 0AP
+    - name: Voltaghiest Array
+      description: Whenever an operative is shooting a friendly ELUCIDIAN STARSTRIDER
+        operative that's within 4" of this operative, you can re-roll one of your
+        defence dice.
+      cost: 0AP
+    - name: Calibrate Voltagheist
+      description: "\U0001F7E2 Select one of the following effects to last until the\
+        \ start of this operative's next activation, until it's incapacitated or until\
+        \ it performs this action"
+      cost: 0AP
+    - name: "\u25CF Charge"
+      description: This operative's voltaic pistol has the Lethal 4+ weapon rule.
+      cost: 0AP
+    - name: "\u25CF Field"
+      description: "Whenever an enemy operative ends the Charge , Dash , Fall Back\
+        \ or Reposition action visible to and within 4\" of this operative, inflict\
+        \ D6 damage on that enemy operative. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Rejuvenat Adept
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        ELUCIDIAN STARSTRIDER operative would be incapacitated while visible to and
+        within 3" of this operative, you can use this rule, providing neither this
+        nor that operative is within control range of an enemy operative. If you do,
+        that friendly operative isn't incapacitated, has 3 wounds remaining and cannot
+        be incapacitated for the remainder of the action. After that action, that
+        friendly operative can immediately perform a free Dash action, but must end
+        that move within this operative's control range. If this rule was used during
+        that friendly operative's activation, that activation ends. You cannot use
+        this rule if this operative is incapacitated, or if it's a Shoot action and
+        this operative would be a primary or secondary target.'
+      cost: 0AP
+    - name: Normaliser Helm
+      description: Whenever a friendly ELUCIDIAN STARSTRIDER operative is within 6"
+        of this operative, you can ignore any changes to that operative's stats from
+        being injured (including its weapons' stats).
+      cost: 1AP
+    - name: Healing Serum
+      description: "\U0001F7E2 Select one friendly ELUCIDIAN STARSTRIDER operative\
+        \ within this operative's control range to regain up to D3+3 lost wounds.\
+        \ It cannot be an operative that the Medic! rule was used on during this turning\
+        \ point. \U0001F534 This operative cannot perform this action while within\
+        \ control range of an enemy operative."
+      cost: 0AP
+  - name: Voidmaster
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Artificer shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Artificer shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Disciplinarian
+      description: SUPPORT . Whenever another friendly NAVIS operative is within 3"
+        of this operative, that friendly operative's ranged weapons (excluding PRIVATEER
+        SUPPORT ASSET weapons) have the Balanced weapon rule; if the weapon already
+        has that weapon rule, it has the Ceaseless weapon rule instead of Balanced.
+      cost: 0AP
+    - name: Hardy
+      description: Once per battle, when an attack dice inflicts Normal Dmg on this
+        operative, you can ignore that inflicted damage.
+      cost: 1AP
+    - name: Uncompromising Fire
+      description: "\U0001F7E2 Perform two free Shoot actions with this operative\
+        \ (this takes precedence over action restrictions). You must select its relic\
+        \ laspistol for one action and its artificer shotgun (close range) for the\
+        \ other (in any order). \U0001F534 This operative cannot perform this action\
+        \ while it has a Conceal order, or during an activation in which it performed\
+        \ the Shoot action (or vice versa)."
+      cost: 0AP
+  - name: Voidsman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Rotor cannon (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Rending
+    - name: Rotor cannon (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Rending
+      - Torrent 1"
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Crewmen
+      description: Once per turning point, if you haven't used a PRIVATEER SUPPORT
+        ASSET during this turning point, you can counteract with one friendly VOIDSMAN
+        operative that has a Conceal order, but you cannot perform any actions other
+        than Shoot , and you must use a PRIVATEER SUPPORT ASSET to do so.
+      cost: 0AP

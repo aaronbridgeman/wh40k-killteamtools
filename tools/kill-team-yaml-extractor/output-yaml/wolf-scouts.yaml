@@ -1,0 +1,379 @@
+team:
+  name: Wolf Scouts
+  version: v1.2
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Recon
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Cloaked By The Storm
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly WOLF SCOUT operative
+      that's within your STORM , you can re-roll one of your defence dice.
+  - name: Tempestuous Wrath
+    cost: 1CP
+    description: Whenever a friendly WOLF SCOUT operative is fighting or retaliating,
+      if it's within your STORM or was within your STORM at the start of the activation,
+      its melee weapons have the Balanced weapon rule.
+  - name: Storm'S Bite
+    cost: 1CP
+    description: Whenever a friendly WOLF SCOUT operative is fighting against an enemy
+      operative that's within your STORM , subtract 1 from the Atk stat of that enemy
+      operative's melee weapons (to a minimum of 3).
+  - name: Savage Fighters
+    cost: 1CP
+    description: Whenever a friendly WOLF SCOUT operative finishes retaliating, if
+      it wasn't incapacitated, you can inflict D3+1 damage on the enemy operative
+      in that sequence.
+  firefight_ploys:
+  - name: Acute Senses
+    cost: 1CP
+    description: Use this firefight ploy when a friendly WOLF SCOUT operative performs
+      the Shoot action and you're selecting a valid target. Until the end of that
+      action, that friendly operative's ranged weapons have the Range 6" and Seek
+      Light weapon rules and enemy operatives cannot be obscured.
+  - name: Counterattack
+    cost: 1CP
+    description: Use this firefight ploy at the end of an enemy operative's activation,
+      or after an enemy operative performs the Fight action. One friendly WOLF SCOUT
+      operative can immediately perform a free Fight action, but you cannot select
+      any other enemy operative to fight against during that action.
+  - name: Touched By Lokyar
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      WOLF SCOUT operative (excluding FENRISIAN WOLF ), if it's fighting more than
+      5" from other friendly operatives. You can re-roll any of your attack dice.
+  - name: Transhuman Physiology
+    cost: 1CP
+    description: Use this firefight ploy when an operative is shooting a friendly
+      WOLF SCOUT operative (excluding FENRISIAN WOLF ), in the Roll Defence Dice step.
+      You can retain one of your normal successes as a critical success instead.
+  operatives:
+  - name: Pack Leader
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Lupine Guile
+      description: Once per battle, after rolling off to decide initiative, if this
+        operative is in the Killzone, you can re-roll your dice.
+      cost: 0AP
+    - name: Grizzled Veteran
+      description: The first time this operative would be incapacitated during the
+        battle, it's not incapacitated, has 1 wound remaining and cannot be incapacitated
+        for the remainder of the action. All remaining attack dice are discarded (including
+        yours if this operative is fighting or retaliating). You cannot use the Counterattack
+        firefight ploy or inflict damage as a result of the Savage Fighters strategy
+        ploy at the end of that action.
+      cost: 0AP
+  - name: Fangbearer
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Absolvor bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 9"
+      - Piercing Crits 1
+    - name: Combat blade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Spiritual Chirurgy
+      description: You can ignore any changes to the stats of friendly WOLF SCOUT
+        operatives (excluding FENRISIAN WOLF ) from being injured (including their
+        weapons' stats). Note that friendly operatives have this rule if you select
+        this operative for the battle (even if it's incapacitated later).
+      cost: 1AP
+    - name: Healing Balms
+      description: "\U0001F7E2 Select one friendly WOLF SCOUT operative within this\
+        \ operative's control range to regain up to D3+3 lost wounds. \U0001F534 This\
+        \ operative cannot perform this action while within control range of an enemy\
+        \ operative."
+      cost: 0AP
+  - name: Fenrisian Wolf
+    stats:
+      apl: 2
+      mv: 8"
+      sv: 5+
+      w: 9
+    weapons:
+    - name: Fangs
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: Instinctive Predator
+      description: This operative cannot perform any actions other than Charge , Dash
+        , Fall Back , Fight , Guard and Reposition . It cannot use any weapons that
+        aren't on its datacard. This operative can perform the Charge action while
+        it has a Conceal order.
+      cost: 0AP
+    - name: Pounce
+      description: Once per battle STRATEGIC GAMBIT . If this operative's APL stat
+        is 2 or more, this operative can perform a free Charge , Fall Back or Reposition
+        action. If it does, until the end of its next activation, subtract 1 from
+        its APL stat and it cannot perform any of the aforementioned actions.
+      cost: 0AP
+  - name: Frosteye
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Instigator bolt carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+      - Silent
+    - name: Combat blade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Storm-veiled Execution
+      description: Whenever
+      cost: 0AP
+    - name: this operative is within your STORM
+      description: "\u25CF It can perform the Guard action regardless of the killzone\
+        \ (see close quarters rules, Kill Team Core Book). \u25CF It can perform the\
+        \ Guard action while it has a Conceal order, but if it does, it cannot perform\
+        \ more than one Shoot action for the rest of the turning point (i.e. it cannot\
+        \ Shoot both during the interruption and during counteract)."
+      cost: 1AP
+    - name: Hunter'S Senses
+      description: "\U0001F7E2 Select one of the following rules for this operative's\
+        \ instigator bolt carbine to"
+      cost: 0AP
+    - name: have until the start of its next activation
+      description: "\u25CF Severe. \u25CF Saturate, and whenever this operative is\
+        \ shooting with that weapon, enemy operatives cannot be obscured. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative"
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Combat blade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Tempest's Fury
+      description: "Whenever this operative is within your STORM : \u25CF All profiles\
+        \ of its plasma gun have the Punishing weapon rule. \u25CF Its plasma gun\
+        \ (supercharge) doesn't have the Hot weapon rule."
+      cost: 0AP
+  - name: Rune Priest Skjald
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Jaws of the World Wolf
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - PSYCHIC
+      - Blast 2"
+      - Severe
+    - name: Thunderclap
+      type: Ranged
+      a: 5
+      bs_ws: 2+
+      d: 2/2
+      rules:
+      - PSYCHIC
+      - Rng 6"
+      - Saturate
+      - Seek Light
+    - name: Runic Stave
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - PSYCHIC
+      - Shock
+    rules:
+    - name: Cast the Runes
+      description: After selecting this operative, before the battle, roll three D6
+        and put them to one side. For each result of 1-4, you can use the Command
+        Re-roll firefight ploy for 0CP once during the turning point that matches
+        the result. For each result of 5-6, you gain 1CP. For example, if you roll
+        2, 2 and 5, you gain 1CP and twice during the second turning point you can
+        use Command Re-roll for 0CP.
+      cost: 1AP
+    - name: Call The Storm
+      description: "\U0001F7E2 PSYCHIC . Remove your Storm marker from the killzone\
+        \ (if any), then place it in the killzone. \U0001F7E2 PSYCHIC . Alternatively,\
+        \ instead of resolving the above effect, select one friendly WOLF SCOUT operative.\
+        \ Until the start of this operative's next activation, until it's incapacitated\
+        \ or until it performs this action again (whichever comes first), whenever\
+        \ that friendly operative is within your STORM and more than 3\" from the\
+        \ active operative, it's obscured. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Trapmaster
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Combat blade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Haywire Mine
+      description: This operative is carrying your Haywire Mine marker. It can perform
+        the Pick Up Marker action on that marker, but that marker cannot be placed
+        within another operative's control range (if this operative is incapacitated
+        while carrying that marker and that marker cannot be placed, it's removed
+        with this operative).
+      cost: 0AP
+    - name: Proximity Mine
+      description: The first time your Haywire Mine marker is within another operative's
+        control range, remove that marker, subtract 1 from that operative's APL stat
+        until the end of its next activation, and inflict 2D3+3 damage on it (or D3+6
+        if that marker is within 6" horizontally of your Storm marker); if it isn't
+        incapacitated, end its action (if any), even if that action's effects aren't
+        fulfilled. If it cannot be placed, move it the minimum amount to do so. Note
+        that this operative is ignored for these effects (i.e. it cannot set it off
+        or take damage from that marker).
+      cost: 0AP
+  - name: Hunter
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Combat blade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Fierce Temperament
+      description: Whenever this operative is within your STORM , its weapons have
+        the Severe weapon rule.
+      cost: 0AP

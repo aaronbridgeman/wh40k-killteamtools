@@ -1,0 +1,561 @@
+team:
+  name: Death Korps
+  version: v1.5
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Siege Warfare
+    cost: 1CP
+    description: Friendly DEATH KORPS operatives ranged weapons have the Saturate
+      and Accurate 1 weapon rules.
+  - name: Take Cover
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly DEATH KORPS operative,
+      if you can retain any cover saves, improve that friendly operative's Save stat
+      by 1.
+  - name: Clear The Line
+    cost: 1CP
+    description: Friendly DEATH KORPS operatives' melee weapons have the Accurate
+      1 weapon rule. Whenever a friendly DEATH KORPS operative is fighting wholly
+      within your territory, or whenever it's retaliating, its melee weapons also
+      have the Severe weapon rule.
+  - name: Regroup
+    cost: 1CP
+    description: SUPPORT . Select one friendly DEATH KORPS operative that's more than
+      3" from enemy operatives. Each other friendly DEATH KORPS operative within 5"
+      of that operative and not within control range of enemy operatives can immediately
+      perform a free Dash action in an order of your choice, but each that does so
+      must end that move closer to that operative. Note that a Comms Device from universal
+      equipment only affects the second distance of this rule. You cannot use this
+      ploy and the Chronometer faction equipment STRATEGIC GAMBIT in the same turning
+      point.
+  firefight_ploys:
+  - name: Inspirational Leadership
+    cost: 1CP
+    description: SUPPORT . Use this firefight ploy during a friendly DEATH KORPS WATCHMASTER
+      or DEATH KORPS CONFIDANT operative's activation, before or after it performs
+      an action. It issues a GUARDSMAN ORDER .
+  - name: Combined Arms
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      DEATH KORPS operative, if it's shooting an enemy operative that's been shot
+      by another friendly DEATH KORPS operative during this turning point. You can
+      re-roll any of your attack dice.
+  - name: In Life, Shame
+    cost: 1CP
+    description: Use this firefight ploy when a friendly DEATH KORPS operative is
+      activated and given an Engage order. It receives every GUARDSMAN ORDER . This
+      takes precedence over the normal rule that operatives cannot benefit from more
+      than one GUARDSMAN ORDER at once.
+  - name: In Death, Atonement
+    cost: 1CP
+    description: Use this firefight ploy when a ready friendly DEATH KORPS operative
+      is incapacitated, if it isn't within control range of enemy operatives. Before
+      it's removed from the killzone, it can immediately perform one free action and
+      you can change its order to do so. Note that that friendly operative is injured
+      for the duration of that action.
+  operatives:
+  - name: Watchmaster
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Relic laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Bayonet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Adaptive Orders
+      description: If this operative doesn't issue a GUARDSMAN ORDER as a STRATEGIC
+        GAMBIT , you can use the Inspirational Leadership firefight ploy for 0CP during
+        this operative's activation.
+      cost: 0AP
+    - name: Bring it Down!
+      description: STRATEGIC GAMBIT if this operative is in the killzone. Select one
+        enemy operative. Whenever a friendly DEATH KORPS operative is shooting against,
+        fighting against or retaliating against that enemy operative, that friendly
+        operative's weapons have the Punishing weapon rule. Kill Team Reference Sheet
+        by James And The Giant Squig - v1.5 (updated 29 Apr 2026) DEATH KORPS
+      cost: 0AP
+  - name: Bruiser
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Trench club
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Shock
+    rules:
+    - name: Bruiser
+      description: Once per turning point, when this operative is fighting or retaliating,
+        in the Resolve Attack Dice step, you can ignore the damage inflicted on it
+        from one normal success. If this operative is incapacitated during the Fight
+        action, you can strike the enemy operative in that sequence with one of your
+        unresolved successes before this operative is removed from the killzone.
+      cost: 0AP
+  - name: Confidant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Relic laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Second in Command
+      description: If a friendly WATCHMASTER operative is incapacitated and removed
+        from the killzone, you can use this rule. If you do, until the end of the
+        battle, this operative can issue a GUARDSMAN ORDER as a STRATEGIC GAMBIT (even
+        though it's not a WATCHMASTER operative).
+      cost: 0AP
+    - name: Directive
+      description: Whenever this operative is activated, if you haven't used the Second
+        in Command rule during the battle, you can select one other ready friendly
+        DEATH KORPS operative visible to and within 6" of it. When this operative
+        is expended, activate that other friendly operative before your opponent activates
+        (if that operative is a TROOPER , ignore its Group Activation rule).
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Grenade launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Grenade launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Medic
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        DEATH KORPS operative would be incapacitated while visible to and within 3"
+        of this operative, you can use this rule, providing neither this nor that
+        operative is within control range of an enemy operative. If you do, that friendly
+        operative isn't incapacitated, has 1 wound remaining and cannot be incapacitated
+        for the remainder of the action. After that action, that friendly operative
+        can immediately perform a free Dash action, but must end that move within
+        this operative's control range. Subtract 1 from this and that operative's
+        APL stats until the end of their next activations respectively, and if this
+        rule was used during that friendly operative's activation, that activation
+        ends. You cannot use this rule if this operative is incapacitated, or if it's
+        a Shoot action and this operative would be a primary or secondary target.
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly DEATH KORPS operative within this\
+        \ operative's control range to regain up to 2D3 lost wounds. It cannot be\
+        \ an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Sapper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Remote detonator
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 5/6
+      rules:
+      - Heavy (Dash only)
+      - Limited 1
+      - Piercing 1
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Detonate'
+      description: Don't select a valid target. Instead, shoot against each operative
+        within 2" of your Mine marker, unless Heavy terrain is wholly intervening
+        between that operative and that marker. Each of those operatives cannot be
+        in cover or obscured. Roll each sequence separately in an order of your choice.
+        This weapon cannot be selected if your Mine marker isn't in the killzone.
+        At the end of the action, remove your Mine marker from the killzone. In a
+        killzone that uses the
+      cost: 0AP
+    - name: close quarters rules (e.g. Killzone
+      description: Tomb World), this weapon has the Lethal 5+ weapon rule.
+      cost: 0AP
+    - name: Mine Layer
+      description: This operative is carrying your Mine marker. It can perform the
+        Pick Up Marker action on that marker, and whenever it performs the Place Marke
+        r action on that marker, it can immediately perform a free Dash action.
+      cost: 0AP
+  - name: Sniper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Long-las (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Long-las (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Long-las (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 0AP
+  - name: Spotter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Mortar barrage
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Blast 2"
+      - Heavy (Dash only)
+      - Silent
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Veteran
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bionic arm
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Veteran Guardsman
+      description: Whenever this operative is activated, it can receive one GUARDSMAN
+        ORDER .
+      cost: 0AP
+    - name: Bionics
+      description: Normal Dmg of 3 or more inflicts 1 less damage on this operative.
+      cost: 0AP
+  - name: Vox-Operator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Relay Orders
+      description: Once per turning point, when this operative receives a GUARDSMAN
+        ORDER , if it's not within control range of enemy operatives, it can relay
+        that order. Whenever an order is relayed, all friendly DEATH KORPS operatives
+        in the killzone receive that order, then subtract 1 from this operative's
+        APL stat until the end of its next activation.
+      cost: 1AP
+    - name: Signal
+      description: "\U0001F7E2 SUPPORT . Select one other friendly DEATH KORPS operative\
+        \ visible to and within 6\" of this operative. Until the end of that operative's\
+        \ next activation, add 1 to its APL stat. \U0001F534 This operative cannot\
+        \ perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Zealot
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: The Emperor Protects
+      description: Whenever an operative is shooting this operative, you can re-roll
+        any of your defence dice.
+      cost: 0AP
+    - name: Uplifting Primer
+      description: SUPPORT . Whenever a friendly DEATH KORPS operative is within 3"
+        of this operative, that friendly operative's weapons have the Severe weapon
+        rule.
+      cost: 0AP
+  - name: Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate one
+        other ready friendly DEATH KORPS TROOPER operative (if able) before your opponent
+        activates. When that other operative is expended, your opponent then activates
+        as normal (in other words, you cannot activate more than two operatives in
+        succession with this rule).
+      cost: 0AP

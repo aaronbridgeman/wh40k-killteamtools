@@ -1,0 +1,651 @@
+team:
+  name: Brood Brothers
+  version: v1.5
+  last_updated: 29 October 2025
+  archetypes:
+  - Infiltration
+  - Security
+  strategy_ploys:
+  - name: Cult Devotion
+    cost: 1CP
+    description: Whenever a friendly BROOD BROTHER operative (excluding PATRIARCH
+      ) is incapacitated when fighting or retaliating, if you have any unresolved
+      attack dice, you can roll one D6. If the result is a success as if it were the
+      Roll Attack Dice step of that sequence (i.e, using the same weapon, but with
+      no re-rolls), you can strike the enemy operative in that sequence with one of
+      your unresolved normal successes, or any of your successes instead if the D6
+      result is a critical success. In either case, that friendly operative is removed
+      from the killzone afterwards.
+  - name: Embedded
+    cost: 1CP
+    description: Whenever an enemy operative is shooting a friendly BROOD BROTHER
+      operative, if you can retain any cover saves as a result of Heavy terrain, you
+      can retain one additional cover save.
+  - name: Pervasive
+    cost: 1CP
+    description: During friendly BROOD BROTHER operative's activation, you can ignore
+      the first vertical distance of 2" they move during one climb up.
+  - name: Uprising
+    cost: 1CP
+    description: The first time each friendly BROOD BROTHER operative performs either
+      the Shoot or Fight action during each of its activations, if its order was changed
+      from Conceal to Engage at the start of that activation, the enemy operative
+      selected as the valid target or to fight against gains one of your Crossfire
+      tokens as soon as it's selected (instead of after resolving your attack dice).
+      This ploy has no effect if that friendly operative was activated within control
+      range of an enemy operative. Note this ploy cannot come into effect more than
+      once per activation (you cannot use it during both the Shoot and the Fight action
+      in the same activation).
+  firefight_ploys:
+  - name: Idolisation
+    cost: 1CP
+    description: Use this firefight ploy when a friendly BROOD BROTHER operative (excluding
+      LEADER ) within 6" of a friendly BROOD BROTHER LEADER or friendly BROOD BROTHER
+      ICONWARD operative is shooting, fighting or retaliating, in the Roll Attack
+      Dice Step. You can retain one of your fails as a normal success instead of discarding
+      it, or retain one of your normal successes as a critical success instead.
+  - name: Insidious
+    cost: 1CP
+    description: Use this firefight ploy after an activation. Before the next activation,
+      you can perform a free Dash action with one BROOD BROTHER operative, as long
+      as it's not a valid target for an enemy operative when it starts and ends that
+      action. You cannot use this ploy during the first turning point.
+  - name: Ruthless Coordination
+    cost: 1CP
+    description: Use this firefight ploy when selecting a valid target for a BROOD
+      BROTHER operative. Until the end of the action, determine invisibility as normal,
+      but you can instead determine intervening (for cover and obscured) from another
+      BROOD BROTHER operative that both that friendly operative and the potential
+      valid target are visible to, but that isn't itself within control range of enemy
+      operatives. Note the friendly operative doesn't gain the additional benefits
+      of Vantage terrain if the other operative is on it (e.g, to target an enemy
+      operative that has a Conceal order that's in cover provided by only Light terrain.
+  - name: Unquestioning Loyalty
+    cost: 1CP
+    description: Use this firefight ploy when a friendly BROOD BROTHER LEADER operative
+      is selected as the valid target of a Shoot action or to fight against during
+      the Fight action. Select one other friendly BROOD BROTHER BROODGUARD operative
+      (excluding LEADER ) visible to and within 3" of that LEADER operative to become
+      the valid target or to be fought against (as appropriate) instead (even if it
+      normally wouldn't be valid for this). If it's the Fight action, treat that other
+      operative as being within the fighting operative's control range for the duration
+      of that action. If Shoot action, that other operative is only in cover or obscured
+      if the original target was. This ploy has no effect if it's the Shoot action
+      and the ranged weapon has the Blast or Torrent weapon rule.
+  operatives:
+  - name: Magus
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Bio dagger
+      type: Melee
+      a: 2
+      bs_ws: 4+
+      d: 3/6
+      rules:
+      - Lethal 4+
+    - name: Force stave
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - PSYCHIC
+      - Shock
+    rules:
+    - name: Spiritual Leader
+      description: STRATEGIC GAMBIT if this operative is in the killzone. Select one
+        of the following for friendly BROOD BROTHER operatives to have until the end
+        of the turning point or until this operative is incapacitated (whichever comes
+      cost: 0AP
+    - name: first)
+      description: "\u25CF Whenever an enemy operative is shooting a friendly BROOD\
+        \ BROTHER operative, ignore the Piercing weapon rule. \u25CF You can ignore\
+        \ any changes to friendly BROOD BROTHER operative's stats from being injured\
+        \ (including their weapon's stats). \u25CF You can ignore any changes to the\
+        \ APL stats of BROOD BROTHER operatives. TELEPATHIC"
+      cost: 1AP
+    - name: Overload
+      description: "\U0001F7E2 PSYCHIC . Select one enemy operative visible to this\
+        \ operative. Until the end of that operative's next activation, subtract 1\
+        \ from its APL stat. \U0001F534 This operative cannot perform this action\
+        \ while within control range of an enemy operative."
+      cost: 1AP
+    - name: Mental Onslaught
+      description: "\U0001F7E2 PSYCHIC . Select one enemy operative that's a valid\
+        \ target to this operative. Inflict 2 damage on it, or 4 damage instead if\
+        \ it's within 6\" of this operative. Then roll one D6, if the result is higher\
+        \ than that enemy's APL stat, inflict an additional 2 damage on it, or 4 damage\
+        \ instead if it's within 6\" of this operative. Keep rolling one D6 in this\
+        \ manner until you roll equal to or less than that enemy operative's APL stat,\
+        \ until it's incapacitated, or until you inflict 8 damage on it during this\
+        \ action (whichever comes first). \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Primus
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Scoped needle pistol (Short range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 8"
+      - Lethal 5+
+      - Silent
+    - name: Scoped needle pistol (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Silent
+    - name: injector claw
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Lethal 5+
+      - Rending
+    rules:
+    - name: Fist of the Patriarch
+      description: This operative can perform either two Shoot or two Fight actions
+        during its activation.
+      cost: 0AP
+    - name: Mastermind
+      description: Once per turning point, after rolling off to determine initiative,
+        if this operative is in the killzone, you can do one of the following (you
+        cannot select each
+      cost: 0AP
+    - name: option more than once per battle)
+      description: "\u25CF Add 1 to your dice result \u25CF If you didn't have initiative\
+        \ in the previous turning point, re-roll your dice."
+      cost: 1AP
+    - name: Conspire
+      description: "\U0001F7E2 You gain 1CP. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative, or more than\
+        \ once per turning point."
+      cost: 0AP
+  - name: Psychic Familiar
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 3
+    weapons:
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rending
+    rules:
+    - name: Small
+      description: Cannot use any other weapons or perform unique actions. Whenever
+        this operative has a Conceal order and is in cover, it cannot be selected
+        as a valid target, taking precedence over all other rules (e.g. Seek, Vantage
+        terrain) except being within 2". This operative can perform the Fall Back
+        action for 1 less AP.
+      cost: 0AP
+    - name: Group Activation
+      description: The same as BROOD BROTHER TROOPER Group Activation rule, but replace
+        the TROOPER keyword with PSYCHIC FAMILIAR .
+      cost: 0AP
+    - name: Elusive
+      description: Can perform mission actions while within control range of an enemy
+        operative. Can move through enemy operatives and their control range, and
+        during the Charge action can leave their control range.
+      cost: 0AP
+  - name: Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate one
+        other ready friendly BROOD BROTHER TROOPER operative (if able) before your
+        opponent activates. When that other operative is expended, your opponent then
+        activates as normal. Version 1.5 (updated 29 October 2025) BROOD BROTHERS
+      cost: 0AP
+  - name: Commander
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Drum-fed autogun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Ceaseless
+    - name: Laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Chainsword and claw
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Balanced
+      - Rending
+    - name: Power weapon and claw
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Balanced
+      - Lethal 5+
+    rules:
+    - name: Coordinate
+      description: STRATEGIC GAMBIT if this operative is in the killzone. Select one
+        enemy operative to gain one of your Crossfire tokens.
+      cost: 0AP
+  - name: Agitator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Shock maul
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules:
+      - Shock
+    rules:
+    - name: Devoted
+      description: Once per turning point, when this operative is fighting or retaliating,
+        in the Resolve Attack Dice step, you can ignore the damage inflicted on it
+        from one normal success.
+      cost: 0AP
+    - name: Psiren Caster
+      description: Whenever a friendly BROOD BROTHER operative is shooting against,
+        fighting against or retaliating against an enemy operative within 6" of this
+        operative, you can re-roll one of your attack dice.
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Grenade Launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Grenade Launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Iconward
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Large knife
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules: []
+    rules:
+    - name: Cult Icon
+      description: When determining control of a marker within 4" of this operative,
+        treat the total APL stat of friendly BROOD BROTHER operatives that control
+        it as 1 higher if at least one friendly BROOD BROTHER operative contests that
+        marker. Note this isn't a change to the APL stat, so any changes are cumulative
+        with this.
+      cost: 0AP
+    - name: Broodmind Devotion
+      description: Once per turning point when a ready friendly BROOD BROTHER operative
+        is incapacitated while visible to and within 6" of this operative, you can
+        use this rule. If you do, before that operative is removed from the killzone,
+        it can perform a 1AP action for free (excluding Fight and Explosives ), and
+        you can change its order to do so. It's then incapacitated as normal. You
+        cannot use this rule and the Medic! rule (see MEDIC datacard) on the same
+        operative at the same time.
+      cost: 0AP
+  - name: Knife Fighter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Poisoned fighting knives
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Lethal 5+
+    rules:
+    - name: Assassin
+      description: Can perform the Charge action while it has a Conceal order.
+      cost: 0AP
+    - name: Counterattack
+      description: When fighting or retaliating, whenever your opponent resolves a
+        normal success, inflict 1 damage on the enemy operative in that sequence.
+      cost: 0AP
+  - name: Medic
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Gene-needler
+      type: Melee
+      a: 1
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Lethal 5+
+      - Limited 1
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        BROOD BROTHER operative (excluding PATRIARCH ) would be incapacitated while
+        visible to and within 3" of this operative, you can use this rule, providing
+        neither this nor that operative is within control range of an enemy operative.
+        If you do, that friendly operative isn't incapacitated, has 1 wound remaining
+        and cannot be incapacitated for the remainder of the action. After that action,
+        that friendly operative can then immediately perform a free Dash action, but
+        must end that move within this operative's control range. Subtract 1 from
+        this and that operative's APL stats until the end of their next activations
+        respectively, and if this rule was used during that friendly operative's activation,
+        that activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one BROOD BROTHER operative (excluding PATRIARCH\
+        \ ) within this operative's control range to regain 2D3 lost wounds. It cannot\
+        \ be an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Sapper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Demolition charge
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Rng 3"
+      - Blast 2"
+      - Heavy (Reposition only)
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Final Defiance
+      description: If this operative is incapacitated, it can perform a free Explosives
+        unique action before it's removed from the killzone.
+      cost: 0AP
+    - name: Grenadier
+      description: This operative can use frag and krak grenades. Doing so doesn't
+        count towards any limited uses you have. Whenever it's doing so, improve the
+        Hit stat of that weapon by 1.
+      cost: 1AP
+    - name: Explosives
+      description: "\U0001F7E2 The first time this operative performs this action\
+        \ during the battle, place your Explosives marker within its control range.\
+        \ The second time this operative performs this action during the battle, inflict\
+        \ 2D6 damage on each operative within 2\" of that marker (roll separately\
+        \ for each) unless Heavy terrain is wholly intervening between them. \U0001F534\
+        \ This operative cannot perform this action more than twice per battle, while\
+        \ within control range of an enemy operative, or during the same activation\
+        \ in which it performed the Charge , Dash or Fall Back action (or vice versa)."
+      cost: 0AP
+  - name: Sniper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Sniper rifle (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 0AP
+  - name: Veteran
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Bayonet and claw
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Balanced
+    rules:
+    - name: Resilient
+      description: Normal Dmg of 3 or more inflicts 1 less damage on this operative.
+      cost: 0AP
+    - name: Bodyguard
+      description: You can use the Unquestioning Loyalty firefight ploy for 0CP if
+        this is the specified friendly BROODGUARD operative.
+      cost: 0AP
+  - name: Vox-Operator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Archetype
+      description: "INFILTRATION / SECURITY 1 BROOD BROTHER COMMANDER operative equipped\
+        \ with one of the following options: \u25CB Bolt pistol, chainsword and claw\
+        \ \u25CB Drum-fed autogun, bayonet \u25CB Laspistol, power weapon and claw"
+      cost: 0AP
+    - name: 9 BROOD BROTHER operatives selected from the following list
+      description: "\u25CF AGITATOR , ICONWARD , KNIFE FIGHTER , MEDIC , SAPPER ,\
+        \ SNIPER , TROOPER , VETERAN , VOX OPERATOR \u25CF GUNNER equipped with a\
+        \ Flamer and Bayonet \u25CF GUNNER equipped with a Grenade Launcher and Bayonet\
+        \ \u25CF GUNNER equipped with a Meltagun and Bayonet \u25CF GUNNER equipped\
+        \ with a Plasma Gun and Bayonet"
+      cost: 0AP
+    - name: 3 BROOD BROTHER operatives selected from the following list
+      description: "** \u25CF 2 PSYCHIC FAMILIAR operatives (still counts as one selection)\
+        \ \u25CF MAGUS (counts as two selections)* \u25CF PATRIARCH (counts as three\
+        \ selections)* \u25CF PRIMUS (counts as two selections)* \u25CF TROOPER Other\
+        \ than TROOPER operatives, your kill team can only include each option above\
+        \ once. It cannot include more than three GUNNER and SNIPER operatives combined.\
+        \ *Your kill team can only include up to one BROODCOVEN operative. If one\
+        \ of these operatives is selected for deployment, your COMMANDER operative\
+        \ loses the LEADER keyword. **Up to three times, instead of selecting one\
+        \ of these operatives, you can select one BROOD BROTHER ploy to cost you 0CP\
+        \ for the battle. Note that 'count as' selections still apply; for example,\
+        \ if you select a Patriarch operative, you could not do this. Version 1.5\
+        \ (updated 29 October 2025)"
+      cost: 0AP

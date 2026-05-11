@@ -1,0 +1,554 @@
+team:
+  name: Legionaries
+  version: v1.3
+  last_updated: 29 October 2025
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Blood For The Blood God
+    cost: 1CP
+    description: Whenever a friendly LEGIONARY operative (excluding KHORNE ) is fighting,
+      the first time you strike during that sequence, inflict 1 additional damage
+      (to a maximum of 7). Add 1 to both Dmg stats of LEGIONARY KHORNE operatives'
+      melee weapons (to a maximum of 7).
+  - name: Implacable
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly LEGIONARY operative,
+      weapons with the Piercing 1 weapon rule have the Piercing Crits 1 weapon rule
+      instead. You can ignore any changes to the stats of friendly LEGIONARY NURGLE
+      operatives from being injured (including their weapons' stats).
+  - name: Quicksilver Speed
+    cost: 1CP
+    description: Whenever a friendly LEGIONARY operative that performed an action
+      in which it moved during this turning point is fighting, worsen the Hit stat
+      of the enemy operative's melee weapons by 1. Whenever an operative is shooting
+      a friendly LEGIONARY SLAANESH operative more than 6" from it that performed
+      an action in which it moved during this turning point, worsen the Hit stat of
+      the enemy operative's weapons by 1. In all cases for this ploy, this isn't cumulative
+      with being injured.
+  - name: Fickle Fates
+    cost: 1CP
+    description: Whenever a friendly LEGIONARY operative is shooting a ready enemy
+      operative, that friendly operative's ranged weapons have the Balanced weapon
+      rule. Whenever an operative is shooting a ready friendly LEGIONARY TZEENTCH
+      operative, in the Roll Defence Dice step, if you retain any critical successes,
+      you can retain one of your fails as a normal success instead of discarding it.
+  firefight_ploys:
+  - name: Unending Bloodshed
+    cost: 1CP
+    description: Use this firefight ploy when a friendly LEGIONARY KHORNE operative
+      is incapacitated while fighting or retaliating. You can strike the enemy operative
+      in that sequence with one of your unresolved successes before it's removed from
+      the killzone.
+  - name: Malignant Aura
+    cost: 1CP
+    description: Use this firefight ploy when a friendly LEGIONARY NURGLE operative
+      is performing the Shoot action, when you select a valid target. Until the end
+      of that action, whenever that friendly operative is shooting an enemy operative
+      within 3" of it (i.e. including secondary targets, if any), that friendly operative's
+      ranged weapons have the Piercing 1 weapon rule.
+  - name: Sickening Captivation
+    cost: 1CP
+    description: Use this firefight ploy during a friendly LEGIONARY SLAANESH operative's
+      activation, before or after it performs an action. Select one enemy operative
+      visible to and within 4" of that friendly operative. Until the end of that enemy
+      operative's next activation, subtract 1 from its APL stat.
+  - name: Mutability And Change
+    cost: 1CP
+    description: Use this firefight ploy when a friendly LEGIONARY TZEENTCH operative
+      is activated. Until the end of that operative's activation, add 1 to its APL
+      stat, but it cannot perform the same action more than once during that activation..
+      If it's a WARRIOR operative, that operative's Marks of Chaos keyword cannot
+      be changed during this turning point (see Infernal Pact additional rule).
+  operatives:
+  - name: Aspiring Champion
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Tainted bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Power fist
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Brutal
+    - name: Power maul
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Shock
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Tainted chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: In the Eyes of the Gods
+      description: Once during each of this operative's activations, if it incapacitates
+        an enemy operative, add 1 to its APL stat until the end of that activation.
+      cost: 0AP
+  - name: Chosen
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Tainted bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Daemon blade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/7
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Daemonic Aura
+      description: Whenever an enemy operative performs the Fall Back action while
+        within control range of this operative, you can use this rule. If you do,
+        roll
+      cost: 0AP
+    - name: one D6
+      description: on a 3+, that enemy operative cannot perform that action during
+        that activation/counteraction (the AP spent on it is refunded).
+      cost: 0AP
+    - name: Soul Gorge
+      description: After this operative fights or retaliates, if it isn't incapacitated,
+        but it incapacitated an enemy operative during that sequence, it regains up
+        to D3+1 lost wounds.
+      cost: 0AP
+  - name: Anointed
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Daemonic claw
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: Unleash Daemon
+      description: Once per battle, when this operative is activated, you can use
+      cost: 0AP
+    - name: this rule. If you do, until the end of the battle
+      description: "\u25CF This operative cannot perform the Pick Up Marker or mission\
+        \ actions (excluding Operate Hatch ). If it's carrying a marker, it must immediately\
+        \ perform the Place Marker action for 0AP (this takes precedence over all\
+        \ other rules). \u25CF Normal and Critical Dmg of 4 or more inflicts 1 less\
+        \ damage on this operative. If this operative has the NURGLE keyword, you\
+        \ cannot reduce the damage of an attack dice by more than 1. In other words,\
+        \ you cannot use both rules to reduce Normal Dmg of 4 or more by 2. \u25CF\
+        \ Its daemonic claw has the Ceaseless and Lethal 5+ weapon rules."
+      cost: 0AP
+  - name: Balefire Acolyte
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Fireblast
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - PSYCHIC
+      - Blast 2"
+      - 1" Devastating 1
+      - Saturate
+    - name: Life siphon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - PSYCHIC
+      - Saturate
+      - Siphon Life *
+    - name: Fell dagger
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - PSYCHIC
+      - Rending
+      - Siphon Life *
+    rules:
+    - name: '* Siphon Life'
+      description: "\u2018When you select this weapon, you can use this rule. If you\
+        \ do, at the start of the Resolve Attack Dice step, select one friendly LEGIONARY\
+        \ operative visible to and within 6\" of this operative. For each attack dice\
+        \ you resolve during that step that inflicts damage, that friendly operative\
+        \ regains 1 lost wound, or D3 lost wounds if it was a critical success. You\
+        \ cannot use this weapon rule more than once per turning point."
+      cost: 0AP
+  - name: Butcher
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Double-handed chainaxe
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Brutal
+    rules:
+    - name: Devastating Onslaught
+      description: "\u25CF Whenever this operative is fighting or retaliating, enemy\
+        \ operatives cannot assist. \u25CF At the end of each enemy operative's activation\
+        \ or counteraction, you can select an enemy operative within 2\" of this operative.\
+        \ This operative can perform a free Charge action (you can change its order\
+        \ to Engage to do so), but it cannot move more than 2\" and must end that\
+        \ move within control range of that selected operative."
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Heavy Gunner
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Heavy bolter (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Heavy (Reposition only)
+      - Piercing Crits 1
+    - name: Heavy bolter (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Heavy (Reposition only)
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Missile launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Blast 2"
+      - Heavy (Reposition only)
+    - name: Missile launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Heavy (Reposition only)
+      - Piercing 1
+    - name: Reaper chaincannon (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Heavy (Reposition only)
+      - Punishing
+    - name: Reaper chaincannon (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Heavy (Reposition only)
+      - Punishing
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Icon Bearer
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Icon Bearer
+      description: Whenever determining control of a marker, treat this operative's
+        APL stat as 1 higher. Note this isn't a change to its APL stat, so any changes
+        are cumulative with this.
+      cost: 0AP
+    - name: Favoured of the Dark Gods
+      description: In the Ready step of each Strategy phase, if this operative controls
+        an objective marker that isn't tainted, that objective marker is tainted for
+        the battle and you gain 1CP. Note that if any operative (including enemy operatives)
+        has tainted an objective marker, you cannot taint that objective marker.
+      cost: 0AP
+  - name: Shrivetalon
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Flensing blades
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Vicious Reflexes
+      description: Whenever this operative is retaliating, you resolve the first attack
+        dice (i.e. defender instead of attacker).
+      cost: 0AP
+    - name: Horrifying Dismemberment
+      description: Whenever this operative incapacitates an enemy operative while
+        fighting or retaliating, select one other enemy operative visible to and within
+        3" of either this operative or the incapacitated enemy operative. Subtract
+        1 from that enemy operative's APL stat until the end of its next activation.
+      cost: 2AP
+    - name: Grisly Mark
+      description: "\U0001F7E2 Place your Grisly marker within this operative's control\
+        \ range. \u25CF Whenever an enemy operative is within 3\" of your Grisly marker,\
+        \ your opponent must spend 1 additional AP for that enemy operative to perform\
+        \ the Pick Up Marker and mission actions. \u25CF Whenever determining control\
+        \ of a marker, treat the total APL stat of enemy operatives that contest it\
+        \ as 1 lower if at least one of those enemy operatives is within 3\" of your\
+        \ Grisly marker. Note this isn't a change to the APL stat, so any changes\
+        \ are cumulative with this. \U0001F534 This operative can only perform this\
+        \ action once per battle, and cannot perform it while within control range\
+        \ of an enemy operative."
+      cost: 0AP
+  - name: Warrior
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Infernal Pact
+      description: Once per battle, when a friendly LEGIONARY WARRIOR operative is
+        activated, you can use this rule. If you do, change that operative's Marks
+        of Chaos keyword. Version 1.3 (updated 29 October 2025)
+      cost: 0AP

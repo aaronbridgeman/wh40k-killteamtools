@@ -1,0 +1,536 @@
+team:
+  name: Murderwing
+  version: v1.2
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Recon
+  - Seek & Destroy
+  strategy_ploys:
+  - name: Predators Above
+    cost: 1CP
+    description: Whenever a friendly MURDERWING operative is at least 2" higher than
+      the killzone floor, its weapons have the Balanced weapon rule. Whenever a friendly
+      MURDERWING operative does a BOOST , its weapons have the Balanced weapon rule
+      until the end of that activation.
+  - name: Cull The Weak
+    cost: 1CP
+    description: "Whenever a friendly MURDERWING operative is shooting or fighting,\
+      \ its weapons have the Punishing weapon rule if any of the following are true\
+      \ for the operative that friendly operative is shooting or fighting against:\
+      \ \u25CF It's at least 2\" lower than that friendly operative. \u25CF Its APL\
+      \ stat is less than normal. \u25CF It was wounded at the start of the activation/counteraction."
+  - name: Nightmare On High
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly MURDERWING operative
+      that's at least 2" higher than the killzone floor, or that did a BOOST during
+      this turning point, you can re-roll one of your defence dice.
+  - name: Instil Fear
+    cost: 1CP
+    description: Whenever a friendly MURDERWING operative is fighting, Normal Dmg
+      of 3 or more inflicts 1 less damage on it.
+  firefight_ploys:
+  - name: Malicious Narcissism
+    cost: 1CP
+    description: Use this firefight ploy when it's your turn to activate with a friendly
+      operative, if only one friendly MURDERWING operative is ready. Until the end
+      of the turning point, whenever you have less ready friendly operatives than
+      your opponent, you can skip your activations (in other words, you can delay
+      that friendly MURDERWING operative's activation until your opponent has only
+      one ready operative). Note that you cannot counteract until that friendly MURDERWING
+      operative is expended.
+  - name: Murderous Descent
+    cost: 1CP
+    description: Use this firefight ploy when an enemy operative ends the Charge ,
+      Dash , Fall Back or Reposition action within 3" horizontally and more than 2"
+      lower than a friendly MURDERWING operative (or in close quarters, within 2"
+      and that enemy operative must be in a different room to where it started that
+      action). Interrupt that enemy operative's activation/counteraction and immediately
+      perform a free Charge action with that friendly operative. It must end that
+      action within control range of that enemy operative. If this isn't possible,
+      the interruption is cancelled and this rule hasn't been used.
+  - name: Long Forgotten Honour
+    cost: 1CP
+    description: Use this firefight ploy when a friendly MURDERWING operative is fighting
+      or retaliating, when you resolve a critical success. Instead of striking or
+      blocking, end that sequence (any remaining attack dice are discarded) and immediately
+      perform a free Fall Back action up to 3" with that operative (then the Fight
+      action ends). That operative can do so even if it's performed an action that
+      prevents it from performing the Fall Back action.
+  - name: Wings Of Darkness
+    cost: 1CP
+    description: Use this firefight ploy when a friendly MURDERWING operative is performing
+      the Fall Back or Reposition action, when it does a BOOST . That operative can
+      be set up an additional 3" away during that BOOST (adding this to the permitted
+      move distance), but it cannot perform the Shoot , Fight or Carving Blow (see
+      DEPREDATOR operative) action until the next turning point. You cannot use this
+      ploy during the first turning point.
+  operatives:
+  - name: Chaos Lord
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Lightning claw
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Lethal 5+
+      - Rending
+    - name: Relic lightning claws
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Ceaseless
+      - Lethal 5+
+      - Rending
+    - name: Power fist
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Brutal
+      - Shock
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Path to Damnation
+      description: This operative starts the battle with 1 Damnation point. Once per
+        action, you can attempt to use one Boon of Damnation when it specifies (see
+        right). If you do, roll one D6 and compare the result to the number of Damnation
+      cost: 0AP
+    - name: "\u25CF Higher"
+      description: Resolve the rule, then this operative gains 1 Damnation point.
+      cost: 0AP
+    - name: "\u25CF Equal"
+      description: Do not resolve the rule.
+      cost: 0AP
+    - name: "\u25CF Less"
+      description: Inflict damage on this operative equal to its number of Damnation
+        points and do not resolve the rule. If this operative has 6 Damnation points,
+        resolve the rule without rolling. Note that you cannot make an attempt more
+        than once per action, regardless of the D6 result.
+      cost: 0AP
+    - name: Boons of Damnation
+      description: Boons of Damnation are as follows (resolved with a D6
+      cost: 0AP
+    - name: roll, see opposite)
+      description: "\u25CF When an attack dice inflicts damage of 3 or more on this\
+        \ operative, you can ignore an amount of damage equal to this operative's\
+        \ Damnation points. \u25CF When this operative is fighting or retaliating\
+        \ and you strike with an attack dice, you can inflict additional damage equal\
+        \ to this operative's Damnation points."
+      cost: 0AP
+  - name: Champion
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Power fist
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Brutal
+      - Shock
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Chaos Champion
+      description: STRATEGIC GAMBIT . Remove your Challenge token from the enemy operative
+        that has it (if any), then select one enemy operative to gain your Challenge
+        token. Whenever this operative is fighting against or retaliating against
+        an enemy operative that has your Challenge token, in the Select Weapons step,
+        you can select one of the following weapon rules for this operative's melee
+      cost: 0AP
+    - name: weapons to have until the end of the sequence
+      description: Balanced, Brutal, Punishing, Severe, Shock.
+      cost: 0AP
+    - name: Path to Glory
+      description: Whenever this operative incapacitates an enemy operative that has
+        your Challenge token, you gain 1CP.
+      cost: 0AP
+  - name: Curseclaw
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Mutated claws
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: Frenzied Attack
+      description: If this operative is incapacitated during the Fight action, you
+        can strike the enemy operative in that sequence with one of your unresolved
+        successes before this operative is removed from the killzone.
+      cost: 1AP
+    - name: Snatch
+      description: "\U0001F7E2 BOOST action. Select one enemy operative within this\
+        \ operative's BOOST ZONE . Both players roll one D6 and add their respective\
+        \ operative's Wounds stat to their result. If your result is higher, remove\
+        \ that enemy operative from the killzone and set it back up within this operative's\
+        \ BOOST ZONE or control range. It must be set up in a location it can be placed\
+        \ and cannot be set up further away from this operative than where it began.\
+        \ If that enemy operative is set up within this operative's control range,\
+        \ the Fall Back or Reposition action ends (allowing this operative to end\
+        \ that action within control range of enemy operatives). \U0001F534 This operative\
+        \ cannot perform this action normally. Instead, it performs this action during\
+        \ the Fall Back or Reposition action after setting up from a BOOST ."
+      cost: 0AP
+  - name: Depredator
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Great chainaxe
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Brutal
+    rules:
+    - name: Horrifying Dismembermen t
+      description: Whenever this operative incapacitates an enemy operative while
+        fighting or retaliating, select one other enemy operative visible to and within
+        3" of either this operative or the incapacitated enemy operative. Subtract
+        1 from that enemy operative's APL stat until the end of its next activation.
+      cost: 1AP
+    - name: Carving Blow
+      description: "\U0001F7E2 Inflict 2D3 damage on each other operative visible\
+        \ to and within 2\" of this operative in an order of your choice (roll separately\
+        \ for each). \U0001F534 This operative cannot perform this action while it\
+        \ has a Conceal order, or during the same activation in which it performed\
+        \ the Slice from Above action (see Bladefins faction equipment), the Clawed\
+        \ Charge action (see Clawed Armour faction equipment) or two Fight actions\
+        \ (and vice versa)."
+      cost: 0AP
+  - name: Huntmaster
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+6
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Pinned Prey
+      description: Whenever an enemy operative would perform the Fall Back action
+        while within control range of this operative, if no other enemy operatives
+        are within this operative's control range, you can use this rule. If you do,
+        roll two D6, or one D6 if that enemy operative has a higher Wounds stat than
+        this operative. If any result is a 4+, that enemy operative cannot perform
+        that action during that activation/counteraction (no AP are spent on it).
+      cost: 1AP
+    - name: Strike From Above
+      description: "\U0001F7E2 BOOST action. Inflict 2D3+1 damage on one enemy operative\
+        \ within this operative's BOOST ZONE . \U0001F534 This operative cannot perform\
+        \ this action normally. Instead, it performs this action during the Fall Back\
+        \ or Reposition action after setting up from a BOOST ."
+      cost: 0AP
+  - name: Shrieker
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Modified Vox-caster s
+      description: Whenever an enemy operative is within 3" of this operative, your
+        opponent must spend 1 additional AP for that enemy operative to perform the
+        Pick Up Marker and mission actions. Whenever determining control of a marker,
+        treat the total APL stat of enemy operatives that contest it as 1 lower if
+        at least one of those enemy operatives is within 3" of this operative. Note
+        this isn't a change to the APL stat, so any changes are cumulative with this.
+      cost: 1AP
+    - name: Shriek
+      description: "\U0001F7E2 Select one enemy operative that's visible to and within\
+        \ 6\" of this operative. Alternatively, select one enemy operative within\
+        \ this operative's BOOST ZONE (at which point this becomes a BOOST action).\
+        \ If enemy operatives are within control range of this operative, you cannot\
+        \ select an enemy operative that isn't. Inflict D3 damage on the selected\
+        \ operative and subtract 1 from its APL stat until the end of its next activation.\
+        \ \U0001F534 This operative cannot perform this action while it has a Conceal\
+        \ order. If you're selecting an enemy operative within this operative's BOOST\
+        \ ZONE , this operative cannot perform this action normally. Instead, it performs\
+        \ this action during the Fall Back or Reposition action after setting up from\
+        \ a BOOST ."
+      cost: 0AP
+  - name: Skysear
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Raptor
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Thrill of Flight
+      description: "Whenever this operative does a BOOST during its activation: \u25CF\
+        \ You can remove any changes to its APL stat. \u25CF You can ignore any changes\
+        \ to its stats from being injured (including its weapons' stats) until the\
+        \ end of the activation."
+      cost: 0AP
+  - name: Warp Talon
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Lightning claws
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Lethal 5+
+      - Rending
+    rules:
+    - name: Slice the Veil
+      description: When setting up this operative before the battle, you can set it
+        up
+      cost: 0AP
+    - name: in the warp instead
+      description: place it to one side instead of in the killzone. In the first Firefight
+        phase, when this operative is activated, place one of your Warp markers wholly
+        within your territory, then expend this operative. In the second Firefight
+        phase, when this operative is activated, set it up with an order of your choice
+        in a location it can be placed either wholly within your drop zone, or wholly
+        within your territory contesting your Warp marker. Continue its activation
+        as normal, but during that activation you cannot spend more than 2AP for it
+        and it cannot use more than 4" of move distance. Whenever this operative is
+        in the warp, it cannot be the ready friendly MURDERWING operative for the
+        Malicious Narcissism firefight ploy. Kill Team Reference Sheet by James And
+        The Giant Squig - v1.2 (updated 29 Apr 2026) MURDERWING OPERATIVES
+      cost: 0AP
+    - name: Archetype
+      description: RECON / SEEK & DESTROY 1 MURDERWING CHAOS LORD operative with one
+        option from each of the
+      cost: 0AP
+    - name: following
+      description: "\u25CB Bolt pistol or plasma pistol * \u25CB Lightning claw, power\
+        \ fist or power weapon"
+      cost: 0AP
+    - name: Or the following option
+      description: "\u25CB Relic lightning claws"
+      cost: 0AP
+    - name: "\u25CF CHAMPION with one option from each of the following"
+      description: "\u25CB Plasma pistol * or bolt pistol \u25CB Power fist or power\
+        \ weapon \u25CF CURSECLAW \u25CF DEPREDATOR \u25CF HUNTMASTER"
+      cost: 0AP
+    - name: "\u25CF RAPTOR with one of the following options"
+      description: "\u25CB Bolt pistol; chainsword \u25CB Plasma pistol * ; chainsword\
+        \ \u25CF SHRIEKER"
+      cost: 0AP
+    - name: "\u25CF SKYSEAR with one of the following options"
+      description: "\u25CB Flamer; bolt pistol; fists \u25CB Meltagun * ; bolt pistol;\
+        \ fists \u25CB Plasma gun * ; bolt pistol; fists \u25CF WARP TALON Other than\
+        \ RAPTOR operatives, your kill team can only include each operative on this\
+        \ list once. * You cannot select more than two operatives with these weapons\
+        \ combined."
+      cost: 0AP

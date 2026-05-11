@@ -1,0 +1,563 @@
+team:
+  name: Blooded
+  version: v1.3
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Infiltration
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Bitter Demise
+    cost: 1CP
+    description: Whenever a friendly BLOODED operative is incapacitated, before it's
+      removed from the killzone, roll one D3; on a 3 (or 2+ if that friendly operative
+      has one of your blooded tokens), inflict damage equal to the result on one enemy
+      operative visible to and within 2" of that operative.
+  - name: Glory Kill
+    cost: 1CP
+    description: Select one enemy operative. Until the end of the turning point, whenever
+      a friendly BLOODED operative is shooting against, fighting against or retaliating
+      against that enemy operative, its weapons have the Ceaseless weapon rule, or
+      Relentless if that shooting, fighting or retaliating operative has one of your
+      Blooded tokens.
+  - name: Malevolent Grit
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly BLOODED operative that
+      has one of your Blooded tokens or is wholly within your opponent's territory,
+      you can re-roll one of your defence dice.
+  - name: Reckless Aspirant
+    cost: 1CP
+    description: Whenever a friendly BLOODED operative that's wholly within your opponent's
+      territory and doesn't have one of your Blooded tokens is shooting or fighting,
+      its weapons have the Accurate 1 weapon rule. Whenever a friendly BLOODED operative
+      that has one of your blooded tokens is wholly within your opponent's territory,
+      its weapons have the Punishing rule.
+  firefight_ploys:
+  - name: Callous Disregard
+    cost: 1CP
+    description: Use this firefight ploy when a friendly BLOODED operative performs
+      the Shoot action and you're selecting a valid target. Having other Friendly
+      BLOODED operatives within an enemy operative's control range doesn't prevent
+      that enemy operative from being selected. Until the end of that action, whenever
+      you discard an attack dice as a fail, inflict damage equal to the dice result
+      on one friendly operative of your choice within control range of the target.
+  - name: Dark Favour
+    cost: 1CP
+    description: Use this firefight ploy when a friendly BLOODED operative that has
+      one of your Blooded tokens is selected as the valid target of a Shoot action
+      or to fight against during the Fight action. Select one other friendly BLOODED
+      operative visible to and within 3" of that first friendly operative to become
+      the valid target or to be fought against (as appropriate) instead (even if it
+      normally wouldn't be valid for this). If it's the Fight action, treat that other
+      operative as being within the fighting operative's control range for the duration
+      of that action. If it's the Shoot action, that other operative is only in cover
+      or obscured if the original target was. This ploy has no effect if it's the
+      Shoot action and the ranged weapon has the Blast or Torrent special rule.
+  - name: Moment Of Respite
+    cost: 1CP
+    description: Use this firefight ploy during the activation of a friendly BLOODED
+      operative that's under the GAZE OF THE GODS before or after it performs an action.
+      Until the end of that operative's activation, add 1 to its APL stat.
+  - name: Reward Earned
+    cost: 1CP
+    description: Use this firefight ploy when an enemy operative is incapacitated
+      by a friendly BLOODED operative within 2" of it that has one of your Blooded
+      tokens. You gain one Blooded token.
+  operatives:
+  - name: Chieftain
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Improvised blade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Blooded Icon
+      description: Once per turning point, when a friendly BLOODED operative that
+        has one of your Blooded tokens is incapacitated, if this operative is within
+        6" of it, you can regain that token.
+      cost: 0AP
+    - name: Lead with Strength
+      description: Whenever this operative has one of your Blooded tokens or is wholly
+        within your opponent's territory treat it as if it's under the GAZE OF THE
+        GODS . Kill Team Reference Sheet by James And The Giant Squig - v1.3 (updated
+        29 Apr 2026) BLOODED
+      cost: 0AP
+  - name: Brimstone Grenadier
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Diabolyk bomb
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/3
+      rules:
+      - Rng 6"
+      - Blast 2"
+      - Devastating 2
+      - Limited 1
+    rules:
+    - name: Grenadier
+      description: This operative can use frag and krak grenades (see universal equipment).
+        Doing so doesn't count towards any limited uses you have (i.e, if you also
+        select those grenades from equipment for other operatives). Whenever it's
+        doing so, improve the Hit stat of that weapon by 1.
+      cost: 0AP
+    - name: Explosive Demise
+      description: When this operative is incapacitated, before it's removed from
+        the killzone, you can use this rule. If you do, roll two D6, or one D6 if
+        this operative is within control range of an enemy operative. If any result
+        is a 4+, inflict D3+2 damage on each operative visible to and within 2" of
+        this operative. If this operative hasn't used its diabolyk bomb during the
+        battle, inflict D6+2 damage instead.
+      cost: 0AP
+  - name: Butcher
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: and cleaver
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Ceaseless
+      - Lethal 5+
+      - Blood Offering *
+    rules:
+    - name: '* Blood offering'
+      description: Whenever this operative is fighting or retaliating with this weapon,
+        the first time you strike with a critical success during that sequence, you
+        gain one Blooded token.
+      cost: 0AP
+    - name: Unholy Sustenance
+      description: Whenever this operative is fighting or retaliating, if it incapacitates
+        the enemy operative in that sequence, it regains D3 lost wounds. This is cumulative
+        with the Symbols of Bloody Worship equipment.
+      cost: 0AP
+  - name: Commsman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Corpseman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Stimm needle
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/4
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Regular Dosage
+      description: At the end of the select operative step, select one other BLOODED
+        operative to gain a STIMM rule for the battle (excluding Rejuvenated).
+      cost: 0AP
+    - name: "\u25CF Rejuvenated"
+      description: The operative regains 2D3 lost wounds.
+      cost: 0AP
+    - name: "\u25CF Enraged"
+      description: The operative's melee weapons have the Relentless rule.
+      cost: 0AP
+    - name: "\u25CF Fortified"
+      description: Whenever an attack die inflicts damage of 3 or more on the operative,
+        roll one D6; on a 5+ subtract 1 from the inflicted damage.
+      cost: 1AP
+    - name: Stimms
+      description: "\U0001F7E2 Select one friendly BLOODED operative within this operative's\
+        \ control range, then select the Rejuvenated STIMM rule or one other STIMM\
+        \ rule for that operative to have for that battle. You cannot select each\
+        \ STIMM rule for each operative more than once per battle. \U0001F534 This\
+        \ operative cannot perform this action while within control range of an enemy\
+        \ operative."
+      cost: 0AP
+  - name: Enforcer
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Power fist
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Brutal
+    rules:
+    - name: Gruelling Disciplinarian
+      description: "\u25CF Whenever a friendly BLOODED operative is within 6\" of\
+        \ this operative, you can ignore any changes to that operative's stats from\
+        \ being injured (including its weapons' stats). \u25CF Whenever a friendly\
+        \ BLOODED operative is activated within 6\" of this operative, you can ignore\
+        \ any changes to that operative's stats from being injured until the end of\
+        \ its activation (including its weapons' stats)."
+      cost: 1AP
+    - name: Enforce
+      description: "\U0001F7E2 Select one other friendly BLOODED operative visible\
+        \ to and within 3\" of this operative. That operative can immediately perform\
+        \ a 1AP action for free, but it cannot move more than 2\" during that action.\
+        \ If the selected operative is a COMMSMAN , it cannot perform the Sacrilegious\
+        \ Actuation or Signal action. \U0001F534 This operative cannot perform this\
+        \ action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Flenser
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Skinning blades
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Stalk *
+    rules:
+    - name: '* Stalk'
+      description: Whenever this operative is fighting or retaliating with this weapon,
+        if Light or Heavy terrain is within its control range, this weapon has the
+        Lethal 5+ rule.
+      cost: 0AP
+    - name: Wretched
+      description: This operative can perform the Charge action while it has a Conceal
+        order. If this operative is incapacitated during the Fight action, you can
+        strike with one of your unresolved successes before it's removed from the
+        killzone.
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Grenade Launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Grenade Launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Ogryn
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 16
+    weapons:
+    - name: mutant claw
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Rending
+      - Shock
+    rules:
+    - name: Avalanche of Muscle
+      description: Whenever this operative ends its move during the Charge action,
+        you can inflict D3 damage on one enemy operative within its control range.
+      cost: 0AP
+    - name: Brute
+      description: Whenever an opponent is selecting a valid target, if this operative
+        has a Conceal order, it cannot use Light Terrain for cover. While this can
+        allow this operative to be targeted (if visible), it doesn't remove its cover
+        save (if any).
+      cost: 0AP
+    - name: Chem Enhanced
+      description: You can ignore any changes to this operatives APL stat and it's
+        not affected by enemy operatives' Shock and Stun rules.
+      cost: 0AP
+    - name: Slow Witted
+      description: You must spend 1 additional AP for this operative to perform the
+        Pick Up Marker and mission actions (excluding Operate Hatch ).
+      cost: 0AP
+  - name: Sharpshooter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Long-las (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Long-las (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 1
+      - Heavy (Dash only)
+      - Silent
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Camo Cloak
+      description: Whenever an operative is shooting this operative, if you can retain
+        any cover saves, you can retain one additional cover save. This isn't cumulative
+        with improved cover saves from Vantage terrain.
+      cost: 0AP
+    - name: A Name Whispered in Blood
+      description: STRATEGIC GAMBIT. In the first turning point. Select one enemy
+        operative. Whenever this operative is shooting that enemy operative treat
+        this operative as if it has one of your Blooded tokens and is under the GAZE
+        OF THE GODS .
+      cost: 0AP
+  - name: Thug
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Heavy club
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Brutal
+    rules:
+    - name: Tough
+      description: Whenever this operative is fighting or retaliating, or an operative
+        is shooting it, Normal Dmg of 3 or more inflicts 1 less damage on it.
+      cost: 0AP
+  - name: Trench Sweeper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Shotgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Bayonet and shield
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Shield *
+    rules:
+    - name: '* Shield'
+      description: Whenever fighting or retaliating with this weapon, each of your
+        blocks can be allocated to block two unresolved successes (instead of one).
+      cost: 0AP
+    - name: Shielding
+      description: Whenever this operative is activated, you can use this rule. If
+        you do
+      cost: 0AP
+    - name: until the start of this operatives next activation
+      description: "\u25CF Subtract 2\" from its Move stat. \u25CF Whenever an operative\
+        \ is shooting this operative, you can re-roll any of your defence dice."
+      cost: 0AP
+  - name: Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate one
+        other ready friendly BLOODED TROOPER operative (if able) before your opponent
+        activates. When that other operative is expended, your opponent then activates
+        as normal (in other words, you cannot activate more than two operatives as
+        specified with this rule).
+      cost: 0AP

@@ -1,0 +1,522 @@
+team:
+  name: Corsair Voidscarred
+  version: v1.4
+  last_updated: 28 Jan 2026
+  archetypes:
+  - Infiltration
+  - Recon
+  strategy_ploys:
+  - name: Mobile Engagements
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly CORSAIR VOIDSCARRED
+      operative that performed an action in which it moved during this turning point,
+      you can re-roll one of your dice.
+  - name: Outcasts
+    cost: 1CP
+    description: Whenever a friendly CORSAIR VOIDSCARRED operative is more than 5"
+      from other friendly operatives, its weapons have the Punishing weapon rule.
+  - name: Piratical Profiteers
+    cost: 1CP
+    description: Whenever a friendly CORSAIR VOIDSCARRED operative is shooting, fighting
+      or retaliating, if it or the enemy operative in that sequence contests an objective
+      marker or one of your mission markers, that operative's weapons have the Balanced
+      weapon rule.
+  - name: Plunderers
+    cost: 1CP
+    description: Up to D3 friendly CORSAIR VOIDSCARRED operatives can immediately
+      perform a free Dash action in an order of your choice. This turning point, each
+      that does so cannot perform the Dash action during their activation. You cannot
+      use this ploy during the first Turning point.
+  firefight_ploys:
+  - name: Capricious Flight
+    cost: 1CP
+    description: Use this firefight ploy during a friendly CORSAIR VOIDSCARRED operative's
+      activation, before or after it performs an action. During that activation, that
+      operative can perform the Fall Back action for 1 less AP.
+  - name: Contemptuous Adventurer
+    cost: 1CP
+    description: Use this firefight ploy when you activate your first friendly CORSAIR
+      VOIDSCARRED operative during the turning point, if it's more than 5" from other
+      friendly operatives. The first time that operative performs either the Shoot
+      or Fight action during that activation, its weapons have the Relentless weapon
+      rule. Note this ploy cannot come into effect more than once per activation (you
+      cannot use it during both the Shoot and Fight action in the same activation).
+  - name: Light Fingers
+    cost: 1CP
+    description: Use this firefight ploy during a friendly CORSAIR VOIDSCARRED operative's
+      activation. Until the end of that activation, having an enemy operative within
+      its control range doesn't prevent that friendly operative from performing the
+      Pick Up Marker or mission actions.
+  - name: Opportunistic Fighters
+    cost: 1CP
+    description: Use this Firefight ploy when an enemy operative performs the Fall
+      Back action. Before it moves, inflict 2D3 damage on that operative for each
+      friendly CORSAIR VOIDSCARRED operative within its control range.
+  operatives:
+  - name: Warrior
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Shuriken rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rending
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Prowling Raiders
+      description: You can use the Capricious Flight and Light Fingers firefight ploys
+        for 0CP each if a friendly WARRIOR is the specified CORSAIR VOIDSCARRED operative.
+        Kill Team Reference Sheet by James And The Giant Squig - v1.4 (updated 28
+        Jan 2026) CORSAIR VOIDSCARRED
+      cost: 0AP
+  - name: Felarch
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Neuro disruptor
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+      - Stun
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Shuriken rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rending
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Veteran Raider
+      description: This operative can perform a 1AP action for free during their activation
+        as a result of the Aeldari Raiders rule (instead of the Dash action).
+      cost: 0AP
+    - name: One Step Ahead
+      description: Once per battle, after an enemy operative performs an action, if
+        this operative is ready, you can use this rule. If you do so, roll one D6,
+        if the result is higher than that enemy operative's APL stat, you can interrupt
+        and immediately perform either a free Shoot or a free Fight action with this
+        operative, but other enemy operatives cannot be selected as a valid target
+        or to fight against during that action (note that secondary targets from the
+        Blast weapon rule can still be targeted). After you perform that action, subtract
+        1 from this operative's APL stat until the end of its next activation.
+      cost: 0AP
+  - name: Fate Dealer
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Ranger long rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Ranger long rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Silent
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Camo Cloak
+      description: "Whenever an operative is shooting this operative: \u25CF Ignore\
+        \ the Saturate weapon rule. \u25CF If you can retain any cover saves, you\
+        \ can retain one additional cover save, or you can retain one cover save as\
+        \ a critical success instead. This isn't cumulative with improved cover saves\
+        \ from Vantage terrain."
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Blaster
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 2
+    - name: Shredder
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+      - Torrent 2"
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Heavy Gunner
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Shuriken cannon (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Rending
+    - name: Shuriken cannon (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Rending
+      - Torrent 1"
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Wraithcannon
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Devastating 4
+      - Heavy (Dash only)
+      - Piercing 2
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Kurnathi
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Dual power weapons
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Ceaseless
+      - Lethal 5+
+    rules:
+    - name: Blademaster
+      description: This operative can perform the Dash action during an activation
+        in which it's performed the Charge action, but can only use any remaining
+        move distance it had from that Charge action (to a maximum of 3").
+      cost: 0AP
+    - name: Bladed Stance
+      description: Whenever this operative is fighting or retaliating, you can resolve
+        one of your successes before the normal order. If you do, that success must
+        be used to block.
+      cost: 0AP
+  - name: Kurnite Hunter
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Faolchu
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 1/2
+      rules:
+      - Rending
+      - Saturate
+      - Seek Light
+      - Silent
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Faolchu's Bond
+      description: The first time during each turning point that this operative is
+        retaliating, if it's ready, in the Resolve Attack Dice step of that sequence,
+        you resolve the first attack dice (i.e, defender instead of attacker).
+      cost: 0AP
+    - name: Erudite Hunter
+      description: STRATEGIC GAMBIT . Select one enemy operative within 9" of this
+        operative. Once during this turning point, during that enemy operative's activation,
+        after it performs an action in which it moves, you can interrupt and perform
+        either a free Reposition action with this operative (it cannot end that move
+        further from that enemy operative) or a free Charge action with this operative
+        (you can change its order to do so, and it must end that move within control
+        range of that enemy operative).
+      cost: 0AP
+  - name: Shade Runner
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Throwing blades
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 6"
+      - Silent
+    - name: Hekatarri blades
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Ceaseless
+      - Lethal 5+
+    rules:
+    - name: Blink Pack
+      description: Whenever this operative performs the Charge , Fall Back or Reposition
+        action, it can warp jump. If it does, don't move it, instead remove it from
+        the killzone and set it back up wholly within 7" of its original location,
+      cost: 0AP
+    - name: measuring the horizontal distance only (in Killzone
+      description: Gallowdark, this distance can be measured through walls). Unless
+        it's the Charge action, it cannot be set up within control range of an enemy
+        operative.
+      cost: 0AP
+    - name: Slicing Attack
+      description: Whenever this operative performs the Reposition action with a warp
+        jump (see Blink Pack), you can use this rule. If you do, after it moves, draw
+        an imaginary line 1mm in diameter and up to 7" long between it and its previous
+        location. Note this doesn't have to be a straight line. Inflict D3+2 damage
+        on one enemy operative that line crosses. You cannot inflict damage on an
+        enemy operative that was not visible to this operative at the start of that
+        action. A 28mm round marker can be temporarily placed underneath this operative
+        before it moves to help determine this.
+      cost: 0AP
+  - name: Soul Weaver
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules: []
+  - name: Starstorm Duelist
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Fusion pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/3
+      rules:
+      - Rng 3"
+      - Devastating 3
+      - Piercing 2
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Quick on the Trigger
+      description: This operative can perform the Shoot action while within control
+        range of an enemy operative, if it does, when selecting a valid target, you
+        can only select an enemy operative within this operative's control range,
+        and can do so even if other friendly operatives are within that enemy operative's
+        control range.
+      cost: 1AP
+    - name: Pistol Barrage
+      description: "\U0001F7E2 Perform two free Shoot actions (this takes precedence\
+        \ over action restrictions). You must select its fusion pistol for one action\
+        \ and its shuriken pistol for the other (in any order). \U0001F534 This operative\
+        \ cannot perform this action while it has a conceal order, or during an activation\
+        \ in which it performed the Shoot action (or vice versa)."
+      cost: 0AP
+  - name: Wayseeker
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Freezing grasp
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 1/2
+      rules:
+      - PSYCHIC
+      - Severe
+      - Silent
+      - Stun
+    - name: Lightning strike
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/3
+      rules:
+      - PSYCHIC
+      - 2" Devastating 2
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Witch staff
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - PSYCHIC
+      - Shock
+    rules: []

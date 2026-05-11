@@ -1,0 +1,336 @@
+team:
+  name: Canoptek Circle
+  version: v1.4
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Recon
+  - Security
+  strategy_ploys:
+  - name: Hypershielding
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly CANOPTEK CIRCLE operative,
+      if your OBELISK NODE MATRIX is intervening, or that friendly operative is within
+      your OBELISK NODE MATRIX , you can re-roll any of your defence dice results
+      of one result (e.g. results of 2).
+  - name: Transdynamic Amplification
+    cost: 1CP
+    description: Whenever a friendly CANOPTEK CIRCLE operative is shooting, if your
+      OBELISK NODE MATRIX is intervening, or the target is within your OBELISK NODE
+      MATRIX , that friendly operative's weapons have the Ceaseless weapon rule.
+  - name: Cryptogravitic Repulsion
+    cost: 1CP
+    description: Once per action, the first time an enemy operative would move within
+      your OBELISK NODE MATRIX , the distance is treated as an additional 1". Note
+      this means if that enemy operative doesn't have sufficient move distance (e.g.
+      it's at the end of its move), that operative cannot move within your OBELISK
+      NODE
+  - name: Souldrain
+    cost: 1CP
+    description: Whenever an enemy operative is within your OBELISK NODE MATRIX ,
+      or whenever it's fighting or retaliating against a friendly CANOPTEK CIRCLE
+      operative that's within your OBELISK NODE MATRIX , subtract 1 from both Dmg
+      stats of that enemy operative's melee weapons (to a minimum of 2) until the
+      end of the activation/ counteraction. Note this means if the enemy operative
+      moves through your OBELISK NODE MATRIX , apply this change at the end of that
+      move action until the end of the activation/ counteraction.
+  firefight_ploys:
+  - name: Animate Obelisk Nodes
+    cost: 1CP
+    description: Use this firefight ploy when it's your turn to activate or counteract.
+      Move any number of your OBELISK NODE markers instead. They can move up to 6"
+      horizontally combined, and distances are always rounded up to the nearest inch
+      (so if you move a marker 1.5", it's treated as moving it 2"). For example, you
+      could move one marker 6", three markers 1" each, or any combination that doesn't
+      exceed 6" in total. You can also move them 0" (to effectively skip an activation).
+      In any case, your opponent activates as normal afterwards.
+  - name: Shield Flare
+    cost: 1CP
+    description: Use this firefight ploy when an attack dice inflicts Normal Dmg on
+      a friendly CANOPTEK CIRCLE operative. If your OBELISK NODE MATRIX is intervening,
+      or that friendly operative is within your OBELISK NODE MATRIX , ignore that
+      inflicted damage. Note your opponent determines intervening (i.e. where on their
+      operative's base to draw the targeting lines from).
+  - name: Nodal Response
+    cost: 1CP
+    description: Use this firefight ploy during a friendly CANOPTEK CIRCLE operative's
+      activation, before or after it performs an action. You can either change one
+      of the strategy ploys you used during this turning point (only pay additional
+      CP if that ploy costs more), or use a strategy ploy now (pay its CP cost as
+      normal).
+  - name: Sacrificial Thrall
+    cost: 1CP
+    description: Use this firefight ploy when a friendly CANOPTEK CIRCLE GEOMANCER
+      operative is selected as the valid target of a Shoot action or to fight against
+      during the Fight action. Select one other friendly CANOPTEK CIRCLE CANOPTEK
+      operative visible to and within 3" of that first friendly operative to become
+      the valid target or to be fought against (as appropriate) instead (even if it
+      wouldn't normally be valid for this). If it's the Fight action, treat that other
+      operative as being within the fighting operative's control range for the duration
+      of that action. If it's the Shoot action, that other operative is only in cover
+      or obscured if the original target was. This ploy has no effect if it's the
+      Shoot action and the ranged weapon has the Blast or Torrent weapon rule.
+  operatives:
+  - name: Geomancer
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Tremorglaive (Part matter)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+      - Piercing Crits 2
+    - name: Tremorglaive (Quake)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 1/2
+      rules:
+      - Blast 2". Seek Light
+      - Stun
+    - name: Tremorglaive
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Severe
+      - Shock
+      - Stun
+    rules:
+    - name: Obelisk Node Control
+      description: Whenever this operative would perform a mission action (excluding
+        Retrieve , Approved Ops 2025), if it requires this operative to control an
+        objective marker, you can instead determine control from one of your OBELISK
+        NODE markers (see Obelisk Node Matrix faction rule). Whenever this operative
+        would perform the Operate Hatc h action, you can open or close a hatchway
+        thats access point is within 1" of one of your OBELISK NODE markers instead.
+        Note that you must still fulfil the Operate Hatch action's conditions.
+      cost: 1AP
+    - name: Geomantic Disturbance
+      description: "\U0001F7E2 Select a point on a terrain feature; that point must\
+        \ be visible to and within 8\" of this operative. Separately roll 2D6 for\
+        \ each operative within 2\" of that point. If the result is higher than that\
+        \ operative's remaining wounds, inflict damage on it equal to the difference.\
+        \ \U0001F534 This operative cannot perform this action while it has a Conceal\
+        \ order, or while within control range of an enemy operative."
+      cost: 1AP
+    - name: Canoptek Control
+      description: "\U0001F7E2 SUPPORT . Select one friendly CANOPTEK CIRCLE CANOPTEK\
+        \ operative visible to and within 6\" of this operative. Alternatively, you\
+        \ can select one friendly CANOPTEK CIRCLE CANOPTEK operative that's visible\
+        \ to this operative and within your OBELISK NODE MATRIX ( SUPPORT doesn't\
+        \ apply to this selection). That selected operative can immediately perform\
+        \ a 1AP action for free; during that action, it cannot move more than 2\"\
+        , or must be set up wholly within 2\" if it's removed and set up again. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative, or while counteracting."
+      cost: 1AP
+    - name: Molecular Breach
+      description: "\U0001F7E2 SUPPORT . Select one friendly CANOPTEK CIRCLE operative\
+        \ visible to and within 6\" of this operative. Alternatively, you can select\
+        \ one friendly CANOPTEK CIRCLE operative visible to this operative and within\
+        \ your OBELISK NODE MATRIX ( SUPPORT doesn't apply to this selection). \U0001F7E2\
+        \ The next time the selected operative performs an action in which it moves,\
+        \ don't move it. Instead, remove it from the killzone and set it back up wholly\
+        \ within a distance equal to its Move stat (or 3\" if it was a Dash ) horizontally\
+        \ of its original location (in a killzone that uses"
+      cost: 0AP
+    - name: the close quarters rules, e.g. Killzone
+      description: "Tomb World, this distance can be measured over and through Wall\
+        \ terrain and the operative can be set up on the other side). Note that it\
+        \ gains no additional distance when performing the Charge action. It must\
+        \ be set up in a location it can be placed, and unless it's the Charge action,\
+        \ it cannot be set up within control range of an enemy operative. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Tomb Crawler
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 18
+    weapons:
+    - name: Transdimensional isolator
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Dimensional Banishment *
+    - name: Twin gauss reapers (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing 1
+      - Severe
+    - name: Twin gauss reapers (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing 1
+      - Severe
+      - Torrent 1"
+    - name: Claws
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules: []
+    rules:
+    - name: '* Dimensional Banishment'
+      description: After this operative uses this weapon, if you inflicted damage
+        or retained any critical successes, if the target wasn't incapacitated, roll
+      cost: 0AP
+    - name: 2D6
+      description: if the result is higher than the target's remaining wounds, the
+        target is incapacitated (taking precedence over rules that prevent incapacitation,
+        e.g. Medic!, FELLGOR RAVAGER Frenzy) and your opponent cannot place a Reanimation
+        marker ( HIEROTEK CIRCLE ) for that operative, if relevant.
+      cost: 0AP
+    - name: Weapon Sentinel
+      description: Whenever your opponent is selecting a valid target, if this operative
+        has a Conceal order, it cannot use Light terrain for cover. While this can
+        allow this operative to be targeted (assuming it's visible), it doesn't remove
+        its cover save (if any).
+      cost: 0AP
+    - name: Steadfast
+      description: Whenever determining control of a marker, you can treat this operative's
+        APL stat as 3. If you do, this takes precedence over all other rules, meaning
+        any changes to its APL stat are ignored for this.
+      cost: 0AP
+  - name: Macrocyte Accelerator
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Spark
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 4"
+      - Piercing 1
+    - name: Claws & spark
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Lethal 5+
+      - Stun
+    rules: []
+  - name: Macrocyte Reanimator
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Atomiser beam
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 6"
+      - Lethal 5+
+    - name: Claws & tail
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Reanimate
+      description: Once per turning point, when another friendly CANOPTEK CIRCLE operative
+        would be incapacitated, if that operative is visible to and within 6" of this
+        operative, or if this and that operative are within your OBELISK NODE MATRIX
+        , you can use this rule, providing neither this nor that operative is within
+        control range of an enemy operative. If you do, that friendly operative isn't
+        incapacitated, has 1 wound remaining and cannot be incapacitated for the remainder
+        of the action. After that action, that friendly operative can immediately
+        perform a free Dash action, but must end that action within this operative's
+        control range or within your OBELISK NODE MATRIX . Subtract 1 from this and
+        that operative's APL stats until the end of their next activations respectively,
+        and if this rule was used during that friendly operative's activation, that
+        activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 1AP
+    - name: Nanoscarab Beam
+      description: "\U0001F7E2 Select one friendly CANOPTEK CIRCLE operative visible\
+        \ to and within 6\" of this operative. Alternatively, if this operative is\
+        \ within your OBELISK NODE MATRIX , you can select one other friendly CANOPTEK\
+        \ CIRCLE operative within your OBELISK NODE MATRIX . The selected operative\
+        \ regains up to 3D3 lost wounds. It cannot be an operative that the Reanimate\
+        \ rule was used on during this turning point. \U0001F534 This operative cannot\
+        \ perform this action while within control range of an enemy operative, or\
+        \ more than once per turning point."
+      cost: 0AP
+  - name: Macrocyte Warrior
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Gauss scalpel
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Piercing 1
+    - name: Tesla caster (Focused)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Tesla caster (Living lightning)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Blast 2"
+    - name: Claws & tail
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Aggressive Defence
+      description: 'If this operative is incapacitated by an enemy operative within
+        2" of it, before this operative is removed from the killzone, roll one D3:
+        on a 2+, inflict 1 damage on that enemy operative.'
+      cost: 0AP
+    - name: Expendable Construct
+      description: "This operative is ignored for your opponent's kill/elimination\
+        \ op (when it's incapacitated, and when determining your starting number of\
+        \ operatives). It's also ignored for victory conditions and scoring VPs if\
+        \ either require operatives to \u2018escape', \u2018survive' or be incapacitated\
+        \ by enemy operatives (if it escapes/survives/is incapacitated, determining\
+        \ how many operatives must escape/survive/be incapacitated, etc.)."
+      cost: 0AP
+    - name: A Ceaseless Scuttling
+      description: As a STRATEGIC GAMBIT in each turning point after the first, if
+        you have less than three nonincapacitated friendly CANOPTEK CIRCLE WARRIOR
+        operatives, you can set up another one ready and with a Conceal order wholly
+        within your drop zone (you can select its weapon options as normal).
+      cost: 0AP

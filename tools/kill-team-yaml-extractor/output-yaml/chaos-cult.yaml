@@ -1,0 +1,286 @@
+team:
+  name: Chaos Cult
+  version: v1.5
+  last_updated: 23 July 2025
+  archetypes:
+  - Infiltration
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Exaltation In Pain
+    cost: 1CP
+    description: You can ignore any changes to the Hit stat of friendly CHAOS CULT
+      operatives' weapons from being injured. Whenever an operative is shooting a
+      friendly CHAOS CULT operative that's wounded, you can re-roll one of your defence
+      dice.
+  - name: Fervent Onslaught
+    cost: 1CP
+    description: Friendly CHAOS CULT operatives' melee weapons have the Accurate 1
+      weapon rule, or the Accurate 2 weapon rule if that friendly operative is a MUTANT
+      or TORMENT operative.
+  - name: Creatures Of Nightmare
+    cost: 1CP
+    description: Whenever determining control of a marker, treat the total APL stat
+      of enemy operatives that contest it as 1 lower if at least one of those enemy
+      operatives is within 2" of friendly CHAOS CULT MUTANT or CHAOS CULT TORMENT
+      operatives. Note this isn't a change to the APL stat, so any changes are cumulative
+      with this.
+  - name: Sickening Aura
+    cost: 1CP
+    description: Whenever an enemy operative is within 2" of friendly CHAOS CULT MUTANT
+      or CHAOS CULT TORMENT operatives, worsen the Hit stat of that enemy operative's
+      weapons by 1. This isn't cumulative with being injured.
+  firefight_ploys:
+  - name: Faithful Follower
+    cost: 1CP
+    description: Use this firefight ploy when a friendly CHAOS CULT DARK COMMUNE operative
+      is selected as the valid target of a Shoot action or to fight against during
+      the Fight action. Select one other friendly CHAOS CULT operative (excluding
+      DARK COMMUNE ) visible to and within 3" of that DARK COMMUNE operative to become
+      the valid target or to be fought against (as appropriate) instead (even if it
+      wouldn't normally be valid for this). If it's the Fight action, treat that other
+      operative as being within the fighting operative's control range for the duration
+      of that action. If it's the Shoot action, that other operative is only in cover
+      or obscured if the original target was. This ploy has no effect if it's the
+      Shoot action and the ranged weapon has the Blast or Torrent weapon rule.
+  - name: Abhorrent Mutation
+    cost: 1CP
+    description: Use this firefight ploy when a friendly CHAOS CULT operative (excluding
+      DARK COMMUNE ) is activated. Select an ACCURSED GIFT for that operative to gain.
+      This is in addition to any ACCURSED GIFTS it already has. Each friendly operative
+      cannot be selected for this ploy more than once per battle, and if that operative
+      turns into a different one (see Mutation faction rule), it still has that
+  - name: Frenzied Demise
+    cost: 1CP
+    description: Use this firefight ploy when a friendly CHAOS CULT MUTANT or CHAOS
+      CULT TORMENT operative is incapacitated, before it's removed from the killzone.
+      Inflict D3 damage (or D6 damage instead if that friendly operative is a TORMENT
+      ) on one enemy operative visible to and within 2" of that friendly operative.
+  - name: Unleash The Daemon
+    cost: 1CP
+    description: Use this firefight ploy during a friendly CHAOS CULT MUTANT or CHAOS
+      CULT TORMENT operative's activation, before or after it performs an action.
+      During that activation, that operative can perform two Fight actions, and one
+      of them can be free.
+  operatives:
+  - name: Cult Demagogue
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Diabolical stave (ranged)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/6
+      rules:
+      - Rng 2"
+      - Stun
+    - name: Pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Diabolical stave (melee)
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/6
+      rules:
+      - Shock
+      - Stun
+    rules: []
+  - name: Blessed Blade
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Commune blade
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Cut Them Down
+      description: Whenever an enemy operative performs the Fall Back action while
+        within control range of this operative, you can use this rule. If you do,
+        inflict D3+1 damage on that enemy operative before it moves. If that enemy
+        operative is within control range of two of these operatives, inflict 2D3+2
+        damage instead.
+      cost: 0AP
+    - name: Attuned In Purpose
+      description: Whenever this operative is activated, you can activate another
+        ready friendly BLESSED BLADE operative within 6" of it at the same time. Complete
+        their activations action by action in any order.
+      cost: 0AP
+  - name: Chaos Devotee
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Crude melee weapon
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate one
+        other ready friendly CHAOS CULT DEVOTEE operative (if able) before your opponent
+        activates. When that other operative is expended, your opponent then activates
+        as normal (in other words, you cannot activate more than two operatives in
+        succession with this rule).
+      cost: 0AP
+  - name: Iconarch
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Burning censer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 5"
+      - Saturate
+      - Torrent 2"
+    - name: Pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Crude melee weapon
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Icon Bearer
+      description: Whenever determining control of a marker, treat this operative's
+        APL stat as 1 higher. Note this isn't a change to its APL stat, so any changes
+        are cumulative with this.
+      cost: 1AP
+    - name: Ruinous Icon
+      description: "\U0001F7E2 PSYCHIC . Select one of the following effects to last\
+        \ until the start of this operative's next activation, until it's incapacitated\
+        \ or until it performs this action"
+      cost: 0AP
+    - name: "\u25CF Invigoration"
+      description: PSYCHIC . Whenever a friendly CHAOS CULT operative is within 4"
+        of this operative, Normal and Critical Dmg of 4 or more inflicts 1 less damage
+        on that operative.
+      cost: 0AP
+    - name: "\u25CF Deterioration"
+      description: "PSYCHIC . Whenever an enemy operative is within 4\" of this operative,\
+        \ Normal and Critical Dmg inflicts 1 more damage on that operative. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Mindwitch
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Infernal gaze
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 0/0
+      rules:
+      - PSYCHIC
+      - Rng 6"
+      - Devastating 2
+      - Lethal 3+
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules: []
+  - name: Mutant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Blasphemous appendages
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Rending
+    rules:
+    - name: Accursed Mutant
+      description: This operative cannot perform unique actions. You must spend 1
+        additional AP for this operative to perform the Pick Up Marker and mission
+        actions (excluding Operate Hatch ).
+      cost: 0AP
+    - name: Unnatural Regeneration
+      description: Whenever an attack dice inflicts damage of 3 or more
+      cost: 0AP
+    - name: on this operative, roll one D6
+      description: on a 5+, subtract 1 from that inflicted damage.
+      cost: 0AP
+  - name: Torment
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 13
+    weapons:
+    - name: Hideous mutations
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Rending
+    rules:
+    - name: Accursed Torment
+      description: This operative cannot use any weapons that aren't on its datacard,
+        or perform the Pick Up Marker , unique or mission actions (excluding Operate
+        Hatch ).
+      cost: 0AP
+    - name: Brute
+      description: Whenever your opponent is selecting a valid target, if this operative
+        has a Conceal order, it cannot use Light terrain for cover. While this can
+        allow this operative to be targeted (assuming it's visible), it doesn't remove
+        its cover save (if any).
+      cost: 0AP
+    - name: Unnatural Regeneration
+      description: Whenever an attack dice inflicts damage of 3 or more
+      cost: 0AP
+    - name: on this operative, roll one D6
+      description: on a 5+, subtract 1 from that inflicted damage. Version 1.5 (updated
+        23 July 2025)
+      cost: 0AP

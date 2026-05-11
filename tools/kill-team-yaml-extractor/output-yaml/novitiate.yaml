@@ -1,0 +1,482 @@
+team:
+  name: Novitiate
+  version: v1.4
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Recon
+  - Security
+  strategy_ploys:
+  - name: Ardent Vengeance
+    cost: 1CP
+    description: Whenever a friendly NOVITIATE operative is shooting against, fighting
+      against or retaliating against an expended enemy operative, that friendly operative's
+      weapons have the Punishing weapon rule.
+  - name: Defenders Of The Faith
+    cost: 1CP
+    description: Whenever an operative is shooting against, fighting against or retaliating
+      against a friendly NOVITIATE operative that contests an objective marker, in
+      the Resolve Attack Dice step of that sequence, you can halve the damage inflicted
+      (rounding up) and to a minimum of 2) on that friendly operative from one success.
+  - name: Blessed Rejuvenation
+    cost: 1CP
+    description: Whenever you spend Faith points, at the end of that action, the friendly
+      operative you spent them on can regain up to D3 lost wounds. Note this ploy
+      has no effect if that friendly operative was incapacitated during that action,
+      or if the ACT OF FAITH doesn't cost any Faith points, e.g. Auto-chastisers equipment.
+  - name: Righteous Advance
+    cost: 1CP
+    description: Up to one third of the friendly NOVITIATE operatives in the killzone
+      (rounding down, to a minimum of 1) can immediately perform a free Dash action
+      in an order of your choice, but each that does so must end that move closer
+      to its closest enemy operative, its closest objective marker or your opponent's
+      drop zone (you can choose separately for each). You cannot use this ploy during
+      the first turning point.
+  firefight_ploys:
+  - name: Glorious Martyrdom
+    cost: 1CP
+    description: Use this firefight ploy when a friendly NOVITIATE operative is incapacitated,
+      before it's removed from the killzone. For each enemy operative visible to and
+      within 2" of it, you gain 1 Faith point and inflict D3 damage on that enemy
+      operative (roll separately for each).
+  - name: Blazing Inferno
+    cost: 1CP
+    description: "Use this firefight ploy when a friendly NOVITIATE operative is shooting\
+      \ with a Ministorum flamer and you inflict damage with any critical successes.\
+      \ The target gains one of your Blaze tokens (if it doesn't already have one).\
+      \ Whenever an operative that has one of your Blaze tokens is activated: \u25CF\
+      \ Inflict D3 damage on it. \u25CF Its controlling player can subtract 1 from\
+      \ that operative's APL stat until the end of that activation to remove that\
+      \ token. Note that this must be done before that operative performs any actions\
+      \ during that activation."
+  - name: Blinding Aura
+    cost: 1CP
+    description: Use this firefight ploy when an enemy operative is performing the
+      Shoot action and selects a friendly NOVITIATE operative as the valid target.
+      Until the end of that activation/ counteraction, while that friendly operative
+      is more than 2" from that enemy operative, your opponent cannot select it as
+      a valid target. If there are no other valid targets that your opponent can select,
+      that action ends (it's not cancelled, so that operative has still performed
+      it). Note this ploy has no effect if it's not the selected operative, e.g. if
+      it's a secondary target from the Blast weapon rule.
+  - name: Guided By Faith
+    cost: 1CP
+    description: Use this firefight ploy when a friendly NOVITIATE operative is performing
+      the Shoot action and you're selecting a ranged weapon. Until the end of that
+      action, whenever that operative is shooting an operative within 6" of it, that
+      weapon has the Seek Light weapon rule.
+  operatives:
+  - name: Superior
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 9
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Relic bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Relic boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Lethal 5+
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Inspirational Example
+      description: Whenever this operative incapacitates an enemy operative, you gain
+        1 Faith point, or 2 Faith points if that enemy operative had a Wounds stat
+        of 12 or more. This rule has no effect when using the Glorious Martyrdom firefight
+        ploy. Kill Team Reference Sheet by James And The Giant Squig - Version 1.4
+        (updated 29 Apr 2026) NOVITIATE
+      cost: 0AP
+  - name: Condemnor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Condemnor stakethrower
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 2
+      - Piercing Crits 1
+      - Silent
+    - name: Null rod
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Shock
+      - Anti-PSYKER *
+    rules:
+    - name: '* Anti-PSYKER'
+      description: Whenever this weapon is being used against an operative that has
+        the PSYKER keyword, add 1 to both Dmg stats of this weapon and it has the
+        Lethal 5+ weapon rule.
+      cost: 0AP
+    - name: Null Rod
+      description: PSYCHIC ranged weapons cannot inflict damage on this operative.
+        For the effects of PSYCHIC actions, this operative cannot be selected and
+        is never treated as being within those actions' required distances. Whenever
+        an operative
+      cost: 0AP
+    - name: is within 6" of this operative
+      description: "\u25CF That operative cannot perform PSYCHIC actions or use PSYCHIC\
+        \ additional rules. \u25CF That operative cannot use PSYCHIC ranged weapons.\
+        \ \u25CF PSYCHIC melee weapons have no weapon rules and cannot have Dmg stats\
+        \ higher than 3/4."
+      cost: 0AP
+  - name: Dialogus
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Dialogus stave
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Shock
+      - (to a maximum of 3 after all
+    rules: []
+  - name: Duellist
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Duelling blades
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Riposte *
+    rules:
+    - name: '* Riposte'
+      description: Whenever you block with a critical success, you can also inflict
+        damage equal to the weapon's Critical Dmg stat on the enemy operative in that
+        sequence.
+      cost: 0AP
+  - name: Exactor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Neural whips (ranged)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rng 3"
+      - Lethal 5+
+      - Stun
+    - name: Neural whips (melee)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Lethal 5+
+      - Shock
+    rules: []
+  - name: Hospitaller
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Surgical saw
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Lethal 5+
+      - Rending
+    rules:
+    - name: Medic !
+      description: The first time during each turning point that another friendly
+        NOVITIATE operative would be incapacitated while visible to and within 3"
+        of this operative, you can use this rule, providing neither this nor that
+        operative is within control range of an enemy operative. If you do, that friendly
+        operative isn't incapacitated, has 1 wound remaining and cannot be incapacitated
+        for the remainder of the action. After that action, that friendly operative
+        can immediately perform a free Dash action, but must end that move within
+        this operative's control range. Subtract 1 from this and that operative's
+        APL stats until the end of their next activations respectively, and if this
+        rule was used during that friendly operative's activation, that activation
+        ends. You cannot use this rule if this operative is incapacitated, or if it's
+        a Shoot action and this operative would be a primary or secondary target.
+        CHIRURGEON'S
+      cost: 1AP
+    - name: Tools
+      description: "\U0001F7E2 Select one friendly NOVITIATE operative within this\
+        \ operative's control range to regain up to 2D3 lost wounds. It cannot be\
+        \ an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Penitent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Penitent eviscerator
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Brutal
+      - Zealous Rage *
+    rules:
+    - name: '* Zealous Rage'
+      description: Whenever this operative is fighting with this weapon, it has the
+        Ceaseless weapon rule.
+      cost: 0AP
+    - name: Absolution Through Destruction
+      description: Whenever this operative performs the Fight action, if it isn't
+        incapacitated, it can immediately perform a free Fight action afterwards.
+        This takes precedence over action restrictions, and you cannot perform more
+        than two Fight actions in succession as a result of this rule. If this operative
+        is benefitting from the effects of the Whip Into Frenzy action (see EXACTOR
+        ), this applies to each of the Fight actions from those effects.
+      cost: 0AP
+  - name: Preceptor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Mace of the Righteous
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/5
+      rules:
+      - Brutal
+      - Severe
+    rules:
+    - name: Unflinching Example
+      description: Whenever this operative incapacitates a ready enemy operative within
+        its control range, you gain 1 Faith point, or 2 Faith points if that enemy
+        operative had a Wounds stat of 12 or more.
+      cost: 0AP
+    - name: Glorious Hymnal
+      description: SUPPORT . Whenever a friendly NOVITIATE operative is within 3"
+        of this operative, that friendly operative's weapons have the Severe weapon
+        rule.
+      cost: 0AP
+  - name: Pronatus
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Relic Seeker
+      description: Once during each of this operative's activations, it can perform
+        the Pick Up Marker , Place Marker or a mission action for 1 less AP.
+      cost: 0AP
+    - name: Divine Acquisition
+      description: Once per turning point, when this operative performs a mission
+        action that requires it to control an objective or mission marker, you gain
+        a number of Faith points equal to the turning point number.
+      cost: 0AP
+  - name: Purgatus
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Ministorum flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Purge with Flame
+      description: Once per turning point, you can use the Blazing Inferno firefight
+        ploy for 0CP if this is the specified friendly NOVITIATE operative.
+      cost: 0AP
+  - name: Reliquarius
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Icon Bearer
+      description: Whenever determining control of a marker, treat this operative's
+        APL stat as 1 higher. Note this isn't a change to its APL stat, so any changes
+        are cumulative with this
+      cost: 1AP
+    - name: Raise Icon
+      description: "\U0001F7E2 You gain 1 Faith point. If this operative controls\
+        \ an objective marker, you also gain a number of Faith points equal to the\
+        \ turning point number. \U0001F534 This operative can only perform this action\
+        \ once per turning point, and cannot perform it while within control range\
+        \ of an enemy operative."
+      cost: 0AP
+  - name: Militant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Autogun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Novitiate blade
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Militant Faith
+      description: Whenever this operative is shooting, fighting or retaliating, if
+        you use an ACT OF FAITH during that sequence and an enemy operative is incapacitated,
+        the Faith points spent on that ACT OF FAITH are refunded. If you use the Icon
+        of Faith equipment, Faith points are only refunded for one of those ACTS OF
+        FAITH (your choice).
+      cost: 0AP

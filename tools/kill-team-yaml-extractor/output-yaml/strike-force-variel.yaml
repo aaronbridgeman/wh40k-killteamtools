@@ -1,0 +1,253 @@
+team:
+  name: Strike Force Variel
+  version: v1.1
+  last_updated: 05 Feb 2026
+  archetypes:
+  - Infiltration
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Combat Doctrine
+    cost: 1CP
+    description: "Select one COMBAT DOCTRINE from those presented below. Whenever\
+      \ a friendly STRIKE FORCE VARIEL operative is x, its weapons have the Balanced\
+      \ weapon rule. X is the COMBAT DOCTRINE you selected. \u25CF Devastator Doctrine\
+      \ : Shooting an operative more than 6\" from it. \u25CF Tactical Doctrine :\
+      \ Shooting an operative within 6\" of it. \u25CF Assault Doctrine : Fighting\
+      \ or retaliating."
+  - name: And They Shall Know No Fear
+    cost: 1CP
+    description: You can ignore any changes to the stats of friendly STRIKE FORCE
+      VARIEL operatives from being injured (including their weapons' stats).
+  - name: Grim Resolve
+    cost: 1CP
+    description: Whenever determining control of a marker, treat the total APL stat
+      of friendly operatives that contest it as 1 higher if friendly operatives controlled
+      that marker at the start of the Firefight phase. Note this is not a change to
+      the APL, so any changes are cumulative with this.
+  - name: Indomitus
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly STRIKE FORCE VARIEL
+      operative, if you roll two or more fails, you can discard one of them to retain
+      another as a normal success instead.
+  firefight_ploys:
+  - name: Transhuman Physiology
+    cost: 1CP
+    description: Use this firefight ploy when an operative is shooting a friendly
+      STRIKE FORCE VARIEL operative, in the Roll Defence Dice step. You can retain
+      one of your normal successes as a critical success instead.
+  - name: Shock Assault
+    cost: 1CP
+    description: "Use this firefight ploy when a friendly STRIKE FORCE VARIEL operative\
+      \ is performing the Fight action during an activation in which it performed\
+      \ the Charge action, at the start of the Resolve Attack Dice step. Until the\
+      \ end of that action: \u25CF Its melee weapon has the Shock weapon rule. \u25CF\
+      \ The first time you strike during that sequence, inflict 1 additional damage\
+      \ (to a maximum of 7)."
+  - name: Wrath Of Vengeance
+    cost: 1CP
+    description: Use this firefight ploy when a friendly STRIKE FORCE VARIEL operative
+      is counteracting. It can perform an additional 1AP action for free during that
+      counteraction, but both actions must be different.
+  operatives:
+  - name: Lieutenant Variel
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: issue bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Lethal 5+
+      - Piercing 1
+    - name: Combat knife
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Headhunter
+      description: This operative can perform the Charge action while it has a Conceal
+        order.
+      cost: 0AP
+  - name: Veteran Sergeant Ramus
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Combi-melta (Bolter)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Torrent 1"
+    - name: Combi-melta (Melta)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Limited 1
+      - Piercing 2
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Relics of the Chapter
+      description: Normal and Critical Dmg of 3 or more inflicts 1 less damage on
+        this operative.
+      cost: 0AP
+  - name: Brother Belath
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 12
+    weapons:
+    - name: Marksman bolt carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Accurate 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Omni-Scrambler
+      description: "STRATEGIC GAMBIT . Select one enemy operative visible to this\
+        \ operative, then roll one D3. in the following Firefight phase, that enemy\
+        \ operative cannot be activated or perform actions until one of the following\
+        \ is true: \u25CF Your opponent has activated a number of enemy operatives\
+        \ equal to the result of the D3. \u25CF It is the last enemy operative to\
+        \ be activated."
+      cost: 0AP
+  - name: Brother Haroth
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Pyreblaster (Standard)
+      type: Ranged
+      a: 5
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Pyreblaster (Deluge)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 4"
+      - Saturate
+      - Seek Light
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Brother Maphael
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Heavy bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Piercing Crits 1
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules: []
+  - name: Brother Nahrden
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 12
+    weapons:
+    - name: Bolt carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Accurate 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Grave-chute
+      description: Whenever this operative is dropping, ignore the vertical distance.
+      cost: 0AP
+    - name: Grave-chute Insertion
+      description: STRATEGIC GAMBIT in the first Turning Point. If this operative
+        is wholly within your drop zone, it can immediately perform the Reposition
+        action. It must end that move wholly within 4" of your drop zone.
+      cost: 0AP
+  - name: Brother Zeradim
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []

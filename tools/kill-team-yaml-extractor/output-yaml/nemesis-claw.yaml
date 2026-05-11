@@ -1,0 +1,446 @@
+team:
+  name: Nemesis Claw
+  version: v1.6
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Infiltration
+  - Seek And Destroy
+  strategy_ploys:
+  - name: The Black Hunt
+    cost: 1CP
+    description: Whenever a friendly NEMESIS CLAW operative is shooting against, fighting
+      against or retaliating against a wounded enemy operative, you can re-roll one
+      of your attack dice.
+  - name: Preysight
+    cost: 1CP
+    description: Whenever a friendly NEMESIS CLAW operative performs the Shoot action,
+      you can use this rule. If you do, until the end of that action, that friendly
+      operative's ranged weapons have the Range 6" and Seek Light weapon rules.
+  - name: Return To Darkness
+    cost: 1CP
+    description: 'One friendly NEMESIS CLAW operative can immediately perform a free
+      Fall Back or Reposition action, but it must end that move with Heavy terrain
+      within its control range, or any part of its base underneath Vantage terrain.
+      In addition, it cannot move more than 4" during that action and it cannot end
+      that move closer to enemy operatives (in a killzone that uses the close quarters
+      rules, e.g. Killzone: Gallowdark, ignore Wall terrain when determining this).'
+  - name: We Have Come For You
+    cost: 1CP
+    description: Whenever a friendly NEMESIS CLAW operative is activated, if the first
+      action it performs during that activation is the Charge action, when it ends
+      its move during that action, you can inflict D3 damage on one enemy operative
+      within its control range.
+  firefight_ploys:
+  - name: Death To The False Emperor
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      NEMESIS CLAW operative, if it's shooting against, fighting against or retaliating
+      against an enemy operative that has the IMPERIUM keyword. That friendly operative's
+      weapons have the Ceaseless weapon rule until the end of the sequence; if that
+      enemy operative also has the ADEPTUS ASTARTES keyword, that friendly operative's
+      weapons have the Relentless weapon rule until the end of that sequence instead.
+  - name: Dirty Fighter
+    cost: 1CP
+    description: Use this firefight ploy when a friendly NEMESIS CLAW operative is
+      retaliating, at the start of the Resolve Attack Dice step. You can resolve one
+      of your successes before the normal order. If you do, you cannot resolve any
+      other successes during that sequence.
+  - name: Proclivity Of Murder
+    cost: 1CP
+    description: Use this firefight ploy after a friendly NEMESIS CLAW operative incapacitates
+      an enemy operative within its control range. That friendly operative can immediately
+      perform a free Charge or Dash action (for the former, it cannot move more than
+      3"), even if it's performed an action that prevents it from performing the Charge
+      or Dash action.
+  - name: Vox Scream
+    cost: 1CP
+    description: "\u2018Use this firefight ploy when your opponent would activate\
+      \ an enemy operative that's visible to a friendly NEMESIS CLAW operative. Roll\
+      \ one D6; if the result is higher than that enemy operative's APL stat, your\
+      \ opponent cannot activate it during this activation; if the result is less\
+      \ than or equal to that enemy operative's APL stat, this ploy isn't used, the\
+      \ CP spent on it is refunded and you cannot use this ploy again during this\
+      \ turning point. If there are no other enemy operatives eligible to be activated,\
+      \ this ploy has no effect."
+  operatives:
+  - name: Visionary
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Nostraman chainblade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    - name: Power fist
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Brutal
+    - name: Power maul
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Shock
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Prescience
+      description: PSYCHIC . In the Ready step of each Strategy phase, you gain D3
+        Prescience points. At the end of each turning point, discard your Prescience
+        points. You can spend your Prescience points in the Firefight phase as follows
+        (you cannot use each of the following rules more than once
+      cost: 0AP
+    - name: "\u25CF Foreboding"
+      description: PSYCHIC . Whenever it's your turn to activate a friendly operative,
+        you can spend 1 of your Prescience points to skip that activation.
+      cost: 0AP
+    - name: "\u25CF Portent"
+      description: PSYCHIC. Whenever an attack dice inflicts Normal Dmg on this operative,
+        you can spend 1 of your Prescience points to ignore that inflicted Damage.
+        You cannot gain or spend your Prescience points if this operative is incapacitated.
+      cost: 1AP
+    - name: Premonition
+      description: "\U0001F7E2 PSYCHIC . Spend 1 of your Prescience points to gain\
+        \ 1CP. \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative, or more than once per turning point."
+      cost: 0AP
+  - name: Fearmonger
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Scoped bolt pistol (Short range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Scoped bolt pistol (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Terrorchem Vial
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 2/0
+      rules:
+      - Rng 6"
+      - Blast 2"
+      - Devastating 3
+      - Limited 1
+    - name: Tainted Blade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Terrorchem *
+    rules:
+    - name: '* Terrorchem'
+      description: In the Resolve Attack Dice step, if you inflict damage with any
+        critical successes (including as a result of the Devastating weapon rule),
+        the operative this weapon is being used against gains one of your Terrorchem
+        tokens (if it doesn't already have one).
+      cost: 0AP
+    - name: Terrorchem Poison
+      description: Whenever an operative that has one of your Terrorchem tokens is
+        activated, inflict D3 damage on it.
+      cost: 1AP
+    - name: Poison Objective
+      description: "\U0001F7E2 Select one objective marker this operative controls\
+        \ to gain one of your Terrorchem tokens. It cannot be an objective marker\
+        \ within control range of an enemy operative, or one that already has one\
+        \ of your Terrorchem tokens. The first time that objective marker is within\
+        \ control range of an enemy operative that doesn't have one of your Terrorchem\
+        \ tokens, that operative gains that Terrorchem token, then inflicts 2D3 damage\
+        \ on it (if it's during an action, at the end of that action). \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Heavy Gunner
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Heavy bolter (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Heavy (Reposition only)
+      - Piercing Crits 1
+    - name: Heavy bolter (Sweep)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Heavy (Reposition only)
+      - Piercing Crits1
+    - name: Missile Launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Blast 2"
+      - Heavy (Reposition only)
+    - name: Missile Launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Heavy (Reposition only)
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Screecher
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Lightning Claws
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Lethal 5+
+    rules:
+    - name: Screecher
+      description: Whenever an enemy operative within 3" of this operative is shooting,
+        fighting or retaliating, your opponent cannot re-roll their attack dice.
+      cost: 0AP
+    - name: Appetite for Cruelty
+      description: Whenever this operative is fighting against a wounded enemy operative,
+        this operative's lightning claws gain the Lethal 4+ weapon Rule.
+      cost: 0AP
+  - name: Skinthief
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Nostraman chainglaive
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Rending
+    rules:
+    - name: Flay Them Alive
+      description: Once per turning point, when this operative incapacitates an enemy
+        operative within its control range, you can select one other enemy operative
+        visible to and within 6" of either this operative or the incapacitated operative.
+        Until the start of the next turning point, that other enemy operative cannot
+        control markers or perform the Pick Up Marker or mission actions.
+      cost: 0AP
+    - name: Tyrant of the Skinning Pits
+      description: Whenever this operative is fighting or retaliating, Normal and
+        Critical Dmg of 3 or more inflicts 1 less damage on it.
+      cost: 0AP
+  - name: Ventrilokar
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Icon Bearer
+      description: Whenever determining control of a marker, treat his operative's
+        APL stat as 1 higher. Note this isn't a change to its APL stat, so any changes
+        are cumulative with this.
+      cost: 1AP
+    - name: Disconcerting Mimicry
+      description: "\U0001F7E2 PSYCHIC . Select one enemy operative within 6\" of\
+        \ this operative, then select one of the following for that enemy operative\
+        \ (you can only select"
+      cost: 0AP
+    - name: each option once per battle)
+      description: "\u25CF Until the end of the next activation, subtract 1 from its\
+        \ APL stat. \u25CF Change its order. \u25CF Perform a free Dash with it (specify\
+        \ the location for your opponent to move it to). \U0001F534 This operative\
+        \ cannot perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Warrior
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Cruel Tormentor
+      description: Whenever this operative is shooting against, fighting against,
+        or retaliating against an injured enemy operative, or an enemy operative that
+        has a wounds stat of 7 or less, its weapons have the Lethal 5+ rule.
+      cost: 0AP

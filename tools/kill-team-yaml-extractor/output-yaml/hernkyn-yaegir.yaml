@@ -1,0 +1,416 @@
+team:
+  name: Hernkyn Yaegir
+  version: v1.3
+  last_updated: 29 October 2025
+  archetypes:
+  - Infiltration
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Hidden Engagement
+    cost: 1CP
+    description: Whenever a friendly HERNKYN YAEGIR operative is shooting, if it's
+      in cover from the target's perspective, its weapons have the Balanced weapon
+      rule. Note that your opponent still determines the targeting lines for this
+      (i.e, they decide which point of their operative's base targeting lines are
+      drawn from).
+  - name: In Position
+    cost: 1CP
+    description: Whenever a friendly HERNKYN YAEGIR operative has a Conceal order
+      and is in cover, it cannot be selected as a valid target, taking precedence
+      over all other rules (e.g. Seek, Vantage terrain) except being within 2".
+  - name: Masterful Bladework
+    cost: 1CP
+    description: Whenever a friendly HERNKYN YAEGIR operative is fighting, or has
+      a Conceal order and is retaliating, add 1 to the Atk stat of its melee weapons
+      (to a maximum of 4) and they have the Balanced weapon rule; if the weapon already
+      has that weapon rule, it has the Ceaseless weapon rule instead of Balanced.
+  - name: Tough Survivalists
+    cost: 1CP
+    description: The first time an attack dice inflicts damage on each friendly HERNKYN
+      YAEGIR operative during the turning point in the Resolve Attack Dice step, you
+      can halve that inflicted damage (rounding up, to a minimum of 2).
+  firefight_ploys:
+  - name: Bonds That Bind
+    cost: 1CP
+    description: Use this firefight ploy when a friendly HERNKYN YAEGIR operative
+      is activated. Select one other ready friendly HERNKYN YAEGIR operative visible
+      to and within 3" of that operative. When that first friendly operative is expended,
+      you can activate that other friendly operative before your opponent activates.
+      Neither operative can be a BOMBAST operative if its Wroughtlock Negotiation
+      STRATEGIC GAMBIT has been used this turning point.
+  - name: No Kin Left Behind
+    cost: 1CP
+    description: Use this firefight ploy when a friendly HERNKYN YAEGIR operative
+      is incapacitated. Before that operative is removed from the killzone, remove
+      your Fallen Kin marker from the Killzone (if any), then place it within that
+      operative's control range. That operative is then incapacitated as normal. Whenever
+      a friendly HERNKYN YAEGIR operative within 3" of your Fallen Kin marker is shooting,
+      fighting or retaliating, in the Roll Attack Dice step, you can retain one of
+      your fails as a normal success instead of discarding it, or retain one of your
+      normal successes as a critical success instead.
+  - name: Stalwart Defence
+    cost: 1CP
+    description: "Use this firefight ploy when an enemy operative ends a move within\
+      \ control range of a friendly HERNKYN YAEGIR operative. Select one other friendly\
+      \ HERNKYN YAEGIR operative visible to and within 6\" of that friendly operative,\
+      \ but that isn't itself within control range of enemy operatives. The selected\
+      \ operative can perform a Shoot action. During that action: \u25CF It can target\
+      \ that enemy operative even though it's within control range of a friendly operative.\
+      \ \u25CF Other enemy operatives cannot be selected as a valid target. \u25CF\
+      \ You cannot select a frag or krak grenade, or a weapon with the Blast or x\"\
+      \ Devastating x weapon rule (i.e, Devastating with a distance)."
+  - name: Sturdy
+    cost: 1CP
+    description: Use this firefight ploy when an enemy operative is shooting a friendly
+      HERNKYN YAEGIR operative, when you collect your defence dice. Change the attacker's
+      retained critical successes to normal successes (any weapon rules they've already
+      resolved aren't affected, e.g, Piercing Crits).
+  operatives:
+  - name: Theyn
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Bolt revolver
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+    - name: Bolt shotgun (Short range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Bolt shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Plasma knife
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Veteran Adventurer
+      description: In the Ready step of each Strategy phase after the first, if this
+        operative is in the killzone and isn't within control range of enemy operatives,
+        you gain 1 Resourceful point. .
+      cost: 0AP
+    - name: Outright Conviction
+      description: The first time this operative would be incapacitated during the
+        battle, it's not incapacitated, has 1 wound remaining and cannot be incapacitated
+        for the remainder of the action. All remaining attack dice are discarded (Including
+        yours, if this operative is fighting or retaliating).
+      cost: 0AP
+  - name: Bladekyn
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Throwing plasma knife
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 6"
+      - Lethal 5+
+      - Limited 1
+      - Silent
+    - name: Dual plasma knives
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Ceaseless
+      - Lethal 5+
+    rules:
+    - name: Stalker
+      description: This operative can perform the Charge action while it has a Conceal
+        order.
+      cost: 0AP
+    - name: Irrepressible Hardiness
+      description: If this operative is incapacitated during the Fight action, you
+        can strike the enemy operative in that sequence with one of your unresolved
+        successes before this operative is removed from the killzone.
+      cost: 0AP
+  - name: Bombast
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Wroughtlock revolvers
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 9"
+      - Ceaseless
+      - Lethal 5+
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Wroughtlock Negotiation
+      description: STRATEGIC GAMBIT . This operative can immediately perform a free
+        Shoot action (you can change its order to Engage to do so).
+      cost: 0AP
+    - name: Brazen Killer
+      description: Whenever this operative incapacitates an enemy operative with its
+        Wroughtlock Revolvers, roll one d6 separately for each other enemy operative
+        visible to and within 2" of that enemy operative. If the result is higher
+        than that other enemy operative's APL stat, subtract 1 from its APL stat until
+        the end of its next activation.
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: APM launcher (Armour piercing)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Bipod *
+      - Heavy (Reposition only)
+      - Piercing 1
+    - name: APM launcher (Breaching)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Bipod *
+      - Heavy (Reposition only)
+      - Blast 2"
+    - name: APM launcher (High explosive)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 2/4
+      rules:
+      - Bipod *
+      - Heavy (Reposition only)
+      - Blast 3"
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Bipod'
+      description: Whenever this operative is shooting with this weapon, if it hasn't
+        moved during the activation, or if it's a counteraction, this weapon has the
+        Ceaseless weapon rule. Not this operative isn't restricted from moving after
+        shooting.
+      cost: 0AP
+  - name: Ironbraek
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Bolt revolver
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Rng 8"
+    - name: Entrencher
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Minefield
+      description: You have five Minefield markers for the battle. On the reverse
+        side, three of them are Hy-Pex mines and two are blank. Set up all your Minefield
+        markers as if they were one item of equipment. Each must be set up reverse-side
+        down (their specifics aren't revealed), more than 2" from other markers, access
+        points and Accessible terrain, and more than 6" from your opponent's drop
+        zone and your other Minefield markers. Whenever this operative is readied,
+        if it's not within control range of enemy operatives, you can reset one of
+        your flipped Minefield markers that's within its control range (flip the marker
+        back over again).
+      cost: 0AP
+    - name: Hy-Pex Mines
+      description: Whenever one of your reverse-side down Minefield markers is both
+        within an enemy operative's control range and not within a friendly HERNKYN
+        YAEGIR operative's control range, flip the marker over. If it's blank, there's
+        no effect. If it's a Hy-Pex mine, inflict 3 damage on that enemy operative
+        and roll one D6. If the result is less than that enemy operative's Save stat,
+        inflict additional damage on it equal to the dice result. If it isn't incapacitated,
+        end its action (if any), even if that action's effects aren't fulfilled. If
+        it cannot be placed, move it the minimum amount of distance to do so. Regardless,
+        that marker isn't removed.
+      cost: 0AP
+  - name: Riflekyn
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Magna-coil rifle (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Piercing 1
+      - Silent
+    - name: Concealed Position * (Mobile)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Heavy (Reposition only)
+      - Piercing 1
+    - name: Concealed Position * (Stationary)
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 0AP
+    - name: Weavewerke Cloak
+      description: "Whenever an operative is shooting this operative: \u25CF Ignore\
+        \ the Saturate weapon rule. \u25CF If you can retain any cover saves, you\
+        \ can retain one additional cover save, or you can retain one cover save as\
+        \ a critical success instead. This isn't cumulative with improved cover saves\
+        \ from Vantage terrain."
+      cost: 0AP
+  - name: Tracker
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: SiNR handbow
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Silent
+    - name: Throwing Hatchet
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 6"
+      - Limited 1
+      - Rending
+      - Silent
+    - name: Hatchet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Pan Spectral Visor
+      description: "Whenever this operative is shooting an enemy within 6\" of it:\
+        \ \u25CF This operative's weapons have the Seek Light weapon rule. \u25CF\
+        \ That operative cannot be obscured."
+      cost: 0AP
+    - name: Tracker
+      description: Whenever this operative is shooting against or fighting against
+        an expended operative within 6" of it, this operative's weapons have the Punishing
+        weapon rule.
+      cost: 0AP
+  - name: Warrior
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Bolt revolver
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Rng 8"
+    - name: Bolt shotgun (Short range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Bolt shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Plasma knife
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Intrepid
+      description: Whenever you spend a Resourceful point for this operative, the
+        following
+      cost: 0AP
+    - name: takes precedence
+      description: "\u25CF If you add 1 to its APL stat, it lasts until the start\
+        \ of its next activation instead. \u25CF If it regains lost wounds, it regains\
+        \ 4 instead. Version 1.3 (updated 29 October 2025)"
+      cost: 0AP

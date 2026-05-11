@@ -1,0 +1,539 @@
+team:
+  name: Imperial Navy Breachers
+  version: v1.5
+  last_updated: 28 Jan 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Attack Order
+    cost: 1CP
+    description: Place your Attack Order marker in the killzone. Whenever a friendly
+      IMPERIAL NAVY BREACHER operative within 3" of that marker is shooting, fighting
+      or retaliating, its weapons have the Ceaseless weapon rule. In the Ready step
+      of the next Strategy phase, remove that marker. You cannot use this ploy and
+      the Defence Order strategy ploy in the same Strategy phase.
+  - name: Defence Order
+    cost: 1CP
+    description: Place your Defence Order marker in the killzone. Whenever an operative
+      is shooting a friendly IMPERIAL NAVY BREACHER operative that's within 3" of
+      that marker, you can re-roll any of your defence dice results of one result
+      (e.g. results of 2). In the Ready step of the next Strategy phase, remove that
+      marker. You cannot use this ploy and Attack Order strategy ploy in the same
+      Strategy phase.
+  - name: Close Assault
+    cost: 1CP
+    description: "Whenever a friendly IMPERIAL NAVY BREACHER operative is fighting\
+      \ or shooting an operative within 3\" of it: \u25CF Add 1 to both Dmg stats\
+      \ of Navis shotguns or Navis heavy shotguns (if any). \u25CF If you roll two\
+      \ or more fails, you can discard one of them to retain another as a normal success\
+      \ instead."
+  - name: Brace For Counterattack
+    cost: 1CP
+    description: Whenever an operative is shooting against, fighting against or retaliating
+      against a friendly IMPERIAL NAVY BREACHER operative that's within your territory
+      or that hasn't performed the Charge , Fall Back or Reposition action during
+      this turning point, Normal and Critical Dmg of 3 or more inflicts 1 less damage
+      on that friendly operative.
+  firefight_ploys:
+  - name: Overwhelm Target
+    cost: 1CP
+    description: Use this firefight ploy when you use the Breach and Clear faction
+      rule. Select one of those friendly IMPERIAL NAVY BREACHER operatives. Until
+      the end of that operative's activation, add 1 to its APL stat.
+  - name: Blitz
+    cost: 1CP
+    description: Use this firefight ploy when a friendly IMPERIAL NAVY BREACHER operative
+      performs the Shoot or Fight action, and you select an enemy operative within
+      6" of it as a valid target or to fight against. If it's the first friendly operative
+      to perform either of those actions during this turning point, its weapons have
+      the Accurate 1 weapon rule for that action. If it's the first friendly operative
+      to be activated during this turning point, its weapons also have the Severe
+      weapon rule for that action.
+  - name: Lock It Down
+    cost: 1CP
+    description: Use this firefight ploy when a friendly IMPERIAL NAVY BREACHER operative
+      is activated. Select one objective marker. Until the end of the battle or until
+      you use this ploy again (whichever comes first), when determining control of
+      that objective marker, treat that friendly operative's APL stat as 1 higher.
+      Note this isn't a change to the APL stat, so any changes are cumulative with
+      this.
+  - name: Deck Hand
+    cost: 1CP
+    description: Use this firefight ploy during a friendly IMPERIAL NAVY BREACHER
+      operative's activation, before or after it performs an action. That operative
+      can move through one Accessible terrain feature without it counting as an additional
+      1" and/or perform a free Operate Hatch action during its activation, and can
+      do so during the Charge or Fall Back action. You cannot use this ploy if the
+      access point has been welded shut (see HATCHCUTTER ) unless it's a friendly
+      HATCHCUTTER operative's activation.
+  operatives:
+  - name: C.A.T. Unit
+    stats:
+      apl: 2
+      mv: 8"
+      sv: 5+
+      w: 5
+    weapons: []
+    rules:
+    - name: Machine
+      description: "\u25CF This operative cannot be activated or perform actions if\
+        \ it's within control range of an enemy operative, or if a friendly IMPERIAL\
+        \ NAVY BREACHER SURVEYOR operative has been incapacitated. The turning point\
+        \ can end even if this operative is still ready. \u25CF This operative cannot\
+        \ perform any actions other than Charge , Dash , Fall Back , Reposition and\
+        \ Spot . \u25CF It cannot retaliate, assist in a fight, climb or jump. \u25CF\
+        \ Whenever determining control of a marker, treat this operative's APL stat\
+        \ as 1 lower. Note this isn't a change to its APL stat, so any changes are\
+        \ cumulative with this. \u25CF Whenever this operative has a Conceal order\
+        \ and is in cover, it cannot be selected as a valid target, taking precedence\
+        \ over all other rules (e.g. Seek, Vantage terrain) except being within 2\"\
+        . \u25CF Whenever determining what's visible to this operative, draw the line\
+        \ from any part of the miniature."
+      cost: 0AP
+    - name: Expendable
+      description: "This operative is ignored for your opponent's kill/elimination\
+        \ op (when it's incapacitated, and when determining your starting number of\
+        \ operatives). It's also ignored for victory conditions and scoring VPs if\
+        \ either require operatives to \u2018escape', \u2018survive' or be incapacitated\
+        \ by enemy operatives (if it escapes/survives/is incapacitated, determining\
+        \ how many operatives must escape/survive/be incapacitated, etc.)."
+      cost: 1AP
+    - name: Spot
+      description: "\U0001F7E2 Select one enemy operative visible to this operative.\
+        \ Until the end of the turning point, until that enemy operative is no longer\
+        \ visible to this operative or until this operative performs this action again\
+        \ (whichever comes first), whenever a friendly IMPERIAL NAVY BREACHER operative\
+        \ is shooting that enemy operative,"
+      cost: 0AP
+    - name: you can use this effect. If you do
+      description: "\u25CF That friendly operative's ranged weapons have the Seek\
+        \ Light weapon rule. \u25CF That enemy operative cannot be obscured. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Gheistskull
+    stats:
+      apl: 2
+      mv: 8"
+      sv: 5+
+      w: 5
+    weapons: []
+    rules:
+    - name: Machine
+      description: "\u25CF This operative cannot perform any actions other than Boost\
+        \ , Charge , Dash , Fall Back and Reposition . \u25CF It cannot retaliate\
+        \ or assist in a fight. \u25CF Whenever determining control of a marker, treat\
+        \ this operative's APL stat as 1 lower. Note this isn't a change to its APL\
+        \ stat, so any changes are cumulative with this. \u25CF Whenever this operative\
+        \ has a Conceal order and is in cover, it cannot be selected as a valid target,\
+        \ taking precedence over all other rules (e.g. Seek, Vantage terrain) except\
+        \ being within 2\"."
+      cost: 0AP
+    - name: Expendable
+      description: See C.A.T. UNIT above.
+      cost: 1AP
+    - name: Boost
+      description: "\U0001F7E2 Until the end of the activation, add 6\" to this operative's\
+        \ Move stat \U0001F534 This operative can only perform this action once per\
+        \ battle, and cannot perform it during the first turning point. Kill Team\
+        \ Reference Sheet by James And The Giant Squig - Version 1.5 (updated 28 Jan\
+        \ 2026) IMPERIAL NAVY BREACHERS"
+      cost: 0AP
+  - name: Sergeant-At-Arms
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Heirloom autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Command Breach
+      description: Whenever you would use the Attack Order or Defence Order strategy
+        ploy, if this operative is in the killzone, it costs you 0CP. Once during
+        each of this operative's activations, before or after it performs an action,
+        if your Attack Order or Defence Order marker is in the killzone (see relevant
+        strategy ploy), you
+      cost: 0AP
+    - name: can either
+      description: "\u25CF Remove that marker and place it again. \u25CF Change the\
+        \ selected ploy to the other (e.g. your Attack Order becomes a Defence Order).\
+        \ You cannot do both, and you don't need to spend any CP to change the ploy."
+      cost: 0AP
+  - name: Axejack
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Emboldened
+      description: Whenever an attack dice inflicts damage of 3 or more on this operative
+        during a turning point in which it performed the Charge action, roll one
+      cost: 0AP
+    - name: D6
+      description: on a 5+, subtract 1 from that inflicted damage.
+      cost: 0AP
+  - name: Endurant
+    stats:
+      apl: 2
+      mv: 4"
+      sv: 2+
+      w: 11
+    weapons:
+    - name: Navis heavy shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Relentless
+    - name: Navis heavy shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules:
+      - Relentless
+    - name: Shield bash
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 1/2
+      rules:
+      - Brutal
+      - Shield *
+    rules:
+    - name: '* Shield'
+      description: Whenever this operative is fighting or retaliating with this weapon,
+        each of your blocks can be allocated to block two unresolved successes (instead
+        of one).
+      cost: 0AP
+    - name: Breachwall
+      description: Whenever your opponent is selecting a valid target, they cannot
+        select another friendly IMPERIAL NAVY BREACHER operative whose base is touching
+        this operative's if this operative has an Engage order and is intervening.
+        This rule has no effect if more than one other friendly operative's base is
+        touching this operative's.
+      cost: 0AP
+    - name: Disengage
+      description: This operative can perform the Fall Back action for 1 less AP.
+      cost: 0AP
+  - name: Grenadier
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Demolition charge
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Rng 3"
+      - Blast 2"
+      - Heavy (Reposition only)
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Grenadier
+      description: This operative can use frag, krak and stun grenades (see universal
+        equipment). Doing so doesn't count towards any limited uses you have (i.e.
+        if you also select those grenades from equipment for other operatives). Whenever
+        this operative is using a frag or krak grenade, improve the Hit stat of that
+        weapon by 1.
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Navis las-volley (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Rending
+    - name: Navis las-volley (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Rending
+      - Torrent 1"
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Hatchcutter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Chainfist
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Brutal
+      - Rending
+    rules:
+    - name: Killzone
+      description: "Gallowdark) within this operative's control range. 1 additional\
+        \ AP must be spent for other operatives to perform the Operate Hatch action\
+        \ to open that hatchway. This effect ends when that hatchway is opened. Note\
+        \ this operative isn't affected by this effect. \U0001F534 This operative\
+        \ cannot perform this action while within control range of an enemy operative,\
+        \ or if it isn't within 1\" of a closed hatchway."
+      cost: 1AP
+    - name: Breach Point
+      description: "\U0001F7E2 Place one of your Breach markers within this operative's\
+        \ control range as close as possible to a terrain feature within control range\
+        \ of it. Whenever an operative is within 1\" of that marker, it treats parts\
+        \ of that terrain feature that are no more than 1\" thick as Accessible terrain.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative, or if a terrain feature isn't within its control\
+        \ range."
+      cost: 0AP
+  - name: Surveyor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Void-Jammer
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Gheistskull detonator
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Blast 1"
+      - Lethal 4+
+      - Limited 1
+      - Silent
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: '* Detonate'
+      description: Don't select a valid target. Instead, a friendly IMPERIAL NAVY
+        BREACHER GHEISTSKULL operative is always the primary target and cannot be
+        in cover or obscured. If that operative isn't in the killzone, you cannot
+        select this weapon.
+      cost: 1AP
+    - name: Interference Pulse
+      description: "\U0001F7E2 Select one enemy operative visible to and within 8\"\
+        \ of a friendly GHEISTSKULL operative. Roll one D6, adding 1 to the result\
+        \ if that enemy operative is a valid target for that friendly"
+      cost: 0AP
+    - name: GHEISTSKULL operative
+      description: "on a 3+, subtract 1 from that enemy operative's APL stat until\
+        \ the end of its next activation. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative, or if a friendly\
+        \ GHEISTSKULL operative isn't in the killzone."
+      cost: 0AP
+  - name: Armsman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate one
+        other ready friendly IMPERIAL NAVY BREACHER ARMSMAN operative (if able) before
+        your opponent activates. When that other operative is expended, your opponent
+        then activates as normal (in other words, you cannot activate more than two
+        operatives in succession with this rule). Ignore this rule when you are using
+        the Breach and Clear faction rule.
+      cost: 0AP

@@ -1,0 +1,573 @@
+team:
+  name: Exaction Squad
+  version: v1.4
+  last_updated: 28 Jan 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Guilt Reveals Itself
+    cost: 1CP
+    description: Whenever you're selecting a valid target for a friendly EXACTION
+      SQUAD operative, enemy operatives within 4" of it cannot be in cover (instead
+      of 2"). While this can allow such operatives to be targeted (assuming they're
+      visible), it doesn't remove their cover save (if any), unless the friendly EXACTION
+      SQUAD operative is within 2" as normal.
+  - name: Inviolate Jurisdiction
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly EXACTION SQUAD operative
+      that's within 2" of an objective marker or an enemy operative, you can re-roll
+      one of your defence dice.
+  - name: Dispense Justice
+    cost: 1CP
+    description: Whenever a friendly EXACTION SQUAD operative is fighting or retaliating,
+      if it hasn't moved more than its Move stat during the activation, or if it's
+      a counteraction, its melee weapons have the Ceaseless weapon rule.
+  - name: Terminal Decree
+    cost: 1CP
+    description: Whenever a friendly EXACTION SQUAD operative is shooting an enemy
+      operative within 6" of it, or whenever a friendly EXACTION SQUAD GUNNER operative
+      is shooting, that friendly operative's ranged weapons have the Balanced weapon
+      rule.
+  firefight_ploys:
+  - name: Long Arm Of The Emperor'S Law
+    cost: 1CP
+    description: Use this firefight ploy when a friendly EXACTION SQUAD operative
+      is performing the Shoot action and you select a weapon with the Range x weapon
+      rule (excluding frag or krak grenade). Until the end of that action, add 3"
+      to x.
+  - name: Exact Punishment
+    cost: 1CP
+    description: Use this firefight ploy after an enemy operative shoots against or
+      fights against a friendly EXACTION SQUAD operative within 6" of it, and that
+      friendly operative isn't incapacitated as a result. That friendly operative
+      can immediately perform either a free Shoot or a free Fight action, but other
+      enemy operatives cannot be selected as a valid target or to fight against during
+      that action (note that secondary targets from the Blast weapon rule can still
+      be targeted).
+  - name: Brutal Backup
+    cost: 1CP
+    description: Use this firefight ploy during a friendly EXACTION SQUAD operative's
+      activation, before or after it performs an action. Select one enemy operative
+      within its control range. One other friendly EXACTION SQUAD operative can immediately
+      perform a free Fight action, but it can only fight against that enemy operative.
+  - name: Execution Order
+    cost: 1CP
+    description: Use this firefight ploy when an enemy operative performs a mission
+      action (excluding Operate Hatch ). Alternatively, use it at the end of the Firefight
+      phase and select one enemy operative that controls an objective marker. In either
+      case, the next time your opponent would activate that enemy operative, you can
+      interrupt that activation and activate a ready friendly EXACTION SQUAD operative.
+      If you do, during that activation, that friendly operative must fight against
+      or shoot against that enemy operative, and cannot do so against any other enemy
+      operatives until it does (if this isn't possible, that friendly operative's
+      activation is cancelled). After completing that friendly operative's activation,
+      continue that enemy operative's activation (if possible). You cannot use this
+      ploy again until that enemy operative is activated or incapacitated.
+  operatives:
+  - name: Proctor-Exactant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/2
+      rules: []
+    - name: Shotpistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 8"
+    - name: assault shield
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Lethal 5+
+      - Shock
+      - Repress *
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Assault Shield
+      description: If this operative has a dominator maul & assault shield, it has
+        a 3+ Save stat.
+      cost: 0AP
+    - name: Nuncio-aquila
+      description: "\u25CF Whenever an enemy operative is within 3\" of your Nuncio-aquila\
+        \ marker (or this operative if your Nuncio-aquila marker isn't in the killzone),\
+        \ your opponent must spend 1 additional AP for that enemy operative to perform\
+        \ the Pick Up Marker and mission actions. \u25CF Whenever determining control\
+        \ of a marker, treat the total APL stat of enemy operatives that contest it\
+        \ as 1 lower if at least one of those enemy operatives is within 3\" of your\
+        \ Nuncio-aquila marker (or this operative if your Nuncio-aquila marker isn't\
+        \ in the killzone). Note this isn't a change to the APL stat, so any changes\
+        \ are cumulative with this. DEPLOY"
+      cost: 0AP
+    - name: Nuncio-Aquila
+      description: "\U0001F7E2 If your Nuncio-aquila marker isn't in the killzone,\
+        \ place it within 6\" horizontally of this operative; otherwise, move your\
+        \ Nuncio-aquila marker up to 6\" horizontally. If this operative is removed\
+        \ from the killzone, remove your Nuncio-aquila marker from the killzone. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative. Kill Team Reference Sheet by James And The Giant Squig\
+        \ - v1.4 (updated 28 Jan 2026) EXACTION SQUAD"
+      cost: 0AP
+  - name: Castigator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Excruciator maul
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/5
+      rules:
+      - Rending
+      - Shock
+    rules:
+    - name: Engendered Focus
+      description: You can ignore any changes to this operative's stats (including
+        its weapons' stats, but excluding its Save stat).
+      cost: 0AP
+    - name: Zealous Dedication
+      description: Whenever an attack dice inflicts damage of 3 or more on
+      cost: 0AP
+    - name: this operative, roll one D6
+      description: on a 5+, subtract 1 from that inflicted damage.
+      cost: 0AP
+    - name: Castigator's Arrest
+      description: Whenever an enemy operative is within control range of this operative,
+        if no other enemy operatives are within this operative's control range, that
+        enemy operative cannot perform the Fall Back action.
+      cost: 0AP
+  - name: Chirurgant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        EXACTION SQUAD operative would be incapacitated while visible to and within
+        3" of this operative, you can use this rule, providing neither this nor that
+        operative is within control range of an enemy operative. If you do, that friendly
+        operative isn't incapacitated, has 1 wound remaining and cannot be incapacitated
+        for the remainder of the action. After that action, that friendly operative
+        can immediately perform a free Dash action, but must end that move within
+        this operative's control range. Subtract 1 from this and that operative's
+        APL stats until the end of their next activations respectively, and if this
+        rule was used during that friendly operative's activation, that activation
+        ends. You cannot use this rule if this operative is incapacitated, or if it's
+        a Shoot action and this operative would be a primary or secondary target.
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly EXACTION SQUAD operative within\
+        \ this operative's control range to regain up to 2D3 lost wounds. It cannot\
+        \ be an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Grenade launcher
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Heavy stubber (Focused)
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+    - name: Heavy stubber (Sweeping)
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Torrent 1"
+    - name: Webber
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Range 12"
+      - Severe
+      - Stun
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Leashmaster
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Shotpistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Rng 8"
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Handler
+      description: Whenever this operative is activated, you can activate a ready
+        friendly EXACTION SQUAD R-VR CYBER-MASTIFF operative at the same time. Complete
+        their activations action by action in any order.
+      cost: 0AP
+    - name: Attack Pattern
+      description: STRATEGIC GAMBIT in the first turning point. Select two of the
+        following attack patterns for a friendly EXACTION SQUAD R-VR
+      cost: 0AP
+    - name: "\u25CF Aggressive"
+      description: Its melee weapons have the Relentless weapon rule.
+      cost: 0AP
+    - name: "\u25CF Swift"
+      description: Add 2" to its Move stat.
+      cost: 0AP
+    - name: "\u25CF Defensive"
+      description: "Improve its Save stat by 1. R-VR COMMAND 0A \U0001F7E2 Select\
+        \ one friendly EXACTION SQUAD R-VR CYBER-MASTIFF operative and change one\
+        \ of its attack patterns."
+      cost: 0AP
+  - name: R-Vr Cyber-Mastiff
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Mechanical bite
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Beast
+      description: This operative cannot perform any actions other than Apprehend
+        , Charge , Dash , Fall Back , Fight , Guard , Reposition , Pick Up Marker
+        and Place Marker. It cannot use any weapons that aren't on its datacard.
+      cost: 0AP
+    - name: Apprehend
+      description: "\U0001F7E2 Select one enemy operative within this operative's\
+        \ control range. Until that enemy operative is no longer within this operative's\
+        \ control range, or until this operative performs this action again (whichever\
+        \ comes first), worsen the Hit stat of that enemy operative's weapons by 1\
+        \ (this isn't cumulative with being injured); in addition, that enemy operative\
+        \ cannot perform the Fall Back action. \U0001F534 This operative cannot perform\
+        \ this action unless an enemy operative is within its control range."
+      cost: 0AP
+  - name: Malocator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Acute Focus
+      description: Once during each of this operative's activations, it can perform
+        the Pick Up Marker , Place Marker , Veriscant or a mission action for 1 less
+        AP.
+      cost: 1AP
+    - name: Veriscant
+      description: "\U0001F7E2 Select one enemy operative visible to this operative.\
+        \ Until the start of this operative's next activation, until it's incapacitated\
+        \ or until it performs this action again (whichever comes first), whenever\
+        \ a friendly EXACTION SQUAD operative is shooting against, fighting against\
+        \ or retaliating against that enemy operative, that friendly operative's weapons\
+        \ have the Lethal 5+ and Severe weapon rules. \U0001F534 Cannot perform this\
+        \ action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Marksman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Executioner shotgun (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/0
+      rules:
+      - Devastating 4
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Executioner shotgun (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules: []
+    - name: Executioner shotgun (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/0
+      rules:
+      - Devastating 4
+      - Heavy
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 1AP
+    - name: "\U0001F7E2 Until the start of this operative's next activation"
+      description: "\u25CF The concealed and stationary profiles of its executioner\
+        \ shotgun have the Lethal 5+ weapon rule. \u25CF Whenever it's shooting with\
+        \ its executioner shotgun, enemy operatives cannot be obscured. \U0001F534\
+        \ Cannot perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Revelatum
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Scoped shotpistol (Short range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Scoped shotpistol (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: First in the Field
+      description: STRATEGIC GAMBIT in the first turning point. If this operative
+        is wholly within your drop zone, it can immediately perform a free Reposition
+        .
+      cost: 1AP
+    - name: Spot
+      description: "\U0001F7E2 S elect one enemy operative visible to and within 8\"\
+        \ of this operative. Until the end of the turning point, whenever a friendly\
+        \ EXACTION SQUAD operative is shooting that enemy operative, you can use this\
+        \ effect. If you do: \u25CF That friendly operative's ranged weapons have\
+        \ the Seek Light weapon rule. \u25CF That enemy operative cannot be obscured.\
+        \ \U0001F534 Cannot perform this action while within control range of an enemy\
+        \ operative."
+      cost: 0AP
+  - name: Subductor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Shotpistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Rng 8"
+    - name: Shock maul & assault shield
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules:
+      - Shock
+      - Repress *
+    rules:
+    - name: Stubborn Subjugator
+      description: You can ignore any changes to the Hit stat of this operative's
+        melee weapons.
+      cost: 0AP
+  - name: Vigilant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Close Quarters Vigilance
+      description: This operative can perform the Shoot action (excluding Guard )
+        while within control range of an enemy operative, but only if it hasn't performed
+        the Charge action during the activation, or if it's a counteraction. Note
+        this operative isn't restricted from performing the Charge action after performing
+        the Shoot action.
+      cost: 0AP
+  - name: Vox-Signifier
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []

@@ -1,0 +1,852 @@
+team:
+  name: Hierotek Circle
+  version: v1.9
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Recon
+  - Security
+  strategy_ploys:
+  - name: Relentless Onslaught
+    cost: 1CP
+    description: Whenever a friendly HIEROTEK CIRCLE operative is shooting an operative
+      within 8" of it, that friendly operative's ranged weapons have the Balanced
+      weapon rule. Note that when you're using the Magnify weapon rule, this operative
+      must still be within 8" of the target to use this rule (not the other friendly
+      operative from which you're determining a valid target).
+  - name: Undying Androids
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly HIEROTEK CIRCLE operative,
+      if you cannot retain any cover saves, you can retain one of your defence dice
+      as a normal success without rolling it.
+  - name: Methodical Elimination
+    cost: 1CP
+    description: Friendly HIEROTEK CIRCLE operatives' melee weapons have the Accurate
+      1 weapon rule. Whenever a friendly HIEROTEK CIRCLE operative is fighting during
+      an activation in which it hasn't moved more than its Move stat, or whenever
+      it's retaliating, its melee weapons have the Accurate 2 weapon rule instead.
+  - name: Command Underlings
+    cost: 1CP
+    description: "Select one of the following: \u25CF SUPPORT . Each other friendly\
+      \ HIEROTEK CIRCLE operative visible to and within 6\" of a friendly CRYPTEK\
+      \ operative can immediately perform a free Dash action in an order of your choice.\
+      \ \u25CF SUPPORT . Each other friendly HIEROTEK CIRCLE operative (excluding\
+      \ CRYPTEK ) visible to and within 3\" of a friendly APPRENTEK operative can\
+      \ immediately perform a free Dash action in an order of your choice."
+  firefight_ploys:
+  - name: Cortical Control
+    cost: 1CP
+    description: Use this firefight ploy when a friendly HIEROTEK CIRCLE APPRENTEK
+      or HIEROTEK CIRCLE CRYPTEK operative performs a SUPPORT unique action. Until
+      the end of that action, for the purposes of selecting another friendly operative,
+      ignore the distance requirement (only visibility is a requirement).
+  - name: Reanimated Function
+    cost: 1CP
+    description: Use this firefight ploy when determining control of a marker. Select
+      one of your Reanimation markers. Until the start of the next turning point,
+      whenever determining control of a marker, treat that Reanimation marker as a
+      friendly HIEROTEK CIRCLE operative that has an APL stat of 1. For the purposes
+      of the Martyrs tac op (Approved Ops 2025), this ploy has no effect.
+  - name: Living Lightning
+    cost: 1CP
+    description: Use this firefight ploy when a friendly HIEROTEK CIRCLE IMMORTAL
+      operative is performing the Shoot action and you select a tesla carbine. Until
+      the end of that action, that weapon doesn't have the 2" from its Devastating
+      weapon rule but has the Blast 2" weapon rule.
+  - name: Dimensional Ambush
+    cost: 1CP
+    description: Use this firefight ploy during a friendly HIEROTEK CIRCLE DEATHMARK
+      operative's activation, if it has a Conceal order. During that activation, that
+      operative can perform the Guard action (see close quarters rules, Kill Team
+      Core Book ) in any killzone and while it has a Conceal order, but when you perform
+      the free Fight or Shoot action during the interruption, you must change its
+      order to Engage.
+  operatives:
+  - name: Chronomancer
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Aeonstave (ranged)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Blast 2"
+      - Lethal 5+
+      - Stun
+      - Magnify *
+    - name: Entropic lance (ranged)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/3
+      rules:
+      - Devastating 3
+      - Piercing 1
+      - Magnify *
+    - name: Aeonstave (melee)
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Lethal 5+
+      - Shock
+    - name: Entropic lance (melee)
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/6
+      rules: []
+    rules: []
+  - name: Plasmacyte Accelerator
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Spark
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 4"
+      - Piercing 1
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Scuttler
+      description: "\u25CF Whenever this operative has a Conceal order and is in cover,\
+        \ it cannot be selected as a valid target, taking precedence over all other\
+        \ rules (e.g. Seek, Vantage terrain) except being within 2\". \u25CF This\
+        \ operative can perform the Fall Back action for 1 less AP. \u25CF This operative\
+        \ cannot use any weapons that aren't on its datacard, or perform unique actions\
+        \ other than Accelerate ."
+      cost: 1AP
+    - name: Accelerate
+      description: "\U0001F7E2 Select one friendly DEATHMARK or IMMORTAL operative\
+        \ visible to and within 6\" of this operative. Until the end of that operative's\
+        \ next activation, add 1 to its APL stat. \U0001F534 This operative cannot\
+        \ perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Plasmacyte Reanimator
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Atomiser beam
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 6"
+      - Lethal 5+
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Scuttler
+      description: "\u25CF Whenever this operative has a Conceal order and is in cover,\
+        \ it cannot be selected as a valid target, taking precedence over all other\
+        \ rules (e.g. Seek, Vantage terrain) except being within 2\". \u25CF This\
+        \ operative can perform the Fall Back action for 1 less AP. \u25CF This operative\
+        \ cannot use any weapons that aren't on its datacard, or perform unique actions\
+        \ other than Reanimate . REANIMATE 1/2AP \U0001F7E2 Select one of your Reanimation\
+        \ markers visible to and within 6\" of this operative. Roll"
+      cost: 0AP
+    - name: one D6
+      description: "on a 3+, a friendly operative is REANIMATED ; if you spent 1 additional\
+        \ AP, a friendly operative is automatically REANIMATED (you don't need to\
+        \ roll one D6). An operative that's REANIMATED from this unique action is\
+        \ set up expended if it was already expended during this turning point. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Apprentek
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 11
+    weapons:
+    - name: Arcane conduit (ranged)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+      - Magnify *
+    - name: Arcane conduit (melee)
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/5
+      rules: []
+    rules:
+    - name: Apprentek Assistance
+      description: This operative has the same unique actions as your CRYPTEK operative
+        selected for the battle, but can only perform one CRYPTEK unique action per
+        turning point.
+      cost: 0AP
+  - name: Deathmark
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 10
+    weapons:
+    - name: Synaptic disintegrator
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 4/3
+      rules:
+      - Devastating 2
+      - Heavy (Dash only)
+      - Piercing 1, Severe
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Deathmarked
+      description: Whenever this operative ends the Shoot action, the target gains
+        one of your Deathmarked tokens if it wasn't incapacitated (the primary target,
+        if relevant). Whenever a friendly HIEROTEK CIRCLE DEATHMARK operative is shooting
+        an enemy operative that has one of your Deathmarked tokens, that friendly
+        operative's ranged weapons have the Seek weapon rule.
+      cost: 1AP
+    - name: Multi-Dimensional Vision
+      description: "\U0001F7E2 Until the start of this operative's next activation,\
+        \ whenever it's shooting, enemy operatives cannot be obscured. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Immortal Despotek
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 11
+    weapons:
+    - name: Gauss blaster
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Tesla carbine
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - 2" Devastating 1
+    - name: Bayonet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Steadfast
+      description: Whenever determining control of a marker, you can treat this operative's
+        APL stat as 3. If you do, this takes precedence over all other rules, meaning
+        any changes to its APL stat are ignored for this.
+      cost: 1AP
+    - name: Interstitial Command
+      description: "\U0001F7E2 SUPPORT . Select one other friendly HIEROTEK CIRCLE\
+        \ operative (excluding APPRENTEK and CRYPTEK ) visible to and within 6\" of\
+        \ this operative. That selected operative can immediately perform a 1AP action\
+        \ for free (excluding Accelerate ); it cannot move more than or be removed\
+        \ and set up more than 2\" during that action, perform an action it's already\
+        \ performed during this turning point, or perform that action again during\
+        \ this turning point. \U0001F534 This operative cannot perform this action\
+        \ while within control range of an enemy operative, or while counteracting."
+      cost: 0AP
+  - name: Immortal Guardian
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 10
+    weapons:
+    - name: Gauss blaster
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Tesla carbine
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - 2" Devastating 1
+    - name: Bayonet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Steadfast
+      description: Whenever determining control of a marker, you can treat this operative's
+        APL stat as 3. If you do, this takes precedence over all other rules, meaning
+        any changes to its APL stat are ignored for this. Kill Team Reference Sheet
+        by James And The Giant Squig - Version 1.9 (updated 29 Apr 2026) HIEROTEK
+        CIRCLE (PSYCHOMANCER)
+      cost: 0AP
+  - name: Psychomancer
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Abyssal lance (ranged)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 2/2
+      rules:
+      - Blast 2"
+      - 2" Devastating 1
+      - Piercing 2
+    - name: Abyssal lance (melee)
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules:
+      - Devastating 1
+    rules:
+    - name: Harbinger Of Despair
+      description: "\U0001F7E2 Place your Despair marker visible to this operative,\
+        \ or on Vantage terrain of a terrain feature that's visible to this operative.\
+        \ When this operative is next activated, is incapacitated or this action is\
+        \ performed again by a friendly operative (whichever comes first), remove\
+        \ that marker. \U0001F7E2 Whenever an enemy operative is within 2\" of your\
+        \ Despair marker, your opponent must spend 1 additional AP for that enemy\
+        \ operative to perform the Pick Up Marker and mission actions. Whenever determining\
+        \ control of a marker, treat the total APL stat of enemy operatives that contest\
+        \ it as 1 lower if at least one of those enemy operatives is within 2\" of\
+        \ your Despair marker. Note this isn't a change to the APL stat, so any changes\
+        \ are cumulative with this. \U0001F534 This operative cannot perform this\
+        \ action while within control range of an enemy operative."
+      cost: 1AP
+    - name: Nightmare Shroud
+      description: "\U0001F7E2 Until the start of this operative's next activation,\
+        \ until it's incapacitated or until this action is performed again by a friendly\
+        \ operative (whichever comes first), whenever an enemy operative within 4\"\
+        \ of this operative is shooting, fighting or retaliating, your opponent cannot\
+        \ re-roll their attack dice and cannot retain attack dice as, or change attack\
+        \ dice to, critical successes (critical successes must be retained as normal\
+        \ successes instead). \U0001F534 This operative cannot perform this action\
+        \ while within control range of an enemy operative."
+      cost: 1AP
+    - name: Vision Of Madness
+      description: "\U0001F7E2 Select one enemy operative visible to this operative.\
+        \ Until the start of this operative's next activation, until it's incapacitated\
+        \ or until this action is performed again by a friendly operative (whichever\
+        \ comes first), that selected operative gains one of your Madness tokens.\
+        \ \U0001F7E2 Whenever your opponent would activate an enemy operative that\
+        \ has one of your Madness tokens, you can"
+      cost: 0AP
+    - name: roll one D6
+      description: "if the result is equal to or higher than that enemy operative's\
+        \ APL, they cannot activate it during this activation. If that operative is\
+        \ successfully activated, or there are no other enemy operatives eligible\
+        \ to be activated, remove its Madness token. \U0001F534 This operative cannot\
+        \ perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Plasmacyte Accelerator
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Spark
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 4"
+      - Piercing 1
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Scuttler
+      description: "\u25CF Whenever this operative has a Conceal order and is in cover,\
+        \ it cannot be selected as a valid target, taking precedence over all other\
+        \ rules (e.g. Seek, Vantage terrain) except being within 2\". \u25CF This\
+        \ operative can perform the Fall Back action for 1 less AP. \u25CF This operative\
+        \ cannot use any weapons that aren't on its datacard, or perform unique actions\
+        \ other than Reanimate ."
+      cost: 1AP
+    - name: Accelerate
+      description: "\U0001F7E2 Select one friendly DEATHMARK or IMMORTAL operative\
+        \ visible to and within 6\" of this operative. Until the end of that operative's\
+        \ next activation, add 1 to its APL stat. \U0001F534 This operative cannot\
+        \ perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Plasmacyte Reanimator
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Atomiser beam
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 6"
+      - Lethal 5+
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Scuttler
+      description: "\u25CF Whenever this operative has a Conceal order and is in cover,\
+        \ it cannot be selected as a valid target, taking precedence over all other\
+        \ rules (e.g. Seek, Vantage terrain) except being within 2\". \u25CF This\
+        \ operative can perform the Fall Back action for 1 less AP. \u25CF This operative\
+        \ cannot use any weapons that aren't on its datacard, or perform unique actions\
+        \ other than Reanimate . REANIMATE 1/2AP \U0001F7E2 Select one of your Reanimation\
+        \ markers visible to and within 6\" of this operative. Roll"
+      cost: 0AP
+    - name: one D6
+      description: "on a 3+, a friendly operative is REANIMATED ; if you spent 1 additional\
+        \ AP, a friendly operative is automatically REANIMATED (you don't need to\
+        \ roll one D6). An operative that's REANIMATED from this unique action is\
+        \ set up expended if it was already expended during this turning point. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Apprentek
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 11
+    weapons:
+    - name: Arcane conduit (ranged)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+      - Magnify *
+    - name: Arcane conduit (melee)
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/5
+      rules: []
+    rules:
+    - name: Apprentek Assistance
+      description: This operative has the same unique actions as your CRYPTEK operative
+        selected for the battle, but can only perform one CRYPTEK unique action per
+        turning point.
+      cost: 0AP
+  - name: Deathmark
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 10
+    weapons:
+    - name: Synaptic disintegrator
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 4/3
+      rules:
+      - Devastating 2
+      - Heavy (Dash only)
+      - Piercing 1, Severe
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Deathmarked
+      description: Whenever this operative ends the Shoot action, the target gains
+        one of your Deathmarked tokens if it wasn't incapacitated (the primary target,
+        if relevant). Whenever a friendly HIEROTEK CIRCLE DEATHMARK operative is shooting
+        an enemy operative that has one of your Deathmarked tokens, that friendly
+        operative's ranged weapons have the Seek weapon rule.
+      cost: 1AP
+    - name: Multi-Dimensional Vision
+      description: "\U0001F7E2 Until the start of this operative's next activation,\
+        \ whenever it's shooting, enemy operatives cannot be obscured. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Immortal Despotek
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 11
+    weapons:
+    - name: Gauss blaster
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Tesla carbine
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - 2" Devastating 1
+    - name: Bayonet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Steadfast
+      description: Whenever determining control of a marker, you can treat this operative's
+        APL stat as 3. If you do, this takes precedence over all other rules, meaning
+        any changes to its APL stat are ignored for this.
+      cost: 1AP
+    - name: Interstitial Command
+      description: "\U0001F7E2 SUPPORT . Select one other friendly HIEROTEK CIRCLE\
+        \ operative (excluding APPRENTEK and CRYPTEK ) visible to and within 6\" of\
+        \ this operative. That selected operative can immediately perform a 1AP action\
+        \ for free (excluding Accelerate ); it cannot move more than or be removed\
+        \ and set up more than 2\" during that action, perform an action it's already\
+        \ performed during this turning point, or perform that action again during\
+        \ this turning point. \U0001F534 This operative cannot perform this action\
+        \ while within control range of an enemy operative, or while counteracting."
+      cost: 0AP
+  - name: Immortal Guardian
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 10
+    weapons:
+    - name: Gauss blaster
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Tesla carbine
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - 2" Devastating 1
+    - name: Bayonet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Steadfast
+      description: Whenever determining control of a marker, you can treat this operative's
+        APL stat as 3. If you do, this takes precedence over all other rules, meaning
+        any changes to its APL stat are ignored for this. Kill Team Reference Sheet
+        by James And The Giant Squig - Version 1.9 (updated 29 Apr 2026) HIEROTEK
+        CIRCLE (TECHNOMANCER)
+      cost: 0AP
+  - name: Technomancer
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Staff of light (ranged)
+      type: Melee
+      a: 6
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rending
+      - Magnify *
+    - name: Staff of light (melee)
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Rending
+    rules:
+    - name: have
+      description: "Lethal 5+, Rending, Saturate, Severe. Note that if you select\
+        \ a staff of light or arcane conduit, you only select the additional weapon\
+        \ rules for either the ranged or melee profile of that weapon. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 1AP
+    - name: Reinforce Metal
+      description: "\U0001F7E2 SUPPORT . Select one friendly HIEROTEK CIRCLE operative\
+        \ visible to and within 6\" of this operative. Until the start of this operative's\
+        \ next activation, until it's incapacitated or until this action is performed\
+        \ again by a friendly operative (whichever comes first), whenever an attack\
+        \ dice inflicts damage of 3 or more on that operative, subtract 1 from that\
+        \ inflicted damage. \U0001F534 This operative cannot perform this action while\
+        \ within control range of an enemy operative."
+      cost: 0AP
+  - name: Plasmacyte Accelerator
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Spark
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 4"
+      - Piercing 1
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Scuttler
+      description: "\u25CF Whenever this operative has a Conceal order and is in cover,\
+        \ it cannot be selected as a valid target, taking precedence over all other\
+        \ rules (e.g. Seek, Vantage terrain) except being within 2\". \u25CF This\
+        \ operative can perform the Fall Back action for 1 less AP. \u25CF This operative\
+        \ cannot use any weapons that aren't on its datacard, or perform unique actions\
+        \ other than Reanimate ."
+      cost: 1AP
+    - name: Accelerate
+      description: "\U0001F7E2 Select one friendly DEATHMARK or IMMORTAL operative\
+        \ visible to and within 6\" of this operative. Until the end of that operative's\
+        \ next activation, add 1 to its APL stat. \U0001F534 This operative cannot\
+        \ perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Plasmacyte Reanimator
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Atomiser beam
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 6"
+      - Lethal 5+
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Scuttler
+      description: "\u25CF Whenever this operative has a Conceal order and is in cover,\
+        \ it cannot be selected as a valid target, taking precedence over all other\
+        \ rules (e.g. Seek, Vantage terrain) except being within 2\". \u25CF This\
+        \ operative can perform the Fall Back action for 1 less AP. \u25CF This operative\
+        \ cannot use any weapons that aren't on its datacard, or perform unique actions\
+        \ other than Reanimate . REANIMATE 1/2AP \U0001F7E2 Select one of your Reanimation\
+        \ markers visible to and within 6\" of this operative. Roll"
+      cost: 0AP
+    - name: one D6
+      description: "on a 3+, a friendly operative is REANIMATED ; if you spent 1 additional\
+        \ AP, a friendly operative is automatically REANIMATED (you don't need to\
+        \ roll one D6). An operative that's REANIMATED from this unique action is\
+        \ set up expended if it was already expended during this turning point. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Apprentek
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 11
+    weapons:
+    - name: Arcane conduit (ranged)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+      - Magnify *
+    - name: Arcane conduit (melee)
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/5
+      rules: []
+    rules:
+    - name: Apprentek Assistance
+      description: This operative has the same unique actions as your CRYPTEK operative
+        selected for the battle, but can only perform one CRYPTEK unique action per
+        turning point.
+      cost: 0AP
+  - name: Deathmark
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 10
+    weapons:
+    - name: Synaptic disintegrator
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 4/3
+      rules:
+      - Devastating 2
+      - Heavy (Dash only)
+      - Piercing 1, Severe
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Deathmarked
+      description: Whenever this operative ends the Shoot action, the target gains
+        one of your Deathmarked tokens if it wasn't incapacitated (the primary target,
+        if relevant). Whenever a friendly HIEROTEK CIRCLE DEATHMARK operative is shooting
+        an enemy operative that has one of your Deathmarked tokens, that friendly
+        operative's ranged weapons have the Seek weapon rule.
+      cost: 1AP
+    - name: Multi-Dimensional Vision
+      description: "\U0001F7E2 Until the start of this operative's next activation,\
+        \ whenever it's shooting, enemy operatives cannot be obscured. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Immortal Despotek
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 11
+    weapons:
+    - name: Gauss blaster
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Tesla carbine
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - 2" Devastating 1
+    - name: Bayonet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Steadfast
+      description: Whenever determining control of a marker, you can treat this operative's
+        APL stat as 3. If you do, this takes precedence over all other rules, meaning
+        any changes to its APL stat are ignored for this.
+      cost: 1AP
+    - name: Interstitial Command
+      description: "\U0001F7E2 SUPPORT . Select one other friendly HIEROTEK CIRCLE\
+        \ operative (excluding APPRENTEK and CRYPTEK ) visible to and within 6\" of\
+        \ this operative. That selected operative can immediately perform a 1AP action\
+        \ for free (excluding Accelerate ); it cannot move more than or be removed\
+        \ and set up more than 2\" during that action, perform an action it's already\
+        \ performed during this turning point, or perform that action again during\
+        \ this turning point. \U0001F534 This operative cannot perform this action\
+        \ while within control range of an enemy operative, or while counteracting."
+      cost: 0AP
+  - name: Immortal Guardian
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 10
+    weapons:
+    - name: Gauss blaster
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Tesla carbine
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - 2" Devastating 1
+    - name: Bayonet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Steadfast
+      description: Whenever determining control of a marker, you can treat this operative's
+        APL stat as 3. If you do, this takes precedence over all other rules, meaning
+        any changes to its APL stat are ignored for this.
+      cost: 0AP

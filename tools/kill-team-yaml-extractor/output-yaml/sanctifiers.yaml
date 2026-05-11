@@ -1,0 +1,524 @@
+team:
+  name: Sanctifiers
+  version: v1.5.1
+  last_updated: 09 Apr 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: The Emperor Protects
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly SANCTIFIER operative
+      that's benefitting from the SERMON , you can re-roll any of your defence dice
+      results of one result (e.g. results of 2).
+  - name: Fervent Brawl
+    cost: 1CP
+    description: Whenever a friendly SANCTIFIER operative that's benefitting from
+      the SERMON is fighting or retaliating, its melee weapons have the Ceaseless
+      weapon rule.
+  - name: Zealous Persecution
+    cost: 1CP
+    description: Whenever a friendly SANCTIFIER operative is fighting during an activation
+      in which it performed the Charge action, its melee weapons have the Lethal 5+
+      weapon rule.
+  - name: Rally The Flock
+    cost: 1CP
+    description: Each friendly SANCTIFIER operative (excluding ORATOR ) that's benefitting
+      from the SERMON can immediately perform a free Dash or Fall Back action in an
+      order of your choice (choose separately for each and, for the latter, it cannot
+      move more than 3"). Each that does so must end that move closer and visible
+      to (or vice versa) a friendly ORATOR operative.
+  firefight_ploys:
+  - name: Rosarius
+    cost: 1CP
+    description: Use this firefight ploy when an attack dice inflicts Normal Dmg on
+      a friendly SANCTIFIER operative. Ignore that inflicted damage.
+  - name: Ardent Eradication
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      SANCTIFIER operative, if it's shooting against or fighting against an enemy
+      operative that's within 3" of a friendly ORATOR operative (or 6" if the ORATOR
+      is a CONFESSOR ). You can re-roll any of your attack dice.
+  - name: Redeemed Through Fire
+    cost: 1CP
+    description: Use this firefight ploy when a friendly SANCTIFIER operative that
+      has a weapon with the Blaze weapon rule is incapacitated, before it's removed
+      from the killzone. Each enemy operative visible to and within 2" of it gains
+      one of your Blaze tokens (if it doesn't already have one).
+  - name: Unwavering Devotion
+    cost: 1CP
+    description: Use this firefight ploy when a friendly SANCTIFIER ORATOR or SANCTIFIER
+      MIRACULIST operative is selected as the valid target of a Shoot action or to
+      fight against during the Fight action. Select one other friendly SANCTIFIER
+      operative (excluding CONFESSOR , MIRACULIST and ORATOR ) visible to and within
+      3" of that first friendly operative to become the valid target or to be fought
+      against (as appropriate) instead (even if it wouldn't normally be valid for
+      this). If it's the Fight action, treat that other operative as being within
+      the fighting operative's control range for the duration of that action. If it's
+      the Shoot action, that other operative is only in cover or obscured if the original
+      target was. This ploy has no effect if it's the Shoot action and the ranged
+      weapon has the Blast or Torrent weapon rule.
+  operatives:
+  - name: Confessor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Mace of Censure
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/5
+      rules:
+      - Brutal
+      - Shock
+    rules:
+    - name: Lead the Procession
+      description: In each turning point after the first, whenever this operative
+        is an ORATOR and performs the Charge , Fall Back or Reposition action during
+        its activation, you can use this rule before it moves. If you do, determine
+        each other friendly SANCTIFIER operative that's benefitting from the SERMON
+        and is visible to this operative (or vice versa).. After this operative ends
+        that action, each of those friendly SANCTIFIER operatives can immediately
+        perform a free Charge , Fall Back or Reposition action in an order of your
+        choice (choose separately for each), but each cannot move more than or be
+        removed and set up more than 3" and must end that move in a location where
+        they are still benefitting from the SERMON . If this operative is incapacitated
+        before this rule is fully resolved, e.g. from the Guard action's interruption,
+        don't remove it from the killzone until this rule has been resolved.
+      cost: 0AP
+    - name: Commanding Declamation
+      description: Whenever an enemy operative would perform an action during an activation
+        or counteraction while visible to and within 6" of this
+      cost: 0AP
+    - name: operative, you can use this rule. If you do, roll one D6
+      description: if the result is higher than
+      cost: 0AP
+    - name: that enemy operative's APL stat
+      description: "\u25CF It cannot perform that action during that activation/ counteraction\
+        \ (the AP spent on it isn't refunded). If it's a counteraction, that counteraction\
+        \ ends. \u25CF You cannot use this rule again during the battle. Kill Team\
+        \ Reference Sheet by James And The Giant Squig - Version 1.5.1 (updated 09\
+        \ Apr 2026) SANCTIFIERS"
+      cost: 0AP
+  - name: Conflagrator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Twin hand flamers (Focused)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Saturate
+      - Torrent 2"
+      - Blaze *
+    - name: Twin hand flamers (Twin torrent)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Saturate
+      - Torrent 0"
+      - Twin Torrent *
+      - Blaze *
+    - name: Gun butts
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: "\xB9 Twin Torrent"
+      description: "\u2018Select up to two different valid targets that aren't within\
+        \ control range of friendly operatives. Shoot with this weapon against both\
+        \ of them in an order of your choice (roll each sequence separately). Torrent\
+        \ 0\" means you cannot select secondary targets, but this weapon still has\
+        \ the Torrent weapon rule for all other rules purposes, e.g. the Condensed\
+        \ Stronghold rule (see Killzone: Volkus, Kill Team Core Book)."
+      cost: 0AP
+    - name: Sanctification Rack
+      description: This operative can perform the Sanctification Orb action (see faction
+        equipment). Doing so in this manner doesn't count towards the once per turning
+        point limit (i.e. if you also select that equipment for other operatives).
+      cost: 0AP
+  - name: Death Cult Assassin
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Throwing knives
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/5
+      rules:
+      - Rng 6"
+      - Silent
+    - name: Ritual blades
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 4/6
+      rules: []
+    rules:
+    - name: Bladed Stance
+      description: Whenever this operative is fighting or retaliating, you can resolve
+        one of your successes before the normal order. If you do, that success must
+        be used to block.
+      cost: 1AP
+    - name: Trained Assassin
+      description: "\U0001F7E2 Change this operative's order \U0001F534 This operative\
+        \ cannot perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Drill Abbot
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Great hammer
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules:
+      - Brutal
+      - Shock
+    rules:
+    - name: Schola Progenium Disciplinarian
+      description: Whenever a friendly SANCTIFIER operative is within 6" of this operative,
+        you can ignore any changes to that operative's stats from being injured (including
+        its weapons' stats).
+      cost: 0AP
+    - name: Null Skull
+      description: Whenever an enemy operative is within 4" of this operative, that
+        enemy operative's APL stat cannot be added to (remove all positive APL stat
+        changes it has). If an enemy operative that's more than 4" from this operative
+        has a positive APL stat change and your opponent spends its final AP to move
+        that operative within 4" of this operative, this can cause your opponent to
+        have spent more AP than its APL stat - this is permitted in this situation.
+      cost: 0AP
+  - name: Miraculist
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Holy light
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/3
+      rules:
+      - Rng 8"
+      - Devastating 3
+      - Limited 1
+      - Piercing 1
+    - name: Wreathe in fire
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Blast 1"
+      - Limited 1
+      - Wreathed *
+      - Blaze *
+    - name: Burning hands
+      type: Melee
+      a: 1
+      bs_ws: 2+
+      d: 7/8
+      rules:
+      - Brutal
+      - Limited 1
+      - Blaze *
+    - name: Fists
+      type: Melee
+      a: 2
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: "\xB9Wreathed"
+      description: This operative can perform the Shoot action with this weapon while
+        within control range of an enemy operative. Don't select a valid target. Instead,
+        this operative is always the primary target, but only shoot against secondary
+        targets and they cannot be in cover or obscured (in other words, determine
+        Blast from this operative, but this operative isn't affected).
+      cost: 0AP
+    - name: Miracle
+      description: The first time this operative would be incapacitated during the
+        battle, it's not incapacitated, has 1 wound remaining and cannot be incapacitated
+        for the remainder of the action. All remaining attack dice are discarded (including
+        yours if this operative is fighting or retaliating), then this operative can
+        immediately perform a free Dash or Fall Back action (for the latter, it cannot
+        move more than 3"), even if it's performed an action that prevents it from
+        performing those actions.
+      cost: 0AP
+  - name: Missionary
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Brazier of holy fire
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 4"
+      - Saturate
+      - Torrent 1"
+      - Blaze *
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Ministorum flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+      - Blaze *
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Brazier of holy fire
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules:
+      - Shock
+      - Blaze *
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Holy Relic
+      description: If this operative has a holy relic, it's always benefitting from
+        the SERMON .
+      cost: 0AP
+    - name: Spread the Word of the God-Emperor
+      description: Whenever this operative is more than 6" from other friendly operatives,
+        its weapons have the Severe weapon rule.
+      cost: 0AP
+  - name: Persecutor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Hand flamer
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Saturate
+      - Torrent 1"
+      - Blaze *
+    - name: Eviscerator
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Brutal
+    rules:
+    - name: Merciless Castigation
+      description: The first time this operative performs the Fight action during
+        each of its activations, if neither it nor the enemy operative in that sequence
+        is incapacitated, this operative can immediately perform a free Fight action
+        afterwards, but you cannot select any other enemy operative to fight against
+        during that action (and only if it's still valid to fight against). This takes
+        precedence over action restrictions.
+      cost: 0AP
+    - name: Fanatical Retribution
+      description: If this operative is incapacitated during the Fight action, you
+        can strike the enemy operative in that sequence with one of your unresolved
+        successes before this operative is removed from the killzone.
+      cost: 0AP
+  - name: Preacher
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Hand flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Saturate
+      - Torrent 1"
+      - Blaze *
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Defend the Faith
+      description: Whenever this operative controls an objective marker, it's benefitting
+        from the SERMON .
+      cost: 0AP
+  - name: Reliquant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Hand flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Saturate
+      - Torrent 1"
+      - Blaze *
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Cult Icon
+      description: Whenever determining control of a marker within 4" of this operative,
+        treat the total APL stat of friendly SANCTIFIER operatives that contest it
+        as 1 higher if at least one friendly SANCTIFIER operative contests that marker.
+        Note this isn't a change to the APL stat, so any changes are cumulative with
+        this.
+      cost: 0AP
+    - name: Imperial Cult Devotion
+      description: Once per turning point, when a ready friendly SANCTIFIER operative
+        is incapacitated while visible to and within 6" of this operative, you can
+        use this rule. If you do, before that operative is removed from the killzone,
+        it can perform one free action (excluding Fight ), and you can change its
+        order to do so. It's then removed from the killzone as normal.
+      cost: 0AP
+  - name: Salvationist
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Soulstave
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Conversion Field
+      description: Whenever an operative more than 6" from this operative is shooting
+        a friendly SANCTIFIER operative within 6" of this operative, improve that
+        friendly operative's Save stat by 1.
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly SANCTIFIER operative within this\
+        \ operative's control range to regain up to 2D3 lost wounds \U0001F534 This\
+        \ operative cannot perform this action while within control range of an enemy\
+        \ operative."
+      cost: 0AP
+  - name: Cherub
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Incentiviser
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/3
+      rules:
+      - Shock
+    rules:
+    - name: Cherub
+      description: "\u25CF Whenever determining control of an objective marker, treat\
+        \ this operative's APL stat as 1 lower. Note this isn't a change to its APL\
+        \ stat, so any changes are cumulative with this. \u25CF Whenever this operative\
+        \ has a Conceal order and is in cover, it cannot be selected as a valid target,\
+        \ taking precedence over all other rules (e.g. Seek, Vantage terrain) except\
+        \ being within 2\". \u25CF This operative cannot use any weapons that aren't\
+        \ on its datacard, or perform unique actions other than Incentivise ."
+      cost: 0AP
+    - name: Fly
+      description: 'Whenever this operative is performing the Charge , Fall Back or
+        Reposition action, it can FLY . If it does, don''t move it. Instead, remove
+        it from the killzone and set it back up wholly within a distance equal to
+        its Move stat horizontally of its original location (in a killzone that uses
+        the close quarters rules, e.g. Killzone: Gallowdark, this distance cannot
+        be measured over or through Wall terrain). Note that it gains no additional
+        distance when performing the Charge action. It must be set up in a location
+        it can be placed, and unless it''s the Charge action, it cannot be set up
+        within control range of an enemy operative.'
+      cost: 1AP
+    - name: Incentivise
+      description: "\U0001F7E2 SUPPORT . Select one other friendly SANCTIFIER operative\
+        \ (excluding CONFESSOR , DEATH CULT ASSASSIN , MIRACULIST and ORATOR ) visible\
+        \ to and within 2\" of this operative. Until the end of that operative's next\
+        \ activation, add 1 to its APL stat. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative."
+      cost: 0AP

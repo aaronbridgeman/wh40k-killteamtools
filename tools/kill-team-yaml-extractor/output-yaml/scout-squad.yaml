@@ -1,0 +1,327 @@
+team:
+  name: Scout Squad
+  version: v1.8
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Infiltration
+  - Recon
+  strategy_ploys:
+  - name: Adaptable Training
+    cost: 1CP
+    description: You can change the order of up to D3 friendly SCOUT SQUAD operatives
+      that are more than 4" from enemy operatives.
+  - name: Ambush
+    cost: 1CP
+    description: "Whenever a friendly SCOUT SQUAD operative is shooting or fighting\
+      \ during its activation, if its order was changed from Conceal to Engage at\
+      \ the start of that activation, or it wasn't visible to enemy operatives at\
+      \ the start of that activation: \u25CF Its weapons have the Balanced weapon\
+      \ rule. \u25CF If the target is expended, its weapons have the Ceaseless weapon\
+      \ rule instead."
+  - name: Guerilla Engagement
+    cost: 1CP
+    description: Whenever an enemy operative is shooting a friendly SCOUT SQUAD operative,
+      if that friendly operative is in cover and more than 6" from enemy operatives
+      it's visible to, you can re-roll one of your defence dice.
+  - name: Stealth Relocation
+    cost: 1CP
+    description: Up to D3 friendly SCOUT SQUAD operatives that have a Conceal order
+      and are more than 4" from enemy operatives can immediately perform a free Dash
+      action.
+  firefight_ploys:
+  - name: Astartes Training
+    cost: 1CP
+    description: "Use this firefight ploy during a friendly SCOUT SQUAD operative's\
+      \ activation. Until the end of that activation, that operative can do one of\
+      \ the following: \u25CF Perform two Fight actions. \u25CF Perform two Shoot\
+      \ actions if an Astartes shotgun, bolt pistol or boltgun is selected for at\
+      \ least one of them. \u25CF Perform two Shoot actions with a heavy bolter, missile\
+      \ launcher or sniper rifle, but 1 additional AP must be spent for the second\
+      \ action."
+  - name: Covert Position
+    cost: 1CP
+    description: Use this firefight ploy during a friendly SCOUT SQUAD operative's
+      activation. Until the start of its next activation, while that operative has
+      a Conceal order and is in cover, it cannot be selected as a valid target, taking
+      precedence over all other rules (e.g. Seek, Vantage terrain) except being within
+      2".
+  - name: Emboldened Aspirant
+    cost: 1CP
+    description: Use this firefight ploy when a friendly SCOUT SQUAD operative performs
+      the Shoot or Fight action, after any re-rolls. If it's the first friendly operative
+      to perform either of those actions during this turning point, or if the enemy
+      operative in that action (primary target, if relevant) has a higher Wounds stat
+      than that friendly SCOUT SQUAD operative, you can retain one of your normal
+      successes as a critical success instead.
+  - name: Raw Physiology
+    cost: 1CP
+    description: Use this firefight ploy during a friendly SCOUT SQUAD operative's
+      activation, before or after it performs an action. Until the start of its next
+      activation, add 1" to its Move stat and you can ignore any changes to that operative's
+      stats from being injured (including its weapon's stats).
+  operatives:
+  - name: Sergeant
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 4+
+      w: 11
+    weapons:
+    - name: Astartes shotgun
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Guidance and Experience
+      description: Once during each of this operative's activations, you can select
+        one other friendly SCOUT SQUAD operative in the killzone. Until the end of
+        that operative's next activation, add 1 to its APL stat.
+      cost: 0AP
+    - name: Astartes
+      description: During this operative's activation, it can perform either two Shoot
+        actions or two Fight actions. If it's two Shoot actions, an Astartes shotgun,
+        bolt pistol or boltgun must be selected for at least one of them. This operative
+        can counteract regardless of its order.
+      cost: 0AP
+  - name: Heavy Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 10
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Heavy bolter (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Heavy (Dash Only)
+      - Piercing Crits 1
+    - name: Heavy bolter (Sweep)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Heavy (Dash Only)
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Missile Launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Blast 2"
+      - Heavy (Dash Only)
+    - name: Missile Launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Heavy (Dash Only)
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Heavy Weapon Bipod
+      description: Whenever this operative is shooting with a weapon from its datacard,
+        if it hasn't moved during the activation, or if it's a counteraction, that
+        weapon has the Ceaseless weapon rule; if the weapon already has that weapon
+        rule (i.e. from the Ambush strategy ploy), it has the Relentless weapon rule
+        instead. Note that this operative isn't restricted from moving after shooting.
+      cost: 0AP
+  - name: Hunter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 10
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Combat blade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Grapnel Launcher
+      description: Whenever this operative is climbing up, you can treat the vertical
+        distance as 2" (regardless of how far the operative moves vertically).
+      cost: 0AP
+    - name: Grapnel Assault
+      description: Whenever this operative performs the Charge action during its activation,
+        if it climbs, drops, jumps or its base moves underneath Vantage terrain during
+        that action, its melee weapons have the Lethal 3+ weapon rule until the end
+        of that activation.
+      cost: 0AP
+  - name: Sniper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 10
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy (Dash only)
+      - Silent
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Camo Cloak
+      description: Whenever an operative is
+      cost: 0AP
+    - name: shooting this operative
+      description: "\u25CF Ignore the Saturate weapon rule. \u25CF If you can retain\
+        \ any cover saves, you can retain one additional cover save, or you can retain\
+        \ one cover save as a critical success instead. This isn't cumulative with\
+        \ improved cover saves from vantage terrain."
+      cost: 1AP
+    - name: Optics
+      description: "\U0001F7E2 Until the start of this operative's next activation,\
+        \ whenever it's shooting, enemy operatives cannot be obscured. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Tracker
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 10
+    weapons:
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - (whichever comes first), whenever a
+    rules: []
+  - name: Warrior
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 10
+    weapons:
+    - name: Astartes shotgun
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Combat blade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Adaptive Equipment
+      description: You can do one of each of the following once per turning
+      cost: 0AP
+    - name: point
+      description: "\u25CF One SCOUT SQUAD WARRIOR can perform the Smoke Grenade action.\
+        \ \u25CF One SCOUT SQUAD WARRIOR can perform the Stun Grenade action. The\
+        \ rules for these actions are found in universal equipment. Performing these\
+        \ actions using this rule doesn't count towards their action limits (i.e,\
+        \ if you select those grenades from equipment)."
+      cost: 0AP

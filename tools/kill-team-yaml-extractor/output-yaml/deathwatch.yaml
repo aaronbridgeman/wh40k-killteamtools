@@ -1,0 +1,479 @@
+team:
+  name: Deathwatch
+  version: v1.3
+  last_updated: 28 Jan 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Mission Tactics
+    cost: 1CP
+    description: Select Conceal or Engage. Whenever a friendly DEATHWATCH operative
+      is shooting against or fighting against an enemy operative that has that order,
+      that friendly operative's weapons have the Balanced weapon rule.
+  - name: The Long Vigil
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly DEATHWATCH operative
+      that's wholly within your territory, you can re-roll one of your defence dice.
+  - name: The Shield That Slays
+    cost: 1CP
+    description: Whenever a friendly DEATHWATCH operative is wholly within your opponent's
+      territory, Normal Dmg of 4 or more inflicts 1 less damage on it.
+  - name: They Shall Know No Fear
+    cost: 1CP
+    description: You can ignore any changes to the stats of friendly DEATHWATCH operatives
+      from being injured (including their weapons' stats).
+  firefight_ploys:
+  - name: Suffer Not The Alien
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      DEATHWATCH operative, if it's shooting against or fighting against an operative
+      that doesn't have the CHAOS or IMPERIUM keyword. You can re-roll any of your
+      attack dice.
+  - name: Auspicator Tracking
+    cost: 1CP
+    description: Use this firefight ploy when a friendly DEATHWATCH operative is counteracting,
+      before it performs any actions. You can change its order.
+  - name: Advanced Auspex Scan
+    cost: 1CP
+    description: Use this firefight ploy when a friendly DEATHWATCH operative performs
+      the Shoot action. Until the end of the activation/ counteraction, its ranged
+      weapons have the Saturate weapon rule and enemy operatives cannot be obscured.
+  - name: Transhuman Physiology
+    cost: 1CP
+    description: Use this firefight ploy when an operative is shooting a friendly
+      DEATHWATCH operative, in the Roll Defence Dice step. You can retain one of your
+      normal successes as a critical success instead.
+  operatives:
+  - name: Watch Sergeant
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Adaptable Armoury
+      description: You can select one additional equipment option.
+      cost: 0AP
+    - name: Strategic Command
+      description: You can do each of the following once per battle if this
+      cost: 0AP
+    - name: operative is in the killzone
+      description: "\u25CF Use a DEATHWATCH strategy ploy for 0CP. \u25CF Use a DEATHWATCH\
+        \ firefight ploy for 0CP."
+      cost: 0AP
+  - name: Aegis
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 2+
+      w: 15
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Power maul & storm shield
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Shock
+      - Shield *
+    rules:
+    - name: '* Shield'
+      description: Whenever this operative is fighting or retaliating with this weapon,
+        each of your blocks can be allocated to block two unresolved successes (instead
+        of one).
+      cost: 0AP
+    - name: Storm Shield
+      description: Whenever an operative is shooting this operative, worsen the x
+        of the Piercing weapon rule by 1 (if any). Note that Piercing 1 would therefore
+        be ignored
+      cost: 0AP
+  - name: Blademaster
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Special issue bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Xenophase blade (Duel)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Brutal
+      - Lethal 5+
+    - name: Xenophase blade (Phase sweep)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Brutal
+      - Lethal 5+
+      - Phase Sweep *
+    rules:
+    - name: Adaptive Swordsmanship
+      description: You can ignore any changes to the Hit stat of this operative's
+        xenophase blade. Whenever this operative is fighting or retaliating, you can
+        resolve one of your successes before the normal order. If you do, that success
+        must be used to block.
+      cost: 0AP
+    - name: '* Phase Sweep'
+      description: Whenever this operative performs the Fight action with this weapon
+        profile, if it isn't incapacitated, it can immediately perform a free Fight
+        action afterwards, but you must select this weapon profile and it can only
+        fight against each enemy operative within its control range once per activation
+        or counteraction using this weapon profile. This takes precedence over action
+        restrictions, and you can continue to perform free Fight actions until this
+        operative is incapacitated or has fought against every enemy operative within
+        its control range.
+      cost: 0AP
+  - name: Bombard
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 18
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Frag cannon (Shell)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Piercing 1
+    - name: Frag cannon (Shrapnel)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Torrent 2"
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Breacher
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 18
+    weapons:
+    - name: Auxiliary grenade launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Auxiliary grenade launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Hellstorm bolt rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Torrent 1"
+    - name: Melta bomb
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/3
+      rules:
+      - Rng 3"
+      - Devastating 3
+      - Heavy
+      - (Reposition only), Limited 1, Piercing 2
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Demolisher
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Heavy thunder hammer
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 6/7
+      rules:
+      - Shock
+      - Stun
+    rules:
+    - name: Brutal Assault
+      description: Whenever this operative is fighting, its heavy thunder hammer has
+        the Brutal weapon rule. Whenever this operative performs the Charge action,
+        its heavy thunder hammer has the Ceaseless weapon rule until the end of the
+        activation/counteraction.
+      cost: 0AP
+    - name: Aggressive Force
+      description: Whenever this operative is fighting or retaliating, Normal and
+        Critical Dmg of 3 or more inflicts 1 less damage on it. This isn't cumulative
+        with the Shield that Slays strategy ploy.
+      cost: 0AP
+  - name: Disruptor
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Marksman bolt carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Lethal 5+
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Advanced Omni-Scrambler
+      description: STRATEGIC GAMBIT . Select one enemy operative visible to or within
+        6" of this operative, then roll one D6. In the following Firefight phase,
+        that enemy operative cannot be activated or perform actions until one of
+      cost: 0AP
+    - name: the following is true
+      description: "\u25CF Your opponent has activated a number of enemy operatives\
+        \ equal to the result of the D6. \u25CF It's the last enemy operative to be\
+        \ activated."
+      cost: 0AP
+    - name: Auspex Triangulation
+      description: The Advanced Auspex Scan firefight ploy costs you 0CP
+      cost: 0AP
+    - name: when both of the following are true
+      description: "\u25CF This operative isn't within control range of enemy operatives.\
+        \ \u25CF The target of that Shoot action (primary target, if relevant) is\
+        \ visible to this operative. Note that it doesn't have to be this operative\
+        \ performing the Shoot action, and that any subsequent Shoot actions during\
+        \ that activation/counteraction must meet these same requirements (or that\
+        \ ploy has no effect on those subsequent Shoot actions."
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Heavy plasma incinerator (Standard)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Heavy plasma incinerator (Supercharge)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Headtaker
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 13
+    weapons:
+    - name: Special issue bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Combat knives
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Grav-chute and Grapnel Launcher
+      description: Whenever this operative is climbing, treat the vertical distance
+        as 2" (regardless of how far the operative actually moves vertically). Whenever
+        this operative is dropping, ignore the vertical distance.
+      cost: 0AP
+    - name: Clandestine Headtaker
+      description: This operative can perform the Charge action while it has a Conceal
+        order. Whenever this operative is fighting against an operative it wasn't
+        visible to at the start of the activation/counteraction, the first time you
+        strike during that sequence, you can immediately resolve another of your successes
+        as a strike (before your opponent).
+      cost: 0AP
+  - name: Horde-Slayer
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 18
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Infernus heavy bolter (Flame)
+      type: Ranged
+      a: 5
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate. Torrent 2"
+    - name: Infernus heavy bolter (Focused bolt)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing Crits 1
+    - name: Infernus heavy bolter (Sweeping bolt)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Marksman
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Stalker bolt rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Stalker bolt rifle (Heavy)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/5
+      rules:
+      - Heavy (Dash only)
+      - Lethal 5+
+      - Piercing Crits 1
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Vigilant Marksman
+      description: This operative can perform the Guard action during its activation
+        regardless of the killzone. When using the close quarters rules, once per
+        turning point, after this operative performs a free Shoot action on guard,
+        it can immediately perform a free Guard action. However, if it does, it cannot
+        counteract (nor Guard twice if it's counteracted).
+      cost: 0AP

@@ -1,0 +1,516 @@
+team:
+  name: Angels Of Death
+  version: v1.3
+  last_updated: 28 Jan 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Combat Doctrine
+    cost: 1CP
+    description: "Select one COMBAT DOCTRINE from those presented below. Whenever\
+      \ a friendly ANGEL OF DEATH operative is x, its weapons have the Balanced weapon\
+      \ rule. X is the COMBAT DOCTRINE you selected. \u25CF Devastator Doctrine :\
+      \ Shooting an operative more than 6\" from it. \u25CF Tactical Doctrine : Shooting\
+      \ an operative within 6\" of it. \u25CF Assault Doctrine : Fighting or retaliating."
+  - name: And They Shall Know No Fear
+    cost: 1CP
+    description: You can ignore any changes to the stats of friendly ANGEL OF DEATH
+      operatives from being injured (including their weapons' stats).
+  - name: Adaptive Tactics
+    cost: 1CP
+    description: Change your secondary CHAPTER TACTIC . Note this ploy only lasts
+      until the end of the turning point, at which point your original secondary CHAPTER
+      TACTIC returns.
+  - name: Indomitus
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly ANGEL OF DEATH operative,
+      if you roll two or more fails, you can discard one of them to retain another
+      as a normal success instead.
+  firefight_ploys:
+  - name: Adjust Doctrine
+    cost: 1CP
+    description: Use this firefight ploy during a friendly ANGEL OF DEATH operative's
+      activation, before or after it performs an action. If you've used the Combat
+      Doctrine strategy ploy during this turning point, change the COMBAT DOCTRINE
+      you selected.
+  - name: Transhuman Physiology
+    cost: 1CP
+    description: Use this firefight ploy when an operative is shooting a friendly
+      ANGEL OF DEATH operative, in the Roll Defence Dice step. You can retain one
+      of your normal successes as a critical success instead.
+  - name: Shock Assault
+    cost: 1CP
+    description: "Use this firefight ploy when a friendly ANGEL OF DEATH operative\
+      \ is performing the Fight action during an activation in which it performed\
+      \ the Charge action, at the start of the Resolve Attack Dice step. Until the\
+      \ end of that action: \u25CF Its melee weapon has the Shock weapon rule. \u25CF\
+      \ The first time you strike during that sequence, inflict 1 additional damage\
+      \ (to a maximum of 7)."
+  - name: Wrath Of Vengeance
+    cost: 1CP
+    description: Use this firefight ploy when a friendly ANGEL OF DEATH operative
+      is counteracting. It can perform an additional 1AP action for free during that
+      counteraction, but both actions must be different.
+  operatives:
+  - name: Captain
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Power fist
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Brutal
+    rules:
+    - name: Heroic Leader
+      description: "Once per turning point, you can do one of the following: \u25CF\
+        \ Use a firefight ploy for 0CP if this is the specified ANGEL OF DEATH operative\
+        \ (excluding Command Re-roll). \u25CF Use the Combat Doctrine strategy ploy\
+        \ when you activate a friendly ANGEL OF DEATH operative if this operative\
+        \ is in the killzone and isn't within control range of enemy operatives (pay\
+        \ its CP cost as normal). Note that you cannot do so if you've already used\
+        \ that ploy during this turning point. \u25CF Use the Adjust Doctrine firefight\
+        \ ploy for 0CP if this operative is in the killzone and isn't within control\
+        \ range of enemy operatives."
+      cost: 0AP
+    - name: Iron Halo
+      description: Once per battle, when an attack dice inflicts Normal Dmg on this
+        operative, you can ignore that inflicted damage.
+      cost: 0AP
+  - name: Assault Intercessor Sergeant
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Hand flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Saturate
+      - Torrent 1"
+    - name: Heavy bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Piercing Crits 1
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Power fist
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Brutal
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Thunder hammer
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Shock
+      - Stun
+    rules:
+    - name: Doctrine Warfare
+      description: "You can do each of the following once per battle: \u25CF Whenever\
+        \ you would use the Combat Doctrine strategy ploy and then select Assault,\
+        \ if this operative is in the killzone, it costs you 0CP. \u25CF Whenever\
+        \ you would use the Combat Doctrine strategy ploy and then select Tactical,\
+        \ if this operative is in the killzone, it costs you 0CP."
+      cost: 0AP
+    - name: Chapter Veteran
+      description: At the end of the Select Operatives step, if this operative is
+        selected for deployment, select one additional CHAPTER TACTIC for it to have
+        for the battle. Unlike primary and secondary CHAPTER TACTICS , you don't have
+        to select the same one for each battle in a campaign or tournament.
+      cost: 0AP
+  - name: Intercessor Sergeant
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Auto bolt rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Torrent 1"
+    - name: Bolt rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Stalker bolt rifle (Heavy)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Heavy (Dash only) Lethal 5+
+      - Piercing Crits 1
+    - name: Stalker bolt rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Power fist
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Brutal
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Thunder hammer
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Shock
+      - Stun
+    rules:
+    - name: Doctrine Warfare
+      description: "You can do each of the following once per battle: \u25CF Whenever\
+        \ you would use the Combat Doctrine strategy ploy and then select Devastator,\
+        \ if this operative is in the killzone, it costs you 0CP. \u25CF Whenever\
+        \ you would use the Combat Doctrine strategy ploy and then select Tactical,\
+        \ if this operative is in the killzone, it costs you 0CP."
+      cost: 0AP
+    - name: Chapter Veteran
+      description: At the end of the Select Operatives step, if this operative is
+        selected for deployment, select one additional CHAPTER TACTIC for it to have
+        for the battle. Unlike primary and secondary CHAPTER TACTICS , you don't have
+        to select the same one for each battle in a campaign or tournament.
+      cost: 0AP
+  - name: Assault Intercessor Grenadier
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Heavy bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Piercing Crits 1
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Grenadier
+      description: This operative can use frag and krak grenades (see universal equipment).
+        Doing so doesn't count towards any limited uses you have (i.e. if you also
+        select those grenades from equipment for other operatives). Whenever it's
+        doing so, improve the Hit stat of that weapon by 1.
+      cost: 0AP
+  - name: Assault Intercessor
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Heavy bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Piercing Crits 1
+    - name: Chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules: []
+  - name: Eliminator Sniper
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 12
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Bolt sniper rifle (Executioner)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/4
+      rules:
+      - Heavy (Dash only)
+      - Saturate
+      - Seek Light
+      - Silent
+    - name: Bolt sniper rifle (Hyperfrag)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 2/4
+      rules:
+      - Blast 1"
+      - Heavy (Dash only)
+      - Silent
+    - name: Bolt sniper rifle (Mortis)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy (Dash only)
+      - Piercing 1
+      - Silent
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Camo Cloak
+      description: Whenever an operative is shooting this operative, ignore the Saturate
+        weapon rule. This operative has the Stealthy CHAPTER TACTIC . If you selected
+        that CHAPTER TACTIC , you can do both of its options (i.e. retain two cover
+        saves - one normal and one critical success).
+      cost: 1AP
+    - name: Optics
+      description: "\U0001F7E2 Until the start of this operative's next activation,\
+        \ whenever it's shooting, enemy operatives cannot be obscured. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Heavy Intercessor Gunner
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 18
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Heavy bolter (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing Crits 1
+    - name: Heavy bolter (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Intercessor Gunner
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Auto bolt rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Torrent 1"
+    - name: Auxiliary grenade launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Auxiliary grenade launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Bolt rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Stalker bolt rifle (Heavy)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Heavy (Dash only) Lethal 5+
+      - Piercing Crits 1
+    - name: Stalker bolt rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Intercessor Warrior
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Auto bolt rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Torrent 1"
+    - name: Bolt rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Stalker bolt rifle (Heavy)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Heavy (Dash only) Lethal 5+
+      - Piercing Crits 1
+    - name: Stalker bolt rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []

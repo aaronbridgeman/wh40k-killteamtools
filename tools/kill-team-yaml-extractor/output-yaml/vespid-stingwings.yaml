@@ -1,0 +1,313 @@
+team:
+  name: Vespid Stingwings
+  version: v1.2.1
+  last_updated: 09 May 2025
+  archetypes:
+  - Recon
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Hardened Exoskeleton
+    cost: 1CP
+    description: Whenever a friendly VESPID STINGWING operative (excluding OVERSIGHT
+      DRONE ) is fighting or retaliating, Normal Dmg of 4 or more inflicts 1 less
+      damage on it.
+  - name: Aerial Agility
+    cost: 1CP
+    description: 'Whenever an operative is shooting a friendly VESPID STINGWING operative
+      while counteracting, or during an activation in which that shooting operative
+      moved or was set up, roll one D6 whenever a normal success would inflict damage:
+      On a 5+, ignore that inflicted damage. A maximum of one attack dice can be ignored
+      per shooting sequence.'
+  - name: Airborne Predators
+    cost: 1CP
+    description: Whenever a friendly VESPID STINGWING operative moves or uses FLY
+      during its activation, its weapons have the Balanced weapon rule until the end
+      of that activation.
+  - name: Sting
+    cost: 1CP
+    description: Improve the Hit stat of friendly VESPID STINGWING operatives' claws
+      by 1, and those weapons have the Lethal 5+ and Shock weapon rules.
+  firefight_ploys:
+  - name: Ocelli
+    cost: 1CP
+    description: Use this firefight ploy when a friendly VESPID STINGWING operative
+      performs the Shoot action during an activation in which it has used FLY . Until
+      the end of that action, it gains all benefits from the first and second main
+      features of Vantage terrain. When determining the height difference between
+      operatives for Vantage terrain rules, treat that friendly operative as being
+      3" higher than it currently is (but not when determining the distance for Communion).
+  - name: Darting Flight
+    cost: 1CP
+    description: Use this firefight ploy when a friendly VESPID STINGWING operative
+      performs the Reposition action. Until the end of that action, it can move an
+      additional D3", or be set up an additional D3" away if it uses FLY . In either
+      case, it cannot perform Fight or Shoot actions for the rest of the turning point.
+  - name: Neutron Overload
+    cost: 1CP
+    description: Use this firefight ploy when you resolve a critical success for a
+      friendly VESPID STINGWING operative that is shooting with a neutron weapon during
+      an activation in which it has moved or used FLY . If the target is within 4"
+      of it, inflict D3 additional damage.
+  - name: Vicious Venom
+    cost: 1CP
+    description: Use this firefight ploy when a friendly VESPID STINGWING operative
+      (excluding OVERSIGHT DRONE ) is fighting and strikes with a critical success.
+      Inflict D3 additional damage.
+  operatives:
+  - name: Strain Leader
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Neutron blaster
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 2
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Communion Helm
+      description: Once during each of this operative's activations, you can spend
+        1 Communion point for free.
+      cost: 0AP
+    - name: Commune
+      description: When selecting your operatives for the battle, also select one
+        VESPID STINGWING strategy ploy. Whenever this operative is in the killzone
+        and not within control range of an enemy operative, that ploy costs you 0CP.
+      cost: 0AP
+  - name: Oversight Drone
+    stats:
+      apl: 2
+      mv: 8"
+      sv: 2+
+      w: 5
+    weapons:
+    - name: Ram
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Evasive Drone
+      description: "\u25CF This operative cannot perform any actions other than Aerial\
+        \ Guidance , Charge , Dash , Fall Back Fight , and Reposition . \u25CF Whenever\
+        \ determining control of objective markers, treat this operative's APL stat\
+        \ as 1 lower. \u25CF Whenever determining what's visible to this operative,\
+        \ the round disc at the top of the miniature is its head. \u25CF Whenever\
+        \ this operative has a Conceal order and is in cover, it cannot be selected\
+        \ as a valid target, taking precedence over all other rules (e.g. Seek, Vantage\
+        \ terrain) except being within 2\". \u25CF Whenever an operative is shooting\
+        \ this operative, ignore the Piercing weapon rule."
+      cost: 1AP
+    - name: Aerial Guidance
+      description: "\U0001F7E2 SUPPORT , Until the start of this operative's next\
+        \ activation, whenever another friendly VESPID STINGWING operative within\
+        \ 6\" of this operative is shooting an enemy operative visible to this operative,\
+        \ that friendly operative's ranged weapons have the Lethal 5+ and Saturate\
+        \ weapon rules. This has no effect while this operative is within control\
+        \ range of an enemy operative. \U0001F534 This operative cannot perform this\
+        \ action while within control range of an enemy operative,"
+      cost: 0AP
+  - name: Longsting
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 9
+    weapons:
+    - name: Neutron rail rifle (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules:
+      - Devastating 2
+      - Neutron Fragment *
+    - name: Neutron rail rifle (Aimed)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Devastating 2
+      - Heavy (Dash only)
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: '* Neutron Fragment'
+      description: If the target isn't incapacitated but you resolve any attack dice,
+        the target gains one of your Neutron Fragment tokens. Whenever an operative
+        that has one of your Neutron Fragment tokens is activated, inflict D3 damage
+        on it for each Neutron Fragment token it has (roll separately for each).
+      cost: 0AP
+  - name: Shadestrain
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 3+
+      w: 9
+    weapons:
+    - name: Neutron sting
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Devastating 2
+    - name: Neutron grenade
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Blast 2"
+      - Devastating 2
+      - Limited 1
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Ghost Rig
+      description: While this operative has a Conceal order, your opponent cannot
+        select it as a valid target unless it's within 6" of the operative trying
+        to target it. Note that this rule has no effect if this operative is not selected
+        as the valid target, e.g. if it's a secondary target from the Blast weapon
+        rule.
+      cost: 0AP
+    - name: Camouflaged
+      description: Whenever an operative is shooting this operative, ignore the Piercing
+        weapon rule and all cover saves are retained as critical successes. This rule
+        has no effect if this operative is not selected as the valid target, e.g.
+        if it's a secondary target from the Blast weapon rule.
+      cost: 0AP
+  - name: Skyblast
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 9
+    weapons:
+    - name: launcher
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Blast 2"
+      - Devastating 2
+      - Neutron
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: '* Neutron Bombardment'
+      description: Place one of your Neutron Fallout markers within the primary target's
+        control range.
+      cost: 0AP
+    - name: Neutron Fallout
+      description: Once during each enemy operative's activation, as soon as it's
+        within 2" of one of your Neutron Fallout markers, inflict D3 damage on it
+        (multiple markers are not cumulative).
+      cost: 0AP
+  - name: Swarmguard
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 9
+    weapons:
+    - name: Flamer (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Flamer (Skytorch)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Saturate
+      - Torrent 0"
+      - Skytorch *
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Skytorch
+      description: An operative can only use this weapon during the Skytorch Assault
+        action. If it does, do not select a valid target. Instead, shoot against each
+        operative within its torch zone (excluding operatives wholly underneath Vantage
+        terrain), they are not in cover or obscured. Roll each sequence separately
+        in order of furthest operative to closest. The torch zone is the area between
+        the operative's current and previous location. A 28mm round Skytorch marker
+        can be temporarily placed underneath this operative before it moves to help
+        determine this. "Torrent 0 " means you cannot select secondary targets outside
+        of its torch zone, but this weapon still has the Torrent weapon rule for all
+        other rules purposes, e.g.
+      cost: 0AP
+    - name: the Condensed Stronghold rule ( see Killzone
+      description: Volkus, Kill Team Core Book ).
+      cost: 2AP
+    - name: Skytorch Assault
+      description: "\U0001F7E2 Perform a free Reposition action with this operative.\
+        \ During that action, it must FLY and can move an additional 2\". Then perform\
+        \ a free Shoot action. You can only select a flamer (skytorch) for that Shoot\
+        \ action. \U0001F534 This operative cannot perform this action while it has\
+        \ a Conceal order, or while within control range of an enemy operative."
+      cost: 0AP
+  - name: Warrior
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 9
+    weapons:
+    - name: Neutron blaster
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Devastating 2
+    - name: Claws
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Warrior Instincts
+      description: Whenever this operative is shooting, if you don't spend Communion
+        points during that sequence, its neutron blaster has the Accurate 1 weapon
+        rule until the end of that sequence. Version 1.2.1 (updated 09 May 2025)
+      cost: 0AP

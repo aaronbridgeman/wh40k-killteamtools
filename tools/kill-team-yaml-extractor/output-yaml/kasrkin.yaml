@@ -1,0 +1,433 @@
+team:
+  name: Kasrkin
+  version: v1.5
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Elimination Pattern
+    cost: 1CP
+    description: Whenever a friendly KASRKIN operative is shooting with a hot-shot
+      weapon against an operative that cannot retain any cover saves or is being scanned
+      (see RECON-TROOPER ), that weapon has the Piercing Crits 1 weapon rule, or Piercing
+      1 instead if it's a hot-shot volley gun.
+  - name: Engage From Cover
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly KASRKIN operative that's
+      in cover, you can re-roll one of your defence dice.
+  - name: Clearance Sweep
+    cost: 1CP
+    description: Place your Clearance Sweep marker in the killzone. Whenever a friendly
+      KASRKIN operative within 5" horizontally of that marker is shooting an operative
+      also within 5" horizontally of that marker, that friendly operative's weapons
+      have the Ceaseless weapon rule. In the Ready step of the next Strategy phase,
+      remove that marker.
+  - name: Relocate
+    cost: 1CP
+    description: Select one friendly KASRKIN operative that's more than 3" from enemy
+      operatives. That operative, and each other friendly KASRKIN operative that's
+      both within 3" of that operative and more than 3" from enemy operatives, can
+      immediately perform a free Dash action in an order of your choice. You cannot
+      use this ploy during the first turning point.
+  firefight_ploys:
+  - name: Seize The Initiative
+    cost: 1CP
+    description: Use this firefight ploy at the start of the Firefight phase. One
+      friendly KASRKIN operative can immediately perform a 1AP action for free, but
+      it cannot move during that action. You cannot use this ploy if you're the player
+      with initiative.
+  - name: Cover Retreat
+    cost: 1CP
+    description: Use this firefight ploy when a friendly KASRKIN operative performs
+      the Fall Back action while visible to and within 6" of another friendly KASRKIN
+      operative that's not within control range of enemy operatives. After that friendly
+      operative has finished moving, but before that Fall Back action ends, that other
+      friendly operative can immediately perform a free Shoot action (you can change
+      its order to Engage to do so).
+  - name: Neutralise Target
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      KASRKIN operative, if it's shooting an operative that either cannot retain any
+      cover saves or is being scanned (see RECON-TROOPER ). You can re-roll any of
+      your attack dice.
+  - name: Give No Ground
+    cost: 1CP
+    description: Use this firefight ploy during a friendly KASRKIN operative's activation,
+      or at the end of the Firefight phase. Select one of your mission markers or
+      an objective marker. Until the end of that activation or until the start of
+      the next turning point respectively, if the total APL of friendly KASRKIN operatives
+      that contest that marker is 2, and the total APL of enemy operatives that contest
+      it is the same, friendly KASRKIN operatives control that marker.
+  operatives:
+  - name: Sergeant
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Hot-shot laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Veteran Leadership
+      description: Whenever this operative is in the killzone and you use the SKILL
+        AT ARMS STRATEGIC GAMBIT , you can select one additional SKILL AT ARMS but
+        they cannot be the same.
+      cost: 0AP
+    - name: Tactical Command
+      description: "\U0001F7E2 Select one friendly KASRKIN operative, then select\
+        \ one SKILL AT ARMS for that operative to have until the Ready step of the\
+        \ next Strategy phase. This can be in addition to any SKILL AT ARMS it already\
+        \ has, but they cannot be the same. \U0001F7E2 Alternatively, instead of resolving\
+        \ the above effect, if your Clearance Sweep marker is in the killzone, you\
+        \ can remove it and place it again. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Combat Medic
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        KASRKIN operative would be incapacitated while visible to and within 3" of
+        this operative, you can use this rule, providing neither this nor that operative
+        is within control range of an enemy operative. If you do, that friendly operative
+        isn't incapacitated, has 1 wound remaining and cannot be incapacitated for
+        the remainder of the action. After that action, that friendly operative can
+        immediately perform a free Dash action, but must end that move within this
+        operative's control range. Subtract 1 from this and that operative's APL stats
+        until the end of their next activations respectively, and if this rule was
+        used during that friendly operative's activation, that activation ends. You
+        cannot use this rule if this operative is incapacitated, or if it's a Shoot
+        action and this operative would be a primary or secondary target.
+      cost: 0AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly KASRKIN operative within this operative's\
+        \ control range to regain up to 2D3 lost wounds. It cannot be an operative\
+        \ that the Medic! rule was used on during this turning point. \U0001F534 This\
+        \ operative cannot perform this action while within control range of an enemy\
+        \ operative."
+      cost: 0AP
+  - name: Demo-Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Melta Mine
+      description: This operative is carrying your Melta Mine marker. It can perform
+        the Pick Up Marker action on that marker, and whenever it performs the Place
+        Marker action on that marker, it can immediately perform a free Dash action.
+        That marker cannot be placed within an enemy operative's control range (if
+        this operative is incapacitated while carrying that marker and that marker
+        cannot be placed, it's removed with this operative).
+      cost: 0AP
+    - name: Proximity Mine
+      description: The first time your Melta Mine marker is within another operative's
+        control range, remove that marker and inflict 2D6+3 damage on that operative;
+        if it isn't incapacitated, end its action (if any), even if that action's
+        effects aren't fulfilled. If it cannot be placed, move it the minimum amount
+        to do so. Note that this operative is ignored for these effects (i.e. it cannot
+        set it off or take damage from that marker).
+      cost: 0AP
+    - name: Blast Padding
+      description: Whenever an operative is shooting this operative with a weapon
+        that has the Blast or Torrent weapon rule (excluding weapons that have a sweeping
+        profile), you can re-roll one of your defence dice. In addition, this operative
+        isn't affected by the x" Devastating x weapon rule (i.e. Devastating with
+        a distance) unless they are the target during that sequence.
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Grenade Launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Grenade Launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Hot-shot volley gun (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Hot-shot volley gun (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Recon-Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Reconnoitre Killzone
+      description: The Relocate strategy ploy costs you 0CP if this operative is the
+        selected friendly KASRKIN operative.
+      cost: 1AP
+    - name: Auspex Scan
+      description: "\U0001F7E2 Until the start of this operative's next activation\
+        \ or until it's incapacitated (whichever comes first), whenever an enemy operative\
+        \ is within 8\" of this operative, that enemy operative is being scanned.\
+        \ Whenever a friendly KASRKIN operative is shooting an enemy operative that's\
+        \ being scanned, that enemy operative cannot be obscured. \U0001F534 This\
+        \ operative cannot perform this action while within control range of an enemy\
+        \ operative."
+      cost: 0AP
+  - name: Sharpshooter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot marksman rifle (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Hot-shot marksman rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Hot-shot marksman rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 0AP
+    - name: Camo Cloak
+      description: "Whenever an operative is shooting this operative: \u25CF Ignore\
+        \ the Saturate weapon rule. \u25CF If you can retain any cover saves, you\
+        \ can retain one additional cover save, or you can retain one cover save as\
+        \ a critical success instead. This isn't cumulative with improved cover saves\
+        \ from Vantage terrain."
+      cost: 0AP
+  - name: Vox-Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Adaptive Equipment
+      description: "You can do each of the following once per turning point: \u25CF\
+        \ One KASRKIN TROOPER operative can perform the Smoke Grenade action. \u25CF\
+        \ One KASRKIN TROOPER operative can perform the Stun Grenade action. \u25CF\
+        \ The rules for these actions are found in universal equipment. Performing\
+        \ these actions using this rule doesn't count towards their action limits\
+        \ (i.e. if you also select those grenades from equipment)."
+      cost: 0AP

@@ -1,0 +1,536 @@
+team:
+  name: Ratlings
+  version: v1.6
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Infiltration
+  - Security
+  strategy_ploys:
+  - name: Sniper Positions
+    cost: 1CP
+    description: Whenever a friendly RATLING operative is more than 6" from enemy
+      operatives and within 1" of Heavy terrain, the stationary profile of its rifle
+      (if any) has the Silent weapon rule.
+  - name: Crack Shots
+    cost: 1CP
+    description: Whenever a friendly RATLING operative is shooting an enemy operative
+      more than 6" from it, if that friendly operative hasn't performed the Charge
+      , Fall Back or Reposition action during the activation, or it's a counteraction,
+      its rifle (if any) has the Balanced weapon rule.
+  - name: Shifty
+    cost: 1CP
+    description: Whenever a friendly RATLING operative (excluding OGRYN or BULLGRYN
+      ) has a Conceal order and is in cover, it cannot be selected as a valid target,
+      taking precedence over all other rules (e.g. Vantage terrain).
+  - name: Frontline Assault
+    cost: 1CP
+    description: Whenever a friendly RATLING BULLGRYN or friendly RATLING OGRYN operative
+      is shooting within, fighting within or retaliating within your opponent's territory
+      or within 3" of an objective marker, its weapons have the Balanced weapon rule.
+  firefight_ploys:
+  - name: Survival Instincts
+    cost: 1CP
+    description: Use this firefight ploy when an enemy operative is shooting or fighting
+      a friendly RATLING operative (excluding OGRYN or BULLGRYN ) and you are allocating
+      a dice normal success, it can block one unresolved critical success; block.
+      If it's a if it's a critical success, it can block two unresolved successes
+      (normal or critical).
+  - name: Sharpshot
+    cost: 1CP
+    description: Use this firefight ploy when a friendly RATLING operative is performing
+      the Shoot action with a rifle and you are selecting a valid target. Having other
+      friendly RATLING operatives within an enemy operative's control range doesn't
+      prevent that enemy operative from being selected.
+  - name: Larcenous
+    cost: 1CP
+    description: Use this firefight ploy during a friendly RATLING operative's activation
+      (excluding OGRYN or BULLGRYN ). Until the end of that activation, that operative
+      doesn't have to control a marker to perform the Pick Up Marker or mission actions
+      that usually require this (taking precedence over that action's conditions -
+      it only needs to contest the marker), and having an enemy operative within control
+      range of it doesn't prevent it from doing so.
+  - name: Shoot And Hide
+    cost: 1CP
+    description: Use this firefight ploy after a friendly RATLING operative that has
+      an Engage order performs the Shoot action with a rifle. If it's more than 3"
+      from enemy operatives, or not visible to every enemy operative, you can change
+      its order to Conceal.
+  operatives:
+  - name: Fixer
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Battle rifle
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Munitorum Contacts
+      description: You can select one additional equipment option.
+      cost: 0AP
+    - name: Target Designation
+      description: STRATEGIC GAMBIT . Select one enemy operative. Until the end of
+        the turning point, whenever a friendly RATLING operative is shooting that
+        enemy operative with a rifle, that weapon has the Lethal 5+ weapon rule.
+      cost: 0AP
+  - name: Sniper
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 6
+    weapons:
+    - name: Sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules: []
+  - name: Battlemutt
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 4
+    weapons:
+    - name: Bite
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules: []
+    rules:
+    - name: Early Warning
+      description: Once per turning point, after an enemy operative performs an action
+        in which it moves or is set up, you can interrupt to use this rule. If you
+        do, each friendly RATLING operative (excluding OGRYN and BULLGRYN ) within
+        6" of this operative and within 2" of that enemy operative can perform a free
+        Dash action or a free Fall Back action, but it cannot move more than 3". In
+        either case, each one cannot finish that move within 2" of an enemy operative
+        unless it's not visible to every enemy operative when it finishes that move
+        (if this isn't possible for an operative, it cannot move).
+      cost: 0AP
+    - name: Beast
+      description: This operative cannot perform any actions other than Charge , Dash
+        , Fall Back , Fight and Reposition . It cannot use any weapons that aren't
+        on its datacard.
+      cost: 0AP
+  - name: Bullgryn
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 16
+    weapons:
+    - name: Grenadier gauntlet
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Blast 2"
+    - name: Power maul
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Shock
+    - name: Brute shield
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Slabshield
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Shield
+      description: If this operative has a slabshield, it has a 3+ Save stat; if it
+        has a brute shield, whenever it's fighting or retaliating, each of your blocks
+        can be allocated to block two unresolved successes (instead of one).
+      cost: 0AP
+    - name: Brute
+      description: Whenever your opponent is selecting a valid target, if this operative
+        has a Conceal order, it cannot use Light terrain for cover. Whilst this can
+        allow this operative to be targeted (if it's visible), it doesn't remove its
+        cover save (if any).
+      cost: 0AP
+    - name: Slow-witted
+      description: You must spend 1 additional AP for this operative to perform the
+        Pick Up Marker and mission actions (excluding Operate Hatch ).
+      cost: 0AP
+  - name: Ogryn
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 16
+    weapons:
+    - name: Ripper gun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Punishing
+    - name: Bayonet
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Bayonet Charge
+      description: Whenever this operative finishes moving during the Charge action,
+        you can inflict D3+1 damage on one enemy operative within its control range.
+      cost: 0AP
+    - name: Brute
+      description: Whenever your opponent is selecting a valid target, if this operative
+        has a Conceal order, it cannot use Light terrain for cover. Whilst this can
+        allow this operative to be targeted (assuming it's visible), it doesn't remove
+        its cover save (if any).
+      cost: 0AP
+    - name: Slow-witted
+      description: You must spend 1 additional AP for this operative to perform the
+        Pick Up Marker and mission actions (excluding Operate Hatch ).
+      cost: 0AP
+  - name: Big Shot
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 6
+    weapons:
+    - name: Tankstopper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Devastating 1
+      - Heavy (Dash only)
+      - Piercing 1
+    - name: Tankstopper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/2
+      rules:
+      - Devastating 4
+      - Heavy
+      - Piercing 1
+      - Severe
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules: []
+  - name: Bomber
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 4+
+      w: 6
+    weapons:
+    - name: Explosive arsenal
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 3"
+      - Blast 1"
+      - Heavy (Reposition only)
+    - name: Sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Bionic arm
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Tripwire
+      description: When setting up equipment before the battle, you can set up to
+        two of your Tripwire markers up wholly within your territory and more than
+        2" from other markers, access points and Accessible terrain. The first time
+        that marker is within an enemy operative's control range, end that operative's
+        action (if any), remove that marker and subtract 1 from that operative's APL
+        stat until the end of its next activation.
+      cost: 0AP
+    - name: Mine
+      description: Mines you select from universal equipment inflict 2D3+3 damage
+        instead, and friendly RATLING operatives (excluding OGRYN and BULLGRYN ) are
+        ignored for its effects (i.e. they can't trigger it or take damage from it).
+        This takes precedence over the normal mines rules.
+      cost: 0AP
+  - name: Hardbit
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 6
+    weapons:
+    - name: Battle rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Combat knife
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Balanced
+    rules:
+    - name: Hunter
+      description: This operative can perform the Charge action while it has a Conceal
+        order. If it does so during its activation, until the end of that activation,
+        add 1 to the Atk stat of its combat knife and that melee weapon has the Brutal
+        weapon rule.
+      cost: 0AP
+    - name: Lie in Wait
+      description: Whenever this operative is retaliating while Light or Heavy terrain
+        is within its control range, you resolve the first attack dice (i.e. defender
+        instead of attacker).
+      cost: 0AP
+  - name: Raider
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 6
+    weapons:
+    - name: Suppressed sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Silent
+    - name: Suppressed sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 2
+      - Heavy
+      - Silent
+    - name: Dagger
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Grappling Hook
+      description: Whenever this operative is climbing up, you can treat the vertical
+        distance as 2" (regardless of how far the operative actually moves vertically).
+      cost: 1AP
+    - name: Slingshot
+      description: "\U0001F7E2 Select a point on a terrain feature; that point must\
+        \ be visible to and within 6\" of this operative. Remove this operative from\
+        \ the killzone and set it back up wholly within 6\" horizontally of that point,\
+        \ not within control range of enemy operatives, and with that point visible\
+        \ to it. \U0001F534 This action is treated as a Reposition action. This operative\
+        \ cannot perform this action while within control range of an enemy operative,\
+        \ or during an activation in which it performed the Charge , Fall Back or\
+        \ Shoot action (or vice versa)."
+      cost: 0AP
+  - name: Sneak
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 6
+    weapons:
+    - name: Suppressed sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Silent
+    - name: Suppressed sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 2
+      - Heavy
+      - Silent
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Evade
+      description: Once per turning point, after an enemy operative performs an action,
+        you can interrupt and perform a free Dash action with this operative. Note
+        this operative cannot use the Scarper faction rule (it has this rule instead).
+      cost: 1AP
+    - name: Optics
+      description: "\U0001F7E2 Until the start of this operative's next activation,\
+        \ whenever it's shooting, enemy operatives cannot be obscured and the stationary\
+        \ profile of this operative's suppressed sniper rifle has the Lethal 5+ weapon\
+        \ rule. \U0001F534 This operative cannot perform this action while within\
+        \ control range of an enemy operative."
+      cost: 0AP
+  - name: Spotter
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 6
+    weapons:
+    - name: Sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules: []
+  - name: Stashmaster
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 6
+    weapons:
+    - name: Sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Light-fingered
+      description: Once during each of this operative's activations, it can perform
+        the Place Marker , Pick Up Marker or a mission action for 1 less AP.
+      cost: 0AP
+    - name: Well Stocked
+      description: If you select an Ammo Cache from universal equipment, you can set
+        up an additional Ammo Cache marker.
+      cost: 0AP
+  - name: Vox-Thief
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 5+
+      w: 6
+    weapons:
+    - name: Sniper rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Sniper rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules: []

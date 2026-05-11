@@ -1,0 +1,414 @@
+team:
+  name: Tempestus Aquilon
+  version: v1.3
+  last_updated: 25 June 2025
+  archetypes:
+  - Recon
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Sudden Offensive
+    cost: 1CP
+    description: Count the number of friendly TEMPESTUS AQUILON operatives that aren't
+      incapacitated, then halve the result (rounding up) to give you x. Until the
+      end of their activation, friendly TEMPESTUS AQUILON operatives' weapons have
+      the Balanced weapon rule if they are the first friendly operatives activated
+      this turning point equal to x. For example, if you have five operatives, the
+      first three friendly operatives activated will benefit.
+  - name: Maintain Momentum
+    cost: 1CP
+    description: Whenever a friendly TEMPESTUS AQUILON operative is shooting against
+      or fighting against a ready enemy operative, its weapons have the Severe weapon
+      rule.
+  - name: Eye Above
+    cost: 1CP
+    description: "Select one enemy operative. That operative and all other enemy operatives\
+      \ within 3\" of it gain one of your Detected tokens until the end of the turning\
+      \ point. Whenever an enemy operative with a Detected token: \u25CF Is shooting\
+      \ a friendly TEMPESTUS AQUILON operative, you can re-roll one of your defence\
+      \ dice. \u25CF Is fighting or retaliating against a friendly TEMPESTUS AQUILON\
+      \ operative, one of your blocks can be allocated to block two unresolved successes\
+      \ (instead of one)."
+  - name: Drop And Secure
+    cost: 1CP
+    description: "Select one marker. \u25CF Until the Ready step of the next turning\
+      \ point, when determining control of that marker, treat the total APL stat of\
+      \ friendly TEMPESTUS AQUILON operatives that contest it as 1 higher, as long\
+      \ as at least one friendly TEMPESTUS AQUILON operative actually contests it.\
+      \ \u25CF Whenever a friendly TEMPESTUS AQUILON operative is within 3\" of that\
+      \ marker, add 1 to the Atk stat of its melee weapons (to a maximum of 4)."
+  firefight_ploys:
+  - name: Hot Drop
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      TEMPESTUS AQUILON operative that's wholly within your opponent's territory,
+      or either landed or dropped from Vantage terrain at least 2" higher than the
+      killzone floor during this activation. If the target is within 6" of it, you
+      can re-roll any of your attack dice.
+  - name: Adjust Coordinates
+    cost: 1CP
+    description: Use this firefight ploy when a friendly TEMPESTUS AQUILON operative
+      lands. You can set it up within 5" of one of your Drop markers (measuring horizontal
+      distance only), taking precedence over the normal distance requirement. It cannot
+      perform the Dash , Fight or Shoot actions during this turning point.
+  - name: Tempestus Exemplars
+    cost: 1CP
+    description: Use this firefight ploy during a friendly TEMPESTUS AQUILON operative's
+      activation (excluding SERVO-SENTRY and any operative with an APL stat greater
+      than 2). During that activation it can perform the Pick Up Marker , Place Marker
+      or a mission action for 1 less AP.
+  - name: Progena
+    cost: 1CP
+    description: Use this firefight ploy when a friendly TEMPESTUS AQUILON operative
+      (excluding SERVO-SENTRY ) is activated. It regains 2D3 lost wounds, and during
+      that activation you can ignore any changes to its APL stat.
+  operatives:
+  - name: Tempestor
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Hot-shot lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Hot-shot laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Relic bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 2/3
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Tempestus Veteran
+      description: Once per battle, you can either use a firefight ploy for 0CP if
+        this is the specified TEMPESTUS AQUILON operative, or the Command Re-roll
+        firefight ploy for 0CP this is the operative the attack or defence dice was
+        rolled for.
+      cost: 1AP
+    - name: Command
+      description: "\U0001F7E2 SUPPORT . Select one other friendly TEMPESTUS AQUILON\
+        \ operative (excluding SERVO-SENTRY ) visible to and within 6\" of this operative.\
+        \ Until the end of that operative's next activation, add 1 to its APL stat.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Grenadier
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Melta bomb
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/3
+      rules:
+      - Rng 3"
+      - Devastating 3
+      - Heavy
+      - (Reposition only), Limited 1, Piercing 2
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Grenadier
+      description: This operative can use frag, krak, smoke and stun grenades (see
+        universal equipment). Doing so doesn't count towards any limited uses you
+        have (i.e. if you also select those grenades from equipment for other operatives).
+        Whenever this operative is using a frag or krak grenade, improve the Hit stat
+        of that weapon by 1.
+      cost: 0AP
+  - name: Gunfighter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot laspistols (Focused)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Ceaseless
+      - Rending
+    - name: Hot-shot laspistols (Salvo)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Salvo *
+    - name: Hot-shot laspistols (Point-blank)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+    rules:
+    - name: '* Salvo'
+      description: Select up to two different valid targets that aren't within control
+        range of friendly operatives. Shoot with this weapon against both of them
+        in an order of your choice (roll each sequence separately).
+      cost: 0AP
+    - name: Gunfight
+      description: Whenever an enemy operative within 8" of this operative shoots
+        this operative, keep track of each attack dice that's discarded as a fail.
+        After the action, before incapacitated operatives are removed (including this
+        one, if relevant), this operative can perform a free Shoot action (change
+        its order to Engage to do so), but it can only target that enemy operative
+        with its hot-shot laspistols (focused), and you only roll a number of attack
+        dice equal to the opponent's discarded attack dice plus one (to a maximum
+        of four).
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Melta carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma carbine (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma carbine (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Marksman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot long-las (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Hot-shot long-las (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Hot-shot long-las (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 0AP
+    - name: Sniper's Vantage
+      description: Wherever this operative is on Vantage terrain and is shooting an
+        operative that has an Engage order and is at least 2" lower than it, all profiles
+        of its hot-shot longlas have the Severe weapon rule.
+      cost: 0AP
+  - name: Precursor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Tempestus dagger
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Lethal 5+
+    rules:
+    - name: Vicious Knife Fighter
+      description: Whenever this operative is fighting, after resolving your first
+        attack dice, you can immediately resolve another (before your opponent).
+      cost: 0AP
+    - name: Dynamic
+      description: Whenever this operative performs the Fight or Shoot action, it
+        can immediately perform a free Dash action afterwards. It can do so even if
+        it performed the Charge action during this activation, but can only use the
+        remaining distance it had from that Charge action (to a maximum of 3").
+      cost: 0AP
+  - name: Servo-Sentry
+    stats:
+      apl: 2
+      mv: 4"
+      sv: 3+
+      w: 10
+    weapons:
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Grenade Launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Grenade Launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Hot-shot volley gun (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Hot-shot volley gun (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+      - Torrent 1"
+    rules:
+    - name: Machine
+      description: This operative cannot perform any actions other than Dash , Fall
+        Bac k, Reposition and Shoot . It cannot retaliate, assist in a fight or use
+        any weapons that aren't on its datacard.
+      cost: 0AP
+    - name: Turret
+      description: This operative can perform two Shoot actions during its activation.
+      cost: 0AP
+  - name: Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Rapid Insertion
+      description: STRATEGIC GAMBIT in the first Strategy phase. Each friendly TEMPESTUS
+        AQUILON TROOPER operative wholly within your drop zone can immediately perform
+        a free Reposition action, but must finish that action wholly within 3" of
+        your drop zone.
+      cost: 0AP
+    - name: Swift Landing
+      description: When this operative lands, you can set it up within 4" of one of
+        your Drop markers (measuring horizontal distance only), taking precedence
+        over the normal distance requirement. Version 1.3 (updated 25 June 2025)
+      cost: 0AP

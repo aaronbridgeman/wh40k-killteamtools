@@ -1,0 +1,552 @@
+team:
+  name: Hunter Clade
+  version: v1.4
+  last_updated: 23 July 2025
+  archetypes:
+  - Recon
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Debilitating Irradiation
+    cost: 1CP
+    description: Whenever an enemy operative is shooting against, fighting against
+      or retaliating against a friendly HUNTER CLADE VANGUARD operative, if that enemy
+      operative is under the effects of the Rad-Saturation rule (see VANGUARD operatives),
+      subtract 1 from the Normal Dmg stat of its weapons (to a min. of 3).
+  - name: Neurostatic Interference
+    cost: 1CP
+    description: Whenever an enemy operative within 6" of a friendly HUNTER CLADE
+      INFILTRATOR operative is shooting, fighting or retaliating, your opponent cannot
+      re-roll their attack dice.
+  - name: Scouting Protocol
+    cost: 1CP
+    description: Each friendly HUNTER CLADE RANGER operative that has a Conceal order
+      and is more than 6" from enemy operatives can immediately perform a free Dash
+      action (in any order). You cannot use this ploy during the first turning point.
+  - name: Accelerant Agents
+    cost: 1CP
+    description: During each friendly HUNTER CLADE RUSTSTALKER operative's activation,
+      it can perform two Fight actions, and one of them can be free.
+  firefight_ploys:
+  - name: Control Edict
+    cost: 1CP
+    description: Use this firefight ploy when it's your turn to activate a friendly
+      operative. Select one friendly HUNTER CLADE LEADER operative and one other ready
+      friendly HUNTER CLADE operative visible to and within 3" of that LEADER operative;
+      activate one of them as normal. When that first friendly operative you activate
+      is expended, you can activate the other friendly operative before your opponent
+      activates. When that other operative is expended, your opponent then activates
+      as normal. Whenever you use this ploy, you cannot select more than one HUNTER
+      CLADE SICARIAN operative.
+  - name: Scrapcode Overload
+    cost: 1CP
+    description: Use this firefight ploy when a friendly HUNTER CLADE INFILTRATOR
+      operative is activated. Alternatively, use this firefight ploy when a friendly
+      HUNTER CLADE INFILTRATOR operative, or an enemy operative within 3" of that
+      friendly operative, would perform the Pick Up Marker or a mission action (excluding
+      Operate Hatch ). Until the start of that friendly operative's next activation,
+      whenever determining control of a marker, treat the total APL stat of enemy
+      operatives that contest it as 1 lower if at least one of those enemy operatives
+      is within 3" of that friendly operative. Note this isn't a change to the APL
+      stat, so any changes are cumulative with this, and this can change control of
+      a marker before performing the action.
+  - name: Command Override
+    cost: 1CP
+    description: Use this firefight ploy when you activate a friendly HUNTER CLADE
+      operative. Select a DOCTRINA IMPERATIVE for that operative to have instead of
+      its current one (if any) until the Ready step of the next Strategy phase.
+  - name: Omnissiah'S Imperative
+    cost: 1CP
+    description: "Use this firefight ploy during a friendly HUNTER CLADE operative's\
+      \ activation. Alternatively, use it when an enemy operative is shooting a friendly\
+      \ HUNTER CLADE operative, at the end of the Roll Attack Dice step. Until the\
+      \ Ready step of the next Strategy phase, that operative has an additional rule\
+      \ determined by its DOCTRINA IMPERATIVE : \u25CF Protector : This operative's\
+      \ ranged weapons have the Severe weapon rule. \u25CF Conqueror : Whenever this\
+      \ operative is fighting, after resolving your first attack dice, you can immediately\
+      \ resolve another (before your opponent). \u25CF Bulwark : Improve this operative's\
+      \ Save stat by 1. In addition, whenever an operative is shooting this operative,\
+      \ you can collect and roll an additional defence dice. \u2018If you use this\
+      \ ploy during a Shoot action, this operative's Save stat is changed immediately\
+      \ (this takes precedence over the core rules). \u25CF Aggressor : Ignore first\
+      \ vertical 2\" this operative moves during one climb up. \u25CF Neutral : None.\
+      \ Note that you can use this ploy after rolling attack or defence dice for this\
+      \ operative, or before or after retaining or re-rolling those dice."
+  operatives:
+  - name: Sicarian Infiltrator Princeps
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 11
+    weapons:
+    - name: Flechette blaster
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 2/2
+      rules:
+      - Rng 8"
+      - Saturate
+      - Silent
+    - name: Stubcarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Taser goad
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Lethal 5+
+      - Shock
+    rules:
+    - name: Canticle of Shroudpsalm
+      description: Whenever a friendly HUNTER CLADE INFILTRATOR operative is within
+        3" of this operative, has a Conceal order and is in cover, that friendly operative
+        cannot be selected as a valid target, taking precedence over all other rules
+        (e.g. Seek, Vantage terrain) except being within 2".
+      cost: 0AP
+    - name: Control Protocol
+      description: You can use the Command Override firefight ploy for 0CP if the
+        specified friendly HUNTER CLADE operative is visible to this operative.
+      cost: 0AP
+  - name: Sicarian Ruststalker Princeps
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 11
+    weapons:
+    - name: Chordclaw & transonic blades
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Balanced
+      - Rending
+    rules:
+    - name: Canticle of Destruction
+      description: Whenever a friendly HUNTER CLADE RUSTSTALKER operative within 3"
+        of this operative is fighting, the first time you strike with a critical success
+        during that sequence, inflict 1 additional damage.
+      cost: 0AP
+    - name: Wasteland Stalker
+      description: Whenever an operative is shooting this operative, if you can retain
+        any cover saves, you can retain one additional cover save, or you can retain
+        one cover save as a critical success instead. This isn't cumulative with improved
+        cover saves from Vantage terrain.
+      cost: 0AP
+    - name: Control Protocol
+      description: You can use the Command Override firefight ploy for 0CP if the
+        specified friendly HUNTER CLADE operative is visible to this operative.
+      cost: 0AP
+  - name: Skitarii Ranger Alpha
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Arc pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+      - Stun
+    - name: Galvanic rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Heavy (Reposition only)
+      - Piercing
+    - name: Master-crafted radium pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 8"
+      - Balanced
+      - Rending
+    - name: Phosphor blast pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Blast 1"
+      - Severe
+    - name: Arc maul
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Shock
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Taser goad
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Lethal 5+
+      - Shock
+    rules:
+    - name: Canticle of Elimination
+      description: Whenever a friendly HUNTER CLADE RANGER operative is within 3"
+        of this operative, that friendly operative's ranged weapons have the Punishing
+        weapon rule.
+      cost: 0AP
+    - name: Targeting Protocol
+      description: Whenever this operative is shooting, if it hasn't moved during
+        the activation, or if it's a counteraction, ranged weapons on its datacard
+        have the Lethal 5+ weapon rule. Note this operative isn't restricted from
+        moving after shooting.
+      cost: 0AP
+    - name: Control Protocol
+      description: You can use the Command Override firefight ploy for 0CP if the
+        specified friendly HUNTER CLADE operative is visible to this operative.
+      cost: 0AP
+  - name: Skitarii Vanguard Alpha
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Arc pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+      - Stun
+    - name: Master-crafted radium pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 8"
+      - Balanced
+      - Rending
+    - name: Phosphor blast pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Blast 1"
+      - Severe
+    - name: Radium carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rending
+    - name: Arc maul
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Shock
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Taser goad
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Lethal 5+
+      - Shock
+    rules:
+    - name: Canticle of the Glow
+      description: Whenever an enemy operative is within 3" of this operative, if
+        it's under the effects of the Rad-Saturation rule, also subtract 1 from the
+        Atk stat of that enemy operative's weapons.
+      cost: 0AP
+    - name: Rad-Saturation
+      description: Whenever an enemy operative is within 2" of friendly HUNTER CLADE
+        VANGUARD operatives, worsen the Hit stat of that enemy operative's weapons
+        by 1. This isn't cumulative with being injured.
+      cost: 0AP
+    - name: Control Protocol
+      description: You can use the Command Override firefight ploy for 0CP if the
+        specified friendly HUNTER CLADE operative is visible to this operative.
+      cost: 0AP
+  - name: Sicarian Infiltrator Warrior
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 10
+    weapons:
+    - name: Flechette blaster
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 2/2
+      rules:
+      - Rng 8"
+      - Saturate
+      - Silent
+    - name: Stubcarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Taser goad
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Lethal 5+
+      - Shock
+    rules: []
+  - name: Sicarian Ruststalker Warrior
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 10
+    weapons:
+    - name: Chordclaw & transonic razor
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Balanced
+    - name: Transonic blades
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Rending
+    rules:
+    - name: Wasteland Stalker
+      description: Whenever an operative is shooting this operative, if you can retain
+        any cover saves, you can retain one additional cover save, or you can retain
+        one cover save as a critical success instead. This isn't cumulative with improved
+        cover saves from Vantage terrain.
+      cost: 0AP
+  - name: Skitarii Ranger
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Arc rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+      - Stun
+    - name: Galvanic rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Heavy (Reposition only)
+      - Piercing Crits 1
+    - name: Plasma caliver (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma caliver (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Transuranic arquebus (Mobile)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/3
+      rules:
+      - Devastating 2
+      - Heavy (Dash only)
+      - Piercing 1
+    - name: Transuranic arquebus (Stationary)
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 4/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Piercing 1
+      - Severe
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Targeting Protocol
+      description: "Whenever this operative is shooting, if it hasn't moved during\
+        \ the activation, or if it's a counteraction, ranged weapons on its datacard\
+        \ have the Lethal 5+ weapon rule. Note this operative isn't restricted from\
+        \ moving after shooting. SIGNAL (DIKTAT only) 1AP \U0001F7E2 SUPPORT . Select\
+        \ one other friendly HUNTER CLADE operative visible to and within 6\". Until\
+        \ the end of that operative's next activation, add 1 to its APL stat. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative. SPOT (SURVEYOR only) 1AP \U0001F7E2 SUPPORT . Select\
+        \ one enemy operative visible to this operative. Until the end of the turning\
+        \ point, whenever a friendly HUNTER CLADE operative within 3\" of this operative\
+        \ is shooting that enemy operative, you can use this effect. If you do: \u25CF\
+        \ That friendly operative's ranged weapons have the Seek Light weapon rule.\
+        \ \u25CF That enemy operative cannot be obscured. \U0001F534 This operative\
+        \ cannot perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Skitarii Vanguard
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Arc rifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+      - Stun
+    - name: Plasma caliver (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma caliver (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Radium carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rending
+    - name: Transuranic arquebus (Mobile)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/3
+      rules:
+      - Devastating 2
+      - Heavy (Dash only)
+      - Piercing 1
+    - name: Transuranic arquebus (Stationary)
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 4/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Piercing 1
+      - Severe
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Rad-Saturation
+      description: "Whenever an enemy operative is within 2\" of friendly HUNTER CLADE\
+        \ VANGUARD operatives, worsen the Hit stat of that enemy operative's weapons\
+        \ by 1. This isn't cumulative with being injured. SIGNAL (DIKTAT only) 1AP\
+        \ \U0001F7E2 SUPPORT . Select one other friendly HUNTER CLADE operative visible\
+        \ to and within 6\". Until the end of that operative's next activation, add\
+        \ 1 to its APL stat. \U0001F534 This operative cannot perform this action\
+        \ while within control range of an enemy operative. SPOT (SURVEYOR only) 1AP\
+        \ \U0001F7E2 SUPPORT . Select one enemy operative visible to this operative.\
+        \ Until the end of the turning point, whenever a friendly HUNTER CLADE operative\
+        \ within 3\" of this operative is shooting that enemy operative, you can use\
+        \ this effect. If you do: \u25CF That friendly operative's ranged weapons\
+        \ have the Seek Light weapon rule. \u25CF That enemy operative cannot be obscured.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative. Version 1.4 (updated 23 July 2025)"
+      cost: 0AP

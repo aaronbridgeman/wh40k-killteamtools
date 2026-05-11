@@ -1,0 +1,357 @@
+team:
+  name: Plague Marines
+  version: v1.7
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Security
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Contagion
+    cost: 1CP
+    description: "Subtract 2\" from the Move stat of an enemy operative and worsen\
+      \ the Hit stat of its weapons by 1 (this isn't cumulative with being injured)\
+      \ whenever any of the following are true: \u25CF It has one of your Poison tokens\
+      \ and is visible to (or vice versa) and within 3\" of friendly PLAGUE MARINE\
+      \ operatives. \u25CF It's visible to (or vice versa) and within 3\" of a friendly\
+      \ PLAGUE MARINE ICON BEARER operative."
+  - name: Lumbering Death
+    cost: 1CP
+    description: Whenever a friendly PLAGUE MARINE operative is shooting or fighting
+      during an activation in which it hasn't moved more than 3", or whenever it's
+      retaliating, its weapons have the Ceaseless weapon rule
+  - name: Cloud Of Flies
+    cost: 1CP
+    description: Place one of your Cloud of Flies markers in the killzone. Whenever
+      an operative is shooting a friendly PLAGUE MARINE operative that's more than
+      3" from it, if that friendly operative is wholly within 1" of that marker, that
+      friendly operative is obscured. In the Ready step of the next Strategy phase,
+      remove that marker.
+  - name: Nurglings
+    cost: 1CP
+    description: Select one enemy operative within 3" of a friendly PLAGUE MARINE
+      operative, or one enemy operative that has one of your Poison tokens and is
+      within 7" of a friendly PLAGUE MARINE operative. Until the end of the selected
+      operative's next activation, subtract 1 from its APL stat.
+  firefight_ploys:
+  - name: Virulent Poison
+    cost: 1CP
+    description: Use this firefight ploy during a friendly PLAGUE MARINE operative's
+      activation or counteraction, before or after it performs an action. One enemy
+      operative within 3" of, or visible to and within 7" of, that operative gains
+      one of your Poison tokens (if it doesn't already have one).
+  - name: Poisonous Demise
+    cost: 1CP
+    description: Use this firefight ploy when a friendly PLAGUE MARINE operative is
+      incapacitated, before it's removed from the killzone. Each enemy operative visible
+      to and within 3" of that operative gains one of your Poison tokens (if they
+      don't already have one); for each of those enemy operatives that already has
+      one of your Poison tokens (including if they gained one during this action),
+      inflict 1 damage on them instead.
+  - name: Sickening Resilience
+    cost: 1CP
+    description: Use this firefight ploy when an attack dice inflicts damage on a
+      friendly PLAGUE MARINE operative. Until the end of the activation/counteraction,
+      for the purposes of the Disgustingly Resilient rule for that operative, always
+      subtract 1 from the damage inflicted (to a minimum of 2) - you don't need to
+      roll.
+  - name: Curse Of Rot
+    cost: 1CP
+    description: Use this firefight ploy when a friendly PLAGUE MARINE operative is
+      fighting against or shooting against an enemy operative within 3" of it (or
+      within 7" of it if that enemy operative has one of your Poison tokens), after
+      your opponent rolls their attack or defence dice. For each result of 3 they
+      roll, inflict 1 damage on that enemy operative, that result cannot be retained
+      as a success and they cannot re-roll it.
+  operatives:
+  - name: Champion
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 15
+    weapons:
+    - name: Plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Plague sword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Severe
+      - Poison *
+      - Toxic *
+    rules:
+    - name: Grandfather's Blessing
+      description: Whenever an enemy operative that has one of your Poison tokens
+        loses one or more wounds within 7" of this operative, this operative regains
+        up to an equal number of lost wounds (to a maximum of 3 lost wounds per turning
+        point, and only if this operative isn't incapacitated).
+      cost: 0AP
+  - name: Bombardier
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Blight grenade
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 6"
+      - Blast 2"
+      - Saturate
+      - Severe
+      - Poison *
+      - Toxic *
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Krak grenade
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 6"
+      - Piercing 1
+      - Saturate
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Grenadier
+      description: This operative can use blight and krak grenades. Doing so doesn't
+        count towards any limited uses you have (i.e. if you also select those grenades
+        from equipment for other operatives). Whenever it's doing so, improve the
+        Hit stat of that weapon by 1 (applied in the profile above) and blight grenades
+        have the Toxic weapon rule.
+      cost: 0AP
+  - name: Fighter
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Flail of Corruption
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Brutal
+      - Severe
+      - Shock
+      - Poison *
+    rules:
+    - name: of this operative. Roll separately for each
+      description: "if it's an enemy operative, if the D3 result is a 3, that enemy\
+        \ operative also gains one of your Poison tokens (if it doesn't already have\
+        \ one). \U0001F534 For the purposes of action restrictions and the Astartes\
+        \ faction rule, this action is treated as a Fight action. This operative cannot\
+        \ perform this action while it has a Conceal order."
+      cost: 0AP
+  - name: Heavy Gunner
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Plague spewer
+      type: Ranged
+      a: 5
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 7"
+      - Saturate
+      - Severe
+      - Torrent 2"
+      - Poison *
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Icon Bearer
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Plague knife
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Severe
+      - Poison *
+    rules:
+    - name: Icon Bearer
+      description: Whenever determining control of a marker, treat this operative's
+        APL stat as 1 higher. Note this isn't a change to its APL stat, so any changes
+        are cumulative with this.
+      cost: 0AP
+    - name: Icon of Contagion
+      description: Whenever this operative is within your opponent's territory, the
+        Contagion strategy ploy costs you 0CP.
+      cost: 0AP
+  - name: Malignant Plaguecaster
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Entropy
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/7
+      rules:
+      - PSYCHIC
+      - Rng 7"
+      - Saturate
+      - Severe
+      - Poison *
+    - name: Plague wind
+      type: Melee
+      a: 6
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - PSYCHIC
+      - Saturate
+      - Severe
+      - Torrent 1"
+      - Poison *
+    - name: Corrupted staff
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - PSYCHIC
+      - Severe
+      - Shock
+      - Stun
+      - Poison *
+    rules:
+    - name: this operative, then roll 2D6
+      description: "if the result is 7, the selected operative regains 7 lost wounds;\
+        \ otherwise, the selected operative regains lost wounds equal to the highest\
+        \ D6. \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative, or more than once per turning point."
+      cost: 0AP
+  - name: Warrior
+    stats:
+      apl: 3
+      mv: 5"
+      sv: 3+
+      w: 14
+    weapons:
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Toxic *
+    - name: Plague knife
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Severe
+      - Poison *
+    - name: Blight grenade
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/4
+      rules:
+      - Rng 6"
+      - Blast 2"
+      - Saturate
+      - Severe
+      - Poison *
+    rules:
+    - name: Repulsive Fortitude
+      description: Whenever an operative is shooting this operative, defence dice
+        results of 5+ are critical successes. Kill Team Reference Sheet by James And
+        The Giant Squig - Version 1.7 (updated 29 Apr 2026) PLAGUE MARINES OPERATIVES
+      cost: 0AP
+    - name: Archetype
+      description: SECURITY / SEEK AND DESTROY 1 PLAGUE MARINE CHAMPION operative
+      cost: 0AP
+    - name: 5 PLAGUE MARINE operatives selected from the following list
+      description: "\u25CF BOMBARDIER \u25CF FIGHTER \u25CF HEAVY GUNNER \u25CF ICON\
+        \ BEARER \u25CF MALIGNANT PLAGUECASTER \u25CF WARRIOR Your kill team can only\
+        \ include each operative on this list once. FACTION EQUIPMENT PLAGUE BELLS\
+        \ You can ignore any changes to the stats of friendly PLAGUE MARINE operatives\
+        \ from being injured (including their weapons' stats). BLIGHT GRENADES Friendly\
+        \ PLAGUE MARINE operatives have the following ranged weapon (you"
+      cost: 0AP
+    - name: cannot select it for use more than twice during the battle)
+      description: Friendly PLAGUE MARINE operatives' boltguns and bolt pistols have
+        the Poison and Severe weapon rules POISON VENTS Whenever an enemy operative
+        is activated within 3" of a friendly PLAGUE
+      cost: 0AP
+    - name: MARINE operative
+      description: "\u25CF If that enemy operative doesn't have one of your Poison\
+        \ tokens, roll one D3: on a 3, it gains one. \u25CF If that enemy operative\
+        \ has one of your Poison tokens, inflict D3 damage on it (instead of 1)."
+      cost: 0AP

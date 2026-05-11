@@ -1,0 +1,577 @@
+team:
+  name: Hearthkyn Salvagers
+  version: v1.5
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Recon
+  - Security
+  strategy_ploys:
+  - name: Need Keeps
+    cost: 1CP
+    description: "Select one objective marker or one of your mission markers. \u25CF\
+      \ Whenever determining control of that marker, treat the total APL stat of friendly\
+      \ HEARTHKYN SALVAGER operatives that contest it as 1 higher if at least one\
+      \ friendly HEARTHKYN SALVAGER operative contests that marker. Note this isn't\
+      \ a change to the APL stat, so any changes are cumulative with this. \u25CF\
+      \ Whenever a friendly HEARTHKYN SALVAGER operative is within 3\" of that marker,\
+      \ add 1 to the Atk stat of its melee weapons (to a maximum of 4); if the weapon\
+      \ already has an Atk stat of 4, it has the Balanced weapon rule."
+  - name: Toil Earns
+    cost: 1CP
+    description: Select one objective marker or one of your mission markers. Whenever
+      an enemy operative is within 3" of that marker, treat it as having one additional
+      Grudge token.
+  - name: Wrought Defence
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly HEARTHKYN SALVAGER operative,
+      if you rolled one or less successes (including any re-rolls), you can retain
+      one of your fails as a normal success instead of discarding it.
+  - name: Proximate Firepower
+    cost: 1CP
+    description: Whenever a friendly HEARTHKYN SALVAGER operative is shooting an enemy
+      operative within 6" of it, improve the Hit stat of that friendly operative's
+      ranged weapons by 1 (to a maximum of 3+). This can allow you to apply or remove
+      the Hit stat change during an action (this takes precedence over the core rules).
+  firefight_ploys:
+  - name: The Ancestors Are Watching
+    cost: 1CP
+    description: Use this firefight ploy during a friendly HEARTHKYN SALVAGER operative's
+      activation. Until the end of that activation, that operative can perform either
+      a free Shoot or a free Fight action and you can ignore any changes to that operative's
+      weapon stats from being injured.
+  - name: Worth It
+    cost: 1CP
+    description: Use this firefight ploy when a friendly HEARTHKYN SALVAGER operative
+      is incapacitated. It can perform a free mission action before it's removed from
+      the killzone.
+  - name: Sturdy
+    cost: 1CP
+    description: Use this firefight ploy when an operative is shooting a friendly
+      HEARTHKYN SALVAGER operative, when you collect your defence dice. Change the
+      attacker's retained critical successes to normal successes (any weapon rules
+      they've already resolved aren't affected, e.g. Piercing Crits).
+  - name: Engage To Acquire
+    cost: 1CP
+    description: Use this firefight ploy after rolling your attack dice for a friendly
+      HEARTHKYN SALVAGER operative, if it's shooting against or fighting against an
+      enemy operative that controls an objective marker or one of your mission markers.
+      You can re-roll any of your attack dice.
+  operatives:
+  - name: Theyn
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 9
+    weapons:
+    - name: Autoch-pattern bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Accurate 1
+    - name: Autoch-pattern bolter
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Accurate 1
+    - name: Bolt revolver
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 8"
+    - name: EtaCarn plasma pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+    - name: Ion blaster
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Ion pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Piercing Crits 1
+    - name: Concussion gauntlet
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/7
+      rules:
+      - Brutal
+      - Shock
+    - name: Plasma weapon
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Eye of the Ancestors
+      description: STRATEGIC GAMBIT if this operative is in the killzone. Select one
+        enemy operative, or up to two enemy operatives if three or more friendly HEARTHKYN
+        SALVAGER operatives are incapacitated. Each of those enemy operatives gains
+        one of your Grudge tokens.
+      cost: 0AP
+    - name: Weavefield Crest
+      description: Once per battle, when an attack dice inflicts Normal Dmg on this
+        operative, you can ignore that inflicted damage.
+      cost: 0AP
+  - name: Warrior
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Autoch-pattern bolter
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Accurate 1
+    - name: Ion blaster
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Secure Salvage
+      description: Whenever an enemy operative is shooting against, fighting against
+        or retaliating against this operative, if this operative contests an objective
+        marker or one of your mission markers, in the Resolve Attack Dice step, you
+        can subtract 1 from the damage inflicted on it from one success. Kill Team
+        Reference Sheet by James And The Giant Squig - Version 1.5 (updated 29 Apr
+        2026) HEARTHKYN SALVAGERS
+      cost: 0AP
+  - name: "D\xF4zr"
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Autoch-pattern bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Accurate 1
+    - name: Concussion knux
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Ceaseless
+      - Lethal 5+
+      - Shock
+    rules:
+    - name: Brawler
+      description: "Whenever this operative is fighting or retaliating: \u25CF Enemy\
+        \ operatives cannot assist. \u25CF Normal Dmg of 4 or more inflicts 1 less\
+        \ damage on it \u25CF If it's incapacitated, you can strike the enemy operative\
+        \ in that sequence with one of your unresolved successes before it's removed\
+        \ from the killzone."
+      cost: 1AP
+    - name: Knux Smash
+      description: "\U0001F7E2 Select one enemy operative within this operative's\
+        \ control range. You can move that enemy operative up to 3\" to a location\
+        \ it can be placed. Then inflict D3+1 damage on it (even if you don't move\
+        \ it); if the D3 result is a 3, also subtract 1 from that enemy operative's\
+        \ APL stat until the end of its next activation. This operative can then immediately\
+        \ perform a free Charge action (even if it's already performed the Charge\
+        \ action during that activation), but cannot move more than 3\" during that\
+        \ action. \U0001F534 Cannot perform this action unless an enemy operative\
+        \ is within control range."
+      cost: 0AP
+  - name: Field Medic
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Bolt revolver
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Rng 8"
+    - name: Plasma knife
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Medic !
+      description: The first time during each turning point that another friendly
+        HEARTHKYN SALVAGER operative would be removed from the killzone as incapacitated
+        while visible to and within 3" of this operative, you can use this rule, providing
+        neither this nor that operative is within control range of an enemy operative.
+        If you do, that friendly operative isn't incapacitated and has 1 wound remaining.
+        That friendly operative can then immediately perform a free Dash action, but
+        must end that move within this operative's control range. Subtract 1 from
+        this and that operative's APL stats until the end of their next activations
+        respectively, and if this rule was used during that friendly operative's activation,
+        that activation ends. You cannot use this rule if this operative is incapacitated.
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly HEARTHKYN SALVAGER operative within\
+        \ this operative's control range to regain up to 2D3 lost wounds. It cannot\
+        \ be an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Grenadier
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Autoch-pattern bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Accurate 1
+    - name: C8 HX charge
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Rng 4"
+      - Blast 1"
+      - Heavy (Reposition
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Grenadier
+      description: "This operative can use frag, krak, smoke and stun grenades (see\
+        \ universal equipment). Doing so doesn't count towards any limited uses you\
+        \ have (i.e. if you also select those grenades from equipment for other operatives).\
+        \ Whenever this operative is using a frag or krak grenade, improve the Hit\
+        \ stat of that weapon by 1. V\xC2YR-3 UTILITY GRENADE 1AP \U0001F7E2 Place\
+        \ one of your Utility Grenade markers within 6\" of this operative. It must\
+        \ be visible to this operative, or on Vantage terrain of a terrain feature\
+        \ that's visible to this operative. Whenever an operative is within 3\" of\
+        \ that Utility Grenade marker, its controlling player must spend 1 additional\
+        \ AP for that operative to perform the Pick Up Marker and mission actions.\
+        \ \U0001F7E2 In the Ready step of the next Strategy phase, roll one D3. Remove\
+        \ that Utility Grenade marker after a number of activations equal to the result\
+        \ have been completed, or at the end of the turning point (whichever comes\
+        \ first). \U0001F534 This operative cannot perform this action while within\
+        \ control range of an enemy operative"
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: EtaCarn plasma beamer
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Piercing 1
+      - Beam *
+    - name: HYLas auto rifle
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Rending
+    - name: HYLas rotary cannon (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Heavy (Reposition only)
+      - Saturate
+    - name: HYLas rotary cannon (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Heavy (Reposition only)
+      - Saturate
+    - name: L7 missile launcher (Blast)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Blast 2"
+    - name: L7 missile launcher (Focused)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Piercing 1
+    - name: Magna rail rifle
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/2
+      rules:
+      - Devastating 3
+      - Heavy (Dash only)
+      - Piercing 2
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Beam'
+      description: Whenever this operative is shooting with this weapon, each retained
+        critical success immediately inflicts D3 damage on each other operative along
+        one (and only one) beam line (roll separately for each operative), but the
+        target isn't affected. An operative is along a beam line if a targeting line
+        can be drawn from this operative to its base, and that line crosses the base
+        of the original target but doesn't cross Heavy terrain.
+      cost: 0AP
+  - name: Jump Pack Warrior
+    stats:
+      apl: 2
+      mv: 7"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Autoch-pattern bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Accurate 1
+    - name: Plasma weapon
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+      - Force Impact *
+    rules:
+    - name: '* Force Impact'
+      description: When fighting with this weapon, if it's performed the Charge action
+        during the activation, this weapon has the Brutal weapon rule.
+      cost: 0AP
+    - name: Jump Pack
+      description: Whenever this operative performs an action in which it moves, it
+        can FLY . If it does, don't move it. Instead, remove it from the killzone
+        and set it back up wholly within a distance equal to its Move stat (or 3"
+        if it was a Dash ) of its original location, measuring the horizontal distance
+        only (in a killzone that uses the
+      cost: 0AP
+    - name: close quarters rules, e.g. Killzone
+      description: Gallowdark, this distance cannot be measured over or through Wall
+        terrain, and that operative cannot be set up on the other side of an access
+        point - in other words it cannot FLY through an open hatchway). Note that
+        it gains no additional distance when performing the Charge action. It must
+        be set up in a location it can be placed, and unless it's the Charge action,
+        it cannot be set up within control range of an enemy operative.
+      cost: 0AP
+  - name: Kinlynk
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Autoch-pattern bolter
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Accurate 1
+    - name: Ion blaster
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: "Kognit\xE2ar"
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Autoch-pattern bolter
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Accurate 1
+    - name: Ion blaster
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Tactician
+      description: STRATEGIC GAMBIT if this operative is in the killzone. Place either
+        your Attack or Defence marker in the killzone. Whenever a friendly HEARTHKYN
+        SALVAGER operative is shooting against, fighting against or retaliating against
+        an enemy operative that's within 3" of your Attack marker, that friendly operative's
+        weapons have the Balanced weapon rule. Whenever an enemy operative is shooting
+        a friendly HEARTHKYN SALVAGER operative that's within 3" of your Defence marker,
+        you can re-roll one of your defence dice. In the Ready step of the next Strategy
+        phase, remove that marker.
+      cost: 1AP
+    - name: Accelerated Appraisal
+      description: "\U0001F7E2 If your Attack or Defence marker is in the killzone,\
+        \ remove it. \U0001F7E2 Place your Attack or Defence marker in the killzone.\
+        \ \U0001F534 Cannot perform this action while within control range of an enemy\
+        \ operative."
+      cost: 0AP
+  - name: "Lok\xE2tr"
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Autoch-pattern bolter
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Accurate 1
+    - name: Ion blaster
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: If you do
+      description: "\u25CF That friendly operative's ranged weapons have the Seek\
+        \ Light weapon rule. \u25CF That enemy operative cannot be obscured. \U0001F534\
+        \ Cannot perform this action while within control range of an enemy operative."
+      cost: 1AP
+    - name: Pan Spectral Scan
+      description: "\U0001F7E2 Place your Pan Spectral Scan marker in the killzone.\
+        \ Whenever a HEARTHKYN SALVAGER operative is shooting an enemy operative that's\
+        \ within 3\" of that marker, that friendly operative's ranged weapons have\
+        \ the Accurate 1 and Saturate weapon rules. When this operative is next activated,\
+        \ is incapacitated or performs this action again (whichever comes first),\
+        \ remove that marker. \U0001F534 Cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Lugger
+    stats:
+      apl: 2
+      mv: 5"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Autoch-pattern bolter
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Accurate 1
+    - name: Ion blaster
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Well Supplied
+      description: 'Well Supplied : You can select one additional equipment option,
+        and in the Ready step of the first Strategy phase, you gain 1 additional CP.'
+      cost: 0AP
+    - name: I've Got It
+      description: Once during each of this operative's activations, it can perform
+        a mission action for 1 less AP.
+      cost: 0AP

@@ -21,6 +21,25 @@ Team reference sheet data from PDFs into YAML with AI assistance.
 7. Convert the reviewed YAML into the app's `faction.json` structure before
    wiring it into `src/data/factions/`.
 
+## Automated Extraction
+
+You can run a best-effort local parser across all PDFs in `input-pdfs/`:
+
+```bash
+python tools/kill-team-yaml-extractor/extract_yaml.py
+```
+
+This writes per-team YAML files into `output-yaml/`.
+
+Special handling implemented:
+- PDFs with `NPO` in their filename are merged into a single file:
+   `output-yaml/npo-operatives.yaml`
+- `Inquisitorial Agents` includes all referenced operatives from the selection
+   section as potential operatives. If a referenced operative has no parsed
+   datacard in that PDF, a placeholder entry is added.
+
+The automated parser is intentionally heuristic and still requires review.
+
 ## Notes
 
 - Keep official PDFs local; they are intentionally ignored by git.

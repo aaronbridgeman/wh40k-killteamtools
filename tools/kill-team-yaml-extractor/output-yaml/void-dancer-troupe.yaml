@@ -1,0 +1,285 @@
+team:
+  name: Void-Dancer Troupe
+  version: v1.4
+  last_updated: 29 October 2025
+  archetypes:
+  - Infiltration
+  - Recon
+  strategy_ploys:
+  - name: Darting Salvo
+    cost: 1CP
+    description: Whenever a friendly VOID-DANCER TROUPE operative performs the Reposition
+      action during its activation, it can perform the Shoot action during that action
+      (it must do so in a location it can be placed, and any remaining move distance
+      it had from that Reposition action can be used after it does so).
+  - name: Rising Crescendo
+    cost: 1CP
+    description: Friendly VOID-DANCER TROUPE operatives can perform the Dash action
+      during the same activation in which they performed the Charge action, but not
+      vice versa (i.e. not Dash then Charge ).
+  - name: Prismatic Blur
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly VOID-DANCER TROUPE operative
+      that performed an action in which it moved during this turning point, you can
+      re-roll one of your defence dice.
+  - name: Cegorach'S Jest
+    cost: 1CP
+    description: 'Whenever a friendly VOID-DANCER TROUPE operative is fighting or
+      retaliating and your opponent strikes with a normal success, you can roll one
+      D6: if the result is less than the Hit stat of your opponent''s selected weapon,
+      that strike is a block instead (ignore the Brutal weapon rule, if relevant)
+      and you cannot use this rule for the rest of the sequence.'
+  firefight_ploys:
+  - name: Murderous Entrance
+    cost: 1CP
+    description: Use this firefight ploy when a friendly VOID-DANCER TROUPE operative
+      is fighting during an activation in which it performed the Charge action, after
+      you strike. You can immediately resolve another of your normal successes as
+      a strike (before your opponent), or a critical success if there are none.
+  - name: The Curtain Falls
+    cost: 1CP
+    description: Use this firefight ploy when a friendly VOID-DANCER TROUPE operative
+      is fighting, after you strike with a critical success, if the enemy operative
+      isn't incapacitated. End that sequence (any remaining attack dice are discarded)
+      and immediately perform a free Fall Back action up to 3" with that operative
+      (then the Fight action ends). That operative can do so even if it's performed
+      an action that prevents it from performing the Fall Back action.
+  - name: Elusive Target
+    cost: 1CP
+    description: Use this firefight ploy during a friendly VOID-DANCER TROUPE operative's
+      activation. Until the start of its next activation, while that operative has
+      a Conceal order and is in cover, it cannot be selected as a valid target, taking
+      precedence over all other rules (e.g. Seek, Vantage terrain) except being within
+      2".
+  - name: Domino Field
+    cost: 1CP
+    description: Use this firefight ploy when an operative is shooting a friendly
+      VOID-DANCER TROUPE operative, during the Resolve Defence Dice step. You can
+      allocate one of your rolled successful dice to block all of your opponent's
+      attack dice with matching results (e.g. one of your successful defence dice
+      results of 5 can be used to block all successful attack dice results of 5).
+  operatives:
+  - name: Lead Player
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Fusion pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/3
+      rules:
+      - Rng 3"
+      - Devastating 3
+      - Piercing 2
+    - name: Neuro disruptor
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+      - Stun
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Blade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules: []
+    - name: Caress
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    - name: Embrace
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Brutal
+    - name: Kiss
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/7
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Lead the Performance
+      description: Once per battle STRATEGIC GAMBIT . If this operative is in the
+        killzone, change the ALLEGORY you selected for your kill team. Note that the
+        ACCOLADE rule friendly operatives have will also change.
+      cost: 0AP
+  - name: Death Jester
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Shrieker cannon (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+      - Heavy (Reposition only)
+      - Humbling
+    - name: Cruelty * (Sweeping)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+      - Heavy (Dash only)
+      - Torrent 2"
+    - name: Shrieker blade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rending
+    rules:
+    - name: '* Humbling Cruelty'
+      description: If the target of this weapon isn't incapacitated but any of your
+        attack dice inflict damage, the target gains one of your Humbling Cruelty
+        tokens (if it doesn't already have one). Whenever an enemy operative has one
+        of your Humbling Cruelty tokens, worsen the Hit stat of its weapons by 1 and
+        subtract 2" from its Move stat. This isn't cumulative with being injured.
+        At the end of that enemy operative's next activation, remove its Humbling
+        Cruelty token.
+      cost: 0AP
+  - name: Shadowseer
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Hallucinogen grenade
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 1/1
+      rules:
+      - Rng 6"
+      - Blast 2"
+      - Lethal 5+
+      - Seek Light
+    - name: Neuro disruptor
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+      - Stun
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Miststave
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Shock
+      - (whichever comes first).
+    rules: []
+  - name: Player
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Fusion pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/3
+      rules:
+      - Rng 3"
+      - Devastating 3
+      - Piercing 2
+    - name: Neuro disruptor
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 8"
+      - Piercing 1
+      - Stun
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Blade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules: []
+    - name: Caress
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    - name: Embrace
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Brutal
+    - name: Kiss
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/7
+      rules: []
+    rules:
+    - name: Luck of the Laughing God
+      description: Once per turning point, you can use this rule. If you do, you can
+        use a firefight ploy for 0CP if this is the specified VOID-DANCER TROUPE operative
+        (including Command Re-roll if the attack or defence dice was rolled for this
+        operative). You cannot select the same firefight ploy for this rule more than
+        once per battle. Version 1.4 (updated 29 October 2025)
+      cost: 0AP

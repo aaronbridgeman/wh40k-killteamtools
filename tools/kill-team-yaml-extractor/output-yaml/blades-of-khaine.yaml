@@ -1,0 +1,380 @@
+team:
+  name: Blades Of Khaine
+  version: v1.5
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Seek And Destroy*
+  strategy_ploys:
+  - name: Forewarned
+    cost: 1CP
+    description: Whenever an operative is shooting a ready friendly BLADES OF KHAINE
+      operative, you can re-roll any of your defence dice results of one result (e.g.
+      results of 2).
+  - name: Ruthless Poise
+    cost: 1CP
+    description: Whenever a friendly BLADES OF KHAINE operative is fighting a ready
+      enemy operative, that friendly operative's melee weapons have the Ceaseless
+      weapon rule.
+  - name: Khaine'S Vengeance
+    cost: 1CP
+    description: Whenever a friendly BLADES OF KHAINE operative is shooting an expended
+      enemy operative, that friendly operative's ranged weapons have the Ceaseless
+      weapon rule.
+  - name: Dance Of Death
+    cost: 1CP
+    description: Select two friendly BLADES OF KHAINE operatives visible to and within
+      6" of each other. Remove them both from the killzone and set them back up in
+      each other's previous locations (in other words, swap their positions).
+  firefight_ploys:
+  - name: Bladewind
+    cost: 1CP
+    description: Use this firefight ploy during a friendly BLADES OF KHAINE operative's
+      activation. During that activation, that operative can perform two Fight actions.
+  - name: Starfall
+    cost: 1CP
+    description: Use this firefight ploy during a friendly BLADES OF KHAINE operative's
+      activation. During that activation, that operative can perform two Shoot actions.
+  - name: Fading Light
+    cost: 1CP
+    description: Use this firefight ploy during a friendly BLADES OF KHAINE operative's
+      activation, before or after it performs an action. During that activation, that
+      operative can perform the Fall Back action for 1 less AP.
+  - name: Contempt
+    cost: 1CP
+    description: Use this firefight ploy when a friendly BLADES OF KHAINE operative
+      is retaliating or an enemy operative is shooting it, after your opponent rolls
+      their attack dice, but before rerolls. Until the end of the sequence, your opponent
+      cannot re-roll their attack dice (if your opponent declared the use of any firefight
+      ploys during that sequence that would allow them to re-roll, that ploy is cancelled
+      and the CP spent on it is refunded).
+  operatives:
+  - name: Striking Scorpion Exarch
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 9
+    weapons:
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Twin shuriken pistols
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Ceaseless
+      - Rending
+    - name: Biting blade
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Rending
+    - name: Scorpion's claw and chainsword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Brutal
+      - Lethal 5+
+    - name: Twin chainswords
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Rending
+    rules:
+    - name: Exarch
+      description: Can perform two Fight or two Shoot actions during its activation.
+      cost: 0AP
+    - name: Mandiblasters
+      description: Whenever this operative performs the Fight action, at the start
+        of the Roll Attack Dice step, inflict 2 damage on the enemy operative in that
+        sequence.
+      cost: 0AP
+  - name: Striking Scorpion Warrior
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: Mandiblasters
+      description: (see STRIKING SCORPION EXARCH above). Kill Team Reference Sheet
+        by James And The Giant Squig - v1.5 (updated 29 Apr 2026) BLADES OF KHAINE
+        DIRE AVENGERS - ASPECT TECHNIQUES THE SLICING HURRICANE Use this ASPECT TECHNIQUE
+        when a friendly DIRE AVENGER operative is performing the Reposition action.
+        That operative can perform the Shoot action during that action (it must do
+        so in a location it can be placed, and any remaining move distance it had
+        from that Reposition action can be used after it does so). You must select
+        its shuriken catapult, shuriken pistol or twin shuriken catapult for that
+        Shoot action. DEATH OF A THOUSAND BLADES Use this ASPECT TECHNIQUE when a
+        friendly DIRE AVENGER operative is performing the Shoot action and you select
+        a shuriken catapult or twin shuriken catapult. Until the end of that action,
+        that weapon has the Torrent 2" weapon rule, but you cannot select more than
+        one secondary target. VIGILANCE OF THE AVENGER Use this ASPECT TECHNIQUE when
+        a friendly DIRE AVENGER operative is performing the Shoot action and you select
+        a shuriken catapult or twin shuriken catapult. Until the end of that action,
+        that weapon has the Lethal 5+ weapon rule. UNSTINTING, IMMOVABLE Use this
+        ASPECT TECHNIQUE when an operative is shooting a friendly DIRE AVENGER operative,
+        and you've rolled two or more fails. You can discard one of them to retain
+        the other as a normal success instead. RAGING HEAT OF THE DYING FLAME Use
+        this ASPECT TECHNIQUE during a friendly DIRE AVENGER operative's activation.
+        Until the start of that operative's next activation, you can ignore any changes
+        to its stats from being injured (including its weapons' stats).
+      cost: 0AP
+  - name: Dire Avenger Exarch
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 9
+    weapons:
+    - name: Shuriken catapult
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rending
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Twin shuriken catapult
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Rending
+    - name: Diresword
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Lethal 5+
+      - Rending
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules: []
+    - name: Gun butts
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Exarch
+      description: Can perform two Fight or two Shoot actions during its activation.
+      cost: 0AP
+    - name: Defence Tactics
+      description: Whenever this operative contests an objective marker or one of
+        your mission markers, or whenever it's shooting an enemy operative that does,
+        this operative's weapons have the Balanced weapon rule.
+      cost: 0AP
+    - name: Shimmershield
+      description: Whenever an operative is shooting a friendly BLADES OF KHAINE operative
+        that's visible to and within 2" of this operative, ignore the Piercing weapon
+        rule. This operative only has this rule if you select the shimmershield weapon
+        option.
+      cost: 0AP
+  - name: Dire Avenger Warrior
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Shuriken catapult
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rending
+    - name: Fists
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules: []
+    - name: Shriek-that-kills
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 1/2
+      rules:
+      - Rng 6"
+      - Saturate
+      - Seek Light
+      - Stun
+      - Torrent 1"
+    rules:
+    - name: Defence Tactics
+      description: Whenever this operative contests an objective marker or one of
+        your mission markers, or whenever it's shooting an enemy operative that does,
+        this operative's weapons have the Balanced weapon rule. HOWLING BANSHEES -
+        ASPECT TECHNIQUES THE WOE Use this ASPECT TECHNIQUE during a friendly HOWLING
+        BANSHEE operative's activation, after it's performed the Charge action and
+        incapacitated an enemy operative during the Fight action, and is no longer
+        within control range of enemy operatives. That friendly operative can immediately
+        perform a free Charge action using any remaining move distance it had from
+        that first Charge action. That operative can perform two Charge actions during
+        its activation to do so. The operative cannot have performed any other actions
+        during this activation (but can do so after resolving this ASPECT TECHNIQUE
+        ). RAIN OF TEARS Use this ASPECT TECHNIQUE when a friendly HOWLING BANSHEE
+        operative is fighting, after you strike with a critical success, if the enemy
+        operative isn't incapacitated. End that sequence (any remaining attack dice
+        are discarded) and immediately perform a free Fall Back action up to 3" with
+        that operative (then the Fight action ends). That operative can do so even
+        if it's performed an action that prevents it from performing the Fall Back
+        action. SHRIEK-THAT-KILLS Use this ASPECT TECHNIQUE when a friendly HOWLING
+        BANSHEE operative is performing the Shoot action. Until the end of that action,
+        that operative can use
+      cost: 0AP
+    - name: the following ranged weapon
+      description: "Use this ASPECT TECHNIQUE when a friendly HOWLING BANSHEE operative\
+        \ performs an action in which it moves. Until the end of the action, that\
+        \ operative: \u25CF Can ignore all vertical distances whenever it drops and\
+        \ climbs. \u25CF Can move through enemy operatives, move within control range\
+        \ of them, and during the Charge action can leave their control range (it\
+        \ must still end the move following all requirements for that move). \u25CF\
+        \ Cannot move more than its Move stat if it's the Charge action. SCREAM-THAT-KILLS\
+        \ Use this ASPECT TECHNIQUE when a friendly HOWLING BANSHEE operative is fighting\
+        \ or retaliating, at the start of the Resolve Attack Dice step. You can resolve\
+        \ one of your successes before the normal order. If you do, that success must\
+        \ be used to block."
+      cost: 0AP
+  - name: Howling Banshee Exarch
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 3+
+      w: 9
+    weapons:
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Triskele
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rng 8"
+      - Rending
+      - Torrent 2"
+    - name: Executioner
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/7
+      rules:
+      - Lethal 5+
+    - name: Mirrorswords
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Ceaseless
+      - Lethal 5+
+    - name: Power weapon
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    - name: Triskele
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rending
+    rules:
+    - name: Exarch
+      description: Can perform two Fight or two Shoot actions during its activation.
+      cost: 0AP
+    - name: Banshee Mask
+      description: Whenever this operative is fighting, worsen the Hit stat of the
+        enemy operative's melee weapons by 1. This isn't cumulative with being injured.
+      cost: 0AP
+  - name: Howling Banshee Warrior
+    stats:
+      apl: 3
+      mv: 7"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Shuriken pistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+      - Rending
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Banshee Mask
+      description: Whenever this operative is fighting, worsen the Hit stat of the
+        enemy operative's melee weapons by 1. This isn't cumulative with being injured.
+      cost: 0AP

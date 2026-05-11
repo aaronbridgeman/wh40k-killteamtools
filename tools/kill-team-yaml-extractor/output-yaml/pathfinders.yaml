@@ -1,0 +1,535 @@
+team:
+  name: Pathfinders
+  version: v1.4
+  last_updated: 28 Jan 2026
+  archetypes:
+  - Infiltration
+  - Recon
+  strategy_ploys:
+  - name: Recon Sweep
+    cost: 1CP
+    description: Select one killzone edge (excluding your own). Each friendly PATHFINDER
+      operative that's wholly within 6" of that edge can immediately perform a free
+      Dash action in an order of your choice, but each that does so must end that
+      move wholly within 6" of a killzone edge (excluding your own). You cannot use
+      this ploy during the first turning point.
+  - name: Suppressing Fire
+    cost: 1CP
+    description: Whenever an enemy operative is performing the Shoot action, if the
+      target (the primary target if the weapon has the Blast or Torrent weapon rules)
+      isn't the closest valid target, your opponent cannot re-roll their attack dice.
+      Ignore friendly PATHFINDER operatives that have a Conceal order or are obscured
+      when determining this.
+  - name: Bonded
+    cost: 1CP
+    description: Whenever a friendly PATHFINDER operative (excluding DRONE ) is shooting
+      or retaliating with a ranged weapon (see Point-Blank Fusillade firefight ploy),
+      if it's within 3" of another friendly PATHFINDER operative (excluding DRONE
+      ), that first friendly operative's ranged weapons have the Accurate 1 weapon
+      rule.
+  - name: Take Cover
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly PATHFINDER operative,
+      if you can retain any cover saves, improve that friendly operative's Save stat
+      by 1.
+  firefight_ploys:
+  - name: A Worthy Cause
+    cost: 1CP
+    description: Use this firefight ploy at the start of the Firefight phase. A friendly
+      PATHFINDER operative (excluding DRONE ) can immediately perform a free mission
+      action.
+  - name: Supporting Fire
+    cost: 1CP
+    description: Use this firefight ploy when a friendly PATHFINDER operative is performing
+      the Shoot action and you're selecting a valid target within 6" of it. Having
+      other friendly PATHFINDER operatives within an enemy operative's control range
+      doesn't prevent that enemy operative from being selected.
+  - name: Saviour Protocols
+    cost: 1CP
+    description: Use this firefight ploy when a friendly PATHFINDER operative (excluding
+      DRONE ) is selected as the valid target of a Shoot action. Select one friendly
+      PATHFINDER DRONE operative visible to and within 3" of that first friendly operative
+      to become the valid target instead (even if it wouldn't normally be valid for
+      this). That friendly DRONE operative is only in cover or obscured if the original
+      target was. This ploy has no effect if the ranged weapon has the Blast or Torrent
+      weapon rule.
+  - name: Point-Blank Fusillade
+    cost: 1CP
+    description: "Use this firefight ploy when a friendly PATHFINDER operative (excluding\
+      \ DRONE ) is retaliating, if it wasn't within control range of enemy operatives\
+      \ at the start of that activation/ counteraction. You can use one of its ranged\
+      \ weapons as a melee weapon (excluding a weapon that has the word \u2018grenade'\
+      \ in its name) during that sequence. If you do, you cannot block during that\
+      \ sequence, and the following weapon rules have no effect on its weapons until\
+      \ the end of that sequence: Devastating, Piercing, Torrent. If that friendly\
+      \ operative is ready, has an Engage order and is retaliating with a pulse weapon,\
+      \ you resolve the first attack dice (i.e. defender instead of attacker)."
+  operatives:
+  - name: Mv4, Mv7, Mv31, Mv33
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Ram
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Shield Generator
+      description: "\u25CF This operative ignores the Piercing weapon rule. \u25CF\
+        \ Once per turning point, when an attack dice inflicts Normal Dmg on this\
+        \ operative, you can ignore that inflicted damage. \u25CF You can use the\
+        \ Saviour Protocols firefight ploy for 0CP if this is the specified DRONE\
+        \ operative. MV7 MARKER DRONE"
+      cost: 0AP
+    - name: High-intensity Markerlight
+      description: Whenever this operative performs the Markerlight action, the selected
+        enemy operative gains two of your Markerlight tokens (instead of one).
+      cost: 1AP
+    - name: Markerlight
+      description: See SHAS'UI . MV31 PULSE ACCELERATOR DRONE
+      cost: 1AP
+    - name: Pulse Accelerator
+      description: "\U0001F7E2 Until the start of this operative's next activation\
+        \ or until it's incapacitated (whichever comes first), whenever another friendly\
+        \ PATHFINDER operative is shooting with a pulse weapon within 3\" of this\
+        \ operative, that weapon has the Lethal 5+ and Severe weapon rules. MV33 GRAV-INHIBITOR\
+        \ DRONE"
+      cost: 0AP
+    - name: Grav-inhibitor
+      description: "\u25CF Whenever an enemy operative performs an action in which\
+        \ it moves (excluding Dash ), if it would move visible to and within 6\" of\
+        \ this operative, treat the distance as an additional 2\" and ignore the additional\
+        \ distances from the Obstructing and Accessible terrain rules. \u25CF Whenever\
+        \ an enemy operative is fighting or retaliating while visible to and within\
+        \ 6\" of this operative, worsen the Hit stat of that enemy operative's melee\
+        \ weapons by 1. This is cumulative with being injured. Kill Team Reference\
+        \ Sheet by James And The Giant Squig - Version 1.4 (updated 28 Jan 2026) PATHFINDERS"
+      cost: 0AP
+  - name: Shas'Ui
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Art of War
+      description: STRATEGIC GAMBIT if this operative is in the killzone. Select one
+        of the following and apply its rules until the end of the turning point. You
+        cannot select each option more
+      cost: 0AP
+    - name: "\u25CF Mont'ka"
+      description: Add 1" to the Move stat of friendly PATHFINDER operatives.
+      cost: 0AP
+    - name: "\u25CF Kauyo n"
+      description: Friendly PATHFINDER operatives can perform a free Markerlight action
+        during their activation if they have a Conceal order.
+      cost: 1AP
+    - name: Markerlight
+      description: "\U0001F7E2 Select one enemy operative visible to this operative.\
+        \ That enemy operative gains one of your Markerlight tokens (to a max. of\
+        \ four). \U0001F534 An operative cannot perform this action while within control\
+        \ range of an enemy operative. If an operative (excluding MB3 RECON ) would\
+        \ perform the Shoot action (excluding Guard ) and this action during the same\
+        \ activation, only the target of that Shoot action can be selected for this\
+        \ action (and vice versa)."
+      cost: 0AP
+  - name: Assault Grenadier
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Fusion grenade
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/3
+      rules:
+      - Rng 6"
+      - Devastating 2
+      - Limited 1
+      - Piercing 2
+    - name: Pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Grenadier Specialist
+      description: This operative can use frag and krak grenades (see universal equipment).
+        Doing so doesn't count towards any limited uses you have (i.e. if you also
+        select those grenades from equipment for other operatives). Whenever it's
+        doing so, improve the Hit stat of that weapon by 1.
+      cost: 1AP
+    - name: Markerlight
+      description: See SHAS'UI .
+      cost: 0AP
+  - name: Blooded
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Suppressed pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Silent
+    - name: Bionic arm
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Veteran
+      description: During a turning point in which you have used a friendly SHAS'UI
+        operative's Art of War STRATEGIC GAMBIT and you selected Mont'ka , this operative
+        can use Kauyon instead during its activation (and vice versa).
+      cost: 1AP
+    - name: Markerlight
+      description: See SHAS'UI .
+      cost: 0AP
+  - name: Comms Specialist
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Markerlight
+      description: See SHAS'UI .
+      cost: 0AP
+  - name: Drone Controller
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Drone Controller
+      description: Whenever this operative is
+      cost: 0AP
+    - name: in the killzone
+      description: "\u25CF Add 2\" to the Move stat of friendly PATHFINDER DRONE operatives.\
+        \ \u25CF The Saviour Protocols firefight ploy costs you 0CP."
+      cost: 1AP
+    - name: Markerlight
+      description: See SHAS'UI .
+      cost: 1AP
+    - name: Remote Pilot
+      description: "\U0001F7E2 One friendly PATHFINDER DRONE operative can immediately\
+        \ perform one free action, but it cannot move more than 2\" during that action.\
+        \ That action can be one that's normally restricted by its drone rule (this\
+        \ takes precedence over that rule). \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative. This operative\
+        \ can perform this action more than once during its activation, but if it\
+        \ does, the same DRONE operative cannot perform the same free action more\
+        \ than once per activation."
+      cost: 0AP
+  - name: Marksman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Marksman rail rifle (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Devastating 2
+      - Lethal 5+
+      - Piercing 1
+    - name: Marksman rail rifle (Dart round)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing 1
+      - Silent
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Inertial Dampener
+      description: You can ignore any changes to the Hit stat of this operative's
+        marksman rail rifle.
+      cost: 0AP
+  - name: Medical Technician
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        PATHFINDER operative (excluding DRONE ) would be incapacitated while visible
+        to and within 3" of this operative, you can use this rule, providing neither
+        this nor that operative is within control range of an enemy operative. If
+        you do, that friendly operative isn't incapacitated, has 1 wound remaining
+        and cannot be incapacitated for the remainder of the action. After that action,
+        that friendly operative can then immediately perform a free Dash action, but
+        must end that move within this operative's control range. Subtract 1 from
+        this and that operative's APL stats until the end of their next activations
+        respectively, and if this rule was used during that friendly operative's activation,
+        that activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 1AP
+    - name: Markerlight
+      description: See SHAS'UI .
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly PATHFINDER operative (excluding\
+        \ DRONE ) within this operative's control range to regain up to 2D3 lost wounds.\
+        \ It cannot be an operative that the Medic! rule was used on during this turning\
+        \ point. \U0001F534 This operative cannot perform this action while within\
+        \ control range of an enemy operative."
+      cost: 0AP
+  - name: Transpectral Interference
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Multi-Dimensional Vision
+      description: Whenever this operative is shooting, enemy operatives cannot be
+        obscured.
+      cost: 1AP
+    - name: Markerlight
+      description: See SHAS'UI .
+      cost: 1AP
+    - name: System Jam
+      description: "\U0001F7E2 Select one enemy operative visible to this operative.\
+        \ Until the end of that operative's next activation, subtract 1 from its APL\
+        \ stat. \U0001F534 This operative cannot perform this action while it has\
+        \ a Conceal order, or while within control range of an enemy operative."
+      cost: 0AP
+  - name: Weapons Expert
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Ion rifle (Standard)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing Crits 1
+    - name: Ion rifle (Overcharge)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Rail rifle
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules:
+      - Devastating 2
+      - Lethal 5+
+      - Piercing 1
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Shas'La
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate one
+        other ready friendly PATHFINDER SHAS'LA operative (if able) before your opponent
+        activates. When that other operative is expended, your opponent then activates
+        as normal (in other words, you cannot activate more than two operatives in
+        succession with this rule).
+      cost: 0AP
+    - name: Fearless on the Frontline
+      description: This operative can perform the Markerlight action while within
+        control range of an enemy operative (taking precedence over the Markerlight
+        action's normal conditions). In addition, this operative can perform the Fall
+        Back action for 1 less AP.
+      cost: 1AP
+    - name: Markerlight
+      description: See SHAS'UI .
+      cost: 0AP
+  - name: Mb3 Recon Drone
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 4+
+      w: 12
+    weapons:
+    - name: Burst cannon (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Heavy (Reposition only)
+      - Punishing
+    - name: Burst cannon (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Ceaseless
+      - Heavy (Reposition only)
+      - Punishing
+      - Torrent 1"
+    - name: Ram
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Analyse
+      description: Whenever this operative performs the Markerlight action, each other
+        enemy operative that's both visible to this operative and within 3" of the
+        enemy operative you selected for that action also gains one of your Markerlight
+        tokens.
+      cost: 1AP
+    - name: Markerlight
+      description: See SHAS'UI .
+      cost: 0AP
+  - name: Mv1 Gun Drone
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Pulse carbine
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Ceaseless
+    - name: Ram
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules: []

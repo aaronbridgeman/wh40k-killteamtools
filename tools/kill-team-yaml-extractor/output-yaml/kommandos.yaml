@@ -1,0 +1,412 @@
+team:
+  name: Kommando
+  version: v1.3
+  last_updated: 29 Apr 2026
+  archetypes:
+  - Infiltration
+  - Seek And Destroy
+  strategy_ploys:
+  - name: Sssshhhh!
+    cost: 1CP
+    description: Each friendly KOMMANDO operative that's not a valid target for enemy
+      operatives, or has a Conceal order and is more than 6" from enemy operatives,
+      can immediately perform a free Dash action. You cannot use this ploy during
+      the first turning point.
+  - name: Dakka! Dakka! Dakka!
+    cost: 1CP
+    description: Friendly KOMMANDO operatives' ranged weapons have the Punishing weapon
+      Rule.
+  - name: Waaagh!
+    cost: 1CP
+    description: Friendly KOMMANDO operatives' melee weapons have the Balanced weapon
+      rule.
+  - name: Skulk About
+    cost: 1CP
+    description: Whenever an enemy operative is shooting a friendly KOMMANDO operative
+      that has a Conceal order, you can retain one of your defence dice as a normal
+      success without rolling it (in addition to a cover save, if any).
+  firefight_ploys:
+  - name: Just A Scratch
+    cost: 1CP
+    description: Use this firefight ploy when an attack dice inflicts Normal Damage
+      on a friendly KOMMANDO operative (excluding BOMB SQUIG and GROT ). Ignore that
+      inflicted damage.
+  - name: "Krump \u2018Em!"
+    cost: 1CP
+    description: Use this firefight ploy at the end of the Firefight phase. Select
+      one friendly KOMMANDO operative. It can immediately perform a free Fight action.
+  - name: Kunnin' But Brutal
+    cost: 1CP
+    description: Use this firefight ploy when a friendly KOMMANDO operative that has
+      a Conceal order is fighting during an activation in which it's performed the
+      Charge action, you're resolving the first attack dice and it's a strike with
+      a normal success. Treat that normal success as a critical success instead.
+  - name: Shake It Off
+    cost: 1CP
+    description: Use this firefight ploy when a friendly KOMMANDO operative is activated,
+      or when its APL stat is changed. Until the start of the next turning point,
+      you can ignore any changes to its APL stat.
+  operatives:
+  - name: Boss Nob
+    stats:
+      apl: 3
+      mv: 6"
+      sv: 5+
+      w: 14
+    weapons:
+    - name: Slugga
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Big choppa
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 5/6
+      rules: []
+    - name: Power klaw
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Brutal
+      - Shock
+    rules:
+    - name: Krumpin' Time
+      description: "This operative can perform two Fight actions during its activation.\
+        \ GET IT DUN! 1AP \U0001F7E2 SUPPORT. Select one other friendly KOMMANDO operative\
+        \ (excluding BOMB SQUIG ) visible to and within 6\" of this operative. Until\
+        \ the end of that operative's next activation add 1 to its APL stat. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative, or while counteracting."
+      cost: 0AP
+  - name: Bomb Squig
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 5
+    weapons:
+    - name: Explosives
+      type: Melee
+      a: 6
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Blast 1"
+      - Limited 1
+      - Explosive *
+    - name: Bite
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: '* Explosive'
+      description: This operative can perform the Shoot action with this weapon while
+        within control range of an enemy operative. Don't select a valid target, instead
+        this operative is always the primary target and cannot be in cover or obscured.
+      cost: 0AP
+    - name: Boom!
+      description: Whenever this operative is incapacitated during a battle in which
+        it hasn't used its explosives, roll one D6, or 2D6 if you wish. If any result
+        is a 4+, this operative performs a free Shoot action with its explosives before
+        it's removed from the killzone.
+      cost: 0AP
+    - name: Stoopid
+      description: In the Firefight Phase, whenever you determine this operative's
+        order, you cannot select Conceal. This operative cannot perform any actions
+        other than Charge , Dash , Fight , Reposition and Shoot , or use any weapons
+        that aren't on its data card.
+      cost: 0AP
+    - name: Expendable
+      description: "This operative is ignored for your opponent's kill/ elimination\
+        \ op (when it's incapacitated, and when determining your starting number of\
+        \ operatives). It's also ignored for victory conditions and scoring VPs if\
+        \ either require operatives to \u2018escape', \u2018survive' or be incapacitated\
+        \ by enemy operatives (if it escapes/survives/is incapacitated, determining\
+        \ how many operatives must escape/survive/be incapacitated, etc.)."
+      cost: 0AP
+  - name: Breacha Boy
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Slugga
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Breacha ram
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/5
+      rules:
+      - Brutal
+      - Severe
+      - Shock
+    rules: []
+  - name: Burna Boy
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Burna (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Burna (Deluge)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 4"
+      - Saturate
+      - Seek
+      - Torrent 0"
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Stronghold rule (see Killzone
+      description: Volkus, Kill Team Core Book).
+      cost: 0AP
+  - name: Comms Boy
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Shokka pistol
+      type: Ranged
+      a: 6
+      bs_ws: 4+
+      d: 1/0
+      rules:
+      - Rng 8"
+      - Devastating 2
+      - Severe
+      - Stun
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: I got a plan Ladz
+      description: Once during each of this operative's activations, it can perform
+        the Place Marker , Pick Up Marker , or a mission action for 1 less AP.
+      cost: 1AP
+    - name: Listen In
+      description: "\U0001F7E2 SUPPORT , Select one other friendly KOMMANDO operative\
+        \ (excluding BOMB SQUIG ) visible to and within 6\" of this operative. Until\
+        \ the end of that operative's next activation, add 1 to its APL stat. \U0001F534\
+        \ This operative cannot perform this action while within control range of\
+        \ an enemy operative."
+      cost: 0AP
+  - name: Dakka Boy
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Dakka shoota (Short range)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 9"
+      - Ceaseless
+    - name: Dakka shoota (Long range)
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Grot
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 5
+    weapons: []
+    rules:
+    - name: Sneaky Zogger
+      description: This operative cannot have an Engage order. Whenever this operative
+        is in cover, it cannot be selected as a valid target, taking precedence over
+        all other rules (e.g. Seek, Vantage terrain) except being within 2".
+      cost: 1AP
+    - name: Grappling Hook
+      description: "\U0001F7E2 Selected a visible point on a terrain feature for this\
+        \ operative. Remove this operative from the killzone and set it back up within\
+        \ 1\" horizontally of that point in a location it can be placed, not within\
+        \ control range of enemy operatives, and with that point visible to it. The\
+        \ operative cannot perform the Operate Hatch action during this action. \U0001F534\
+        \ This action is treated as a Reposition action. This operative cannot perform\
+        \ this action while within control range of an enemy operative, or during\
+        \ an activation in which it performed the Charge or Fall Back action (or vice\
+        \ versa)."
+      cost: 0AP
+  - name: Rokkit Boy
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Rokkit launcha (Aimed)
+      type: Melee
+      a: 6
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Blast 1"
+      - Ceaseless
+      - Heavy (Dash only)
+    - name: Rokkit launcha (Mobile)
+      type: Melee
+      a: 6
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Blast 1"
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Slasha Boy
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Throwing knives
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/5
+      rules:
+      - Rng 6"
+      - Silent
+    - name: Twin choppas
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Ceaseless
+      - Lethal 5+
+    rules:
+    - name: Dat all you got?
+      description: After this operative fights or retaliates, if it wasn't incapacitated,
+        you can inflict D3 damage on the enemy operative in that sequence.
+      cost: 0AP
+  - name: Snipa Boy
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: shoota (Concealed)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 2
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: shoota (Stationary)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Devastating 2
+      - Heavy
+    - name: shoota (Sweeping)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Heavy (Dash only)
+      - Torrent 1"
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon profile the first time
+        it's performing the Shoot action during the battle.
+      cost: 0AP
+  - name: Boy
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 10
+    weapons:
+    - name: Slugga
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Choppa
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Tactical Wot-notz
+      description: "You can do one of each of the following once per turning point:\
+        \ \u25CF One friendly KOMMANDO BOY can perform the Smoke Grenade action. \u25CF\
+        \ One friendly KOMMANDO BOY can perform the Stun Grenade action. The rules\
+        \ for these actions are found in universal equipment. Performing these actions\
+        \ using this rule doesn't count towards their action limits (i.e, if you select\
+        \ those grenades from equipment) ."
+      cost: 0AP

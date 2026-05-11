@@ -1,0 +1,541 @@
+team:
+  name: Spectre Squad
+  version: v1.0
+  last_updated: 06 May 2026
+  archetypes:
+  - Infiltration
+  - Recon
+  strategy_ploys:
+  - name: Disappear
+    cost: 1CP
+    description: 'One friendly SPECTRE SQUAD operative can immediately perform a free
+      Reposition action. It cannot end that move closer to enemy operatives or your
+      opponent''s drop zone (unless it ends that move wholly within your drop zone)
+      and it cannot perform that action again during the turning point. In a killzone
+      that uses the close quarters rules (e.g. Killzone: Tomb World), ignore Wall
+      terrain when determining closer.'
+  - name: Hidden Engagement
+    cost: 1CP
+    description: Whenever a friendly SPECTRE SQUAD operative is shooting, if it's
+      in cover from the target's perspective, that friendly operative's weapons have
+      the Balanced weapon rule. Note that your opponent still determines the targeting
+      lines for this (i.e. they decide which point of their operative's base targeting
+      lines are drawn from).
+  - name: Ambushing Volley
+    cost: 1CP
+    description: Whenever a friendly SPECTRE SQUAD operative is activated, if it's
+      more than 3" from enemy operatives and isn't a valid target for enemy operatives
+      before determining its order, its ranged weapons (excluding the suppressive
+      profile of an autostubber) have the Devastating 1 weapon rule until the end
+      of that activation.
+  - name: Patience
+    cost: 1CP
+    description: "In the Firefight phase of this turning point, you can do one of\
+      \ the following: \u25CF When it's your turn to activate a friendly operative,\
+      \ you can skip that activation. You cannot do this until after your opponent's\
+      \ first activation. \u25CF When a friendly SPECTRE SQUAD operative performs\
+      \ the Shoot or Fight action during its activation, if it's the last friendly\
+      \ operative to be activated during this turning point, its weapons have the\
+      \ Relentless weapon rule for that action"
+  firefight_ploys:
+  - name: Dodge
+    cost: 1CP
+    description: Use this firefight ploy during a friendly SPECTRE SQUAD operative's
+      activation, before or after it performs an action. During that activation, that
+      operative can perform the Fall Back action for 1 less AP.
+  - name: Silent Killers
+    cost: 1CP
+    description: Use this firefight ploy during a friendly SPECTRE SQUAD operative's
+      activation before or after it performs an action, if it has a Conceal order
+      and isn't a valid target for enemy operatives. Until the end of that activation,
+      it can perform the Charge action while it has a Conceal order, and the first
+      time it strikes you can inflict 3 additional damage, but cannot resolve any
+      other successes during that sequence.
+  - name: Sharp Reactions
+    cost: 1CP
+    description: Use this firefight ploy after an enemy operative that has a Conceal
+      order performs an action during its activation, if it's within 8" of a friendly
+      SPECTRE SQUAD operative. You can use the Elite Fieldcraft faction rule to interrupt
+      that activation with that friendly SPECTRE SQUAD operative regardless of that
+      enemy operative's order (taking precedence over the normal rules).
+  - name: Prepared Defence
+    cost: 1CP
+    description: "Use this firefight ploy when a friendly SPECTRE SQUAD operative\
+      \ that has a Conceal order or is ready is retaliating. You can do one of the\
+      \ following: \u25CF At the start of the Resolve Attack Dice step, you can resolve\
+      \ one of your successes before the normal order. If you do, that success must\
+      \ be used to block. \u25CF When you block, that block can be allocated to block\
+      \ two unresolved successes (instead of one). You cannot use this ploy during\
+      \ an activation in which you've interrupted with the Elite Fieldcraft faction\
+      \ rule."
+  operatives:
+  - name: Veteran Sergeant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 9
+    weapons:
+    - name: Scoped lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Lethal 5+
+      - Rending
+    - name: Bionic arm
+      type: Melee
+      a: 3
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    rules: []
+  - name: Field Medicae
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rending
+    - name: Lasrifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Heavy (Reposition only)
+      - Lethal 5+
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        SPECTRE SQUAD operative (excluding VOX-RELAY BEACON ) would be incapacitated
+        while visible to and within 3" of this operative, you can use this rule, providing
+        neither this nor that operative is within control range of an enemy operative.
+        If you do, that friendly operative isn't incapacitated, has 1 wound remaining
+        and cannot be incapacitated for the remainder of the action. After that action,
+        that friendly operative can immediately perform a free Dash action, but must
+        end that move within this operative's control range. Subtract 1 from this
+        and that operative's APL stats until the end of their next activations respectively,
+        and if this rule was used during that friendly operative's activation, that
+        activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 0AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly SPECTRE SQUAD operative (excluding\
+        \ VOX-RELAY BEACON ) within this operative's control range to regain up to\
+        \ 2D3 lost wounds. It cannot be an operative that the Medic! rule was used\
+        \ on during this turning point. \U0001F534 Cannot perform this action while\
+        \ within control range of an enemy operative"
+      cost: 0AP
+  - name: Grenadier
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rending
+    - name: Lasrifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Heavy (Reposition only)
+      - Lethal 5+
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Grenadier
+      description: This operative can use frag, krak, and smoke grenades (see universal
+        equipment). Doing so doesn't count towards any limited uses you have (i.e.
+        if you also select those grenades from equipment for other operatives). Whenever
+        this operative is using a frag or krak grenade, improve the Hit stat of that
+        weapon by 1.
+      cost: 0AP
+    - name: Melta Mine
+      description: This operative is carrying your Melta Mine marker. It can perform
+        the Pick Up Marker action on that marker, and whenever it performs the Place
+        Marker action on that marker, it can immediately perform a free Dash action.
+        That marker cannot be placed within an enemy operative's control range (if
+        this operative is incapacitated while carrying that marker and that marker
+        cannot be placed, it's removed with this operative).
+      cost: 0AP
+    - name: Proximity Mine
+      description: The first time your Melta Mine marker is within another operative's
+        control range, remove that marker and inflict 2D6+3 damage on that operative;
+        if it isn't incapacitated, end its action (if any), even if that action's
+        effects aren't fulfilled. If it cannot be placed, move it the minimum amount
+        to do so. Note that this operative is ignored for these effects (i.e. it cannot
+        set it off or take damage from that marker).
+      cost: 0AP
+  - name: Guide
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rending
+    - name: Lasrifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Heavy (Reposition only)
+      - Lethal 5+
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Prepared Killzone
+      description: You can select one additional equipment option, but it must be
+        an Ammo Cache or an equipment terrain feature (see universal equipment).
+      cost: 0AP
+    - name: Scout Terrain
+      description: "Terrain features within your territory or within 3\" of this operative\
+        \ are scouted for friendly SPECTRE SQUAD operatives. Once in each of their\
+        \ activations, friendly SPECTRE SQUAD operatives can do one of the following:\
+        \ \u25CF Ignore the first vertical distance of 2\" it moves during one climb\
+        \ up if the terrain feature is scouted for friendly SPECTRE SQUAD operatives.\
+        \ \u25CF Perform the Operate Hatch action for 1 less AP if the access point\
+        \ is scouted for friendly SPECTRE SQUAD operatives."
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Heavy Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Missile launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Blast 2"
+      - Heavy
+    - name: Missile launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/7
+      rules:
+      - Heavy
+      - Piercing 1
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Weapons Team
+      description: Whenever this operative is activated, if a friendly LOADER operative
+        is within its control range, all profiles of its missile launcher have the
+        Heavy ( Dash only) weapon rule instead of the Heavy weapon rule until the
+        end of that activation.
+      cost: 0AP
+  - name: Loader
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Weapon Assist
+      description: Whenever another friendly SPECTRE SQUAD operative within control
+        range of this operative is shooting, you can re-roll one of your attack dice.
+      cost: 1AP
+    - name: Load Weapon
+      description: "\U0001F7E2 Select one friendly SPECTRE SQUAD operative within\
+        \ this operative's control range and not within 3\" of enemy operatives. That\
+        \ friendly operative can immediately perform a free Shoot action (excluding\
+        \ Guard ), and you can change its order to do so. \U0001F534 This operative\
+        \ cannot perform this action while within control range of an enemy operative,\
+        \ while counteracting, or during an activation in which it performed the Charge\
+        \ , Dash or Shoot action (or vice versa)."
+      cost: 0AP
+  - name: Sharpshooter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Long-las (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Long-las (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Long-las (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 0AP
+  - name: Stub-Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Autostubber (Focused)
+      type: Melee
+      a: 5
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Heavy (Dash only)
+    - name: Autostubber (Supressive)
+      type: Melee
+      a: 5
+      bs_ws: 5+
+      d: 0/0
+      rules:
+      - Heavy
+      - Lethal 5+
+      - Seek Light
+      - Stun
+      - Torrent 1"
+    - name: Autostubber (Sweeping)
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Heavy (Dash only)
+      - Torrent 1"
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Suppressive Fire
+      description: Whenever an enemy operative is visible to and within 3" of this
+        operative, if this operative has an Engage order and isn't within control
+        range of any other enemy operatives, subtract 1 from the Atk stat of that
+        enemy operative's weapons (to a minimum of 1). This rule has no effect if
+        this operative performed the Charge action during this turning point.
+      cost: 0AP
+  - name: Vox-Operator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rending
+    - name: Lasrifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Heavy (Reposition only)
+      - Lethal 5+
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Vox-Relay Beacon
+    stats:
+      apl: 1
+      mv: 0"
+      sv: 5+
+      w: 3
+    weapons: []
+    rules:
+    - name: Pre-Deploy
+      description: In the Set Up Operatives step, this operative can be set up outside
+        of your drop zone. It must be set up in a location it can be placed, wholly
+        within your territory and more than 2" from markers and equipment terrain
+        features.
+      cost: 0AP
+    - name: Expendable
+      description: "This operative cannot perform any actions other than Signal .\
+        \ It cannot counteract, retaliate or assist in a fight. This operative cannot\
+        \ contest markers or areas of the killzone, and is ignored for your opponent's\
+        \ kill/elimination op (when it's incapacitated, and when determining your\
+        \ starting number of operatives). It's also ignored for victory conditions\
+        \ and scoring VPs if either require operatives to \u2018escape', \u2018survive'\
+        \ or be incapacitated by enemy operatives (if it escapes/survives/is incapacitated,\
+        \ determining how many operatives must escape/survive/be incapacitated, etc.).\
+        \ Operatives can move through this operative. Your opponent can ignore this\
+        \ operative's control range at any time. Whenever a friendly SPECTRE SQUAD\
+        \ operative is performing the Shoot action and you're selecting a valid target,\
+        \ you can ignore this operative's control range. Note that control range wouldn't\
+        \ be mutual when ignored."
+      cost: 1AP
+    - name: Signal
+      description: "\U0001F7E2 Select one other friendly SPECTRE SQUAD operative within\
+        \ 6\" of this operative. Until the end of that operative's next activation,\
+        \ add 1 to its APL stat. \U0001F534 Cannot perform this action while within\
+        \ control range of an enemy operative."
+      cost: 0AP
+  - name: Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Rending
+    - name: Lasrifle
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/3
+      rules:
+      - Heavy (Reposition only)
+      - Lethal 5+
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Cool-Headed
+      description: Once per turning point, one friendly SPECTRE SQUAD operative with
+        this rule can interrupt an enemy operative's activation with the Elite Fieldcraft
+        faction rule for 0 Fieldcraft points (taking precedence over the normal rules).
+      cost: 0AP

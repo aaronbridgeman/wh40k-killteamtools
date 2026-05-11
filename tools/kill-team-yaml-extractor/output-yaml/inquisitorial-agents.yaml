@@ -1,0 +1,2275 @@
+team:
+  name: Inquisitorial Agents
+  version: v1.6
+  last_updated: 26 Feb 2026
+  archetypes:
+  - Any
+  strategy_ploys:
+  - name: Denounce
+    cost: 1CP
+    description: Select one enemy operative and roll one D3. In the Firefight phase
+      of this turning point, that enemy operative cannot be activated or perform actions
+      until it's the last enemy operative to be activated, or your opponent has activated
+      a number of enemy operatives equal to the result of the D3 (whichever comes
+      first). This ploy costs you 1 additional CP for each previous time you've used
+      it during the battle (e.g. 1CP the first time you would use it, 2CP the second
+      time, etc.).
+  - name: Intense Scrutiny
+    cost: 1CP
+    description: Whenever you're selecting a valid target for a friendly INQUISITORIAL
+      AGENT operative, enemy operatives within 4" of it cannot be in cover (instead
+      of 2"). While this can allow such operatives to be targeted (assuming they're
+      visible), it doesn't remove their cover save (if any), unless the friendly INQUISITORIAL
+      AGENT operative is within 2" as normal.
+  - name: Quarry
+    cost: 1CP
+    description: Select one enemy operative to be your quarry for the turning point.
+      Whenever a friendly INQUISITORIAL AGENT operative is shooting against, fighting
+      against or retaliating against your quarry, that friendly operative's weapons
+      have the Ceaseless weapon rule. Whenever your quarry is incapacitated, you can
+      select a new enemy operative to be your quarry (and can continue to do so during
+      this turning point).
+  - name: Irrefutable Jurisdiction
+    cost: 1CP
+    description: Whenever an operative is shooting a friendly INQUISITORIAL AGENT
+      operative that's within 3" of an objective marker, you can re-roll one of your
+      defence dice. If that friendly operative contests that marker, you can re-roll
+      any of your defence dice results of one result instead (e.g. results of 2).
+  firefight_ploys:
+  - name: Absolute Authority
+    cost: 1CP
+    description: Use this firefight ploy during the battle, when an opponent uses
+      a strategy or firefight ploy (excluding Command Re-roll or one that costs 0CP).
+      Their ploy isn't used, the CP is refunded and they cannot use that ploy again
+      during this turning point. This ploy cannot be used to stop the same ploy more
+      than once per battle.
+  - name: Relentless In Pursuit
+    cost: 1CP
+    description: Use this firefight ploy when an enemy operative within 2" of a ready
+      friendly INQUISITORIAL AGENT operative performs an action in which it moves.
+      After it moves, that friendly INQUISITORIAL AGENT operative can either perform
+      a free Reposition action, but must end that move within 2" of that enemy operative,
+      or a free Charge action, but must end that move within control range of that
+      enemy operative. If neither is possible, that friendly operative cannot perform
+      those actions, this ploy isn't used and the CP spent on it is refunded.
+  - name: The Emperor'S Will
+    cost: 1CP
+    description: Use this firefight ploy when a friendly INQUISITORIAL AGENT operative
+      is activated. Until the end of that operative's activation, you can ignore any
+      changes to its stats (including its weapons' stats).
+  - name: Intimidating Presence
+    cost: 1CP
+    description: Use this firefight ploy when an enemy operative visible to and within
+      3" of a friendly INQUISITORIAL AGENT operative (or 6" if a friendly MYSTIC operative)
+      performs the Pick Up Marker or a mission action (excluding Operate Hatch ).
+      Your opponent must spend 1 additional AP for that enemy operative to perform
+      that action (if they cannot or choose not to, the AP spent on it is refunded).
+  operatives:
+  - name: Tome-Skull
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 5
+    weapons: []
+    rules:
+    - name: Consecrated Tome
+      description: This operative can have an INQUISITORIAL TOME rule (see INTERROGATOR
+        ). Note it keeps that rule even if that friendly INTERROGATOR operative is
+        removed from the killzone.
+      cost: 0AP
+    - name: Expendable
+      description: "This operative is ignored for your opponent's kill/ elimination\
+        \ op (when it's incapacitated, and when determining your starting number of\
+        \ operatives). It's also ignored for victory conditions and scoring VPs if\
+        \ either require operatives to \u2018escape', \u2018survive' or be incapacitated\
+        \ by enemy operatives (if it escapes/survives/is incapacitated, determining\
+        \ how many operatives must escape/survive/be incapacitated, etc.)."
+      cost: 0AP
+    - name: Machine
+      description: "\u25CF This operative cannot perform any actions other than Charge\
+        \ , Dash , Fall Back and Reposition . \u25CF It cannot retaliate or assist\
+        \ in a fight. \u25CF Whenever determining control of a marker, treat this\
+        \ operative's APL stat as 1 lower. Note this isn't a change to its APL stat,\
+        \ so any changes are cumulative with this. \u25CF Whenever this operative\
+        \ has a Conceal order and is in cover, it cannot be selected as a valid target,\
+        \ taking precedence over all other rules (e.g. Seek, Vantage terrain) except\
+        \ being within 2\"."
+      cost: 0AP
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate a ready
+        friendly INQUISITORIAL AGENT INTERROGATOR operative (if able) before your
+        opponent activates. The same is true in reverse ( INTERROGATOR followed by
+        TOME-SKULL ). When that other operative is expended, your opponent then activates
+        as normal. Kill Team Reference Sheet by James And The Giant Squig - Version
+        1.6 (updated 26 Feb 2026)
+      cost: 0AP
+  - name: Interrogator Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 8
+    weapons:
+    - name: Extended stock relic autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Rng 12"
+      - Lethal 5+
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Inquisitorial Tomes
+      description: STRATEGIC GAMBIT if this operative is in the killzone and/or when
+        this operative is activated. Select one of the following INQUISITORIAL TOME
+        rules for this operative to have, and one for a friendly INQUISITORIAL AGENT
+        TOME-SKULL operative to have (they can be the
+      cost: 0AP
+    - name: "\u25CF Denunciation"
+      description: Whenever a friendly INQUISITORIAL AGENT operative is shooting against,
+        fighting against or retaliating against an enemy operative within 2" of a
+        friendly operative with this rule, add 1 to the Atk stat of that friendly
+        operative's weapons.
+      cost: 0AP
+    - name: "\u25CF Sanctification"
+      description: Whenever an enemy operative is shooting against, fighting against
+        or retaliating against a friendly INQUISITORIAL AGENT operative within 2"
+        of a friendly operative with this rule, subtract 1 from the Atk stat of that
+        enemy operative's weapons.
+      cost: 0AP
+  - name: Autosavant Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 7
+    weapons:
+    - name: Mechanical appendages
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    rules:
+    - name: Scrivener
+      description: Each subsequent time your opponent uses each ploy during the battle
+        (excluding Command Re-roll), if this operative is in the killzone, you gain
+        1CP (to a maximum of 2CP per turning point).
+      cost: 0AP
+    - name: Irrefutable Report
+      description: Whenever this operative contests an objective marker or one of
+        your mission markers, it always controls that marker. This takes precedence
+        over all other rules.
+      cost: 0AP
+    - name: Lightly Armed
+      description: This operative cannot use any weapons that aren't on its datacard,
+        or perform unique actions.
+      cost: 0AP
+  - name: Death World Veteran Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Knife
+      type: Melee
+      a: 1
+      bs_ws: 2+
+      d: 5/7
+      rules:
+      - Lethal 5+
+    - name: Polearm
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Hunter
+      description: This operative can perform the Charge action while it has a Conceal
+        order.
+      cost: 0AP
+    - name: Weathered
+      description: Once per turning point, when this operative is fighting or retaliating,
+        in the Resolve Attack Dice step, you can ignore the damage inflicted on it
+        from one normal success.
+      cost: 0AP
+  - name: Enlightener Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Paired blades
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Balanced
+      - Rending
+    rules:
+    - name: No Escape
+      description: 'Whenever an enemy operative would perform the Fall Back action
+        while within control range of this operative, you can use this rule. If you
+        do, roll one D6, subtracting 1 from the result if that enemy operative has
+        a higher Wounds stat than this operative, and adding 1 if that enemy operative
+        is wounded: on a 4+, that enemy operative cannot perform that action during
+        that activation/counteraction (the AP spent on it isn''t refunded).'
+      cost: 0AP
+    - name: Extract Information
+      description: Whenever an enemy operative is incapacitated within this operative's
+        control range, you gain 1CP.
+      cost: 0AP
+  - name: Requisitioned Gun Servitor
+    stats:
+      apl: 1
+      mv: 5"
+      sv: 4+
+      w: 11
+    weapons:
+    - name: Heavy bolter (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Piercing Crits 1
+    - name: Heavy bolter (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Devastating 4
+      - Heavy (Dash only)
+      - Piercing 2
+    - name: Plasma cannon (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Blast 2"
+      - Heavy (Dash only)
+      - Piercing 1
+    - name: Plasma cannon (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Blast 2"
+      - Heavy (Dash only)
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Servo-claw
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Lobotomised
+      description: Whenever this operative is activated, if it's visible to and within
+        3" of another friendly INQUISITORIAL AGENT operative (excluding GUN SERVITOR
+        ) or vice versa, add 1 to this operative's APL stat until the end of that
+        activation.
+      cost: 0AP
+  - name: Hexorcist Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Shotgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Hexorcise
+      description: Whenever an enemy operative is visible to and within 6" of this
+        operative, your opponent cannot re-roll their attack or defence dice for that
+        operative.
+      cost: 1AP
+    - name: Chasten
+      description: "\U0001F7E2 Select one enemy operative that's a valid target for\
+        \ this operative and within 6\" of it, then select one additional rule (including\
+        \ a unique action) that enemy operative has on its datacard (excluding a weapon\
+        \ rule or a rule that states it is ignored for the kill/ elimination op).\
+        \ Until the end of that enemy operative's next activation, it's treated as\
+        \ not having that additional rule. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Mystic Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 2/3
+      rules:
+      - Rng 8"
+      - Seek
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 5+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Icon Bearer
+      description: Whenever determining control of a marker, treat this operative's
+        APL stat as 1 higher. Note this isn't a change to its APL stat, so any changes
+        are cumulative with this.
+      cost: 0AP
+    - name: Lightly Armed
+      description: This operative cannot use any weapons that aren't on its datacard.
+      cost: 1AP
+    - name: Scry
+      description: "\U0001F7E2 PSYCHIC . Select one friendly INQUISITORIAL AGENT operative\
+        \ within 6\" of this operative, then select one of the following effects to\
+        \ last until the start of this operative's next activation, until it's incapacitated\
+        \ or until it performs this action"
+      cost: 0AP
+    - name: "\u25CF Guidance"
+      description: PSYCHIC . Whenever the selected operative is shooting, fighting
+        or retaliating, in the Roll Attack Dice step, you can retain one of your fails
+        as a normal success instead of discarding it, or retain one of your normal
+        successes as a critical success instead.
+      cost: 0AP
+    - name: "\u25CF Protection"
+      description: "PSYCHIC . Whenever an operative is shooting the selected operative,\
+        \ in the Roll Defence Dice step, you can retain one of your fails as a normal\
+        \ success instead of discarding it, or retain one of your normal successes\
+        \ as a critical success instead. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Penal Legionnaire Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Hand flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Saturate
+      - Torrent 1"
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Chem-mask
+      description: You can ignore any changes to this operative's APL stat, and any
+        changes to its stats from being injured. This operative isn't affected by
+        enemy operatives' Shock and Stun weapon rules.
+      cost: 0AP
+    - name: Cruel
+      description: Whenever this operative is shooting against, fighting against or
+        retaliating against a wounded enemy operative, this operative's weapons have
+        the Relentless weapon rule.
+      cost: 0AP
+  - name: Pistolier Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Scoped plasma pistol (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/5
+      rules:
+      - Rng 12"
+      - Piercing 1
+    - name: Scoped plasma pistol (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Rng 12"
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Suppressed autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+      - Silent
+    - name: Fists
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Pistolier
+      description: You can ignore any changes to the Hit stat of this operative's
+        ranged weapons.
+      cost: 1AP
+    - name: Pistol Barrage
+      description: "\U0001F7E2 Perform two free Shoot actions with this operative\
+        \ (this takes precedence over action restrictions). You must select a profile\
+        \ of its scoped plasma pistol for one action and its suppressed autopistol\
+        \ for the other (in any order). \U0001F534 This operative cannot perform this\
+        \ action while it has a Conceal order, or during an activation in which it\
+        \ performed the Shoot action (or vice versa)."
+      cost: 0AP
+  - name: Questkeeper Agent
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Eviscerator
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Brutal
+    rules:
+    - name: Irrepressible Purpose
+      description: If this operative is incapacitated while fighting or retaliating,
+        you can strike the enemy operative in that sequence with one of your unresolved
+        successes before it's removed from the killzone.
+      cost: 0AP
+    - name: Zealot
+      description: Whenever an attack dice inflicts damage of 3 or more on this operative,
+      cost: 0AP
+    - name: roll one D6
+      description: "on a 5+, subtract 1 from that inflicted damage. Kill Team Reference\
+        \ Sheet by James And The Giant Squig - Version 1.6 (updated 26 Feb 2026) INQUISITORIAL\
+        \ AGENTS - TEMPESTUS SCIONS/SISTER OF SILENCE TEMPESTUS SCIONS OPERATIVES\
+        \ 5 TEMPESTUS SCION operatives selected from the following list: \u25CF GUNNER\
+        \ with flamer and gun butt \u25CF GUNNER with grenade launcher and gun butt\
+        \ \u25CF GUNNER with hot-shot volley gun and gun butt \u25CF GUNNER with meltagun\
+        \ and gun butt \u25CF GUNNER with plasma gun and gun butt \u25CF MEDIC \u25CF\
+        \ TROOPER \u25CF VOX-OPERATOR Other than TROOPER operatives, your kill team\
+        \ can only include each operative on this list once. Your kill team can only\
+        \ include up to two GUNNER operatives."
+      cost: 0AP
+  - name: Tempestus Scion Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Grenade Launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Grenade Launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Hot-shot volley gun (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Hot-shot volley gun (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Tempestus Scion Medic
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic !
+      description: The first time during each turning point that another friendly
+        INQUISITORIAL AGENT operative would be incapacitated while visible to and
+        within 3" of this operative, you can use this rule, providing neither this
+        nor that operative is within control range of an enemy operative. If you do,
+        that friendly operative isn't incapacitated, has 1 wound remaining and cannot
+        be incapacitated for the remainder of the action. After that action, that
+        friendly operative can immediately perform a free Dash action, but must end
+        that move within this operative's control range. Subtract 1 from this and
+        that operative's APL stats until the end of their next activations respectively,
+        and if this rule was used during that friendly operative's activation, that
+        activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly INQUISITORIAL AGENT operative within\
+        \ this operative's control range to regain up to 2D3 lost wounds. It cannot\
+        \ be an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Tempestus Scion Vox-Operator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Tempestus Scion Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Adaptive Equipment
+      description: "You can do each of the following once per turning point: \u25CF\
+        \ One friendly INQUISITORIAL AGENT TEMPESTUS SCION TROOPER operative can perform\
+        \ the Smoke Grenade action. \u25CF One friendly INQUISITORIAL AGENT TEMPESTUS\
+        \ SCION TROOPER operative can perform the Stun Grenade action. The rules for\
+        \ these actions are found in universal equipment. Performing these actions\
+        \ using this rule doesn't count towards their action limits (i.e. if you also\
+        \ select those grenades from equipment). SISTER OF SILENCE OPERATIVES 5 SISTER\
+        \ OF SILENCE operatives selected from the following list: \u25CF PROSECUTOR\
+        \ \u25CF VIGILATOR \u25CF WITCHSEEKER"
+      cost: 0AP
+  - name: Sister Of Silence Prosecutor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Psychic Null
+      description: PSYCHIC ranged weapons cannot inflict damage on this operative.
+        For the effects of PSYCHIC actions, this operative cannot be selected and
+        is never treated as being within those actions' required distances. Whenever
+        an operative
+      cost: 0AP
+    - name: is within 6" of this operative
+      description: "\u25CF That operative cannot perform PSYCHIC actions or use PSYCHIC\
+        \ additional rules. \u25CF That operative cannot use PSYCHIC ranged weapons.\
+        \ \u25CF PSYCHIC melee weapons have no weapon rules and cannot have Dmg stats\
+        \ higher than 3/4."
+      cost: 0AP
+  - name: Sister Of Silence Vigilator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Executioner greatblade
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Psychic Null
+      description: PSYCHIC ranged weapons cannot inflict damage on this operative.
+        For the effects of PSYCHIC actions, this operative cannot be selected and
+        is never treated as being within those actions' required distances. Whenever
+        an operative
+      cost: 0AP
+    - name: is within 6" of this operative
+      description: "\u25CF That operative cannot perform PSYCHIC actions or use PSYCHIC\
+        \ additional rules. \u25CF That operative cannot use PSYCHIC ranged weapons.\
+        \ \u25CF PSYCHIC melee weapons have no weapon rules and cannot have Dmg stats\
+        \ higher than 3/4."
+      cost: 0AP
+  - name: Sister Of Silence Witchseeker
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Gun butt
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Psychic Null
+      description: PSYCHIC ranged weapons cannot inflict damage on this operative.
+        For the effects of PSYCHIC actions, this operative cannot be selected and
+        is never treated as being within those actions' required distances. Whenever
+        an operative
+      cost: 0AP
+    - name: is within 6" of this operative
+      description: "\u25CF That operative cannot perform PSYCHIC actions or use PSYCHIC\
+        \ additional rules. \u25CF That operative cannot use PSYCHIC ranged weapons.\
+        \ \u25CF PSYCHIC melee weapons have no weapon rules and cannot have Dmg stats\
+        \ higher than 3/4. Kill Team Reference Sheet by James And The Giant Squig\
+        \ - Version 1.6 (updated 26 Feb 2026) INQUISITORIAL AGENTS - DEATH KORPS DEATH\
+        \ KORPS OPERATIVES"
+      cost: 0AP
+    - name: 6 DEATH KORPS operatives selected from the following list
+      description: "\u25CF BRUISER"
+      cost: 0AP
+    - name: "\u25CF CONFIDANT equipped with one of the following options"
+      description: "\u25CB Boltgun or lasgun; bayonet. \u25CB Bolt pistol or laspistol;\
+        \ chainsword. \u25CF GUNNER equipped with bayonet and flamer * \u25CF GUNNER\
+        \ equipped with bayonet and grenade launcher * \u25CF GUNNER equipped with\
+        \ bayonet and meltagun * \u25CF GUNNER equipped with bayonet and plasma gun\
+        \ * \u25CF MEDIC \u25CF SAPPER \u25CF SNIPER * \u25CF TROOPER \u25CF VETERAN\
+        \ \u25CF VOX-OPERATOR \u25CF ZEALEOT Other than TROOPER operatives, your kill\
+        \ team can only include each operative on this list once. * You cannot select\
+        \ more than three of these operatives combined."
+      cost: 0AP
+  - name: Bruiser
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Trench club
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Shock
+    rules:
+    - name: Bruiser
+      description: Once per turning point, when this operative is fighting or retaliating,
+        in the Resolve Attack Dice step, you can ignore the damage inflicted on it
+        from one normal success.
+      cost: 0AP
+  - name: Confidant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Bolt pistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Boltgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Relic laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Chainsword
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Second in Command
+      description: If a friendly WATCHMASTER operative is incapacitated and removed
+        from the killzone, you can use this rule. If you do, until the end of the
+        battle, this operative can issue a GUARDSMAN ORDER as a STRATEGIC GAMBIT (even
+        though it's not a WATCHMASTER operative).
+      cost: 0AP
+    - name: Directive
+      description: Whenever this operative is activated, if you haven't used the Second
+        in Command rule during the battle, you can select one other ready friendly
+        INQUISITORIAL AGENT operative visible to and within 6" of it. When this operative
+        is expended, activate that other friendly operative before your opponent activates
+        (if that operative is a TROOPER , ignore its Group Activation rule).
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Grenade launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Grenade launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Medic
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        INQUISITORIAL AGENT operative would be incapacitated while visible to and
+        within 3" of this operative, you can use this rule, providing neither this
+        nor that operative is within control range of an enemy operative. If you do,
+        that friendly operative isn't incapacitated, has 1 wound remaining and cannot
+        be incapacitated for the remainder of the action. After that action, that
+        friendly operative can immediately perform a free Dash action, but must end
+        that move within this operative's control range. Subtract 1 from this and
+        that operative's APL stats until the end of their next activations respectively,
+        and if this rule was used during that friendly operative's activation, that
+        activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly INQUISITORIAL AGENT operative within\
+        \ this operative's control range to regain up to 2D3 lost wounds. It cannot\
+        \ be an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Sapper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Remote detonator
+      type: Melee
+      a: 4
+      bs_ws: 2+
+      d: 5/6
+      rules:
+      - Heavy (Dash only)
+      - Limited 1
+      - Piercing 1
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Detonate'
+      description: Don't select a valid target. Instead, shoot against each operative
+        within 2" of your Mine marker, unless Heavy terrain is wholly intervening
+        between that operative and that marker. Each of those operatives cannot be
+        in cover or obscured. Roll each sequence separately in an order of your choice.
+        This weapon cannot be selected if your Mine marker isn't in the killzone.
+        At the end of the action, remove your Mine marker from the killzone.
+      cost: 0AP
+    - name: Mine Layer
+      description: This operative is carrying your Mine marker. It can perform the
+        Pick Up Marker action on that marker, and whenever it performs the Place Marke
+        r action on that marker, it can immediately perform a free Dash action.
+      cost: 0AP
+  - name: Sniper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Long-las (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Long-las (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Long-las (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 0AP
+  - name: Veteran
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bionic arm
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 4/5
+      rules: []
+    rules:
+    - name: Veteran Guardsman
+      description: Whenever this operative is activated, it can receive one GUARDSMAN
+        ORDER .
+      cost: 0AP
+    - name: Bionics
+      description: Normal Dmg of 3 or more inflicts 1 less damage on this operative.
+      cost: 0AP
+  - name: Vox-Operator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Zealot
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: The Emperor Protects
+      description: Whenever an operative is shooting this operative, you can re-roll
+        any of your defence dice.
+      cost: 0AP
+    - name: Uplifting Primer
+      description: SUPPORT . Whenever a friendly INQUISITORIAL AGENT operative is
+        within 3" of this operative, that friendly operative's weapons have the Severe
+        weapon rule.
+      cost: 0AP
+  - name: Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+    - name: Lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    - name: Bayonet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate one
+        other ready friendly INQUISITORIAL AGENT TROOPER operative (if able) before
+        your opponent activates. When that other operative is expended, your opponent
+        then activates as normal (in other words, you cannot activate more than two
+        operatives in succession with this rule). Kill Team Reference Sheet by James
+        And The Giant Squig - Version 1.6 (updated 26 Feb 2026) INQUISITORIAL AGENTS
+        - KASRKIN KASRKIN OPERATIVES
+      cost: 0AP
+    - name: 5 KASRKIN operatives selected from the following list
+      description: "\u25CF COMBAT MEDIC equipped with a gun butt and hot-shot lasgun\
+        \ \u25CF DEMO-TROOPER with a gun butt, melta mine and hot-shot lasgun \u25CF\
+        \ GUNNER equipped with a gun butt and flamer * \u25CF GUNNER with gun butt\
+        \ and grenade launcher * \u25CF GUNNER with gun butt and meltagun * \u25CF\
+        \ GUNNER with gun butt and plasma gun * \u25CF GUNNER with gun butt and hot-shot\
+        \ volley gun * \u25CF RECON-TROOPER \u25CF SHARPSHOOTER * \u25CF TROOPER \u25CF\
+        \ VOX-TROOPER Other than TROOPER operatives, your kill team can only include\
+        \ each operative on this list once. * You cannot select more than two of these\
+        \ operatives combined."
+      cost: 0AP
+  - name: Combat Medic
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        INQUISITORIAL AGENT operative would be incapacitated while visible to and
+        within 3" of this operative, you can use this rule, providing neither this
+        nor that operative is within control range of an enemy operative. If you do,
+        that friendly operative isn't incapacitated, has 1 wound remaining and cannot
+        be incapacitated for the remainder of the action. After that action, that
+        friendly operative can immediately perform a free Dash action, but must end
+        that move within this operative's control range. Subtract 1 from this and
+        that operative's APL stats until the end of their next activations respectively,
+        and if this rule was used during that friendly operative's activation, that
+        activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 0AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly INQUISITORIAL AGENT operative within\
+        \ this operative's control range to regain up to 2D3 lost wounds. It cannot\
+        \ be an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Demo-Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot laspistol
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Rng 8"
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Melta Mine
+      description: This operative is carrying your Melta Mine marker. It can perform
+        the Pick Up Marker action on that marker, and whenever it performs the Place
+        Marker action on that marker, it can immediately perform a free Dash action.
+        That marker cannot be placed within an enemy operative's control range (if
+        this operative is incapacitated while carrying that marker and that marker
+        cannot be placed, it's removed with this operative).
+      cost: 0AP
+    - name: Proximity Mine
+      description: The first time your Melta Mine marker is within another operative's
+        control range, remove that marker and inflict 2D6+3 damage on that operative;
+        if it isn't incapacitated, end its action (if any), even if that action's
+        effects aren't fulfilled. If it cannot be placed, move it the minimum amount
+        to do so. Note that this operative is ignored for these effects (i.e. it cannot
+        set it off or take damage from that marker).
+      cost: 0AP
+    - name: Blast Padding
+      description: Whenever an operative is shooting this operative with a weapon
+        that has the Blast or Torrent weapon rule (excluding weapons that have a sweeping
+        profile), you can re-roll one of your defence dice. In addition, this operative
+        isn't affected by the x" Devastating x weapon rule (i.e. Devastating with
+        a distance) unless they are the target during that sequence.
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Flamer
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Saturate
+      - Torrent 2"
+    - name: Grenade Launcher (Frag)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 2/4
+      rules:
+      - Blast 2"
+    - name: Grenade Launcher (Krak)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Piercing 1
+    - name: Hot-shot volley gun (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+    - name: Hot-shot volley gun (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Piercing Crits 1
+      - Torrent 1"
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Recon-Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Sharpshooter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot marksman rifle (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Hot-shot marksman rifle (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Hot-shot marksman rifle (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 3/3
+      rules:
+      - Devastating 3
+      - Heavy
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 0AP
+    - name: Camo Cloak
+      description: 'Whenever an operative is shooting this operative: - Ignore the
+        Saturate weapon rule. - If you can retain any cover saves, you can retain
+        one additional cover save, or you can retain one cover save as a critical
+        success instead. This isn''t cumulative with improved cover saves from Vantage
+        terrain.'
+      cost: 0AP
+  - name: Vox-Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lasgun
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Hot-shot lascarbine
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules: []
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Adaptive Equipment
+      description: "You can do each of the following once per turning point: \u25CF\
+        \ One friendly INQUISITORIAL AGENT TROOPER operative can perform the Smoke\
+        \ Grenade action. \u25CF One friendly INQUISITORIAL AGENT TROOPER operative\
+        \ can perform the Stun Grenade action. The rules for these actions are found\
+        \ in universal equipment. Performing these actions using this rule doesn't\
+        \ count towards their action limits (i.e. if you also select those grenades\
+        \ from equipment). Kill Team Reference Sheet by James And The Giant Squig\
+        \ - Version 1.6 (updated 26 Feb 2026) INQUISITORIAL AGENTS - IMPERIAL NAVY\
+        \ BREACHERS IMPERIAL NAVY BREACHERS FACTION RULES VOID ARMOUR Whenever an\
+        \ operative is shooting a friendly INQUISITORIAL AGENT REQUISITIONED operative,\
+        \ if the ranged weapon in that sequence has the Blast or Torrent weapon rule\
+        \ (excluding weapons that have a sweeping profile), you can re-roll one of\
+        \ your defence dice, or up to two of your defence dice if that friendly operative\
+        \ is a GRENADIER . Friendly INQUISITORIAL AGENT REQUISITIONED operatives aren't\
+        \ affected by the x\" Devastating x weapon rule (i.e. Devastating with a distance)\
+        \ unless they are the target during that sequence. IMPERIAL NAVY BREACHERS\
+        \ OPERATIVES 5 IMPERIAL NAVY BREACHER operatives selected from the following\
+        \ list: \u25CF NAVIS ARMSMAN \u25CF NAVIS AXEJACK \u25CF NAVIS C.A.T. UNIT\
+        \ * \u25CF NAVIS ENDURANT \u25CF NAVIS GHEISTSKULL * \u25CF NAVIS GRENADIER\
+        \ \u25CF NAVIS GUNNER with Navis las-volley and gun butt \u25CF NAVIS GUNNER\
+        \ with meltagun and gun butt \u25CF NAVIS GUNNER with plasma gun and gun butt\
+        \ \u25CF NAVIS HATCHCUTTER \u25CF NAVIS SURVEYOR \u25CF NAVIS VOID-JAMMER\
+        \ Other than ARMSMAN operatives, your kill team can only include each operative\
+        \ on this list once. Your kill team can only include a GHEISTSKULL operative\
+        \ if it also includes a VOID-JAMMER operative, and it can only include a C.A.T.\
+        \ UNIT operative if it also includes a SURVEYOR operative. * These operatives\
+        \ count as half a selection each, meaning you can select both of them and\
+        \ it's treated as one selection in total."
+      cost: 0AP
+  - name: Axejack
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Power weapon
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Emboldened
+      description: Whenever an attack dice inflicts damage of 3 or more on this operative
+        during a turning point in which it performed the Charge action, roll one
+      cost: 0AP
+    - name: D6
+      description: on a 5+, subtract 1 from that inflicted damage.
+      cost: 0AP
+  - name: Endurant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 2+
+      w: 11
+    weapons:
+    - name: Navis heavy shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+      - Relentless
+    - name: Navis heavy shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules:
+      - Relentless
+    - name: Shield bash
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 1/2
+      rules:
+      - Brutal
+      - Shield *
+    rules:
+    - name: '* Shield'
+      description: Whenever fighting or retaliating with this weapon, each of your
+        blocks can be allocated to block two unresolved successes (instead of one).
+      cost: 0AP
+    - name: Breachwall
+      description: Whenever your opponent is selecting a valid target, they cannot
+        select another friendly INQUISITORIAL AGENT operative whose base is touching
+        this operative's if this operative has an Engage order and is intervening.
+        This rule has no effect if more than one other friendly operative's base is
+        touching this operative's.
+      cost: 0AP
+    - name: Disengage
+      description: This operative can perform the Fall Back action for 1 less AP.
+      cost: 0AP
+  - name: Grenadier
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Demolition charge
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/6
+      rules:
+      - Rng 3"
+      - Blast 2"
+      - Heavy (Reposition only)
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Grenadier
+      description: This operative can use frag, krak and stun grenades (see universal
+        equipment). Doing so doesn't count towards any limited uses you have (i.e.
+        if you also select those grenades from equipment for other operatives). Whenever
+        this operative is using a frag or krak grenade, improve the Hit stat of that
+        weapon by 1.
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 9
+    weapons:
+    - name: Meltagun
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 6/3
+      rules:
+      - Rng 6"
+      - Devastating 4
+      - Piercing 2
+    - name: Navis las-volley (Focused)
+      type: Ranged
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Rending
+    - name: Navis las-volley (Sweeping)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Rending
+      - Torrent 1"
+    - name: Plasma gun (Standard)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Plasma gun (Supercharge)
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Hot
+      - Lethal 5+
+      - Piercing 1
+    - name: Gun butt
+      type: Ranged
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Hatchcutter
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Autopistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 2/3
+      rules:
+      - Rng 8"
+    - name: Chainfist
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 5/6
+      rules:
+      - Brutal
+      - Rending
+    rules:
+    - name: Killzone
+      description: "Gallowdark) within this operative's control range. 1 additional\
+        \ AP must be spent for other operatives to perform the Operate Hatch action\
+        \ to open that hatchway. This effect ends when that hatchway is opened. Note\
+        \ this operative isn't affected by this effect. \U0001F534 This operative\
+        \ cannot perform this action while within control range of an enemy operative,\
+        \ or if it isn't within 1\" of a closed hatchway"
+      cost: 1AP
+    - name: Breach Point
+      description: "\U0001F7E2 Place one of your Breach markers within this operative's\
+        \ control range as close as possible to a terrain feature within control range\
+        \ of it. Whenever an operative is within 1\" of that marker, it treats parts\
+        \ of that terrain feature that are no more than 1\" thick as Accessible terrain.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative, or if a terrain feature isn't within its control\
+        \ range."
+      cost: 0AP
+  - name: Surveyor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules:
+      - (excluding C.A.T. UNIT or
+    rules: []
+  - name: Void-Jammer
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Gheistskull detonator
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 3/4
+      rules:
+      - Blast 1"
+      - Lethal 4+
+      - Limited 1
+      - Silent
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: '* Detonate'
+      description: Don't select a valid target. Instead, a friendly INQUISITORIAL
+        AGENT GHEISTSKULL operative is always the primary target and cannot be in
+        cover or obscured. If that operative isn't in the killzone, you cannot select
+        this weapon.
+      cost: 1AP
+    - name: Interference Pulse
+      description: "\U0001F7E2 Select one enemy operative visible to and within 8\"\
+        \ of a friendly GHEISTSKULL operative. Roll one D6, adding 1 to the result\
+        \ if that enemy operative is a valid target for that friendly"
+      cost: 0AP
+    - name: GHEISTSKULL operative
+      description: "on a 3+, subtract 1 from that enemy operative's APL stat until\
+        \ the end of its next activation. \U0001F534 This operative cannot perform\
+        \ this action while within control range of an enemy operative, or if a friendly\
+        \ GHEISTSKULL operative isn't in the killzone."
+      cost: 0AP
+  - name: Armsman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Navis shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 6"
+    - name: Navis shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 1/2
+      rules: []
+    - name: Navis hatchet
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 3/4
+      rules: []
+    rules:
+    - name: Group Activation
+      description: Whenever this operative is expended, you must then activate one
+        other ready friendly INQUISITORIAL AGENT ARMSMAN operative (if able) before
+        your opponent activates. When that other operative is expended, your opponent
+        then activates as normal (in other words, you cannot activate more than two
+        operatives in succession with this rule). Ignore this rule when you are using
+        the Breach and Clear faction rule. Kill Team Reference Sheet by James And
+        The Giant Squig - Version 1.6 (updated 26 Feb 2026) INQUISITORIAL AGENTS -
+        EXACTION SQUAD
+      cost: 0AP
+  - name: Castigator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Excruciator maul
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 5/5
+      rules:
+      - Rending
+      - Shock
+    rules:
+    - name: Engendered Focus
+      description: You can ignore any changes to this operative's stats (including
+        its weapons' stats, but excluding its Save stat).
+      cost: 0AP
+    - name: Zealous Dedication
+      description: Whenever an attack dice inflicts damage of 3 or more on
+      cost: 0AP
+    - name: this operative, roll one D6
+      description: on a 5+, subtract 1 from that inflicted damage.
+      cost: 0AP
+    - name: Castigator's Arrest
+      description: Whenever an enemy operative is within control range of this operative,
+        if no other enemy operatives are within this operative's control range, that
+        enemy operative cannot perform the Fall Back action.
+      cost: 0AP
+  - name: Chirurgant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Medic!
+      description: The first time during each turning point that another friendly
+        INQUISITORIAL AGENT operative would be incapacitated while visible to and
+        within 3" of this operative, you can use this rule, providing neither this
+        nor that operative is within control range of an enemy operative. If you do,
+        that friendly operative isn't incapacitated, has 1 wound remaining and cannot
+        be incapacitated for the remainder of the action. After that action, that
+        friendly operative can immediately perform a free Dash action, but must end
+        that move within this operative's control range. Subtract 1 from this and
+        that operative's APL stats until the end of their next activations respectively,
+        and if this rule was used during that friendly operative's activation, that
+        activation ends. You cannot use this rule if this operative is incapacitated,
+        or if it's a Shoot action and this operative would be a primary or secondary
+        target.
+      cost: 1AP
+    - name: Medikit
+      description: "\U0001F7E2 Select one friendly INQUISITORIAL AGENT operative within\
+        \ this operative's control range to regain up to 2D3 lost wounds. It cannot\
+        \ be an operative that the Medic! rule was used on during this turning point.\
+        \ \U0001F534 This operative cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Gunner
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Grenade launcher
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 4/6
+      rules:
+      - Piercing 1
+    - name: Heavy stubber (Focused)
+      type: Melee
+      a: 5
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+    - name: Heavy stubber (Sweeing)
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/5
+      rules:
+      - Heavy (Dash only)
+      - Torrent 1"
+    - name: Webber
+      type: Melee
+      a: 4
+      bs_ws: 3+
+      d: 4/5
+      rules:
+      - Range 12"
+      - Severe
+      - Stun
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules: []
+  - name: Leashmaster
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Handler
+      description: Whenever this operative is activated, you can activate a ready
+        friendly INQUISITORIAL AGENT R-VR CYBER-MASTIFF operative at the same time.
+        Complete their activations action by action in any order.
+      cost: 0AP
+    - name: Attack Pattern
+      description: STRATEGIC GAMBIT in the first turning point. Select one of the
+        following attack patterns for a friendly INQUISITORIAL AGENT R-VR
+      cost: 0AP
+    - name: "\u25CF Aggressive"
+      description: Its melee weapons have the Relentless weapon rule.
+      cost: 0AP
+    - name: "\u25CF Swift"
+      description: Add 2" to its Move stat.
+      cost: 0AP
+    - name: "\u25CF Defensive"
+      description: Improve its Save stat by 1.
+      cost: 0AP
+    - name: R-Vr Command
+      description: "\U0001F7E2 Select one friendly INQUISITORIAL AGENT R-VR CYBER-MASTIFF\
+        \ operative and change its attack pattern."
+      cost: 0AP
+  - name: R-Vr Cyber-Mastiff
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Mechanical bite
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 3/5
+      rules:
+      - Lethal 5+
+    rules:
+    - name: Beast
+      description: This operative cannot perform any actions other than Apprehend
+        , Charge , Dash , Fall Back , Fight , Guard , Reposition , Pick Up Marker
+        and Place Marker. It cannot use any weapons that aren't on its datacard.
+      cost: 0AP
+    - name: Apprehend
+      description: "\U0001F7E2 Select one enemy operative within this operative's\
+        \ control range. Until that enemy operative is no longer within this operative's\
+        \ control range, or until this operative performs this action again (whichever\
+        \ comes first), worsen the Hit stat of that enemy operative's weapons by 1\
+        \ (this isn't cumulative with being injured); in addition, that enemy operative\
+        \ cannot perform the Fall Back action. \U0001F534 This operative cannot perform\
+        \ this action unless an enemy operative is within its control range."
+      cost: 0AP
+  - name: Malocator
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Acute Focus
+      description: Once during each of this operative's activations, it can perform
+        the Pick Up Marker , Place Marker , Veriscant or a mission action for 1 less
+        AP.
+      cost: 1AP
+    - name: Veriscant
+      description: "\U0001F7E2 Select one enemy operative visible to this operative.\
+        \ Until the start of this operative's next activation, until it's incapacitated\
+        \ or until it performs this action again (whichever comes first), whenever\
+        \ a friendly INQUISITORIAL AGENT operative is shooting against, fighting against\
+        \ or retaliating against that enemy operative, that friendly operative's weapons\
+        \ have the Severe weapon rule; if the weapon already has that weapon rule,\
+        \ it has the Lethal 5+ weapon rule. \U0001F534 Cannot perform this action\
+        \ while within control range of an enemy operative."
+      cost: 0AP
+  - name: Marksman
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Executioner shotgun (Concealed)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/0
+      rules:
+      - Devastating 4
+      - Heavy
+      - Silent
+      - Concealed Position *
+    - name: Executioner shotgun (Mobile)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules: []
+    - name: Executioner shotgun (Stationary)
+      type: Ranged
+      a: 4
+      bs_ws: 2+
+      d: 4/0
+      rules:
+      - Devastating 4
+      - Heavy
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Concealed Position'
+      description: This operative can only use this weapon the first time it's performing
+        the Shoot action during the battle.
+      cost: 1AP
+    - name: "\U0001F7E2 Until the start of this operative's next activation"
+      description: "\u25CF The concealed and stationary profiles of its executioner\
+        \ shotgun have the Lethal 5+ weapon rule. \u25CF Whenever it's shooting with\
+        \ its executioner shotgun, enemy operatives cannot be obscured. \U0001F534\
+        \ Cannot perform this action while within control range of an enemy operative."
+      cost: 0AP
+  - name: Revelatum
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Scoped shotpistol (Short range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules:
+      - Rng 8"
+      - Lethal 5+
+    - name: Scoped shotpistol (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 3/3
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: First in the Field
+      description: STRATEGIC GAMBIT in the first turning point. If this operative
+        is wholly within your drop zone, it can immediately perform a free Reposition
+        .
+      cost: 1AP
+    - name: Spot
+      description: "\U0001F7E2 SUPPORT . Select one enemy operative visible to this\
+        \ operative. Until the end of the turning point, whenever an INQUISITORIAL\
+        \ AGENT operative within 3\" of this operative is shooting that enemy operative,\
+        \ you can use this effect. If you do: \u25CF That friendly operative's ranged\
+        \ weapons have the Seek Light weapon rule. \u25CF That enemy operative cannot\
+        \ be obscured. \U0001F534 Cannot perform this action while within control\
+        \ range of an enemy operative."
+      cost: 0AP
+  - name: Subductor
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 3+
+      w: 8
+    weapons:
+    - name: Shotpistol
+      type: Ranged
+      a: 4
+      bs_ws: 4+
+      d: 3/3
+      rules:
+      - Rng 8"
+    - name: Shock maul & assault shield
+      type: Melee
+      a: 4
+      bs_ws: 4+
+      d: 4/4
+      rules:
+      - Shock
+      - Repress *
+    rules:
+    - name: Stubborn Subjugator
+      description: ': You can ignore any changes to the Hit stat of this operative''s
+        melee weapons.'
+      cost: 0AP
+  - name: Vigilant
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: Close Quarters Vigilance
+      description: This operative can perform the Shoot action (excluding Guard )
+        while within control range of an enemy operative, but only if it hasn't performed
+        the Charge action during the activation, or if it's a counteraction. Note
+        this operative isn't restricted from performing the Charge action after performing
+        the Shoot action.
+      cost: 0AP
+  - name: Vox-Signifier
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+    - name: Combat shotgun (Close range)
+      type: Ranged
+      a: 4
+      bs_ws: 3+
+      d: 4/4
+      rules:
+      - Rng 6"
+    - name: Combat shotgun (Long range)
+      type: Ranged
+      a: 4
+      bs_ws: 5+
+      d: 2/2
+      rules: []
+    - name: Repression baton
+      type: Melee
+      a: 3
+      bs_ws: 4+
+      d: 2/3
+      rules: []
+    rules:
+    - name: '* Repress'
+      description: "Whenever this operative is using this weapon: \u25CF Each of your\
+        \ blocks can be allocated to block two unresolved successes (instead of one).\
+        \ \u25CF If this operative is retaliating, you resolve the first attack dice\
+        \ (i.e. defender instead of attacker). RUTHLESS EFFICIENCY Whenever a friendly\
+        \ INQUISITORIAL AGENT REQUISITION operative is shooting (excluding with frag\
+        \ or krak grenades) and you're selecting a valid target, you can use this\
+        \ rule. If you do, having other friendly INQUISITORIAL AGENT REQUISITION operatives\
+        \ within an enemy operative's control range doesn't prevent that enemy operative\
+        \ from being selected. EXACTION SQUAD OPERATIVES"
+      cost: 0AP
+    - name: 5 EXACTION SQUAD operatives selected from the following list
+      description: "\u25CF CASTIGATOR \u25CF CHIRURGANT \u25CF LEASHMASTER \u25CF\
+        \ R-VR CYBER-MASTIFF \u25CF MALOCATOR \u25CF MARKSMAN \u25CF REVELATUM \u25CF\
+        \ SUBDUCTOR \u25CF VIGILANT \u25CF VOX-SIGNIFIER"
+      cost: 0AP
+    - name: "\u25CF GUNNER with one of the following options"
+      description: "\u25CB Grenade launcher; repression baton \u25CB Heavy stubber;\
+        \ repression baton \u25CB Webber; repression baton Other than SUBDUCTOR and\
+        \ VIGILANT operatives, your kill team can only include each operative on this\
+        \ list once. Your kill team can only include up to two SUBDUCTOR operatives."
+      cost: 0AP
