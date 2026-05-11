@@ -3,9 +3,10 @@ Kill Team reference sheet into YAML format following the provided schema.
 
 Specific Parsing Rules:
 
-- Header Identification: `A HTD WR` or `A WS D WR` in the PDF corresponds to
-  `A` → `a` (attacks), `HTD` (the hit/skill column label used in some sheets)
-  or `WS` → `bs_ws`, `D` → `d` (damage), and `WR` → `rules` (weapon rules).
+- Header Identification: the hit/skill column may be labeled as either `HTD`
+  or `WS` in different sheets; both map to `bs_ws`. The full mapping is
+  `A` → `a` (attacks), `HTD`/`WS` → `bs_ws`, `D` → `d` (damage), and
+  `WR` → `rules` (weapon rules).
 - Stat Conversion: Ensure `APL`, `MV` (Move), `SV` (Save), and `W` (Wounds) are
   placed in the `stats` block.
 - Ploys: Distinguish between Strategy Ploys (usually first) and Firefight

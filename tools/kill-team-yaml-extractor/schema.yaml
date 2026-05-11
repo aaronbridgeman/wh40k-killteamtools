@@ -27,7 +27,7 @@ team:
           type: string # "Ranged" or "Melee"
           a: integer # Attacks
           bs_ws: string # Ballistic Skill / Weapon Skill (e.g., 3+, 4+)
-          d: string # Damage (e.g., 3/4)
+          d: string # Damage (e.g., 3/4 for normal/critical)
           rules: [string] # List of weapon rules (e.g., [Balanced, Piercing 1])
       rules:
         - name: string
