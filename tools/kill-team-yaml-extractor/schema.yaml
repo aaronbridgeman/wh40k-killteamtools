@@ -1,0 +1,35 @@
+# Kill Team Data Schema v1.0
+team:
+  name: string # Name of the Kill Team (e.g., Plague Marines)
+  version: string # Reference sheet version (e.g., v1.7)
+  last_updated: string # Date of last update (e.g., 29 Apr 2026)
+  archetypes: [string] # List of valid archetypes (e.g., Security, Seek & Destroy)
+
+  strategy_ploys:
+    - name: string
+      cost: string # Usually 1CP or 0CP
+      description: string
+
+  firefight_ploys:
+    - name: string
+      cost: string
+      description: string
+
+  operatives:
+    - name: string
+      stats:
+        apl: integer # Action Point Limit
+        mv: string # Movement (e.g., 3", 6")
+        sv: string # Save (e.g., 3+, 4+)
+        w: integer # Wounds
+      weapons:
+        - name: string
+          type: string # "Ranged" or "Melee"
+          a: integer # Attacks
+          bs_ws: string # Ballistic Skill / Weapon Skill (e.g., 3+, 4+)
+          d: string # Damage (e.g., 3/4)
+          rules: [string] # List of weapon rules (e.g., [Balanced, Piercing 1])
+      rules:
+        - name: string
+          description: string
+          cost: string # e.g. 1AP, 2AP, 0AP

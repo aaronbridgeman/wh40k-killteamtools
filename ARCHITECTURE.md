@@ -33,6 +33,7 @@ Kill Team Dataslate is a client-side React application built with TypeScript and
 - **Tested**: 350+ unit tests with high coverage
 - **Responsive**: Mobile-first design approach
 - **Accessible**: WCAG 2.1 AA compliance
+- **Local Tooling Workspace**: Repository-scoped utilities support data authoring tasks outside the deployed web app
 
 ## Architecture Diagrams
 
@@ -753,8 +754,16 @@ Located in `src/types/`:
 │
 ├── docs/                   # Build output (GitHub Pages)
 ├── scripts/                # Build and utility scripts
-└── tools/                  # Development tools
+└── tools/                  # Development tools and local authoring workspaces
 ```
+
+### Local Tooling Workspace
+
+The repository also includes `tools/kill-team-yaml-extractor/`, a local-only
+authoring workspace for AI-assisted extraction of Kill Team reference sheets
+into YAML. It sits alongside the web app, is not deployed to GitHub Pages,
+keeps uploaded PDFs out of version control, and stores the shared prompt and
+schema used to generate one YAML file per kill team.
 
 ## Key Design Patterns
 

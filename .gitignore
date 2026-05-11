@@ -41,6 +41,8 @@ temp/
 # Keep the folder and metadata in the repo, but ignore any PDF uploads.
 tools/rule-sources/*.pdf
 tools/rule-sources/**/*.pdf
+tools/kill-team-yaml-extractor/input-pdfs/*.pdf
+tools/kill-team-yaml-extractor/input-pdfs/**/*.pdf
 
 # Auto-generated version file - now checked in to avoid build issues
 # src/version.ts

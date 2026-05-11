@@ -340,9 +340,10 @@ Quick checklist:
 1. Create faction directory in `src/data/factions/{faction-id}/`
 2. Create `faction.json` with complete faction data
 3. Add operative images to `public/images/operatives/{faction-id}/`
-4. Update `AVAILABLE_FACTIONS` in `src/services/dataLoader.ts`
-5. Write unit tests for faction data
-6. Update documentation
+4. Optionally use `tools/kill-team-yaml-extractor/` to draft YAML from local PDFs
+5. Update `AVAILABLE_FACTIONS` in `src/services/dataLoader.ts`
+6. Write unit tests for faction data
+7. Update documentation
 
 ## Documentation
 
@@ -379,6 +380,12 @@ When you change functionality:
 2. Update JSDoc comments
 3. Update type definitions if needed
 4. Consider adding examples
+
+When you work with source reference PDFs:
+
+1. Keep PDFs in `tools/kill-team-yaml-extractor/input-pdfs/`
+2. Do not commit official PDF files
+3. Commit only reusable prompts, schemas, and reviewed generated data
 
 ## Accessibility
 

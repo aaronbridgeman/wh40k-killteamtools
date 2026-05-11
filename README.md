@@ -162,6 +162,16 @@ See [SPEC.md](./SPEC.md) for detailed instructions on adding new factions, inclu
 - Extracting images from PDFs
 - Implementing faction-specific rules
 
+## 🤖 AI YAML Extraction Workspace
+
+For AI-assisted reference sheet extraction, use the local workspace at
+`tools/kill-team-yaml-extractor/`.
+
+- Put source PDFs in `tools/kill-team-yaml-extractor/input-pdfs/` (ignored by git)
+- Use `tools/kill-team-yaml-extractor/prompt.md` as the extraction prompt
+- Use `tools/kill-team-yaml-extractor/schema.yaml` as the target YAML schema
+- Save generated files in `tools/kill-team-yaml-extractor/output-yaml/`
+
 ## 🧪 Testing
 
 The project uses Vitest for unit testing with comprehensive coverage:
@@ -269,6 +279,7 @@ MIT License - see LICENSE file for details
 - [Quick Start Guide](./QUICKSTART.md) - 5-minute developer setup and common tasks
 - [Architecture Documentation](./ARCHITECTURE.md) - System architecture, diagrams, and design patterns
 - [Contributing Guide](./CONTRIBUTING.md) - How to contribute to the project
+- [AI YAML Extraction Workspace](./tools/kill-team-yaml-extractor/README.md) - Local PDF-to-YAML workflow for kill team reference sheets
 
 ### Operations & Deployment
 
