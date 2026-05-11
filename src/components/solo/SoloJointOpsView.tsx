@@ -437,7 +437,7 @@ function SoloListEditor({
         ))}
       </select>
 
-      <div className="input-row">
+      <div className="input-row list-name-row">
         <input
           value={newListName}
           placeholder={`New ${sideLabel} list name`}
@@ -479,7 +479,7 @@ function SoloListEditor({
       </button>
 
       <label htmlFor={`${side}-team-select`}>{sideLabel} Team</label>
-      <div className="input-row input-row-stack-mobile">
+      <div className="input-row input-row-stack-mobile catalog-add-row">
         <select
           id={`${side}-team-select`}
           value={selectedTeamId}
