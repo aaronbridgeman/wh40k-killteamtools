@@ -683,6 +683,8 @@ function ProfileWeaponEditor({
 export function SoloJointOpsView() {
   const initialState = useMemo(() => loadState(), []);
   const [activeTab, setActiveTab] = useState<SoloTab>('game-runner');
+  const [activeListBuilderSide, setActiveListBuilderSide] =
+    useState<ActivationSide>('npo');
   const [state, setState] = useState<SoloJointOpsState>(initialState);
   const [runnerOperatives, setRunnerOperatives] = useState<RunnerOperative[]>(
     []
@@ -1383,12 +1385,36 @@ export function SoloJointOpsView() {
         <section className="solo-card">
           <h3>List Builder</h3>
           <p>
-            Build and store player/NPO operative lists with profile assignments.
-            Player lists default to Datacard profile selection.
+            Build and store player/NPO operative lists with profile assignments
+            on separate sub-screens. Player lists default to Datacard profile
+            selection.
           </p>
 
+          <div className="solo-tabs list-builder-subtabs" role="tablist">
+            <button
+              type="button"
+              className={activeListBuilderSide === 'player' ? 'active' : ''}
+              onClick={() => setActiveListBuilderSide('player')}
+              role="tab"
+              aria-selected={activeListBuilderSide === 'player'}
+            >
+              Player Lists
+            </button>
+            <button
+              type="button"
+              className={activeListBuilderSide === 'npo' ? 'active' : ''}
+              onClick={() => setActiveListBuilderSide('npo')}
+              role="tab"
+              aria-selected={activeListBuilderSide === 'npo'}
+            >
+              NPO Lists
+            </button>
+          </div>
+
           <div className="team-builders">
-            {playerLists.length > 0 && selectedPlayerList && (
+            {activeListBuilderSide === 'player' &&
+              playerLists.length > 0 &&
+              selectedPlayerList && (
               <SoloListEditor
                 side="player"
                 lists={playerLists}
@@ -1408,7 +1434,9 @@ export function SoloJointOpsView() {
               />
             )}
 
-            {npoLists.length > 0 && selectedNpoList && (
+            {activeListBuilderSide === 'npo' &&
+              npoLists.length > 0 &&
+              selectedNpoList && (
               <SoloListEditor
                 side="npo"
                 lists={npoLists}

@@ -1,29 +1,175 @@
-# Core Rules NPO operatives source file for Solo/Joint Ops catalog generation.
+# Core Rules NPO operatives for Solo/Joint Ops catalog generation.
+# Source: 2024 edition Kill Team core rules – Joint Ops mission pack.
+# Six standard profiles: three Brawlers (melee) and three Marksmen (ranged).
 #
-# This file maps to the "Core Rules NPO Operatives" team in
-# src/data/solo/operativeCatalog.json when you run:
+# Regenerate the app catalog after editing this file:
 #   npm run generate:solo-catalog
-#
-# Add real core-rules NPO datacards (e.g., Brawler) under npo_operatives.
 
-npo_operatives: []
+npo_operatives:
+  - name: Brawler Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+      - name: Brawler Weapon
+        type: Melee
+        a: 3
+        bs_ws: 4+
+        d: 2/3
+        rules: []
+    rules:
+      - name: Behaviour
+        description: >-
+          This NPO will move towards the enemy to fight them, but will seek
+          cover on its way. When activated, if it can perform either of its
+          first two actions during that activation, give it an Engage order.
+          If it cannot, give it a Conceal order.
+          1. Fight .
+          2. Charge the closest player operative via the shortest possible route.
+          3. Reposition towards the closest player operative, to cover if
+          possible (a subsequent Dash action can fulfil this, if able).
+          4. Dash towards the closest player operative, to cover if possible.
+        cost: 0AP
 
-# Example shape:
-# npo_operatives:
-#   - name: Brawler
-#     stats:
-#       apl: 2
-#       mv: 6"
-#       sv: 5+
-#       w: 8
-#     weapons:
-#       - name: Heavy fists
-#         type: Melee
-#         a: 4
-#         bs_ws: 4+
-#         d: 3/4
-#         rules: []
-#     rules:
-#       - name: Behaviour
-#         description: This NPO advances to engage nearby enemies in melee.
-#         cost: 0AP
+  - name: Brawler Elite
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 10
+    weapons:
+      - name: Brawler Weapon
+        type: Melee
+        a: 4
+        bs_ws: 3+
+        d: 3/4
+        rules: []
+    rules:
+      - name: Behaviour
+        description: >-
+          This NPO will move towards the enemy to fight them, but will seek
+          cover on its way. When activated, if it can perform either of its
+          first two actions during that activation, give it an Engage order.
+          If it cannot, give it a Conceal order.
+          1. Fight .
+          2. Charge the closest player operative via the shortest possible route.
+          3. Reposition towards the closest player operative, to cover if
+          possible (a subsequent Dash action can fulfil this, if able).
+          4. Dash towards the closest player operative, to cover if possible.
+        cost: 0AP
+
+  - name: Brawler Heavy
+    stats:
+      apl: 2
+      mv: 4"
+      sv: 3+
+      w: 14
+    weapons:
+      - name: Heavy Brawler Weapon
+        type: Melee
+        a: 5
+        bs_ws: 3+
+        d: 4/5
+        rules: []
+    rules:
+      - name: Behaviour
+        description: >-
+          This NPO will move towards the enemy to fight them, but will seek
+          cover on its way. When activated, if it can perform either of its
+          first two actions during that activation, give it an Engage order.
+          If it cannot, give it a Conceal order.
+          1. Fight .
+          2. Charge the closest player operative via the shortest possible route.
+          3. Reposition towards the closest player operative, to cover if
+          possible (a subsequent Dash action can fulfil this, if able).
+          4. Dash towards the closest player operative, to cover if possible.
+        cost: 0AP
+
+  - name: Marksman Trooper
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 5+
+      w: 7
+    weapons:
+      - name: Standard Firearm
+        type: Ranged
+        a: 4
+        bs_ws: 4+
+        d: 2/3
+        rules: []
+    rules:
+      - name: Behaviour
+        description: >-
+          This NPO will move to an ideal position to shoot the enemy. When
+          activated, if it can perform the Shoot action during that activation,
+          give it an Engage order. If it cannot, give it a Conceal order.
+          1. Fall Back to cover. If possible, to a location where there is a
+          valid target that is not obscured.
+          2. Shoot . Prioritise targets out of cover or with an objective.
+          3. Reposition to cover. If possible, to a location where there is a
+          valid target that is not obscured (a subsequent Dash action can
+          fulfil this, if able).
+          4. Dash to cover. If possible, to a location where there is a valid
+          target that is not obscured.
+        cost: 0AP
+
+  - name: Marksman Warrior
+    stats:
+      apl: 2
+      mv: 6"
+      sv: 4+
+      w: 8
+    weapons:
+      - name: Enhanced Firearm
+        type: Ranged
+        a: 4
+        bs_ws: 3+
+        d: 3/4
+        rules: []
+    rules:
+      - name: Behaviour
+        description: >-
+          This NPO will move to an ideal position to shoot the enemy. When
+          activated, if it can perform the Shoot action during that activation,
+          give it an Engage order. If it cannot, give it a Conceal order.
+          1. Fall Back to cover. If possible, to a location where there is a
+          valid target that is not obscured.
+          2. Shoot . Prioritise targets out of cover or with an objective.
+          3. Reposition to cover. If possible, to a location where there is a
+          valid target that is not obscured (a subsequent Dash action can
+          fulfil this, if able).
+          4. Dash to cover. If possible, to a location where there is a valid
+          target that is not obscured.
+        cost: 0AP
+
+  - name: Marksman Heavy
+    stats:
+      apl: 2
+      mv: 4"
+      sv: 3+
+      w: 12
+    weapons:
+      - name: Heavy Ranged Weapon
+        type: Ranged
+        a: 5
+        bs_ws: 3+
+        d: 4/5
+        rules: []
+    rules:
+      - name: Behaviour
+        description: >-
+          This NPO will move to an ideal position to shoot the enemy. When
+          activated, if it can perform the Shoot action during that activation,
+          give it an Engage order. If it cannot, give it a Conceal order.
+          1. Fall Back to cover. If possible, to a location where there is a
+          valid target that is not obscured.
+          2. Shoot . Prioritise targets out of cover or with an objective.
+          3. Reposition to cover. If possible, to a location where there is a
+          valid target that is not obscured (a subsequent Dash action can
+          fulfil this, if able).
+          4. Dash to cover. If possible, to a location where there is a valid
+          target that is not obscured.
+        cost: 0AP

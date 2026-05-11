@@ -3978,6 +3978,168 @@
       }
     },
     {
+      "id": "core-rules-npo-operatives--brawler-trooper--0",
+      "teamId": "core-rules-npo-operatives",
+      "teamName": "Core Rules NPO Operatives",
+      "name": "Brawler Trooper",
+      "profile": {
+        "id": "core-rules-npo-operatives--brawler-trooper--0",
+        "name": "Brawler Trooper",
+        "apl": 2,
+        "move": "6\"",
+        "save": "5+",
+        "wounds": 7,
+        "rangedWeapons": [],
+        "meleeWeapons": [
+          {
+            "id": "core-rules-npo-operatives--brawler-trooper--0--w0",
+            "name": "Brawler Weapon",
+            "attacks": 3,
+            "skill": "4+",
+            "damage": "2",
+            "criticalDamage": "3",
+            "specialRules": ""
+          }
+        ],
+        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+      }
+    },
+    {
+      "id": "core-rules-npo-operatives--brawler-elite--1",
+      "teamId": "core-rules-npo-operatives",
+      "teamName": "Core Rules NPO Operatives",
+      "name": "Brawler Elite",
+      "profile": {
+        "id": "core-rules-npo-operatives--brawler-elite--1",
+        "name": "Brawler Elite",
+        "apl": 2,
+        "move": "6\"",
+        "save": "4+",
+        "wounds": 10,
+        "rangedWeapons": [],
+        "meleeWeapons": [
+          {
+            "id": "core-rules-npo-operatives--brawler-elite--1--w0",
+            "name": "Brawler Weapon",
+            "attacks": 4,
+            "skill": "3+",
+            "damage": "3",
+            "criticalDamage": "4",
+            "specialRules": ""
+          }
+        ],
+        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+      }
+    },
+    {
+      "id": "core-rules-npo-operatives--brawler-heavy--2",
+      "teamId": "core-rules-npo-operatives",
+      "teamName": "Core Rules NPO Operatives",
+      "name": "Brawler Heavy",
+      "profile": {
+        "id": "core-rules-npo-operatives--brawler-heavy--2",
+        "name": "Brawler Heavy",
+        "apl": 2,
+        "move": "4\"",
+        "save": "3+",
+        "wounds": 14,
+        "rangedWeapons": [],
+        "meleeWeapons": [
+          {
+            "id": "core-rules-npo-operatives--brawler-heavy--2--w0",
+            "name": "Heavy Brawler Weapon",
+            "attacks": 5,
+            "skill": "3+",
+            "damage": "4",
+            "criticalDamage": "5",
+            "specialRules": ""
+          }
+        ],
+        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+      }
+    },
+    {
+      "id": "core-rules-npo-operatives--marksman-trooper--3",
+      "teamId": "core-rules-npo-operatives",
+      "teamName": "Core Rules NPO Operatives",
+      "name": "Marksman Trooper",
+      "profile": {
+        "id": "core-rules-npo-operatives--marksman-trooper--3",
+        "name": "Marksman Trooper",
+        "apl": 2,
+        "move": "6\"",
+        "save": "5+",
+        "wounds": 7,
+        "rangedWeapons": [
+          {
+            "id": "core-rules-npo-operatives--marksman-trooper--3--w0",
+            "name": "Standard Firearm",
+            "attacks": 4,
+            "skill": "4+",
+            "damage": "2",
+            "criticalDamage": "3",
+            "specialRules": ""
+          }
+        ],
+        "meleeWeapons": [],
+        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy. When activated, if it can perform the Shoot action during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover. If possible, to a location where there is a valid target that is not obscured. 2. Shoot . Prioritise targets out of cover or with an objective. 3. Reposition to cover. If possible, to a location where there is a valid target that is not obscured (a subsequent Dash action can fulfil this, if able). 4. Dash to cover. If possible, to a location where there is a valid target that is not obscured."
+      }
+    },
+    {
+      "id": "core-rules-npo-operatives--marksman-warrior--4",
+      "teamId": "core-rules-npo-operatives",
+      "teamName": "Core Rules NPO Operatives",
+      "name": "Marksman Warrior",
+      "profile": {
+        "id": "core-rules-npo-operatives--marksman-warrior--4",
+        "name": "Marksman Warrior",
+        "apl": 2,
+        "move": "6\"",
+        "save": "4+",
+        "wounds": 8,
+        "rangedWeapons": [
+          {
+            "id": "core-rules-npo-operatives--marksman-warrior--4--w0",
+            "name": "Enhanced Firearm",
+            "attacks": 4,
+            "skill": "3+",
+            "damage": "3",
+            "criticalDamage": "4",
+            "specialRules": ""
+          }
+        ],
+        "meleeWeapons": [],
+        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy. When activated, if it can perform the Shoot action during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover. If possible, to a location where there is a valid target that is not obscured. 2. Shoot . Prioritise targets out of cover or with an objective. 3. Reposition to cover. If possible, to a location where there is a valid target that is not obscured (a subsequent Dash action can fulfil this, if able). 4. Dash to cover. If possible, to a location where there is a valid target that is not obscured."
+      }
+    },
+    {
+      "id": "core-rules-npo-operatives--marksman-heavy--5",
+      "teamId": "core-rules-npo-operatives",
+      "teamName": "Core Rules NPO Operatives",
+      "name": "Marksman Heavy",
+      "profile": {
+        "id": "core-rules-npo-operatives--marksman-heavy--5",
+        "name": "Marksman Heavy",
+        "apl": 2,
+        "move": "4\"",
+        "save": "3+",
+        "wounds": 12,
+        "rangedWeapons": [
+          {
+            "id": "core-rules-npo-operatives--marksman-heavy--5--w0",
+            "name": "Heavy Ranged Weapon",
+            "attacks": 5,
+            "skill": "3+",
+            "damage": "4",
+            "criticalDamage": "5",
+            "specialRules": ""
+          }
+        ],
+        "meleeWeapons": [],
+        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy. When activated, if it can perform the Shoot action during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover. If possible, to a location where there is a valid target that is not obscured. 2. Shoot . Prioritise targets out of cover or with an objective. 3. Reposition to cover. If possible, to a location where there is a valid target that is not obscured (a subsequent Dash action can fulfil this, if able). 4. Dash to cover. If possible, to a location where there is a valid target that is not obscured."
+      }
+    },
+    {
       "id": "corsair-voidscarred--warrior--0",
       "teamId": "corsair-voidscarred",
       "teamName": "Corsair Voidscarred",
