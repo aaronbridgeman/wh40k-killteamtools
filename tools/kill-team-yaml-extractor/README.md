@@ -17,7 +17,9 @@ Team reference sheet data from PDFs into YAML with AI assistance.
 3. Paste in `prompt.md`.
 4. Ask the AI to return YAML only using `schema.yaml`.
 5. Save the result in `output-yaml/<kill-team-id>.yaml`.
-6. Review the YAML for accuracy before using it elsewhere in the project.
+6. Review the YAML for accuracy.
+7. Convert the reviewed YAML into the app's `faction.json` structure before
+   wiring it into `src/data/factions/`.
 
 ## Notes
 

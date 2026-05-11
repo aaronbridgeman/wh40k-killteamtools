@@ -384,7 +384,7 @@ JSON Schema will validate all configuration files to ensure:
    - Use `tools/kill-team-yaml-extractor/` as a parallel authoring workspace
    - Keep source PDFs in `input-pdfs/` (ignored by git)
    - Use the checked-in prompt and schema to generate one YAML file per kill team
-   - Review generated YAML before converting it into application data
+   - Review generated YAML, then convert it into the app's `faction.json` shape before use
 
 ### 5.2 Image Extraction
 

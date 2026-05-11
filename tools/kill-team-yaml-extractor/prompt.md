@@ -10,5 +10,5 @@ Specific Parsing Rules:
 - Ploys: Distinguish between Strategy Ploys (usually first) and Firefight
   Ploys.
 - Text Cleaning: Remove page numbers and decorative text (for example,
-  `[Image 1]`).
+  `[Image 1]`, page footers, or similar non-rules content).
 - Output: Provide valid YAML only.
