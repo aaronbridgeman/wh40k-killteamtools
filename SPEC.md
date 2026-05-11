@@ -380,6 +380,12 @@ JSON Schema will validate all configuration files to ensure:
    - OCR for text extraction
    - Manual verification step
 
+3. **AI-Assisted YAML Workspace** (Local Tooling)
+   - Use `tools/kill-team-yaml-extractor/` as a parallel authoring workspace
+   - Keep source PDFs in `input-pdfs/` (ignored by git)
+   - Use the checked-in prompt and schema to generate one YAML file per kill team
+   - Review generated YAML, then convert it into the app's `faction.json` shape before use
+
 ### 5.2 Image Extraction
 
 1. **Operative Images**
@@ -512,8 +518,10 @@ npm run preview     # Preview production build
 2. Create `faction.json` with faction metadata
 3. Create faction-specific logic in `rules.ts` if needed
 4. Add faction images to `public/images/operatives/{faction-id}/`
-5. Write unit tests for faction data
-6. Update faction registry
+5. Optionally stage source reference PDFs in `tools/kill-team-yaml-extractor/input-pdfs/`
+6. Use the AI YAML extraction workspace to draft structured kill team data
+7. Write unit tests for faction data
+8. Update faction registry
 
 ### 9.3 Code Review Checklist
 
