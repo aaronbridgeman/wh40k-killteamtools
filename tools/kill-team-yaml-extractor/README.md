@@ -38,6 +38,18 @@ Special handling implemented:
    section as potential operatives. If a referenced operative has no parsed
    datacard in that PDF, a placeholder entry is added.
 
+To regenerate the Solo/Joint Ops operative catalog for the app from these YAML
+files, run:
+
+```bash
+npm run generate:solo-catalog
+```
+
+NPO file mapping in catalog generation:
+- `npo-operatives.yaml` -> `Mission Pack NPO Operatives`
+- `core-rules-npo-operatives.yaml` (or `standard-npo-operatives.yaml`) ->
+  `Core Rules NPO Operatives`
+
 The automated parser is intentionally heuristic and still requires review.
 
 ## Notes

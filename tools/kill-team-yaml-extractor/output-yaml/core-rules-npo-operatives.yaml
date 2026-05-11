@@ -1,0 +1,29 @@
+# Core Rules NPO operatives source file for Solo/Joint Ops catalog generation.
+#
+# This file maps to the "Core Rules NPO Operatives" team in
+# src/data/solo/operativeCatalog.json when you run:
+#   npm run generate:solo-catalog
+#
+# Add real core-rules NPO datacards (e.g., Brawler) under npo_operatives.
+
+npo_operatives: []
+
+# Example shape:
+# npo_operatives:
+#   - name: Brawler
+#     stats:
+#       apl: 2
+#       mv: 6"
+#       sv: 5+
+#       w: 8
+#     weapons:
+#       - name: Heavy fists
+#         type: Melee
+#         a: 4
+#         bs_ws: 4+
+#         d: 3/4
+#         rules: []
+#     rules:
+#       - name: Behaviour
+#         description: This NPO advances to engage nearby enemies in melee.
+#         cost: 0AP

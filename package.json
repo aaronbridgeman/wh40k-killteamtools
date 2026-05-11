@@ -17,6 +17,7 @@
     "type-check": "tsc --noEmit",
     "validate": "npm run type-check && npm run lint && npm run format:check && npm run test",
     "extract-rules": "node scripts/extract-rules.js",
+    "generate:solo-catalog": "[ -x .venv/bin/python ] && .venv/bin/python scripts/generate-solo-operative-catalog.py || python3 scripts/generate-solo-operative-catalog.py",
     "version:increment-minor": "node scripts/increment-minor.js",
     "generate-icons": "node scripts/generate-icons.mjs"
   },

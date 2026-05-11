@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import operativeCatalogData from '@/data/solo/operativeCatalog.json';
 import './SoloJointOpsView.css';
 
 type ActivationSide = 'player' | 'npo';
@@ -37,6 +38,27 @@ interface SoloListOperative {
   id: string;
   name: string;
   profileId: string;
+  teamId?: string;
+  teamName?: string;
+}
+
+interface CatalogTeam {
+  id: string;
+  name: string;
+  side: 'player' | 'npo' | 'both';
+}
+
+interface CatalogOperative {
+  id: string;
+  teamId: string;
+  teamName: string;
+  name: string;
+  profile: SoloProfile;
+}
+
+interface OperativeCatalog {
+  teams: CatalogTeam[];
+  operatives: CatalogOperative[];
 }
 
 interface SoloList {
@@ -64,7 +86,20 @@ interface SoloBackupFile {
 
 const STORAGE_KEY = 'kill-team-solo-joint-ops-v2';
 const LEGACY_STORAGE_KEY = 'kill-team-solo-joint-ops';
+
+const hasLocalStorageApi = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const storage = window.localStorage;
+  return (
+    typeof storage?.getItem === 'function' &&
+    typeof storage?.setItem === 'function'
+  );
+};
 const DATACARD_PROFILE_ID = 'datacard';
+const NPO_OPERATIVES_TEAM_ID = 'mission-pack-npo-operatives';
+const ALL_TEAMS_ID = '__all-teams__';
+
+const operativeCatalog = operativeCatalogData as OperativeCatalog;
 
 const generateUniqueId = (prefix: string) =>
   typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
@@ -169,7 +204,9 @@ const isValidListOperative = (value: unknown): value is SoloListOperative => {
   return (
     isString(operative.id) &&
     isString(operative.name) &&
-    isString(operative.profileId)
+    isString(operative.profileId) &&
+    (operative.teamId === undefined || isString(operative.teamId)) &&
+    (operative.teamName === undefined || isString(operative.teamName))
   );
 };
 
@@ -192,6 +229,9 @@ const isValidList = (value: unknown): value is SoloList => {
  */
 const loadState = (): SoloJointOpsState => {
   const fallback = buildInitialState();
+  if (!hasLocalStorageApi()) {
+    return fallback;
+  }
 
   try {
     for (const key of [STORAGE_KEY, LEGACY_STORAGE_KEY]) {
@@ -272,49 +312,114 @@ const readFile = (file: File): Promise<string> =>
     reader.readAsText(file);
   });
 
-/** Resolves a profile ID to its display name, or null when not found. */
-const getProfileName = (
-  profiles: SoloProfile[],
-  profileId: string
-): string | null =>
-  profiles.find((profile) => profile.id === profileId)?.name ?? null;
-
 function SoloListEditor({
   side,
   lists,
   selectedListId,
-  profiles,
-  selectedProfileId,
+  availableTeams,
+  catalogOperatives,
+  profileLookup,
+  defaultTeamId,
   onSelectList,
   onCreateList,
   onDeleteList,
   onRenameList,
-  onAddOperative,
+  onAddCatalogOperative,
   onRemoveOperative,
-  onSetSelectedProfile,
 }: {
   side: ActivationSide;
   lists: SoloList[];
   selectedListId: string;
-  profiles: SoloProfile[];
-  selectedProfileId: string;
+  availableTeams: CatalogTeam[];
+  catalogOperatives: CatalogOperative[];
+  profileLookup: Map<string, SoloProfile>;
+  defaultTeamId: string;
   onSelectList: (listId: string) => void;
   onCreateList: (name: string) => void;
   onDeleteList: (listId: string) => void;
   onRenameList: (listId: string, name: string) => void;
-  onAddOperative: (listId: string, name: string, profileId: string) => void;
+  onAddCatalogOperative: (listId: string, operative: CatalogOperative) => void;
   onRemoveOperative: (listId: string, operativeId: string) => void;
-  onSetSelectedProfile: (profileId: string) => void;
 }) {
   const [newListName, setNewListName] = useState('');
-  const [newOperativeName, setNewOperativeName] = useState('');
+  const [selectedTeamId, setSelectedTeamId] = useState(defaultTeamId);
+  const [selectedCatalogOperativeId, setSelectedCatalogOperativeId] =
+    useState('');
 
   const sideLabel = side === 'player' ? 'Player' : 'NPO';
-  const selectedList =
-    lists.find((list) => list.id === selectedListId) ?? lists[0];
-  if (!selectedList) {
-    return null;
-  }
+  const selectedList = lists.find((list) => list.id === selectedListId) ??
+    lists[0] ?? {
+      id: '',
+      name: '',
+      operatives: [],
+    };
+
+  useEffect(() => {
+    if (!availableTeams.some((team) => team.id === selectedTeamId)) {
+      setSelectedTeamId(defaultTeamId);
+    }
+  }, [availableTeams, defaultTeamId, selectedTeamId]);
+
+  const filteredCatalogOperatives = useMemo(() => {
+    if (side === 'npo' && selectedTeamId === ALL_TEAMS_ID) {
+      return catalogOperatives;
+    }
+    return catalogOperatives.filter(
+      (operative) => operative.teamId === selectedTeamId
+    );
+  }, [catalogOperatives, selectedTeamId, side]);
+
+  useEffect(() => {
+    if (
+      filteredCatalogOperatives.length > 0 &&
+      !filteredCatalogOperatives.some(
+        (operative) => operative.id === selectedCatalogOperativeId
+      )
+    ) {
+      setSelectedCatalogOperativeId(filteredCatalogOperatives[0].id);
+      return;
+    }
+
+    if (filteredCatalogOperatives.length === 0) {
+      setSelectedCatalogOperativeId('');
+    }
+  }, [filteredCatalogOperatives, selectedCatalogOperativeId]);
+
+  const selectedCatalogOperative =
+    filteredCatalogOperatives.find(
+      (operative) => operative.id === selectedCatalogOperativeId
+    ) ?? null;
+
+  const totals = useMemo(() => {
+    return selectedList.operatives.reduce(
+      (acc, operative) => {
+        const profile =
+          operative.profileId === DATACARD_PROFILE_ID
+            ? null
+            : (profileLookup.get(operative.profileId) ?? null);
+
+        return {
+          count: acc.count + 1,
+          apl: acc.apl + (profile?.apl ?? 0),
+          wounds: acc.wounds + (profile?.wounds ?? 0),
+        };
+      },
+      { count: 0, apl: 0, wounds: 0 }
+    );
+  }, [profileLookup, selectedList.operatives]);
+
+  const groupedCatalogOperatives = useMemo(() => {
+    const grouped = new Map<string, CatalogOperative[]>();
+    filteredCatalogOperatives.forEach((operative) => {
+      const current = grouped.get(operative.teamName) ?? [];
+      current.push(operative);
+      grouped.set(operative.teamName, current);
+    });
+
+    return Array.from(grouped.entries()).sort((a, b) =>
+      a[0].localeCompare(b[0])
+    );
+  }, [filteredCatalogOperatives]);
 
   return (
     <article className="team-builder" aria-label={`${sideLabel} list builder`}>
@@ -355,56 +460,77 @@ function SoloListEditor({
         id={`${side}-list-name`}
         value={selectedList.name}
         onChange={(event) => onRenameList(selectedList.id, event.target.value)}
+        disabled={!selectedList.id}
       />
+
+      <div className="list-totals" aria-live="polite">
+        <span>Operatives: {totals.count}</span>
+        <span>APL Total: {totals.apl}</span>
+        <span>Wounds Total: {totals.wounds}</span>
+      </div>
 
       <button
         type="button"
         className="danger-button"
         onClick={() => onDeleteList(selectedList.id)}
-        disabled={lists.length <= 1}
+        disabled={lists.length <= 1 || !selectedList.id}
       >
         Delete List
       </button>
 
-      <label htmlFor={`${side}-operative-input`}>
-        Add {sideLabel} Operative
-      </label>
+      <label htmlFor={`${side}-team-select`}>{sideLabel} Team</label>
       <div className="input-row input-row-stack-mobile">
-        <input
-          id={`${side}-operative-input`}
-          value={newOperativeName}
-          onChange={(event) => setNewOperativeName(event.target.value)}
-          placeholder={
-            side === 'player'
-              ? 'e.g. Intercessor Sergeant'
-              : 'e.g. Rebel Trooper'
-          }
-        />
         <select
-          value={selectedProfileId}
-          onChange={(event) => onSetSelectedProfile(event.target.value)}
-          aria-label={`${sideLabel} profile selection`}
+          id={`${side}-team-select`}
+          value={selectedTeamId}
+          onChange={(event) => setSelectedTeamId(event.target.value)}
+          aria-label={`${sideLabel} team selection`}
         >
-          {side === 'player' && (
-            <option value={DATACARD_PROFILE_ID}>Datacard</option>
-          )}
-          {profiles.map((profile) => (
-            <option key={profile.id} value={profile.id}>
-              {profile.name}
+          {side === 'npo' && <option value={ALL_TEAMS_ID}>All Teams</option>}
+          {availableTeams.map((team) => (
+            <option key={team.id} value={team.id}>
+              {team.name}
             </option>
           ))}
         </select>
+
+        <select
+          value={selectedCatalogOperativeId}
+          onChange={(event) =>
+            setSelectedCatalogOperativeId(event.target.value)
+          }
+          aria-label={`${sideLabel} operative selection`}
+        >
+          {groupedCatalogOperatives.length === 0 && (
+            <option value="">No operatives available</option>
+          )}
+          {side === 'npo' && selectedTeamId === ALL_TEAMS_ID
+            ? groupedCatalogOperatives.map(([teamName, operatives]) => (
+                <optgroup key={teamName} label={teamName}>
+                  {operatives.map((operative) => (
+                    <option key={operative.id} value={operative.id}>
+                      {operative.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))
+            : groupedCatalogOperatives.flatMap(([, operatives]) =>
+                operatives.map((operative) => (
+                  <option key={operative.id} value={operative.id}>
+                    {operative.name}
+                  </option>
+                ))
+              )}
+        </select>
+
         <button
           type="button"
           onClick={() => {
-            onAddOperative(
-              selectedList.id,
-              newOperativeName,
-              selectedProfileId
-            );
-            setNewOperativeName('');
+            if (!selectedCatalogOperative) return;
+            if (!selectedList.id) return;
+            onAddCatalogOperative(selectedList.id, selectedCatalogOperative);
           }}
-          disabled={side === 'npo' && !selectedProfileId}
+          disabled={!selectedCatalogOperative || !selectedList.id}
         >
           Add {sideLabel} Operative
         </button>
@@ -415,14 +541,7 @@ function SoloListEditor({
           <li key={operative.id}>
             <span>
               {operative.name}{' '}
-              <small>
-                (
-                {operative.profileId === DATACARD_PROFILE_ID
-                  ? 'Datacard'
-                  : (getProfileName(profiles, operative.profileId) ??
-                    'Unknown profile')}
-                )
-              </small>
+              <small>({operative.teamName ?? 'Unknown Team'})</small>
             </span>
             <button
               type="button"
@@ -568,10 +687,13 @@ export function SoloJointOpsView() {
   const [runnerOperatives, setRunnerOperatives] = useState<RunnerOperative[]>(
     []
   );
-  const [selectedPlayerProfileForList, setSelectedPlayerProfileForList] =
-    useState(DATACARD_PROFILE_ID);
-  const [selectedNpoProfileForList, setSelectedNpoProfileForList] = useState(
-    initialState.profiles[0]?.id ?? ''
+  const [selectedPlayerTeamForList, setSelectedPlayerTeamForList] = useState(
+    () =>
+      operativeCatalog.teams.find((team) => team.id !== NPO_OPERATIVES_TEAM_ID)
+        ?.id ?? ''
+  );
+  const [selectedNpoTeamForList, setSelectedNpoTeamForList] = useState(
+    NPO_OPERATIVES_TEAM_ID
   );
   const [editingProfileId, setEditingProfileId] = useState(
     initialState.profiles[0]?.id ?? ''
@@ -599,10 +721,29 @@ export function SoloJointOpsView() {
     npoLists[0] ??
     null;
 
-  const profileLookup = useMemo(
-    () => new Map(state.profiles.map((profile) => [profile.id, profile])),
-    [state.profiles]
+  const profileLookup = useMemo(() => {
+    const map = new Map<string, SoloProfile>();
+
+    operativeCatalog.operatives.forEach((operative) => {
+      map.set(operative.profile.id, operative.profile);
+    });
+
+    state.profiles.forEach((profile) => {
+      map.set(profile.id, profile);
+    });
+
+    return map;
+  }, [state.profiles]);
+
+  const playerCatalogTeams = useMemo(
+    () =>
+      operativeCatalog.teams.filter(
+        (team) => team.id !== NPO_OPERATIVES_TEAM_ID
+      ),
+    []
   );
+
+  const npoCatalogTeams = useMemo(() => operativeCatalog.teams, []);
 
   const activeTeamLabel = useMemo(
     () =>
@@ -611,14 +752,25 @@ export function SoloJointOpsView() {
   );
 
   useEffect(() => {
+    if (!hasLocalStorageApi()) {
+      return;
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
   useEffect(() => {
-    setSelectedNpoProfileForList((prev) =>
-      profileLookup.has(prev) ? prev : (state.profiles[0]?.id ?? '')
-    );
-  }, [profileLookup, state.profiles]);
+    if (
+      !playerCatalogTeams.some((team) => team.id === selectedPlayerTeamForList)
+    ) {
+      setSelectedPlayerTeamForList(playerCatalogTeams[0]?.id ?? '');
+    }
+  }, [playerCatalogTeams, selectedPlayerTeamForList]);
+
+  useEffect(() => {
+    if (!npoCatalogTeams.some((team) => team.id === selectedNpoTeamForList)) {
+      setSelectedNpoTeamForList(NPO_OPERATIVES_TEAM_ID);
+    }
+  }, [npoCatalogTeams, selectedNpoTeamForList]);
 
   useEffect(() => {
     if (!editingProfileId || !profileLookup.has(editingProfileId)) {
@@ -722,13 +874,10 @@ export function SoloJointOpsView() {
     });
   };
 
-  const addOperativeToList = (
+  const addCatalogOperativeToList = (
     listId: string,
-    operativeName: string,
-    profileId: string
+    operative: CatalogOperative
   ) => {
-    const normalized = operativeName.trim();
-    if (!normalized) return;
     setState((prev) => ({
       ...prev,
       lists: prev.lists.map((list) =>
@@ -739,8 +888,10 @@ export function SoloJointOpsView() {
                 ...list.operatives,
                 {
                   id: generateUniqueId('list-op'),
-                  name: normalized,
-                  profileId,
+                  name: operative.name,
+                  profileId: operative.profile.id,
+                  teamId: operative.teamId,
+                  teamName: operative.teamName,
                 },
               ],
             }
@@ -1242,17 +1393,18 @@ export function SoloJointOpsView() {
                 side="player"
                 lists={playerLists}
                 selectedListId={selectedPlayerList.id}
-                profiles={state.profiles}
-                selectedProfileId={selectedPlayerProfileForList}
+                availableTeams={playerCatalogTeams}
+                catalogOperatives={operativeCatalog.operatives}
+                profileLookup={profileLookup}
+                defaultTeamId={selectedPlayerTeamForList}
                 onSelectList={(listId) =>
                   updateState({ selectedPlayerListId: listId })
                 }
                 onCreateList={(name) => addList('player', name)}
                 onDeleteList={deleteList}
                 onRenameList={renameList}
-                onAddOperative={addOperativeToList}
+                onAddCatalogOperative={addCatalogOperativeToList}
                 onRemoveOperative={removeOperativeFromList}
-                onSetSelectedProfile={setSelectedPlayerProfileForList}
               />
             )}
 
@@ -1261,17 +1413,18 @@ export function SoloJointOpsView() {
                 side="npo"
                 lists={npoLists}
                 selectedListId={selectedNpoList.id}
-                profiles={state.profiles}
-                selectedProfileId={selectedNpoProfileForList}
+                availableTeams={npoCatalogTeams}
+                catalogOperatives={operativeCatalog.operatives}
+                profileLookup={profileLookup}
+                defaultTeamId={selectedNpoTeamForList}
                 onSelectList={(listId) =>
                   updateState({ selectedNpoListId: listId })
                 }
                 onCreateList={(name) => addList('npo', name)}
                 onDeleteList={deleteList}
                 onRenameList={renameList}
-                onAddOperative={addOperativeToList}
+                onAddCatalogOperative={addCatalogOperativeToList}
                 onRemoveOperative={removeOperativeFromList}
-                onSetSelectedProfile={setSelectedNpoProfileForList}
               />
             )}
           </div>
