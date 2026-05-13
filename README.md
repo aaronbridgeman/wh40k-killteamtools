@@ -62,7 +62,9 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 **Solo / Joint Ops**
 
 - **Game Runner**: Default tab with deployment, activation flow, and operative runner cards
-- **List Builder**: Build and persist player/NPO lists via team -> operative selection (NPO defaults to Mission Pack NPO Operatives, includes a separate Core Rules NPO Operatives bucket for import, and supports optional all-teams grouping) plus live operative/APL/wounds totals
+- **List Builder**: Build and persist player/NPO lists as model pools, with each list entry carrying a profile assignment (defaulting to Datacard for player entries)
+- **Team Builder (in Game Runner)**: Create teams as subsets of a selected list for use in a game; player teams are selected manually, while NPO teams support manual selection or automatic rule-driven selection up to a wounds limit
+- **NPO Selection Rules**: Manual, Random, Melee-heavy, Ranged-heavy, Elite (higher wounds first), and Horde (lower wounds first)
 - **Datacard Default Option**: Player list entries default to a `Datacard` profile option
 - **Profile Manager**: Create/edit/delete profile stat blocks with ranged/melee weapon profiles and behavior rules
 - **Backup/Restore**: Import and export lists and profiles as JSON backup files

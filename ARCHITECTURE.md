@@ -334,9 +334,14 @@ The root component that manages:
 **SoloJointOpsView** (`components/solo/SoloJointOpsView.tsx`)
 
 - Tabbed workflow for solo/joint ops against NPOs:
-  - **Game Runner** (default): deployment checklist, activation tracker, runner cards
-  - **List Builder**: player/NPO list management with per-operative profile assignment
+    - **Game Runner** (default): deployment checklist, activation tracker, runner cards, and team configuration
+    - **List Builder**: player/NPO list management with per-operative profile assignment
   - **Profile Manager**: profile CRUD for APL/Move/Save/Wounds, weapon profiles, and behavior rules
+- Explicit domain separation:
+    - **Profile**: complete stat block + weapon profiles + behavior rules
+    - **List**: a pool of models with a selected profile per entry
+    - **Team**: a playable subset of a list selected for a game
+- NPO team selection supports manual and rule-driven modes: random, melee-heavy, ranged-heavy, elite, and horde (with wounds-limit targeting)
 - Persists solo/joint ops state to localStorage and supports profile/list backup import/export (JSON)
 - Includes Datacard profile option for player list entries
 

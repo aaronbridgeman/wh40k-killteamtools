@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { SoloJointOpsView } from '@/components/solo/SoloJointOpsView';
 
@@ -32,9 +32,7 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Next Activation' }));
 
     expect(
-      screen.getByText(
-        'Turning Point 1 · Activation 2 · Active: Player Kill Team'
-      )
+      screen.getByText('Turning Point 1 · Activation 2 · Active: Player Team')
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Next Turning Point' }));
@@ -49,18 +47,33 @@ describe('SoloJointOpsView', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
 
-    fireEvent.change(screen.getByLabelText('Add NPO Operative'), {
-      target: { value: 'Drone' },
-    });
+    const npoOperativeSelect = screen.getByLabelText(
+      'NPO operative selection'
+    ) as HTMLSelectElement;
+    const operativeName =
+      npoOperativeSelect.options[npoOperativeSelect.selectedIndex]?.textContent?.trim() ||
+      '';
+
+    expect(operativeName).not.toBe('');
+
     fireEvent.click(screen.getByRole('button', { name: 'Add NPO Operative' }));
 
     fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
 
+    const npoTeamNameInput = screen.getByLabelText('NPO Team Name');
+    const npoTeamBuilder = npoTeamNameInput.closest('.team-builder');
+    expect(npoTeamBuilder).not.toBeNull();
+
+    const npoSelectionCheckbox = within(npoTeamBuilder as HTMLElement).getByRole(
+      'checkbox',
+      {
+        name: operativeName,
+      }
+    );
+    fireEvent.click(npoSelectionCheckbox);
+
     expect(
-      screen.getByRole('heading', { name: 'Drone (NPO Team)' })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('APL 2 · Move 6" · Save 5+ · Wounds 7')
+      screen.getByRole('heading', { name: `${operativeName} (NPO Team)` })
     ).toBeInTheDocument();
     expect(screen.getByText('Damage Taken: 0')).toBeInTheDocument();
 
@@ -76,7 +89,6 @@ describe('SoloJointOpsView', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
     const npoListBuilder = screen.getByLabelText('NPO list builder');
-    expect(npoListBuilder).toHaveTextContent('Drone');
-    expect(npoListBuilder).toHaveTextContent('NPO Trooper');
+    expect(npoListBuilder).toHaveTextContent(operativeName);
   });
 });

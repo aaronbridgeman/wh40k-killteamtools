@@ -346,12 +346,30 @@ JSON Schema will validate all configuration files to ensure:
 
 **Goal**: Provide dedicated support for solo or joint operations versus non-player operatives (NPOs) with game running, list building, and profile management.
 
+#### Domain Model
+
+1. **Profile**
+   - Full operative stat block (APL, Move, Save, Wounds)
+   - Ranged and melee weapon profiles
+   - Behavior rules for NPO-capable profiles
+
+2. **List**
+   - Collection of model entries available to a side
+   - Each entry references a profile (or Datacard default for player entries)
+   - Supports profile overrides (e.g., assigning a player model to an NPO profile)
+
+3. **Team**
+   - Playable subset of a selected list used in the current game
+   - Player teams are selected manually from list entries
+   - NPO teams support manual or automatic selection strategies with optional wounds-limit targeting
+
 #### Features
 
 1. **Game Runner (Default Tab)**
    - Deployment checklist for player/NPO
    - Initiative and activation sequencing controls
-   - Runner cards for active list operatives with damage and injured tracking
+   - Runner cards for active team operatives with damage and injured tracking
+   - Team management controls for naming teams, selecting source lists, and selecting team members
 
 2. **List Builder**
    - Manage player and NPO lists independently
@@ -359,7 +377,16 @@ JSON Schema will validate all configuration files to ensure:
    - `Datacard` profile selection is available and default for player entries
    - Lists are persisted and support backup/import
 
-3. **Profile Manager**
+3. **NPO Team Selection Rules**
+   - Manual
+   - Random
+   - Melee-heavy
+   - Ranged-heavy
+   - Elite (higher wounds first)
+   - Horde (lower wounds first)
+   - Optional wounds limit to tune team difficulty
+
+4. **Profile Manager**
    - Create/edit/delete profiles used by list entries
    - Profile data includes APL, Move, Save, Wounds
    - Profile data includes ranged and melee weapon profiles

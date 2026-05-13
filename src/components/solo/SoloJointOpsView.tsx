@@ -11,6 +11,13 @@ import './SoloJointOpsView.css';
 
 type ActivationSide = 'player' | 'npo';
 type SoloTab = 'game-runner' | 'list-builder' | 'profile-manager';
+type NpoTeamSelectionRule =
+  | 'manual'
+  | 'random'
+  | 'melee-heavy'
+  | 'ranged-heavy'
+  | 'elite'
+  | 'horde';
 
 interface SoloWeaponProfile {
   id: string;
@@ -68,6 +75,16 @@ interface SoloList {
   operatives: SoloListOperative[];
 }
 
+interface SoloTeam {
+  id: string;
+  name: string;
+  side: ActivationSide;
+  sourceListId: string;
+  operativeIds: string[];
+  selectionRule: NpoTeamSelectionRule;
+  autoWoundsLimit: number;
+}
+
 interface RunnerOperative {
   id: string;
   side: ActivationSide;
@@ -82,6 +99,7 @@ interface SoloBackupFile {
   schemaVersion: 1;
   profiles?: SoloProfile[];
   lists?: SoloList[];
+  teams?: SoloTeam[];
 }
 
 const STORAGE_KEY = 'kill-team-solo-joint-ops-v2';
@@ -143,16 +161,42 @@ const createDefaultLists = (): { player: SoloList; npo: SoloList } => ({
   },
 });
 
+const createDefaultTeams = (
+  lists: { player: SoloList; npo: SoloList },
+  names?: { player?: string; npo?: string }
+): { player: SoloTeam; npo: SoloTeam } => ({
+  player: {
+    id: generateUniqueId('team'),
+    name: names?.player?.trim() || 'Player Team',
+    side: 'player',
+    sourceListId: lists.player.id,
+    operativeIds: [],
+    selectionRule: 'manual',
+    autoWoundsLimit: 0,
+  },
+  npo: {
+    id: generateUniqueId('team'),
+    name: names?.npo?.trim() || 'NPO Team',
+    side: 'npo',
+    sourceListId: lists.npo.id,
+    operativeIds: [],
+    selectionRule: 'manual',
+    autoWoundsLimit: 20,
+  },
+});
+
 const buildInitialState = () => {
   const starterProfile = defaultProfile();
   const starterLists = createDefaultLists();
+  const starterTeams = createDefaultTeams(starterLists);
   return {
     profiles: [starterProfile],
     lists: [starterLists.player, starterLists.npo],
+    teams: [starterTeams.player, starterTeams.npo],
     selectedPlayerListId: starterLists.player.id,
     selectedNpoListId: starterLists.npo.id,
-    playerTeamName: 'Player Kill Team',
-    npoTeamName: 'NPO Team',
+    selectedPlayerTeamId: starterTeams.player.id,
+    selectedNpoTeamId: starterTeams.npo.id,
     playerDeployed: false,
     npoDeployed: false,
     initiative: 'player' as ActivationSide,
@@ -222,6 +266,60 @@ const isValidList = (value: unknown): value is SoloList => {
   );
 };
 
+const isValidTeam = (value: unknown): value is SoloTeam => {
+  if (!value || typeof value !== 'object') return false;
+  const team = value as Partial<SoloTeam>;
+  return (
+    isString(team.id) &&
+    isString(team.name) &&
+    (team.side === 'player' || team.side === 'npo') &&
+    isString(team.sourceListId) &&
+    Array.isArray(team.operativeIds) &&
+    team.operativeIds.every(isString) &&
+    (team.selectionRule === 'manual' ||
+      team.selectionRule === 'random' ||
+      team.selectionRule === 'melee-heavy' ||
+      team.selectionRule === 'ranged-heavy' ||
+      team.selectionRule === 'elite' ||
+      team.selectionRule === 'horde') &&
+    typeof team.autoWoundsLimit === 'number'
+  );
+};
+
+const toDamageNumber = (value: string): number => {
+  const parsed = Number.parseFloat(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+const getWeaponPotential = (weapon: SoloWeaponProfile): number =>
+  weapon.attacks *
+  (toDamageNumber(weapon.damage) + toDamageNumber(weapon.criticalDamage));
+
+const getMeleeScore = (profile: SoloProfile | null): number =>
+  profile
+    ? profile.meleeWeapons.reduce(
+        (total, weapon) => total + getWeaponPotential(weapon),
+        0
+      )
+    : 0;
+
+const getRangedScore = (profile: SoloProfile | null): number =>
+  profile
+    ? profile.rangedWeapons.reduce(
+        (total, weapon) => total + getWeaponPotential(weapon),
+        0
+      )
+    : 0;
+
+const shuffle = <T,>(items: T[]): T[] => {
+  const next = [...items];
+  for (let i = next.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [next[i], next[j]] = [next[j], next[i]];
+  }
+  return next;
+};
+
 /**
  * Loads persisted solo/joint ops state from localStorage.
  * Tries the current storage key first, then the legacy key for migration.
@@ -254,9 +352,71 @@ const loadState = (): SoloJointOpsState => {
       const npoList = lists.find((list) => list.side === 'npo');
       if (!playerList || !npoList) continue;
 
+      const fallbackTeams = createDefaultTeams(
+        { player: playerList, npo: npoList },
+        {
+          player:
+            isString((maybe as { playerTeamName?: unknown }).playerTeamName) &&
+            (maybe as { playerTeamName?: string }).playerTeamName
+              ? (maybe as { playerTeamName?: string }).playerTeamName
+              : 'Player Team',
+          npo:
+            isString((maybe as { npoTeamName?: unknown }).npoTeamName) &&
+            (maybe as { npoTeamName?: string }).npoTeamName
+              ? (maybe as { npoTeamName?: string }).npoTeamName
+              : 'NPO Team',
+        }
+      );
+
+      const teams = Array.isArray((maybe as { teams?: unknown[] }).teams)
+        ? ((maybe as { teams?: unknown[] }).teams ?? []).filter(isValidTeam)
+        : [fallbackTeams.player, fallbackTeams.npo];
+
+      const validTeams = teams.map((team) => {
+        const fallbackListId =
+          team.side === 'player' ? playerList.id : npoList.id;
+        const sourceListId = lists.some((list) => list.id === team.sourceListId)
+          ? team.sourceListId
+          : fallbackListId;
+        const sourceList =
+          lists.find((list) => list.id === sourceListId) ??
+          (team.side === 'player' ? playerList : npoList);
+        const validOperativeIds = team.operativeIds.filter((operativeId) =>
+          sourceList.operatives.some(
+            (operative) => operative.id === operativeId
+          )
+        );
+
+        return {
+          ...team,
+          sourceListId,
+          operativeIds: validOperativeIds,
+        };
+      });
+
+      const playerTeam =
+        validTeams.find((team) => team.side === 'player') ??
+        fallbackTeams.player;
+      const npoTeam =
+        validTeams.find((team) => team.side === 'npo') ?? fallbackTeams.npo;
+
+      const normalizedTeams = [
+        ...validTeams.filter((team) => team.side === 'player'),
+        ...validTeams.filter((team) => team.side === 'npo'),
+      ];
+
+      if (!normalizedTeams.some((team) => team.id === playerTeam.id)) {
+        normalizedTeams.push(playerTeam);
+      }
+
+      if (!normalizedTeams.some((team) => team.id === npoTeam.id)) {
+        normalizedTeams.push(npoTeam);
+      }
+
       return {
         profiles,
         lists,
+        teams: normalizedTeams,
         selectedPlayerListId:
           maybe.selectedPlayerListId &&
           lists.some((list) => list.id === maybe.selectedPlayerListId)
@@ -267,12 +427,33 @@ const loadState = (): SoloJointOpsState => {
           lists.some((list) => list.id === maybe.selectedNpoListId)
             ? maybe.selectedNpoListId
             : npoList.id,
-        playerTeamName: isString(maybe.playerTeamName)
-          ? maybe.playerTeamName
-          : fallback.playerTeamName,
-        npoTeamName: isString(maybe.npoTeamName)
-          ? maybe.npoTeamName
-          : fallback.npoTeamName,
+        selectedPlayerTeamId:
+          isString(
+            (maybe as { selectedPlayerTeamId?: unknown }).selectedPlayerTeamId
+          ) &&
+          normalizedTeams.some(
+            (team) =>
+              team.side === 'player' &&
+              team.id ===
+                (maybe as { selectedPlayerTeamId?: string })
+                  .selectedPlayerTeamId
+          )
+            ? ((maybe as { selectedPlayerTeamId?: string })
+                .selectedPlayerTeamId ?? playerTeam.id)
+            : playerTeam.id,
+        selectedNpoTeamId:
+          isString(
+            (maybe as { selectedNpoTeamId?: unknown }).selectedNpoTeamId
+          ) &&
+          normalizedTeams.some(
+            (team) =>
+              team.side === 'npo' &&
+              team.id ===
+                (maybe as { selectedNpoTeamId?: string }).selectedNpoTeamId
+          )
+            ? ((maybe as { selectedNpoTeamId?: string }).selectedNpoTeamId ??
+              npoTeam.id)
+            : npoTeam.id,
         playerDeployed: Boolean(maybe.playerDeployed),
         npoDeployed: Boolean(maybe.npoDeployed),
         initiative: maybe.initiative === 'npo' ? 'npo' : 'player',
@@ -697,6 +878,8 @@ export function SoloJointOpsView() {
   const [selectedNpoTeamForList, setSelectedNpoTeamForList] = useState(
     NPO_OPERATIVES_TEAM_ID
   );
+  const [newPlayerTeamName, setNewPlayerTeamName] = useState('');
+  const [newNpoTeamName, setNewNpoTeamName] = useState('');
   const [editingProfileId, setEditingProfileId] = useState(
     initialState.profiles[0]?.id ?? ''
   );
@@ -713,6 +896,14 @@ export function SoloJointOpsView() {
     () => state.lists.filter((list) => list.side === 'npo'),
     [state.lists]
   );
+  const playerTeams = useMemo(
+    () => state.teams.filter((team) => team.side === 'player'),
+    [state.teams]
+  );
+  const npoTeams = useMemo(
+    () => state.teams.filter((team) => team.side === 'npo'),
+    [state.teams]
+  );
 
   const selectedPlayerList =
     playerLists.find((list) => list.id === state.selectedPlayerListId) ??
@@ -721,6 +912,14 @@ export function SoloJointOpsView() {
   const selectedNpoList =
     npoLists.find((list) => list.id === state.selectedNpoListId) ??
     npoLists[0] ??
+    null;
+  const selectedPlayerTeam =
+    playerTeams.find((team) => team.id === state.selectedPlayerTeamId) ??
+    playerTeams[0] ??
+    null;
+  const selectedNpoTeam =
+    npoTeams.find((team) => team.id === state.selectedNpoTeamId) ??
+    npoTeams[0] ??
     null;
 
   const profileLookup = useMemo(() => {
@@ -747,11 +946,99 @@ export function SoloJointOpsView() {
 
   const npoCatalogTeams = useMemo(() => operativeCatalog.teams, []);
 
-  const activeTeamLabel = useMemo(
-    () =>
-      state.activeSide === 'player' ? state.playerTeamName : state.npoTeamName,
-    [state.activeSide, state.playerTeamName, state.npoTeamName]
-  );
+  const getTeamSourceList = (team: SoloTeam | null) => {
+    if (!team) return null;
+    return state.lists.find((list) => list.id === team.sourceListId) ?? null;
+  };
+
+  const pickNpoOperativeIds = (
+    operatives: SoloListOperative[],
+    selectionRule: NpoTeamSelectionRule,
+    autoWoundsLimit: number
+  ) => {
+    const withProfiles = operatives.map((operative) => ({
+      operative,
+      profile:
+        operative.profileId === DATACARD_PROFILE_ID
+          ? null
+          : (profileLookup.get(operative.profileId) ?? null),
+    }));
+
+    let ordered = withProfiles;
+    if (selectionRule === 'random') {
+      ordered = shuffle(withProfiles);
+    } else if (selectionRule === 'melee-heavy') {
+      ordered = [...withProfiles].sort(
+        (a, b) => getMeleeScore(b.profile) - getMeleeScore(a.profile)
+      );
+    } else if (selectionRule === 'ranged-heavy') {
+      ordered = [...withProfiles].sort(
+        (a, b) => getRangedScore(b.profile) - getRangedScore(a.profile)
+      );
+    } else if (selectionRule === 'elite') {
+      ordered = [...withProfiles].sort(
+        (a, b) => (b.profile?.wounds ?? 0) - (a.profile?.wounds ?? 0)
+      );
+    } else if (selectionRule === 'horde') {
+      ordered = [...withProfiles].sort(
+        (a, b) => (a.profile?.wounds ?? 0) - (b.profile?.wounds ?? 0)
+      );
+    }
+
+    if (selectionRule === 'manual') {
+      return ordered.map((entry) => entry.operative.id);
+    }
+
+    const woundsLimit = Math.max(0, autoWoundsLimit);
+    if (woundsLimit === 0) {
+      return ordered.map((entry) => entry.operative.id);
+    }
+
+    const picked: string[] = [];
+    let totalWounds = 0;
+
+    ordered.forEach(({ operative, profile }) => {
+      const wounds = Math.max(0, profile?.wounds ?? 0);
+      const nextTotal = totalWounds + wounds;
+      if (picked.length === 0 || nextTotal <= woundsLimit) {
+        picked.push(operative.id);
+        totalWounds = nextTotal;
+      }
+    });
+
+    return picked;
+  };
+
+  const selectedPlayerTeamOperatives = useMemo(() => {
+    if (!selectedPlayerTeam) return [];
+    const sourceList = state.lists.find(
+      (list) => list.id === selectedPlayerTeam.sourceListId
+    );
+    if (!sourceList) return [];
+    const allowedIds = new Set(selectedPlayerTeam.operativeIds);
+    return sourceList.operatives.filter((operative) =>
+      allowedIds.has(operative.id)
+    );
+  }, [selectedPlayerTeam, state.lists]);
+
+  const selectedNpoTeamOperatives = useMemo(() => {
+    if (!selectedNpoTeam) return [];
+    const sourceList = state.lists.find(
+      (list) => list.id === selectedNpoTeam.sourceListId
+    );
+    if (!sourceList) return [];
+    const allowedIds = new Set(selectedNpoTeam.operativeIds);
+    return sourceList.operatives.filter((operative) =>
+      allowedIds.has(operative.id)
+    );
+  }, [selectedNpoTeam, state.lists]);
+
+  const activeTeamLabel = useMemo(() => {
+    if (state.activeSide === 'player') {
+      return selectedPlayerTeam?.name ?? 'Player Team';
+    }
+    return selectedNpoTeam?.name ?? 'NPO Team';
+  }, [selectedNpoTeam, selectedPlayerTeam, state.activeSide]);
 
   useEffect(() => {
     if (!hasLocalStorageApi()) {
@@ -781,15 +1068,77 @@ export function SoloJointOpsView() {
   }, [editingProfileId, profileLookup, state.profiles]);
 
   useEffect(() => {
+    if (!playerTeams.some((team) => team.id === state.selectedPlayerTeamId)) {
+      setState((prev) => ({
+        ...prev,
+        selectedPlayerTeamId: playerTeams[0]?.id ?? '',
+      }));
+    }
+  }, [playerTeams, state.selectedPlayerTeamId]);
+
+  useEffect(() => {
+    if (!npoTeams.some((team) => team.id === state.selectedNpoTeamId)) {
+      setState((prev) => ({
+        ...prev,
+        selectedNpoTeamId: npoTeams[0]?.id ?? '',
+      }));
+    }
+  }, [npoTeams, state.selectedNpoTeamId]);
+
+  useEffect(() => {
+    const teamListPairs = state.teams.map((team) => {
+      const fallbackListId =
+        team.side === 'player'
+          ? (playerLists[0]?.id ?? '')
+          : (npoLists[0]?.id ?? '');
+      const sourceListId = state.lists.some(
+        (list) => list.id === team.sourceListId
+      )
+        ? team.sourceListId
+        : fallbackListId;
+      const sourceList = state.lists.find((list) => list.id === sourceListId);
+      const filteredIds = sourceList
+        ? team.operativeIds.filter((operativeId) =>
+            sourceList.operatives.some(
+              (operative) => operative.id === operativeId
+            )
+          )
+        : [];
+      return { team, sourceListId, filteredIds };
+    });
+
+    const needsRepair = teamListPairs.some(
+      ({ team, sourceListId, filteredIds }) =>
+        sourceListId !== team.sourceListId ||
+        filteredIds.length !== team.operativeIds.length
+    );
+
+    if (!needsRepair) return;
+
+    setState((prev) => ({
+      ...prev,
+      teams: prev.teams.map((team) => {
+        const next = teamListPairs.find((pair) => pair.team.id === team.id);
+        if (!next) return team;
+        return {
+          ...team,
+          sourceListId: next.sourceListId,
+          operativeIds: next.filteredIds,
+        };
+      }),
+    }));
+  }, [npoLists, playerLists, state.lists, state.teams]);
+
+  useEffect(() => {
     const activeOperatives = [
-      ...(selectedPlayerList?.operatives.map((operative) => ({
+      ...selectedPlayerTeamOperatives.map((operative) => ({
         ...operative,
         side: 'player' as const,
-      })) ?? []),
-      ...(selectedNpoList?.operatives.map((operative) => ({
+      })),
+      ...selectedNpoTeamOperatives.map((operative) => ({
         ...operative,
         side: 'npo' as const,
-      })) ?? []),
+      })),
     ];
 
     setRunnerOperatives((prev) => {
@@ -814,7 +1163,7 @@ export function SoloJointOpsView() {
         };
       });
     });
-  }, [selectedPlayerList, selectedNpoList]);
+  }, [selectedNpoTeamOperatives, selectedPlayerTeamOperatives]);
 
   const updateState = (updates: Partial<SoloJointOpsState>) => {
     setState((prev) => ({ ...prev, ...updates }));
@@ -838,6 +1187,111 @@ export function SoloJointOpsView() {
     }));
   };
 
+  const addTeam = (side: ActivationSide, name: string) => {
+    const normalized = name.trim();
+    if (!normalized) return;
+
+    const sourceList = state.lists.find((list) => list.side === side);
+    if (!sourceList) return;
+
+    const team: SoloTeam = {
+      id: generateUniqueId('team'),
+      name: normalized,
+      side,
+      sourceListId: sourceList.id,
+      operativeIds: [],
+      selectionRule: 'manual',
+      autoWoundsLimit: side === 'npo' ? 20 : 0,
+    };
+
+    setState((prev) => ({
+      ...prev,
+      teams: [...prev.teams, team],
+      ...(side === 'player'
+        ? { selectedPlayerTeamId: team.id }
+        : { selectedNpoTeamId: team.id }),
+    }));
+  };
+
+  const updateTeam = (teamId: string, updates: Partial<SoloTeam>) => {
+    setState((prev) => ({
+      ...prev,
+      teams: prev.teams.map((team) =>
+        team.id === teamId ? { ...team, ...updates } : team
+      ),
+    }));
+  };
+
+  const deleteTeam = (teamId: string) => {
+    setState((prev) => {
+      const team = prev.teams.find((item) => item.id === teamId);
+      if (!team) return prev;
+
+      const remaining = prev.teams.filter((item) => item.id !== teamId);
+      const sameSide = remaining.filter((item) => item.side === team.side);
+      if (sameSide.length === 0) return prev;
+
+      return {
+        ...prev,
+        teams: remaining,
+        ...(team.side === 'player'
+          ? {
+              selectedPlayerTeamId:
+                prev.selectedPlayerTeamId === teamId
+                  ? sameSide[0].id
+                  : prev.selectedPlayerTeamId,
+            }
+          : {
+              selectedNpoTeamId:
+                prev.selectedNpoTeamId === teamId
+                  ? sameSide[0].id
+                  : prev.selectedNpoTeamId,
+            }),
+      };
+    });
+  };
+
+  const toggleTeamOperative = (teamId: string, operativeId: string) => {
+    setState((prev) => ({
+      ...prev,
+      teams: prev.teams.map((team) => {
+        if (team.id !== teamId) return team;
+        const hasOperative = team.operativeIds.includes(operativeId);
+        return {
+          ...team,
+          operativeIds: hasOperative
+            ? team.operativeIds.filter((id) => id !== operativeId)
+            : [...team.operativeIds, operativeId],
+        };
+      }),
+    }));
+  };
+
+  const applyNpoTeamSelectionRule = (teamId: string) => {
+    setState((prev) => {
+      const team = prev.teams.find((item) => item.id === teamId);
+      if (!team || team.side !== 'npo') return prev;
+
+      const sourceList = prev.lists.find(
+        (list) => list.id === team.sourceListId
+      );
+      if (!sourceList) return prev;
+
+      const operativeIds = pickNpoOperativeIds(
+        sourceList.operatives,
+        team.selectionRule,
+        team.autoWoundsLimit
+      );
+
+      return {
+        ...prev,
+        teams: prev.teams.map((item) =>
+          item.id === teamId ? { ...item, operativeIds } : item
+        ),
+      };
+    });
+  };
+
   const renameList = (listId: string, name: string) => {
     const normalized = name.trim();
     setState((prev) => ({
@@ -859,6 +1313,14 @@ export function SoloJointOpsView() {
       return {
         ...prev,
         lists: remaining,
+        teams: prev.teams.map((team) => {
+          if (team.sourceListId !== listId) return team;
+          return {
+            ...team,
+            sourceListId: sameSide[0].id,
+            operativeIds: [],
+          };
+        }),
         ...(target.side === 'player'
           ? {
               selectedPlayerListId:
@@ -915,6 +1377,10 @@ export function SoloJointOpsView() {
             }
           : list
       ),
+      teams: prev.teams.map((team) => ({
+        ...team,
+        operativeIds: team.operativeIds.filter((id) => id !== operativeId),
+      })),
     }));
   };
 
@@ -1019,6 +1485,7 @@ export function SoloJointOpsView() {
     downloadBackup('solo-joint-ops-lists.json', {
       schemaVersion: 1,
       lists: state.lists,
+      teams: state.teams,
     });
   };
 
@@ -1037,6 +1504,9 @@ export function SoloJointOpsView() {
       const parsed = JSON.parse(content) as SoloBackupFile;
       const importedLists = Array.isArray(parsed.lists)
         ? parsed.lists.filter(isValidList)
+        : [];
+      const importedTeams = Array.isArray(parsed.teams)
+        ? parsed.teams.filter(isValidTeam)
         : [];
 
       if (importedLists.length === 0) {
@@ -1058,12 +1528,74 @@ export function SoloJointOpsView() {
       const firstNpo = importedLists.find((list) => list.side === 'npo');
       if (!firstPlayer || !firstNpo) return;
 
-      setState((prev) => ({
-        ...prev,
-        lists: importedLists,
-        selectedPlayerListId: firstPlayer.id,
-        selectedNpoListId: firstNpo.id,
-      }));
+      setState((prev) => {
+        const candidateTeams =
+          importedTeams.length > 0 ? importedTeams : prev.teams;
+
+        const remappedTeams = candidateTeams.map((team) => {
+          const fallbackListId =
+            team.side === 'player' ? firstPlayer.id : firstNpo.id;
+          const sourceListId = importedLists.some(
+            (list) => list.id === team.sourceListId && list.side === team.side
+          )
+            ? team.sourceListId
+            : fallbackListId;
+          const sourceList = importedLists.find(
+            (list) => list.id === sourceListId
+          );
+
+          return {
+            ...team,
+            sourceListId,
+            operativeIds: sourceList
+              ? team.operativeIds.filter((operativeId) =>
+                  sourceList.operatives.some(
+                    (operative) => operative.id === operativeId
+                  )
+                )
+              : [],
+          };
+        });
+
+        const fallbackTeams = createDefaultTeams(
+          { player: firstPlayer, npo: firstNpo },
+          {
+            player: prev.teams.find((team) => team.side === 'player')?.name,
+            npo: prev.teams.find((team) => team.side === 'npo')?.name,
+          }
+        );
+
+        const nextTeams = [...remappedTeams];
+        if (!nextTeams.some((team) => team.side === 'player')) {
+          nextTeams.push(fallbackTeams.player);
+        }
+        if (!nextTeams.some((team) => team.side === 'npo')) {
+          nextTeams.push(fallbackTeams.npo);
+        }
+
+        const selectedPlayerTeamId = nextTeams.some(
+          (team) =>
+            team.side === 'player' && team.id === prev.selectedPlayerTeamId
+        )
+          ? prev.selectedPlayerTeamId
+          : (nextTeams.find((team) => team.side === 'player')?.id ?? '');
+
+        const selectedNpoTeamId = nextTeams.some(
+          (team) => team.side === 'npo' && team.id === prev.selectedNpoTeamId
+        )
+          ? prev.selectedNpoTeamId
+          : (nextTeams.find((team) => team.side === 'npo')?.id ?? '');
+
+        return {
+          ...prev,
+          lists: importedLists,
+          teams: nextTeams,
+          selectedPlayerListId: firstPlayer.id,
+          selectedNpoListId: firstNpo.id,
+          selectedPlayerTeamId,
+          selectedNpoTeamId,
+        };
+      });
       setImportMessage(`Imported ${importedLists.length} list(s).`);
     } catch (error) {
       setImportMessage(
@@ -1110,6 +1642,8 @@ export function SoloJointOpsView() {
 
   const activeProfile =
     state.profiles.find((profile) => profile.id === editingProfileId) ?? null;
+  const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
+  const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
 
   /**
    * Renders summary content for Datacard entries, resolved profiles,
@@ -1206,20 +1740,73 @@ export function SoloJointOpsView() {
             <h3>Game Runner</h3>
             <form className="team-builders" onSubmit={handleTeamNameSubmit}>
               <div className="team-builder">
+                <label htmlFor="player-active-team">Active Player Team</label>
+                <select
+                  id="player-active-team"
+                  value={selectedPlayerTeam?.id ?? ''}
+                  onChange={(event) =>
+                    updateState({ selectedPlayerTeamId: event.target.value })
+                  }
+                >
+                  {playerTeams.map((team) => (
+                    <option key={team.id} value={team.id}>
+                      {team.name}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="input-row list-name-row">
+                  <input
+                    value={newPlayerTeamName}
+                    placeholder="New player team name"
+                    onChange={(event) =>
+                      setNewPlayerTeamName(event.target.value)
+                    }
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      addTeam('player', newPlayerTeamName);
+                      setNewPlayerTeamName('');
+                    }}
+                  >
+                    Add Team
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  className="danger-button"
+                  onClick={() =>
+                    selectedPlayerTeam && deleteTeam(selectedPlayerTeam.id)
+                  }
+                  disabled={playerTeams.length <= 1 || !selectedPlayerTeam}
+                >
+                  Delete Team
+                </button>
+
                 <label htmlFor="player-team-name">Player Team Name</label>
                 <input
                   id="player-team-name"
-                  value={state.playerTeamName}
+                  value={selectedPlayerTeam?.name ?? ''}
                   onChange={(event) =>
-                    updateState({ playerTeamName: event.target.value })
+                    selectedPlayerTeam &&
+                    updateTeam(selectedPlayerTeam.id, {
+                      name: event.target.value,
+                    })
                   }
                 />
-                <label htmlFor="active-player-list">Active Player List</label>
+
+                <label htmlFor="active-player-list">Source Player List</label>
                 <select
                   id="active-player-list"
-                  value={selectedPlayerList?.id ?? ''}
+                  value={selectedPlayerTeam?.sourceListId ?? ''}
                   onChange={(event) =>
-                    updateState({ selectedPlayerListId: event.target.value })
+                    selectedPlayerTeam &&
+                    updateTeam(selectedPlayerTeam.id, {
+                      sourceListId: event.target.value,
+                      operativeIds: [],
+                    })
                   }
                 >
                   {playerLists.map((list) => (
@@ -1228,23 +1815,105 @@ export function SoloJointOpsView() {
                     </option>
                   ))}
                 </select>
+
+                <p className="team-selection-meta">
+                  Team selection: {selectedPlayerTeamOperatives.length} of{' '}
+                  {selectedPlayerTeamSourceList?.operatives.length ?? 0}{' '}
+                  operatives
+                </p>
+
+                <ul className="team-selection-list">
+                  {(selectedPlayerTeamSourceList?.operatives ?? []).map(
+                    (operative) => (
+                      <li key={operative.id}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={
+                              selectedPlayerTeam?.operativeIds.includes(
+                                operative.id
+                              ) ?? false
+                            }
+                            onChange={() =>
+                              selectedPlayerTeam &&
+                              toggleTeamOperative(
+                                selectedPlayerTeam.id,
+                                operative.id
+                              )
+                            }
+                          />
+                          {operative.name}
+                        </label>
+                      </li>
+                    )
+                  )}
+                </ul>
               </div>
 
               <div className="team-builder">
+                <label htmlFor="npo-active-team">Active NPO Team</label>
+                <select
+                  id="npo-active-team"
+                  value={selectedNpoTeam?.id ?? ''}
+                  onChange={(event) =>
+                    updateState({ selectedNpoTeamId: event.target.value })
+                  }
+                >
+                  {npoTeams.map((team) => (
+                    <option key={team.id} value={team.id}>
+                      {team.name}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="input-row list-name-row">
+                  <input
+                    value={newNpoTeamName}
+                    placeholder="New NPO team name"
+                    onChange={(event) => setNewNpoTeamName(event.target.value)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      addTeam('npo', newNpoTeamName);
+                      setNewNpoTeamName('');
+                    }}
+                  >
+                    Add Team
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  className="danger-button"
+                  onClick={() =>
+                    selectedNpoTeam && deleteTeam(selectedNpoTeam.id)
+                  }
+                  disabled={npoTeams.length <= 1 || !selectedNpoTeam}
+                >
+                  Delete Team
+                </button>
+
                 <label htmlFor="npo-team-name">NPO Team Name</label>
                 <input
                   id="npo-team-name"
-                  value={state.npoTeamName}
+                  value={selectedNpoTeam?.name ?? ''}
                   onChange={(event) =>
-                    updateState({ npoTeamName: event.target.value })
+                    selectedNpoTeam &&
+                    updateTeam(selectedNpoTeam.id, { name: event.target.value })
                   }
                 />
-                <label htmlFor="active-npo-list">Active NPO List</label>
+
+                <label htmlFor="active-npo-list">Source NPO List</label>
                 <select
                   id="active-npo-list"
-                  value={selectedNpoList?.id ?? ''}
+                  value={selectedNpoTeam?.sourceListId ?? ''}
                   onChange={(event) =>
-                    updateState({ selectedNpoListId: event.target.value })
+                    selectedNpoTeam &&
+                    updateTeam(selectedNpoTeam.id, {
+                      sourceListId: event.target.value,
+                      operativeIds: [],
+                    })
                   }
                 >
                   {npoLists.map((list) => (
@@ -1253,6 +1922,93 @@ export function SoloJointOpsView() {
                     </option>
                   ))}
                 </select>
+
+                <label htmlFor="npo-selection-rule">NPO Selection Rule</label>
+                <select
+                  id="npo-selection-rule"
+                  value={selectedNpoTeam?.selectionRule ?? 'manual'}
+                  onChange={(event) =>
+                    selectedNpoTeam &&
+                    updateTeam(selectedNpoTeam.id, {
+                      selectionRule: event.target.value as NpoTeamSelectionRule,
+                    })
+                  }
+                >
+                  <option value="manual">Manual</option>
+                  <option value="random">Random</option>
+                  <option value="melee-heavy">Melee-heavy</option>
+                  <option value="ranged-heavy">Ranged-heavy</option>
+                  <option value="elite">Elite (high wounds first)</option>
+                  <option value="horde">Horde (low wounds first)</option>
+                </select>
+
+                <label htmlFor="npo-wounds-limit">NPO Wounds Limit</label>
+                <input
+                  id="npo-wounds-limit"
+                  type="number"
+                  min={0}
+                  value={selectedNpoTeam?.autoWoundsLimit ?? 0}
+                  onChange={(event) =>
+                    selectedNpoTeam &&
+                    updateTeam(selectedNpoTeam.id, {
+                      autoWoundsLimit: Math.max(
+                        0,
+                        Number(event.target.value) || 0
+                      ),
+                    })
+                  }
+                />
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    selectedNpoTeam &&
+                    applyNpoTeamSelectionRule(selectedNpoTeam.id)
+                  }
+                  disabled={!selectedNpoTeam}
+                >
+                  Apply NPO Selection Rule
+                </button>
+
+                <p className="team-selection-meta">
+                  Team selection: {selectedNpoTeamOperatives.length} of{' '}
+                  {selectedNpoTeamSourceList?.operatives.length ?? 0} operatives
+                </p>
+
+                {selectedNpoTeam?.selectionRule === 'manual' ? (
+                  <ul className="team-selection-list">
+                    {(selectedNpoTeamSourceList?.operatives ?? []).map(
+                      (operative) => (
+                        <li key={operative.id}>
+                          <label>
+                            <input
+                              type="checkbox"
+                              checked={
+                                selectedNpoTeam?.operativeIds.includes(
+                                  operative.id
+                                ) ?? false
+                              }
+                              onChange={() =>
+                                selectedNpoTeam &&
+                                toggleTeamOperative(
+                                  selectedNpoTeam.id,
+                                  operative.id
+                                )
+                              }
+                            />
+                            {operative.name}
+                          </label>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                ) : (
+                  <ul className="team-selection-list">
+                    {selectedNpoTeamOperatives.map((operative) => (
+                      <li key={operative.id}>{operative.name}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </form>
           </section>
@@ -1268,7 +2024,7 @@ export function SoloJointOpsView() {
                     updateState({ playerDeployed: event.target.checked })
                   }
                 />
-                {state.playerTeamName} Deployed
+                {selectedPlayerTeam?.name ?? 'Player Team'} Deployed
               </label>
               <label>
                 <input
@@ -1278,7 +2034,7 @@ export function SoloJointOpsView() {
                     updateState({ npoDeployed: event.target.checked })
                   }
                 />
-                {state.npoTeamName} Deployed
+                {selectedNpoTeam?.name ?? 'NPO Team'} Deployed
               </label>
             </div>
           </section>
@@ -1296,8 +2052,12 @@ export function SoloJointOpsView() {
                   })
                 }
               >
-                <option value="player">{state.playerTeamName}</option>
-                <option value="npo">{state.npoTeamName}</option>
+                <option value="player">
+                  {selectedPlayerTeam?.name ?? 'Player Team'}
+                </option>
+                <option value="npo">
+                  {selectedNpoTeam?.name ?? 'NPO Team'}
+                </option>
               </select>
               <button type="button" onClick={startActivationSequence}>
                 Start Activations
@@ -1332,8 +2092,8 @@ export function SoloJointOpsView() {
                       <small>
                         (
                         {operative.side === 'player'
-                          ? state.playerTeamName
-                          : state.npoTeamName}
+                          ? (selectedPlayerTeam?.name ?? 'Player Team')
+                          : (selectedNpoTeam?.name ?? 'NPO Team')}
                         )
                       </small>
                     </h4>
@@ -1415,46 +2175,46 @@ export function SoloJointOpsView() {
             {activeListBuilderSide === 'player' &&
               playerLists.length > 0 &&
               selectedPlayerList && (
-              <SoloListEditor
-                side="player"
-                lists={playerLists}
-                selectedListId={selectedPlayerList.id}
-                availableTeams={playerCatalogTeams}
-                catalogOperatives={operativeCatalog.operatives}
-                profileLookup={profileLookup}
-                defaultTeamId={selectedPlayerTeamForList}
-                onSelectList={(listId) =>
-                  updateState({ selectedPlayerListId: listId })
-                }
-                onCreateList={(name) => addList('player', name)}
-                onDeleteList={deleteList}
-                onRenameList={renameList}
-                onAddCatalogOperative={addCatalogOperativeToList}
-                onRemoveOperative={removeOperativeFromList}
-              />
-            )}
+                <SoloListEditor
+                  side="player"
+                  lists={playerLists}
+                  selectedListId={selectedPlayerList.id}
+                  availableTeams={playerCatalogTeams}
+                  catalogOperatives={operativeCatalog.operatives}
+                  profileLookup={profileLookup}
+                  defaultTeamId={selectedPlayerTeamForList}
+                  onSelectList={(listId) =>
+                    updateState({ selectedPlayerListId: listId })
+                  }
+                  onCreateList={(name) => addList('player', name)}
+                  onDeleteList={deleteList}
+                  onRenameList={renameList}
+                  onAddCatalogOperative={addCatalogOperativeToList}
+                  onRemoveOperative={removeOperativeFromList}
+                />
+              )}
 
             {activeListBuilderSide === 'npo' &&
               npoLists.length > 0 &&
               selectedNpoList && (
-              <SoloListEditor
-                side="npo"
-                lists={npoLists}
-                selectedListId={selectedNpoList.id}
-                availableTeams={npoCatalogTeams}
-                catalogOperatives={operativeCatalog.operatives}
-                profileLookup={profileLookup}
-                defaultTeamId={selectedNpoTeamForList}
-                onSelectList={(listId) =>
-                  updateState({ selectedNpoListId: listId })
-                }
-                onCreateList={(name) => addList('npo', name)}
-                onDeleteList={deleteList}
-                onRenameList={renameList}
-                onAddCatalogOperative={addCatalogOperativeToList}
-                onRemoveOperative={removeOperativeFromList}
-              />
-            )}
+                <SoloListEditor
+                  side="npo"
+                  lists={npoLists}
+                  selectedListId={selectedNpoList.id}
+                  availableTeams={npoCatalogTeams}
+                  catalogOperatives={operativeCatalog.operatives}
+                  profileLookup={profileLookup}
+                  defaultTeamId={selectedNpoTeamForList}
+                  onSelectList={(listId) =>
+                    updateState({ selectedNpoListId: listId })
+                  }
+                  onCreateList={(name) => addList('npo', name)}
+                  onDeleteList={deleteList}
+                  onRenameList={renameList}
+                  onAddCatalogOperative={addCatalogOperativeToList}
+                  onRemoveOperative={removeOperativeFromList}
+                />
+              )}
           </div>
 
           <div className="backup-controls">

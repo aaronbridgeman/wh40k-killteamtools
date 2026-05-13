@@ -77,6 +77,27 @@
   gap: 0.4rem;
 }
 
+.team-selection-meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--text-color) 78%, transparent);
+}
+
+.team-selection-list {
+  max-height: 10rem;
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  background: color-mix(in srgb, var(--surface-color) 90%, black);
+}
+
+.team-selection-list label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .team-builder li {
   display: flex;
   justify-content: space-between;
