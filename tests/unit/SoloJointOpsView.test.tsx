@@ -132,7 +132,10 @@ describe('SoloJointOpsView', () => {
     const npoProfileOverride = screen.getByLabelText(
       'NPO profile override'
     ) as HTMLSelectElement;
+    const selectedProfileName =
+      npoProfileOverride.options[0]?.textContent?.trim() ?? '';
     const customProfileId = npoProfileOverride.options[0]?.value ?? '';
+    expect(selectedProfileName).not.toBe('');
     expect(customProfileId).not.toBe('');
     fireEvent.change(npoProfileOverride, {
       target: { value: customProfileId },
@@ -141,7 +144,29 @@ describe('SoloJointOpsView', () => {
 
     expect(screen.getByText(/Custom Beast/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/Profile: NPO Trooper \(required\)/i)
+      screen.getByText(
+        new RegExp(
+          `Profile: ${selectedProfileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} \\(required\\)`,
+          'i'
+        )
+      )
     ).toBeInTheDocument();
+  });
+
+  it('includes built-in NPO catalog profiles in NPO profile override selection', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Lists' }));
+
+    const npoProfileOverride = screen.getByLabelText(
+      'NPO profile override'
+    ) as HTMLSelectElement;
+    const profileOptions = Array.from(npoProfileOverride.options).map(
+      (option) => option.textContent?.trim() ?? ''
+    );
+
+    expect(profileOptions).toContain('Brawler Trooper');
+    expect(profileOptions).toContain('Marksman Trooper');
   });
 });
