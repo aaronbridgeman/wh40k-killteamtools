@@ -51,8 +51,9 @@ describe('SoloJointOpsView', () => {
       'NPO model selection'
     ) as HTMLSelectElement;
     const operativeName =
-      npoModelSelect.options[npoModelSelect.selectedIndex]?.textContent?.trim() ||
-      '';
+      npoModelSelect.options[
+        npoModelSelect.selectedIndex
+      ]?.textContent?.trim() || '';
 
     expect(operativeName).not.toBe('');
 
@@ -64,12 +65,11 @@ describe('SoloJointOpsView', () => {
     const npoTeamBuilder = npoTeamNameInput.closest('.team-builder');
     expect(npoTeamBuilder).not.toBeNull();
 
-    const npoSelectionCheckbox = within(npoTeamBuilder as HTMLElement).getByRole(
-      'checkbox',
-      {
-        name: operativeName,
-      }
-    );
+    const npoSelectionCheckbox = within(
+      npoTeamBuilder as HTMLElement
+    ).getByRole('checkbox', {
+      name: operativeName,
+    });
     fireEvent.click(npoSelectionCheckbox);
 
     expect(
@@ -96,6 +96,7 @@ describe('SoloJointOpsView', () => {
     render(<SoloJointOpsView />);
 
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'Player Lists' }));
     fireEvent.click(screen.getByRole('button', { name: 'Add Player Model' }));
 
     expect(screen.getByText(/Profile: Datacard/i)).toBeInTheDocument();
@@ -139,6 +140,8 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(addButton);
 
     expect(screen.getByText(/Custom Beast/i)).toBeInTheDocument();
-    expect(screen.getByText(/Profile: NPO Trooper \(required\)/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Profile: NPO Trooper \(required\)/i)
+    ).toBeInTheDocument();
   });
 });

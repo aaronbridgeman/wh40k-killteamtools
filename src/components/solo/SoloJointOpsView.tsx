@@ -546,7 +546,8 @@ function SoloListEditor({
   const [newListName, setNewListName] = useState('');
   const [selectedTeamId, setSelectedTeamId] = useState(defaultTeamId);
   const [selectedModelId, setSelectedModelId] = useState('');
-  const [selectedProfileOverrideId, setSelectedProfileOverrideId] = useState('');
+  const [selectedProfileOverrideId, setSelectedProfileOverrideId] =
+    useState('');
   const [customModelDescription, setCustomModelDescription] = useState('');
 
   const sideLabel = side === 'player' ? 'Player' : 'NPO';
@@ -583,8 +584,9 @@ function SoloListEditor({
   }, [filteredCatalogOperatives, selectedModelId]);
 
   const selectedModelOperative =
-    filteredCatalogOperatives.find((operative) => operative.id === selectedModelId) ??
-    null;
+    filteredCatalogOperatives.find(
+      (operative) => operative.id === selectedModelId
+    ) ?? null;
   const isCustomModel = selectedModelId === CUSTOM_MODEL_ID;
   const customModelText = customModelDescription.trim();
   const selectedTeamName =
@@ -761,7 +763,8 @@ function SoloListEditor({
                 name: customModelText,
                 profileId: selectedProfileOverrideId,
                 modelId: CUSTOM_MODEL_ID,
-                teamId: selectedTeamId === ALL_TEAMS_ID ? undefined : selectedTeamId,
+                teamId:
+                  selectedTeamId === ALL_TEAMS_ID ? undefined : selectedTeamId,
                 teamName: selectedTeamName,
                 customDescription: customModelText,
                 requiresExplicitProfile: true,
@@ -807,7 +810,8 @@ function SoloListEditor({
           const profileName =
             operative.profileId === DATACARD_PROFILE_ID
               ? 'Datacard'
-              : (profileLookup.get(operative.profileId)?.name ?? 'Unknown Profile');
+              : (profileLookup.get(operative.profileId)?.name ??
+                'Unknown Profile');
           return (
             <li key={operative.id}>
               <span>
@@ -1434,7 +1438,10 @@ export function SoloJointOpsView() {
     });
   };
 
-  const addOperativeToList = (listId: string, operative: AddListOperativeInput) => {
+  const addOperativeToList = (
+    listId: string,
+    operative: AddListOperativeInput
+  ) => {
     setState((prev) => ({
       ...prev,
       lists: prev.lists.map((list) =>
@@ -1549,10 +1556,9 @@ export function SoloJointOpsView() {
             operative.profileId === profileId
               ? {
                   ...operative,
-                  profileId:
-                    operative.requiresExplicitProfile
-                      ? fallbackProfileId || operative.profileId
-                      : list.side === 'player'
+                  profileId: operative.requiresExplicitProfile
+                    ? fallbackProfileId || operative.profileId
+                    : list.side === 'player'
                       ? DATACARD_PROFILE_ID
                       : fallbackProfileId || operative.profileId,
                 }
