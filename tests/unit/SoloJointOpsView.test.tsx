@@ -132,7 +132,10 @@ describe('SoloJointOpsView', () => {
     const npoProfileOverride = screen.getByLabelText(
       'NPO profile override'
     ) as HTMLSelectElement;
+    const selectedProfileName =
+      npoProfileOverride.options[0]?.textContent?.trim() ?? '';
     const customProfileId = npoProfileOverride.options[0]?.value ?? '';
+    expect(selectedProfileName).not.toBe('');
     expect(customProfileId).not.toBe('');
     fireEvent.change(npoProfileOverride, {
       target: { value: customProfileId },
@@ -141,7 +144,12 @@ describe('SoloJointOpsView', () => {
 
     expect(screen.getByText(/Custom Beast/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/Profile: NPO Trooper \(required\)/i)
+      screen.getByText(
+        new RegExp(
+          `Profile: ${selectedProfileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} \\(required\\)`,
+          'i'
+        )
+      )
     ).toBeInTheDocument();
   });
 
