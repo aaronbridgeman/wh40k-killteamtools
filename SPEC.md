@@ -376,6 +376,7 @@ JSON Schema will validate all configuration files to ensure:
    - Manage player and NPO lists independently
    - Select a model first, then optionally override the assigned profile
    - `Datacard` profile selection is available and default for player entries
+   - NPO override selection includes all catalog profiles from NPO-flagged teams, in addition to custom profiles
    - NPO and custom entries use explicit profile assignments by default
    - Lists are persisted and support backup/import
 

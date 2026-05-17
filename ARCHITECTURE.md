@@ -343,7 +343,7 @@ The root component that manages:
   - **Team**: a playable subset of a list selected for a game
 - NPO team selection supports manual and rule-driven modes: random, melee-heavy, ranged-heavy, elite, and horde (with wounds-limit targeting)
 - Persists solo/joint ops state to localStorage and supports profile/list backup import/export (JSON)
-- Includes Datacard profile option for player list entries and explicit-profile handling for custom models
+- Includes Datacard profile option for player list entries, NPO profile overrides sourced from NPO-flagged catalog teams, and explicit-profile handling for custom models
 
 #### Rules Components
 

@@ -144,4 +144,21 @@ describe('SoloJointOpsView', () => {
       screen.getByText(/Profile: NPO Trooper \(required\)/i)
     ).toBeInTheDocument();
   });
+
+  it('includes built-in NPO catalog profiles in NPO profile override selection', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Lists' }));
+
+    const npoProfileOverride = screen.getByLabelText(
+      'NPO profile override'
+    ) as HTMLSelectElement;
+    const profileOptions = Array.from(npoProfileOverride.options).map(
+      (option) => option.textContent?.trim() ?? ''
+    );
+
+    expect(profileOptions).toContain('Brawler Trooper');
+    expect(profileOptions).toContain('Marksman Trooper');
+  });
 });

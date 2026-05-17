@@ -115,6 +115,11 @@ interface AddListOperativeInput {
   requiresExplicitProfile?: boolean;
 }
 
+interface ProfileSelectOption {
+  id: string;
+  name: string;
+}
+
 const STORAGE_KEY = 'kill-team-solo-joint-ops-v2';
 const LEGACY_STORAGE_KEY = 'kill-team-solo-joint-ops';
 
@@ -633,6 +638,47 @@ function SoloListEditor({
     );
   }, [filteredCatalogOperatives]);
 
+  const selectableProfileOverrides = useMemo(() => {
+    if (side !== 'npo') {
+      return profiles;
+    }
+
+    const npoTeamIds = new Set(
+      availableTeams
+        .filter((team) => team.side === 'npo')
+        .map((team) => team.id)
+    );
+    const profileOptions = new Map<string, ProfileSelectOption>();
+
+    catalogOperatives
+      .filter((operative) => npoTeamIds.has(operative.teamId))
+      .forEach((operative) => {
+        profileOptions.set(operative.profile.id, {
+          id: operative.profile.id,
+          name: operative.profile.name,
+        });
+      });
+
+    profiles.forEach((profile) => {
+      profileOptions.set(profile.id, profile);
+    });
+
+    return Array.from(profileOptions.values()).sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+  }, [availableTeams, catalogOperatives, profiles, side]);
+
+  useEffect(() => {
+    if (!selectedProfileOverrideId) return;
+    if (
+      !selectableProfileOverrides.some(
+        (profile) => profile.id === selectedProfileOverrideId
+      )
+    ) {
+      setSelectedProfileOverrideId('');
+    }
+  }, [selectableProfileOverrides, selectedProfileOverrideId]);
+
   return (
     <article className="team-builder" aria-label={`${sideLabel} list builder`}>
       <h4>{sideLabel} Lists</h4>
@@ -746,7 +792,7 @@ function SoloListEditor({
                 : `Default (${selectedModelOperative?.profile.name ?? 'Model Profile'})`}
             </option>
           )}
-          {profiles.map((profile) => (
+          {selectableProfileOverrides.map((profile) => (
             <option key={profile.id} value={profile.id}>
               {profile.name}
             </option>
