@@ -357,6 +357,7 @@ JSON Schema will validate all configuration files to ensure:
    - Collection of model entries available to a side
    - Each entry references a profile (or Datacard default for player entries)
    - Supports profile overrides (e.g., assigning a player model to an NPO profile)
+   - Supports custom model descriptions; custom entries must choose an explicit profile
 
 3. **Team**
    - Playable subset of a selected list used in the current game
@@ -373,8 +374,9 @@ JSON Schema will validate all configuration files to ensure:
 
 2. **List Builder**
    - Manage player and NPO lists independently
-   - Assign a profile to each list operative
+   - Select a model first, then optionally override the assigned profile
    - `Datacard` profile selection is available and default for player entries
+   - NPO and custom entries use explicit profile assignments by default
    - Lists are persisted and support backup/import
 
 3. **NPO Team Selection Rules**

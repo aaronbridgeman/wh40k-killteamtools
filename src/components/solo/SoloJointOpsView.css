@@ -142,7 +142,7 @@
 
 .catalog-add-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
   align-items: stretch;
 }
 

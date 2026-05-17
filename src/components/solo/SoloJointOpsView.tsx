@@ -45,8 +45,11 @@ interface SoloListOperative {
   id: string;
   name: string;
   profileId: string;
+  modelId?: string;
   teamId?: string;
   teamName?: string;
+  customDescription?: string;
+  requiresExplicitProfile?: boolean;
 }
 
 interface CatalogTeam {
@@ -102,6 +105,16 @@ interface SoloBackupFile {
   teams?: SoloTeam[];
 }
 
+interface AddListOperativeInput {
+  name: string;
+  profileId: string;
+  modelId?: string;
+  teamId?: string;
+  teamName?: string;
+  customDescription?: string;
+  requiresExplicitProfile?: boolean;
+}
+
 const STORAGE_KEY = 'kill-team-solo-joint-ops-v2';
 const LEGACY_STORAGE_KEY = 'kill-team-solo-joint-ops';
 
@@ -116,6 +129,7 @@ const hasLocalStorageApi = (): boolean => {
 const DATACARD_PROFILE_ID = 'datacard';
 const NPO_OPERATIVES_TEAM_ID = 'mission-pack-npo-operatives';
 const ALL_TEAMS_ID = '__all-teams__';
+const CUSTOM_MODEL_ID = '__custom-model__';
 
 const operativeCatalog = operativeCatalogData as OperativeCatalog;
 
@@ -249,8 +263,13 @@ const isValidListOperative = (value: unknown): value is SoloListOperative => {
     isString(operative.id) &&
     isString(operative.name) &&
     isString(operative.profileId) &&
+    (operative.modelId === undefined || isString(operative.modelId)) &&
     (operative.teamId === undefined || isString(operative.teamId)) &&
-    (operative.teamName === undefined || isString(operative.teamName))
+    (operative.teamName === undefined || isString(operative.teamName)) &&
+    (operative.customDescription === undefined ||
+      isString(operative.customDescription)) &&
+    (operative.requiresExplicitProfile === undefined ||
+      typeof operative.requiresExplicitProfile === 'boolean')
   );
 };
 
@@ -499,13 +518,14 @@ function SoloListEditor({
   selectedListId,
   availableTeams,
   catalogOperatives,
+  profiles,
   profileLookup,
   defaultTeamId,
   onSelectList,
   onCreateList,
   onDeleteList,
   onRenameList,
-  onAddCatalogOperative,
+  onAddOperative,
   onRemoveOperative,
 }: {
   side: ActivationSide;
@@ -513,19 +533,22 @@ function SoloListEditor({
   selectedListId: string;
   availableTeams: CatalogTeam[];
   catalogOperatives: CatalogOperative[];
+  profiles: SoloProfile[];
   profileLookup: Map<string, SoloProfile>;
   defaultTeamId: string;
   onSelectList: (listId: string) => void;
   onCreateList: (name: string) => void;
   onDeleteList: (listId: string) => void;
   onRenameList: (listId: string, name: string) => void;
-  onAddCatalogOperative: (listId: string, operative: CatalogOperative) => void;
+  onAddOperative: (listId: string, operative: AddListOperativeInput) => void;
   onRemoveOperative: (listId: string, operativeId: string) => void;
 }) {
   const [newListName, setNewListName] = useState('');
   const [selectedTeamId, setSelectedTeamId] = useState(defaultTeamId);
-  const [selectedCatalogOperativeId, setSelectedCatalogOperativeId] =
+  const [selectedModelId, setSelectedModelId] = useState('');
+  const [selectedProfileOverrideId, setSelectedProfileOverrideId] =
     useState('');
+  const [customModelDescription, setCustomModelDescription] = useState('');
 
   const sideLabel = side === 'player' ? 'Player' : 'NPO';
   const selectedList = lists.find((list) => list.id === selectedListId) ??
@@ -551,25 +574,33 @@ function SoloListEditor({
   }, [catalogOperatives, selectedTeamId, side]);
 
   useEffect(() => {
-    if (
-      filteredCatalogOperatives.length > 0 &&
-      !filteredCatalogOperatives.some(
-        (operative) => operative.id === selectedCatalogOperativeId
-      )
-    ) {
-      setSelectedCatalogOperativeId(filteredCatalogOperatives[0].id);
-      return;
+    const validModelIds = new Set([
+      ...filteredCatalogOperatives.map((operative) => operative.id),
+      CUSTOM_MODEL_ID,
+    ]);
+    if (!validModelIds.has(selectedModelId)) {
+      setSelectedModelId(filteredCatalogOperatives[0]?.id ?? CUSTOM_MODEL_ID);
     }
+  }, [filteredCatalogOperatives, selectedModelId]);
 
-    if (filteredCatalogOperatives.length === 0) {
-      setSelectedCatalogOperativeId('');
-    }
-  }, [filteredCatalogOperatives, selectedCatalogOperativeId]);
-
-  const selectedCatalogOperative =
+  const selectedModelOperative =
     filteredCatalogOperatives.find(
-      (operative) => operative.id === selectedCatalogOperativeId
+      (operative) => operative.id === selectedModelId
     ) ?? null;
+  const isCustomModel = selectedModelId === CUSTOM_MODEL_ID;
+  const customModelText = customModelDescription.trim();
+  const selectedTeamName =
+    availableTeams.find((team) => team.id === selectedTeamId)?.name ??
+    'Custom Model';
+  const defaultModelProfileId = selectedModelOperative
+    ? side === 'player'
+      ? DATACARD_PROFILE_ID
+      : selectedModelOperative.profile.id
+    : DATACARD_PROFILE_ID;
+  const operativeProfileId =
+    selectedProfileOverrideId || defaultModelProfileId || DATACARD_PROFILE_ID;
+  const canAddCustomModel =
+    customModelText.length > 0 && selectedProfileOverrideId.length > 0;
 
   const totals = useMemo(() => {
     return selectedList.operatives.reduce(
@@ -676,14 +707,12 @@ function SoloListEditor({
         </select>
 
         <select
-          value={selectedCatalogOperativeId}
-          onChange={(event) =>
-            setSelectedCatalogOperativeId(event.target.value)
-          }
-          aria-label={`${sideLabel} operative selection`}
+          value={selectedModelId}
+          onChange={(event) => setSelectedModelId(event.target.value)}
+          aria-label={`${sideLabel} model selection`}
         >
           {groupedCatalogOperatives.length === 0 && (
-            <option value="">No operatives available</option>
+            <option value={CUSTOM_MODEL_ID}>Custom Model</option>
           )}
           {side === 'npo' && selectedTeamId === ALL_TEAMS_ID
             ? groupedCatalogOperatives.map(([teamName, operatives]) => (
@@ -702,36 +731,107 @@ function SoloListEditor({
                   </option>
                 ))
               )}
+          <option value={CUSTOM_MODEL_ID}>Custom Model</option>
+        </select>
+
+        <select
+          value={selectedProfileOverrideId}
+          onChange={(event) => setSelectedProfileOverrideId(event.target.value)}
+          aria-label={`${sideLabel} profile override`}
+        >
+          {!isCustomModel && (
+            <option value="">
+              {side === 'player'
+                ? 'Default (Datacard)'
+                : `Default (${selectedModelOperative?.profile.name ?? 'Model Profile'})`}
+            </option>
+          )}
+          {profiles.map((profile) => (
+            <option key={profile.id} value={profile.id}>
+              {profile.name}
+            </option>
+          ))}
         </select>
 
         <button
           type="button"
           onClick={() => {
-            if (!selectedCatalogOperative) return;
             if (!selectedList.id) return;
-            onAddCatalogOperative(selectedList.id, selectedCatalogOperative);
+            if (isCustomModel) {
+              if (!canAddCustomModel) return;
+              onAddOperative(selectedList.id, {
+                name: customModelText,
+                profileId: selectedProfileOverrideId,
+                modelId: CUSTOM_MODEL_ID,
+                teamId:
+                  selectedTeamId === ALL_TEAMS_ID ? undefined : selectedTeamId,
+                teamName: selectedTeamName,
+                customDescription: customModelText,
+                requiresExplicitProfile: true,
+              });
+              setCustomModelDescription('');
+              return;
+            }
+            if (!selectedModelOperative) return;
+            onAddOperative(selectedList.id, {
+              name: selectedModelOperative.name,
+              profileId: operativeProfileId,
+              modelId: selectedModelOperative.id,
+              teamId: selectedModelOperative.teamId,
+              teamName: selectedModelOperative.teamName,
+            });
           }}
-          disabled={!selectedCatalogOperative || !selectedList.id}
+          disabled={
+            !selectedList.id ||
+            (isCustomModel ? !canAddCustomModel : !selectedModelOperative)
+          }
         >
-          Add {sideLabel} Operative
+          Add {sideLabel} Model
         </button>
       </div>
 
+      {isCustomModel && (
+        <label htmlFor={`${side}-custom-model-description`}>
+          {sideLabel} Custom Model Description
+        </label>
+      )}
+      {isCustomModel && (
+        <input
+          id={`${side}-custom-model-description`}
+          value={customModelDescription}
+          placeholder="Describe the custom model"
+          onChange={(event) => setCustomModelDescription(event.target.value)}
+          aria-label={`${sideLabel} custom model description`}
+        />
+      )}
+
       <ul>
-        {selectedList.operatives.map((operative) => (
-          <li key={operative.id}>
-            <span>
-              {operative.name}{' '}
-              <small>({operative.teamName ?? 'Unknown Team'})</small>
-            </span>
-            <button
-              type="button"
-              onClick={() => onRemoveOperative(selectedList.id, operative.id)}
-            >
-              Remove
-            </button>
-          </li>
-        ))}
+        {selectedList.operatives.map((operative) => {
+          const profileName =
+            operative.profileId === DATACARD_PROFILE_ID
+              ? 'Datacard'
+              : (profileLookup.get(operative.profileId)?.name ??
+                'Unknown Profile');
+          return (
+            <li key={operative.id}>
+              <span>
+                {operative.name}{' '}
+                <small>({operative.teamName ?? 'Unknown Team'})</small>
+                <br />
+                <small>
+                  Profile: {profileName}
+                  {operative.requiresExplicitProfile ? ' (required)' : ''}
+                </small>
+              </span>
+              <button
+                type="button"
+                onClick={() => onRemoveOperative(selectedList.id, operative.id)}
+              >
+                Remove
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </article>
   );
@@ -1338,9 +1438,9 @@ export function SoloJointOpsView() {
     });
   };
 
-  const addCatalogOperativeToList = (
+  const addOperativeToList = (
     listId: string,
-    operative: CatalogOperative
+    operative: AddListOperativeInput
   ) => {
     setState((prev) => ({
       ...prev,
@@ -1353,9 +1453,12 @@ export function SoloJointOpsView() {
                 {
                   id: generateUniqueId('list-op'),
                   name: operative.name,
-                  profileId: operative.profile.id,
+                  profileId: operative.profileId,
+                  modelId: operative.modelId,
                   teamId: operative.teamId,
                   teamName: operative.teamName,
+                  customDescription: operative.customDescription,
+                  requiresExplicitProfile: operative.requiresExplicitProfile,
                 },
               ],
             }
@@ -1453,8 +1556,9 @@ export function SoloJointOpsView() {
             operative.profileId === profileId
               ? {
                   ...operative,
-                  profileId:
-                    list.side === 'player'
+                  profileId: operative.requiresExplicitProfile
+                    ? fallbackProfileId || operative.profileId
+                    : list.side === 'player'
                       ? DATACARD_PROFILE_ID
                       : fallbackProfileId || operative.profileId,
                 }
@@ -2145,9 +2249,9 @@ export function SoloJointOpsView() {
         <section className="solo-card">
           <h3>List Builder</h3>
           <p>
-            Build and store player/NPO operative lists with profile assignments
-            on separate sub-screens. Player lists default to Datacard profile
-            selection.
+            Build and store player/NPO model lists with optional profile
+            overrides. Player entries default to Datacard, while NPO and custom
+            model entries use explicit profiles.
           </p>
 
           <div className="solo-tabs list-builder-subtabs" role="tablist">
@@ -2181,6 +2285,7 @@ export function SoloJointOpsView() {
                   selectedListId={selectedPlayerList.id}
                   availableTeams={playerCatalogTeams}
                   catalogOperatives={operativeCatalog.operatives}
+                  profiles={state.profiles}
                   profileLookup={profileLookup}
                   defaultTeamId={selectedPlayerTeamForList}
                   onSelectList={(listId) =>
@@ -2189,7 +2294,7 @@ export function SoloJointOpsView() {
                   onCreateList={(name) => addList('player', name)}
                   onDeleteList={deleteList}
                   onRenameList={renameList}
-                  onAddCatalogOperative={addCatalogOperativeToList}
+                  onAddOperative={addOperativeToList}
                   onRemoveOperative={removeOperativeFromList}
                 />
               )}
@@ -2203,6 +2308,7 @@ export function SoloJointOpsView() {
                   selectedListId={selectedNpoList.id}
                   availableTeams={npoCatalogTeams}
                   catalogOperatives={operativeCatalog.operatives}
+                  profiles={state.profiles}
                   profileLookup={profileLookup}
                   defaultTeamId={selectedNpoTeamForList}
                   onSelectList={(listId) =>
@@ -2211,7 +2317,7 @@ export function SoloJointOpsView() {
                   onCreateList={(name) => addList('npo', name)}
                   onDeleteList={deleteList}
                   onRenameList={renameList}
-                  onAddCatalogOperative={addCatalogOperativeToList}
+                  onAddOperative={addOperativeToList}
                   onRemoveOperative={removeOperativeFromList}
                 />
               )}

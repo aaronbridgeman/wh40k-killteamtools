@@ -47,16 +47,17 @@ describe('SoloJointOpsView', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
 
-    const npoOperativeSelect = screen.getByLabelText(
-      'NPO operative selection'
+    const npoModelSelect = screen.getByLabelText(
+      'NPO model selection'
     ) as HTMLSelectElement;
     const operativeName =
-      npoOperativeSelect.options[npoOperativeSelect.selectedIndex]?.textContent?.trim() ||
-      '';
+      npoModelSelect.options[
+        npoModelSelect.selectedIndex
+      ]?.textContent?.trim() || '';
 
     expect(operativeName).not.toBe('');
 
-    fireEvent.click(screen.getByRole('button', { name: 'Add NPO Operative' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Add NPO Model' }));
 
     fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
 
@@ -64,12 +65,11 @@ describe('SoloJointOpsView', () => {
     const npoTeamBuilder = npoTeamNameInput.closest('.team-builder');
     expect(npoTeamBuilder).not.toBeNull();
 
-    const npoSelectionCheckbox = within(npoTeamBuilder as HTMLElement).getByRole(
-      'checkbox',
-      {
-        name: operativeName,
-      }
-    );
+    const npoSelectionCheckbox = within(
+      npoTeamBuilder as HTMLElement
+    ).getByRole('checkbox', {
+      name: operativeName,
+    });
     fireEvent.click(npoSelectionCheckbox);
 
     expect(
@@ -90,5 +90,58 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
     const npoListBuilder = screen.getByLabelText('NPO list builder');
     expect(npoListBuilder).toHaveTextContent(operativeName);
+  });
+
+  it('uses Datacard by default and allows profile override for player models', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'Player Lists' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Add Player Model' }));
+
+    expect(screen.getByText(/Profile: Datacard/i)).toBeInTheDocument();
+
+    const playerProfileOverride = screen.getByLabelText(
+      'Player profile override'
+    ) as HTMLSelectElement;
+    const overrideProfileId = playerProfileOverride.options[1]?.value ?? '';
+    expect(overrideProfileId).not.toBe('');
+    fireEvent.change(playerProfileOverride, {
+      target: { value: overrideProfileId },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Add Player Model' }));
+
+    expect(screen.getByText(/Profile: NPO Trooper/i)).toBeInTheDocument();
+  });
+
+  it('requires explicit profile for custom models', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Lists' }));
+    fireEvent.change(screen.getByLabelText('NPO model selection'), {
+      target: { value: '__custom-model__' },
+    });
+
+    const addButton = screen.getByRole('button', { name: 'Add NPO Model' });
+    expect(addButton).toBeDisabled();
+
+    fireEvent.change(screen.getByLabelText('NPO custom model description'), {
+      target: { value: 'Custom Beast' },
+    });
+    const npoProfileOverride = screen.getByLabelText(
+      'NPO profile override'
+    ) as HTMLSelectElement;
+    const customProfileId = npoProfileOverride.options[0]?.value ?? '';
+    expect(customProfileId).not.toBe('');
+    fireEvent.change(npoProfileOverride, {
+      target: { value: customProfileId },
+    });
+    fireEvent.click(addButton);
+
+    expect(screen.getByText(/Custom Beast/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Profile: NPO Trooper \(required\)/i)
+    ).toBeInTheDocument();
   });
 });
