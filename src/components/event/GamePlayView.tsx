@@ -187,7 +187,10 @@ export function GamePlayView({
       if (itemId === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID) {
         onChange({
           ...game,
-          blightGrenadeUsesRemaining: Math.max(0, game.blightGrenadeUsesRemaining - 1),
+          blightGrenadeUsesRemaining: Math.max(
+            0,
+            game.blightGrenadeUsesRemaining - 1
+          ),
           equipmentUsesRemaining: {
             ...game.equipmentUsesRemaining,
             [itemId]: current - 1,
@@ -209,15 +212,19 @@ export function GamePlayView({
   /** Undo the last use of a quantity-limited equipment item */
   const handleEquipUndo = useCallback(
     (item: Equipment) => {
-      const maxUses = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
-        ? QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES
-        : (item.quantity ?? 1);
+      const maxUses =
+        item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
+          ? QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES
+          : (item.quantity ?? 1);
       const current = game.equipmentUsesRemaining[item.id] ?? maxUses;
       if (current >= maxUses) return;
       if (item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID) {
         onChange({
           ...game,
-          blightGrenadeUsesRemaining: Math.min(maxUses, game.blightGrenadeUsesRemaining + 1),
+          blightGrenadeUsesRemaining: Math.min(
+            maxUses,
+            game.blightGrenadeUsesRemaining + 1
+          ),
           equipmentUsesRemaining: {
             ...game.equipmentUsesRemaining,
             [item.id]: current + 1,
@@ -358,9 +365,14 @@ export function GamePlayView({
                   </span>
                 </button>
                 {!isSectionCollapsed('critOpDetails') && critOpEntry && (
-                  <div className="op-details-panel" aria-label="Crit Op details">
+                  <div
+                    className="op-details-panel"
+                    aria-label="Crit Op details"
+                  >
                     {critOpEntry.description && (
-                      <p className="op-details-desc">{critOpEntry.description}</p>
+                      <p className="op-details-desc">
+                        {critOpEntry.description}
+                      </p>
                     )}
                     {critOpEntry.additional_rules && (
                       <div className="op-details-section">
@@ -372,32 +384,40 @@ export function GamePlayView({
                         </p>
                       </div>
                     )}
-                    {critOpEntry.mission_actions && critOpEntry.mission_actions.length > 0 && (
-                      <div className="op-details-section">
-                        <p className="op-details-heading">Actions:</p>
-                        {critOpEntry.mission_actions.map((action, i) => (
-                          <div key={i} className="op-details-action">
-                            <p className="op-details-action-name">
-                              {action.name} ({action.ap_cost}AP)
-                            </p>
-                            <p className="op-details-text">{action.description}</p>
-                            {action.restrictions && (
-                              <p className="op-details-restriction">⚠️ {action.restrictions}</p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {critOpEntry.victory_points && critOpEntry.victory_points.length > 0 && (
-                      <div className="op-details-section">
-                        <p className="op-details-heading">VP:</p>
-                        <ul className="op-details-vp-list">
-                          {critOpEntry.victory_points.map((vp, i) => (
-                            <li key={i} className="op-details-vp-item">{vp}</li>
+                    {critOpEntry.mission_actions &&
+                      critOpEntry.mission_actions.length > 0 && (
+                        <div className="op-details-section">
+                          <p className="op-details-heading">Actions:</p>
+                          {critOpEntry.mission_actions.map((action, i) => (
+                            <div key={i} className="op-details-action">
+                              <p className="op-details-action-name">
+                                {action.name} ({action.ap_cost}AP)
+                              </p>
+                              <p className="op-details-text">
+                                {action.description}
+                              </p>
+                              {action.restrictions && (
+                                <p className="op-details-restriction">
+                                  ⚠️ {action.restrictions}
+                                </p>
+                              )}
+                            </div>
                           ))}
-                        </ul>
-                      </div>
-                    )}
+                        </div>
+                      )}
+                    {critOpEntry.victory_points &&
+                      critOpEntry.victory_points.length > 0 && (
+                        <div className="op-details-section">
+                          <p className="op-details-heading">VP:</p>
+                          <ul className="op-details-vp-list">
+                            {critOpEntry.victory_points.map((vp, i) => (
+                              <li key={i} className="op-details-vp-item">
+                                {vp}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                   </div>
                 )}
               </div>
@@ -420,12 +440,16 @@ export function GamePlayView({
                 {!isSectionCollapsed('tacOpDetails') && tacOpEntry && (
                   <div className="op-details-panel" aria-label="Tac Op details">
                     {tacOpEntry.description && (
-                      <p className="op-details-desc">{tacOpEntry.description}</p>
+                      <p className="op-details-desc">
+                        {tacOpEntry.description}
+                      </p>
                     )}
                     {tacOpEntry.reveal_condition && (
                       <div className="op-details-section">
                         <p className="op-details-heading">Reveal:</p>
-                        <p className="op-details-text">{tacOpEntry.reveal_condition}</p>
+                        <p className="op-details-text">
+                          {tacOpEntry.reveal_condition}
+                        </p>
                       </div>
                     )}
                     {tacOpEntry.additional_rules && (
@@ -438,42 +462,51 @@ export function GamePlayView({
                         </p>
                       </div>
                     )}
-                    {tacOpEntry.mission_actions && tacOpEntry.mission_actions.length > 0 && (
-                      <div className="op-details-section">
-                        <p className="op-details-heading">Actions:</p>
-                        {tacOpEntry.mission_actions.map((action, i) => (
-                          <div key={i} className="op-details-action">
-                            <p className="op-details-action-name">
-                              {action.name} ({action.ap_cost}AP)
-                            </p>
-                            <p className="op-details-text">{action.description}</p>
-                            {action.restrictions && (
-                              <p className="op-details-restriction">⚠️ {action.restrictions}</p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {tacOpEntry.victory_points && tacOpEntry.victory_points.length > 0 && (
-                      <div className="op-details-section">
-                        <p className="op-details-heading">VP:</p>
-                        <ul className="op-details-vp-list">
-                          {tacOpEntry.victory_points.map((vp, i) => (
-                            <li key={i} className="op-details-vp-item">{vp}</li>
+                    {tacOpEntry.mission_actions &&
+                      tacOpEntry.mission_actions.length > 0 && (
+                        <div className="op-details-section">
+                          <p className="op-details-heading">Actions:</p>
+                          {tacOpEntry.mission_actions.map((action, i) => (
+                            <div key={i} className="op-details-action">
+                              <p className="op-details-action-name">
+                                {action.name} ({action.ap_cost}AP)
+                              </p>
+                              <p className="op-details-text">
+                                {action.description}
+                              </p>
+                              {action.restrictions && (
+                                <p className="op-details-restriction">
+                                  ⚠️ {action.restrictions}
+                                </p>
+                              )}
+                            </div>
                           ))}
-                        </ul>
-                      </div>
-                    )}
+                        </div>
+                      )}
+                    {tacOpEntry.victory_points &&
+                      tacOpEntry.victory_points.length > 0 && (
+                        <div className="op-details-section">
+                          <p className="op-details-heading">VP:</p>
+                          <ul className="op-details-vp-list">
+                            {tacOpEntry.victory_points.map((vp, i) => (
+                              <li key={i} className="op-details-vp-item">
+                                {vp}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                   </div>
                 )}
-                {isSectionCollapsed('tacOpDetails') && tacOpEntry?.description && (
-                  <p
-                    className="tac-op-reminder"
-                    aria-label="Tac Op scoring reminder"
-                  >
-                    📋 {tacOpEntry.description}
-                  </p>
-                )}
+                {isSectionCollapsed('tacOpDetails') &&
+                  tacOpEntry?.description && (
+                    <p
+                      className="tac-op-reminder"
+                      aria-label="Tac Op scoring reminder"
+                    >
+                      📋 {tacOpEntry.description}
+                    </p>
+                  )}
               </div>
             )}
             {game.opposition && (
@@ -620,16 +653,22 @@ export function GamePlayView({
           {!isSectionCollapsed('equipment') && (
             <ul id="play-equipment-content" className="play-equip-list">
               {selectedEquipment.map((item) => {
-                const maxUses = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
-                  ? QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES
-                  : (item.quantity ?? 1);
+                const maxUses =
+                  item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
+                    ? QUICK_PLAY_DEFAULTS.MAX_BLIGHT_GRENADE_USES
+                    : (item.quantity ?? 1);
                 const isLimited = maxUses > 1;
-                const usesRemaining = item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
-                  ? (game.equipmentUsesRemaining[item.id] ?? game.blightGrenadeUsesRemaining)
-                  : (game.equipmentUsesRemaining[item.id] ?? maxUses);
+                const usesRemaining =
+                  item.id === QUICK_PLAY_DEFAULTS.BLIGHT_GRENADES_ID
+                    ? (game.equipmentUsesRemaining[item.id] ??
+                      game.blightGrenadeUsesRemaining)
+                    : (game.equipmentUsesRemaining[item.id] ?? maxUses);
                 const isExpended = isLimited && usesRemaining <= 0;
                 return (
-                  <li key={item.id} className={`play-equip-item ${isExpended ? 'expended-item' : ''}`}>
+                  <li
+                    key={item.id}
+                    className={`play-equip-item ${isExpended ? 'expended-item' : ''}`}
+                  >
                     <div className="play-equip-title-row">
                       <span className="play-equip-name">{item.name}</span>
                       {isLimited && (
@@ -696,11 +735,7 @@ export function GamePlayView({
 
       {/* ── 6b. Strategic Advisor (collapsible, collapsed by default) ── */}
       {game.opposition && (
-        <div
-          id="play-advisor"
-          className="play-strategic-advisor"
-          role="region"
-        >
+        <div id="play-advisor" className="play-strategic-advisor" role="region">
           <MatchupTipsPanel opponentTeamId={selectedOpponentId} />
         </div>
       )}

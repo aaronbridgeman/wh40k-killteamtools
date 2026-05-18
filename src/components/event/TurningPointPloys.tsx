@@ -400,7 +400,11 @@ export function TurningPointPloys({
             onClick={() => setPloyGridExpanded((prev) => !prev)}
             aria-expanded={ployGridExpanded}
             aria-controls="strategic-ploy-grid"
-            aria-label={ployGridExpanded ? 'Collapse strategic ploys' : 'Expand strategic ploys'}
+            aria-label={
+              ployGridExpanded
+                ? 'Collapse strategic ploys'
+                : 'Expand strategic ploys'
+            }
           >
             <p className="strategic-ploys-title">
               Select Strategic Ploy for TP {game.turningPoint}
@@ -479,12 +483,14 @@ export function TurningPointPloys({
           onClick={() => setFirefightExpanded((prev) => !prev)}
           aria-expanded={firefightExpanded}
           aria-controls="firefight-ploy-list"
-          aria-label={firefightExpanded ? 'Collapse firefight ploys' : 'Expand firefight ploys'}
+          aria-label={
+            firefightExpanded
+              ? 'Collapse firefight ploys'
+              : 'Expand firefight ploys'
+          }
         >
           <p className="firefight-ploys-title">Firefight Ploys</p>
-          <span className="ploys-chevron">
-            {firefightExpanded ? '▼' : '▶'}
-          </span>
+          <span className="ploys-chevron">{firefightExpanded ? '▼' : '▶'}</span>
         </button>
         {firefightExpanded && (
           <div id="firefight-ploy-list" className="firefight-ploy-list">

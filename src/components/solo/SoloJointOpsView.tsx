@@ -2036,7 +2036,7 @@ export function SoloJointOpsView() {
               </button>
             </div>
 
-            <div className="team-builders team-builders-single">
+            <div className="team-builders">
               {activeTeamSetupPane === 'player' && (
                 <div className="team-builder">
                   <label htmlFor="player-active-team">Active Player Team</label>

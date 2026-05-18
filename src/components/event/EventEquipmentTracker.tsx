@@ -79,7 +79,10 @@ export function EventEquipmentTracker({
       }
       // Reset uses for quantity-limited items on deselect
       if (item.quantity && item.quantity > 1) {
-        updatedEquipmentUses = { ...updatedEquipmentUses, [item.id]: item.quantity };
+        updatedEquipmentUses = {
+          ...updatedEquipmentUses,
+          [item.id]: item.quantity,
+        };
       }
     } else {
       // Enforce 4-item maximum across faction and universal equipment
@@ -91,8 +94,15 @@ export function EventEquipmentTracker({
       }
       // Select — initialize uses for quantity-limited items
       updated = [...selectedEquipmentIds, item.id];
-      if (item.quantity && item.quantity > 1 && !(item.id in updatedEquipmentUses)) {
-        updatedEquipmentUses = { ...updatedEquipmentUses, [item.id]: item.quantity };
+      if (
+        item.quantity &&
+        item.quantity > 1 &&
+        !(item.id in updatedEquipmentUses)
+      ) {
+        updatedEquipmentUses = {
+          ...updatedEquipmentUses,
+          [item.id]: item.quantity,
+        };
       }
     }
 

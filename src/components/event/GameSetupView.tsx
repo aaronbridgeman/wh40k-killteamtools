@@ -63,7 +63,9 @@ export function GameSetupView({
   const availableTacOps = useMemo(() => {
     const allowed = faction.restrictions.allowedTacOpArchetypes;
     if (!allowed || allowed.length === 0) return TAC_OPS;
-    return TAC_OPS.filter((op) => op.archetype && allowed.includes(op.archetype));
+    return TAC_OPS.filter(
+      (op) => op.archetype && allowed.includes(op.archetype)
+    );
   }, [faction.restrictions.allowedTacOpArchetypes]);
 
   const handleRosterChange = useCallback(
@@ -74,8 +76,17 @@ export function GameSetupView({
   );
 
   const handleEquipmentChange = useCallback(
-    (selectedEquipmentIds: string[], blightGrenadeUsesRemaining: number, equipmentUsesRemaining: Record<string, number>) => {
-      onChange({ ...game, selectedEquipmentIds, blightGrenadeUsesRemaining, equipmentUsesRemaining });
+    (
+      selectedEquipmentIds: string[],
+      blightGrenadeUsesRemaining: number,
+      equipmentUsesRemaining: Record<string, number>
+    ) => {
+      onChange({
+        ...game,
+        selectedEquipmentIds,
+        blightGrenadeUsesRemaining,
+        equipmentUsesRemaining,
+      });
     },
     [game, onChange]
   );
@@ -123,7 +134,9 @@ export function GameSetupView({
                 onChange({
                   ...game,
                   opposition: e.target.value,
-                  opponentCount: selectedTeam ? (selectedTeam.model_count ?? 0) : 0,
+                  opponentCount: selectedTeam
+                    ? (selectedTeam.model_count ?? 0)
+                    : 0,
                 });
               }}
               aria-label="Opposition kill team"
