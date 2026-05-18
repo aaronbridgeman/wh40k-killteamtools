@@ -35,6 +35,9 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add NPO Model' }));
 
     fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: /Setup Team|Manage Team Setup/i })
+    );
     fireEvent.click(screen.getByRole('tab', { name: 'NPO Team Setup' }));
 
     const npoTeamNameInput = screen.getByLabelText('NPO Team Name');
@@ -84,6 +87,9 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add NPO Model' }));
 
     fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: /Setup Team|Manage Team Setup/i })
+    );
     fireEvent.click(screen.getByRole('tab', { name: 'NPO Team Setup' }));
 
     const npoTeamNameInput = screen.getByLabelText('NPO Team Name');
@@ -142,6 +148,9 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add NPO Model' }));
 
     fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: /Setup Team|Manage Team Setup/i })
+    );
     fireEvent.click(screen.getByRole('tab', { name: 'NPO Team Setup' }));
 
     const npoTeamNameInput = screen.getByLabelText('NPO Team Name');

@@ -1163,7 +1163,7 @@ export function SoloJointOpsView() {
   const [activeListBuilderSide, setActiveListBuilderSide] =
     useState<ActivationSide>('npo');
   const [activeTeamSetupPane, setActiveTeamSetupPane] =
-    useState<TeamSetupPane>('player');
+    useState<TeamSetupPane>('npo');
   const [state, setState] = useState<SoloJointOpsState>(initialState);
   const [runnerOperatives, setRunnerOperatives] = useState<RunnerOperative[]>(
     []
@@ -1190,6 +1190,7 @@ export function SoloJointOpsView() {
     null
   );
   const [isDeckSectionExpanded, setIsDeckSectionExpanded] = useState(false);
+  const [isTeamSetupOpen, setIsTeamSetupOpen] = useState(false);
 
   const listsImportRef = useRef<HTMLInputElement | null>(null);
   const profilesImportRef = useRef<HTMLInputElement | null>(null);
@@ -1338,6 +1339,9 @@ export function SoloJointOpsView() {
       allowedIds.has(operative.id)
     );
   }, [selectedNpoTeam, state.lists]);
+
+  const isGameSetupComplete =
+    !!selectedNpoTeam && selectedNpoTeamOperatives.length > 0;
 
   const npoRunnerOperatives = useMemo(
     () => runnerOperatives.filter((operative) => operative.side === 'npo'),
@@ -2210,296 +2214,340 @@ export function SoloJointOpsView() {
       )}
 
       {activeTab === 'game-runner' && (
-        <>
-          <section className="solo-card">
-            <h3>Game Runner</h3>
-            <div className="solo-tabs game-runner-setup-tabs" role="tablist">
-              <button
-                type="button"
-                className={activeTeamSetupPane === 'player' ? 'active' : ''}
-                onClick={() => setActiveTeamSetupPane('player')}
-                role="tab"
-                aria-selected={activeTeamSetupPane === 'player'}
-              >
-                Player Team Setup
-              </button>
-              <button
-                type="button"
-                className={activeTeamSetupPane === 'npo' ? 'active' : ''}
-                onClick={() => setActiveTeamSetupPane('npo')}
-                role="tab"
-                aria-selected={activeTeamSetupPane === 'npo'}
-              >
-                NPO Team Setup
-              </button>
+        <div className="game-runner-layout">
+          <section
+            className={`solo-card game-runner-setup-gate${
+              isGameSetupComplete ? '' : ' is-warning'
+            }`}
+          >
+            <div>
+              <h3>Game Runner</h3>
+              <p className="setup-gate-text">
+                {isGameSetupComplete
+                  ? 'NPO team is configured. Open setup to manage teams.'
+                  : 'Game setup is incomplete. Configure your NPO team before running activations.'}
+              </p>
             </div>
-
-            <div className="team-builders">
-              {activeTeamSetupPane === 'player' && (
-                <div className="team-builder">
-                  <label htmlFor="player-active-team">Active Player Team</label>
-                  <select
-                    id="player-active-team"
-                    value={selectedPlayerTeam?.id ?? ''}
-                    onChange={(event) =>
-                      updateState({ selectedPlayerTeamId: event.target.value })
-                    }
-                  >
-                    {playerTeams.map((team) => (
-                      <option key={team.id} value={team.id}>
-                        {team.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <div className="input-row list-name-row">
-                    <input
-                      value={newPlayerTeamName}
-                      placeholder="New player team name"
-                      onChange={(event) =>
-                        setNewPlayerTeamName(event.target.value)
-                      }
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        addTeam('player', newPlayerTeamName);
-                        setNewPlayerTeamName('');
-                      }}
-                    >
-                      Add Team
-                    </button>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="danger-button"
-                    onClick={() =>
-                      selectedPlayerTeam && deleteTeam(selectedPlayerTeam.id)
-                    }
-                    disabled={playerTeams.length <= 1 || !selectedPlayerTeam}
-                  >
-                    Delete Team
-                  </button>
-
-                  <label htmlFor="player-team-name">Player Team Name</label>
-                  <input
-                    id="player-team-name"
-                    value={selectedPlayerTeam?.name ?? ''}
-                    onChange={(event) =>
-                      selectedPlayerTeam &&
-                      updateTeam(selectedPlayerTeam.id, {
-                        name: event.target.value,
-                      })
-                    }
-                  />
-
-                  <label htmlFor="active-player-list">Source Player List</label>
-                  <select
-                    id="active-player-list"
-                    value={selectedPlayerTeam?.sourceListId ?? ''}
-                    onChange={(event) =>
-                      selectedPlayerTeam &&
-                      updateTeam(selectedPlayerTeam.id, {
-                        sourceListId: event.target.value,
-                        operativeIds: [],
-                      })
-                    }
-                  >
-                    {playerLists.map((list) => (
-                      <option key={list.id} value={list.id}>
-                        {list.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <p className="team-selection-meta">
-                    Team selection: {selectedPlayerTeamOperatives.length} of{' '}
-                    {selectedPlayerTeamSourceList?.operatives.length ?? 0}{' '}
-                    operatives
-                  </p>
-
-                  <TeamOperativeTransfer
-                    team={selectedPlayerTeam}
-                    sourceOperatives={
-                      selectedPlayerTeamSourceList?.operatives ?? []
-                    }
-                    selectedOperatives={selectedPlayerTeamOperatives}
-                    transferHint={transferHint}
-                    onMoveOperative={(operativeId, direction) =>
-                      selectedPlayerTeam &&
-                      moveTeamOperative(
-                        selectedPlayerTeam,
-                        operativeId,
-                        direction
-                      )
-                    }
-                  />
-                </div>
-              )}
-
-              {activeTeamSetupPane === 'npo' && (
-                <div className="team-builder">
-                  <label htmlFor="npo-active-team">Active NPO Team</label>
-                  <select
-                    id="npo-active-team"
-                    value={selectedNpoTeam?.id ?? ''}
-                    onChange={(event) =>
-                      updateState({ selectedNpoTeamId: event.target.value })
-                    }
-                  >
-                    {npoTeams.map((team) => (
-                      <option key={team.id} value={team.id}>
-                        {team.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <div className="input-row list-name-row">
-                    <input
-                      value={newNpoTeamName}
-                      placeholder="New NPO team name"
-                      onChange={(event) =>
-                        setNewNpoTeamName(event.target.value)
-                      }
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        addTeam('npo', newNpoTeamName);
-                        setNewNpoTeamName('');
-                      }}
-                    >
-                      Add Team
-                    </button>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="danger-button"
-                    onClick={() =>
-                      selectedNpoTeam && deleteTeam(selectedNpoTeam.id)
-                    }
-                    disabled={npoTeams.length <= 1 || !selectedNpoTeam}
-                  >
-                    Delete Team
-                  </button>
-
-                  <label htmlFor="npo-team-name">NPO Team Name</label>
-                  <input
-                    id="npo-team-name"
-                    value={selectedNpoTeam?.name ?? ''}
-                    onChange={(event) =>
-                      selectedNpoTeam &&
-                      updateTeam(selectedNpoTeam.id, {
-                        name: event.target.value,
-                      })
-                    }
-                  />
-
-                  <label htmlFor="active-npo-list">Source NPO List</label>
-                  <select
-                    id="active-npo-list"
-                    value={selectedNpoTeam?.sourceListId ?? ''}
-                    onChange={(event) =>
-                      selectedNpoTeam &&
-                      updateTeam(selectedNpoTeam.id, {
-                        sourceListId: event.target.value,
-                        operativeIds: [],
-                      })
-                    }
-                  >
-                    {npoLists.map((list) => (
-                      <option key={list.id} value={list.id}>
-                        {list.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <label htmlFor="npo-selection-rule">NPO Selection Rule</label>
-                  <select
-                    id="npo-selection-rule"
-                    value={selectedNpoTeam?.selectionRule ?? 'manual'}
-                    onChange={(event) =>
-                      selectedNpoTeam &&
-                      updateTeam(selectedNpoTeam.id, {
-                        selectionRule: event.target
-                          .value as NpoTeamSelectionRule,
-                      })
-                    }
-                  >
-                    <option value="manual">Manual</option>
-                    <option value="random">Random</option>
-                    <option value="melee-heavy">Melee-heavy</option>
-                    <option value="ranged-heavy">Ranged-heavy</option>
-                    <option value="elite">Elite (high wounds first)</option>
-                    <option value="horde">Horde (low wounds first)</option>
-                  </select>
-
-                  <label htmlFor="npo-wounds-limit">NPO Wounds Limit</label>
-                  <input
-                    id="npo-wounds-limit"
-                    type="number"
-                    min={0}
-                    value={selectedNpoTeam?.autoWoundsLimit ?? 0}
-                    onChange={(event) =>
-                      selectedNpoTeam &&
-                      updateTeam(selectedNpoTeam.id, {
-                        autoWoundsLimit: Math.max(
-                          0,
-                          Number(event.target.value) || 0
-                        ),
-                      })
-                    }
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      selectedNpoTeam &&
-                      applyNpoTeamSelectionRule(selectedNpoTeam.id)
-                    }
-                    disabled={!selectedNpoTeam}
-                  >
-                    Apply NPO Selection Rule
-                  </button>
-
-                  <p className="team-selection-meta">
-                    Team selection: {selectedNpoTeamOperatives.length} of{' '}
-                    {selectedNpoTeamSourceList?.operatives.length ?? 0}{' '}
-                    operatives
-                  </p>
-
-                  {selectedNpoTeam?.selectionRule === 'manual' ? (
-                    <TeamOperativeTransfer
-                      team={selectedNpoTeam}
-                      sourceOperatives={
-                        selectedNpoTeamSourceList?.operatives ?? []
-                      }
-                      selectedOperatives={selectedNpoTeamOperatives}
-                      transferHint={transferHint}
-                      onMoveOperative={(operativeId, direction) =>
-                        selectedNpoTeam &&
-                        moveTeamOperative(
-                          selectedNpoTeam,
-                          operativeId,
-                          direction
-                        )
-                      }
-                    />
-                  ) : (
-                    <ul className="team-selection-list">
-                      {selectedNpoTeamOperatives.map((operative) => (
-                        <li key={operative.id}>{operative.name}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              )}
-            </div>
+            <button type="button" onClick={() => setIsTeamSetupOpen(true)}>
+              {isGameSetupComplete ? 'Manage Team Setup' : '⚠️ Setup Team'}
+            </button>
           </section>
 
-          <section className="solo-card">
+          {isTeamSetupOpen && (
+            <div className="setup-modal-backdrop" role="dialog" aria-modal>
+              <section className="solo-card setup-modal">
+                <div className="setup-modal-header">
+                  <h3>Team Setup</h3>
+                  <button
+                    type="button"
+                    onClick={() => setIsTeamSetupOpen(false)}
+                  >
+                    Done
+                  </button>
+                </div>
+                <div
+                  className="solo-tabs game-runner-setup-tabs"
+                  role="tablist"
+                >
+                  <button
+                    type="button"
+                    className={activeTeamSetupPane === 'npo' ? 'active' : ''}
+                    onClick={() => setActiveTeamSetupPane('npo')}
+                    role="tab"
+                    aria-selected={activeTeamSetupPane === 'npo'}
+                  >
+                    NPO Team Setup
+                  </button>
+                  <button
+                    type="button"
+                    className={activeTeamSetupPane === 'player' ? 'active' : ''}
+                    onClick={() => setActiveTeamSetupPane('player')}
+                    role="tab"
+                    aria-selected={activeTeamSetupPane === 'player'}
+                  >
+                    Player Team Setup (Optional)
+                  </button>
+                </div>
+
+                <div className="team-builders">
+                  {activeTeamSetupPane === 'player' && (
+                    <div className="team-builder">
+                      <label htmlFor="player-active-team">
+                        Active Player Team
+                      </label>
+                      <select
+                        id="player-active-team"
+                        value={selectedPlayerTeam?.id ?? ''}
+                        onChange={(event) =>
+                          updateState({
+                            selectedPlayerTeamId: event.target.value,
+                          })
+                        }
+                      >
+                        {playerTeams.map((team) => (
+                          <option key={team.id} value={team.id}>
+                            {team.name}
+                          </option>
+                        ))}
+                      </select>
+
+                      <div className="input-row list-name-row">
+                        <input
+                          value={newPlayerTeamName}
+                          placeholder="New player team name"
+                          onChange={(event) =>
+                            setNewPlayerTeamName(event.target.value)
+                          }
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            addTeam('player', newPlayerTeamName);
+                            setNewPlayerTeamName('');
+                          }}
+                        >
+                          Add Team
+                        </button>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="danger-button"
+                        onClick={() =>
+                          selectedPlayerTeam &&
+                          deleteTeam(selectedPlayerTeam.id)
+                        }
+                        disabled={
+                          playerTeams.length <= 1 || !selectedPlayerTeam
+                        }
+                      >
+                        Delete Team
+                      </button>
+
+                      <label htmlFor="player-team-name">Player Team Name</label>
+                      <input
+                        id="player-team-name"
+                        value={selectedPlayerTeam?.name ?? ''}
+                        onChange={(event) =>
+                          selectedPlayerTeam &&
+                          updateTeam(selectedPlayerTeam.id, {
+                            name: event.target.value,
+                          })
+                        }
+                      />
+
+                      <label htmlFor="active-player-list">
+                        Source Player List
+                      </label>
+                      <select
+                        id="active-player-list"
+                        value={selectedPlayerTeam?.sourceListId ?? ''}
+                        onChange={(event) =>
+                          selectedPlayerTeam &&
+                          updateTeam(selectedPlayerTeam.id, {
+                            sourceListId: event.target.value,
+                            operativeIds: [],
+                          })
+                        }
+                      >
+                        {playerLists.map((list) => (
+                          <option key={list.id} value={list.id}>
+                            {list.name}
+                          </option>
+                        ))}
+                      </select>
+
+                      <p className="team-selection-meta">
+                        Team selection: {selectedPlayerTeamOperatives.length} of{' '}
+                        {selectedPlayerTeamSourceList?.operatives.length ?? 0}{' '}
+                        operatives
+                      </p>
+
+                      <TeamOperativeTransfer
+                        team={selectedPlayerTeam}
+                        sourceOperatives={
+                          selectedPlayerTeamSourceList?.operatives ?? []
+                        }
+                        selectedOperatives={selectedPlayerTeamOperatives}
+                        transferHint={transferHint}
+                        onMoveOperative={(operativeId, direction) =>
+                          selectedPlayerTeam &&
+                          moveTeamOperative(
+                            selectedPlayerTeam,
+                            operativeId,
+                            direction
+                          )
+                        }
+                      />
+                    </div>
+                  )}
+
+                  {activeTeamSetupPane === 'npo' && (
+                    <div className="team-builder">
+                      <label htmlFor="npo-active-team">Active NPO Team</label>
+                      <select
+                        id="npo-active-team"
+                        value={selectedNpoTeam?.id ?? ''}
+                        onChange={(event) =>
+                          updateState({ selectedNpoTeamId: event.target.value })
+                        }
+                      >
+                        {npoTeams.map((team) => (
+                          <option key={team.id} value={team.id}>
+                            {team.name}
+                          </option>
+                        ))}
+                      </select>
+
+                      <div className="input-row list-name-row">
+                        <input
+                          value={newNpoTeamName}
+                          placeholder="New NPO team name"
+                          onChange={(event) =>
+                            setNewNpoTeamName(event.target.value)
+                          }
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            addTeam('npo', newNpoTeamName);
+                            setNewNpoTeamName('');
+                          }}
+                        >
+                          Add Team
+                        </button>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="danger-button"
+                        onClick={() =>
+                          selectedNpoTeam && deleteTeam(selectedNpoTeam.id)
+                        }
+                        disabled={npoTeams.length <= 1 || !selectedNpoTeam}
+                      >
+                        Delete Team
+                      </button>
+
+                      <label htmlFor="npo-team-name">NPO Team Name</label>
+                      <input
+                        id="npo-team-name"
+                        value={selectedNpoTeam?.name ?? ''}
+                        onChange={(event) =>
+                          selectedNpoTeam &&
+                          updateTeam(selectedNpoTeam.id, {
+                            name: event.target.value,
+                          })
+                        }
+                      />
+
+                      <label htmlFor="active-npo-list">Source NPO List</label>
+                      <select
+                        id="active-npo-list"
+                        value={selectedNpoTeam?.sourceListId ?? ''}
+                        onChange={(event) =>
+                          selectedNpoTeam &&
+                          updateTeam(selectedNpoTeam.id, {
+                            sourceListId: event.target.value,
+                            operativeIds: [],
+                          })
+                        }
+                      >
+                        {npoLists.map((list) => (
+                          <option key={list.id} value={list.id}>
+                            {list.name}
+                          </option>
+                        ))}
+                      </select>
+
+                      <label htmlFor="npo-selection-rule">
+                        NPO Selection Rule
+                      </label>
+                      <select
+                        id="npo-selection-rule"
+                        value={selectedNpoTeam?.selectionRule ?? 'manual'}
+                        onChange={(event) =>
+                          selectedNpoTeam &&
+                          updateTeam(selectedNpoTeam.id, {
+                            selectionRule: event.target
+                              .value as NpoTeamSelectionRule,
+                          })
+                        }
+                      >
+                        <option value="manual">Manual</option>
+                        <option value="random">Random</option>
+                        <option value="melee-heavy">Melee-heavy</option>
+                        <option value="ranged-heavy">Ranged-heavy</option>
+                        <option value="elite">Elite (high wounds first)</option>
+                        <option value="horde">Horde (low wounds first)</option>
+                      </select>
+
+                      <label htmlFor="npo-wounds-limit">NPO Wounds Limit</label>
+                      <input
+                        id="npo-wounds-limit"
+                        type="number"
+                        min={0}
+                        value={selectedNpoTeam?.autoWoundsLimit ?? 0}
+                        onChange={(event) =>
+                          selectedNpoTeam &&
+                          updateTeam(selectedNpoTeam.id, {
+                            autoWoundsLimit: Math.max(
+                              0,
+                              Number(event.target.value) || 0
+                            ),
+                          })
+                        }
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          selectedNpoTeam &&
+                          applyNpoTeamSelectionRule(selectedNpoTeam.id)
+                        }
+                        disabled={!selectedNpoTeam}
+                      >
+                        Apply NPO Selection Rule
+                      </button>
+
+                      <p className="team-selection-meta">
+                        Team selection: {selectedNpoTeamOperatives.length} of{' '}
+                        {selectedNpoTeamSourceList?.operatives.length ?? 0}{' '}
+                        operatives
+                      </p>
+
+                      {selectedNpoTeam?.selectionRule === 'manual' ? (
+                        <TeamOperativeTransfer
+                          team={selectedNpoTeam}
+                          sourceOperatives={
+                            selectedNpoTeamSourceList?.operatives ?? []
+                          }
+                          selectedOperatives={selectedNpoTeamOperatives}
+                          transferHint={transferHint}
+                          onMoveOperative={(operativeId, direction) =>
+                            selectedNpoTeam &&
+                            moveTeamOperative(
+                              selectedNpoTeam,
+                              operativeId,
+                              direction
+                            )
+                          }
+                        />
+                      ) : (
+                        <ul className="team-selection-list">
+                          {selectedNpoTeamOperatives.map((operative) => (
+                            <li key={operative.id}>{operative.name}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </section>
+            </div>
+          )}
+
+          <section className="solo-card game-runner-main">
             <div className="deck-panel-header">
               <h3>Activation Deck</h3>
               <button
@@ -2699,7 +2747,7 @@ export function SoloJointOpsView() {
             )}
           </section>
 
-          <div className="activation-runner-layout">
+          <div className="activation-runner-layout game-runner-main">
             <div className="activation-runner-main">
               <section className="solo-card">
                 <h3>Activation</h3>
@@ -2873,7 +2921,7 @@ export function SoloJointOpsView() {
               )}
             </aside>
           </div>
-        </>
+        </div>
       )}
 
       {activeTab === 'list-builder' && (

@@ -367,7 +367,8 @@ JSON Schema will validate all configuration files to ensure:
 #### Features
 
 1. **Game Runner (Default Tab)**
-   - Pane-based team setup for Player and NPO team configuration
+   - Setup-status gate with warning state until NPO team setup is complete
+   - Popup team setup UI with NPO-first pane ordering and Player setup as optional
    - Manual team selection via dual-list transfer UX (available vs selected)
    - Activation deck controls with reset/draw flow and list display of all operatives linked to the drawn card
    - Collapsible activation deck editor with per-card operative links and instance counts

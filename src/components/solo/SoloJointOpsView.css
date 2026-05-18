@@ -3,6 +3,64 @@
   gap: 1rem;
 }
 
+.game-runner-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.game-runner-main {
+  order: 1;
+}
+
+.game-runner-setup-gate {
+  order: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.setup-gate-text {
+  margin: 0.35rem 0 0;
+  color: var(--text-secondary);
+}
+
+.game-runner-setup-gate.is-warning {
+  border: 2px solid #f97316;
+  background: linear-gradient(120deg, #fff1e6, #ffe0c7);
+}
+
+.game-runner-setup-gate.is-warning button {
+  background: #f97316;
+  border-color: #ea580c;
+  color: #fff;
+}
+
+.setup-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+  z-index: 50;
+}
+
+.setup-modal {
+  width: min(1000px, 100%);
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.setup-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
 .solo-tabs {
   display: flex;
   flex-wrap: wrap;
