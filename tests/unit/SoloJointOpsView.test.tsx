@@ -15,6 +15,9 @@ describe('SoloJointOpsView', () => {
     expect(
       screen.getByRole('button', { name: 'Profile Manager' })
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'Deployment' })
+    ).not.toBeInTheDocument();
   });
 
   it('tracks activation order through start and next activation actions', () => {
@@ -60,17 +63,19 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add NPO Model' }));
 
     fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Team Setup' }));
 
     const npoTeamNameInput = screen.getByLabelText('NPO Team Name');
     const npoTeamBuilder = npoTeamNameInput.closest('.team-builder');
     expect(npoTeamBuilder).not.toBeNull();
 
-    const npoSelectionCheckbox = within(
-      npoTeamBuilder as HTMLElement
-    ).getByRole('checkbox', {
-      name: operativeName,
-    });
-    fireEvent.click(npoSelectionCheckbox);
+    const addOperativeButton = within(npoTeamBuilder as HTMLElement).getByRole(
+      'button',
+      {
+        name: new RegExp(`${operativeName}\\s*Add`, 'i'),
+      }
+    );
+    fireEvent.click(addOperativeButton);
 
     expect(
       screen.getByRole('heading', { name: `${operativeName} (NPO Team)` })

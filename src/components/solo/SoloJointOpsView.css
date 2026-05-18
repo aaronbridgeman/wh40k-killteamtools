@@ -24,6 +24,10 @@
   margin-bottom: 0.75rem;
 }
 
+.game-runner-setup-tabs {
+  margin-bottom: 1rem;
+}
+
 .import-message {
   margin: 0;
   border: 1px solid var(--border-color);
@@ -55,9 +59,13 @@
   gap: 1rem;
 }
 
+.team-builders-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .team-builder {
   display: grid;
-  gap: 0.6rem;
+  gap: 0.7rem;
 }
 
 .team-builder label {
@@ -108,6 +116,122 @@
 .team-builder li span {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.team-transfer {
+  margin-top: 0.25rem;
+}
+
+.team-transfer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.team-transfer-column {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-color) 85%, black);
+  padding: 0.5rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.team-transfer-column h5 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.team-transfer-divider {
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  color: color-mix(in srgb, var(--text-color) 72%, transparent);
+}
+
+.team-transfer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: auto;
+  max-height: 13rem;
+  display: grid;
+  gap: 0.35rem;
+  background: color-mix(in srgb, var(--surface-color) 88%, black);
+}
+
+.team-transfer-list li {
+  margin: 0;
+}
+
+.team-transfer-item {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--border-color) 60%, transparent);
+  background: transparent;
+  color: inherit;
+  padding: 0.6rem 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.team-transfer-list li:last-child .team-transfer-item {
+  border-bottom: 0;
+}
+
+.team-transfer-item:hover {
+  background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+}
+
+.team-transfer-action {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--accent-color) 78%, white);
+}
+
+.team-transfer-empty {
+  padding: 0.75rem;
+  color: color-mix(in srgb, var(--text-color) 72%, transparent);
+  font-size: 0.85rem;
+}
+
+.transfer-in-right {
+  animation: transferInRight 240ms ease-out;
+}
+
+.transfer-in-left {
+  animation: transferInLeft 240ms ease-out;
+}
+
+@keyframes transferInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes transferInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .list-totals {
@@ -264,6 +388,14 @@
 }
 
 @media (max-width: 768px) {
+  .team-transfer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-transfer-divider {
+    transform: rotate(90deg);
+  }
+
   .input-row-stack-mobile {
     grid-template-columns: 1fr;
   }

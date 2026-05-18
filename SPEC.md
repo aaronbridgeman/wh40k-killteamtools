@@ -367,7 +367,8 @@ JSON Schema will validate all configuration files to ensure:
 #### Features
 
 1. **Game Runner (Default Tab)**
-   - Deployment checklist for player/NPO
+   - Pane-based team setup for Player and NPO team configuration
+   - Manual team selection via dual-list transfer UX (available vs selected)
    - Initiative and activation sequencing controls
    - Runner cards for active team operatives with damage and injured tracking
    - Team management controls for naming teams, selecting source lists, and selecting team members
