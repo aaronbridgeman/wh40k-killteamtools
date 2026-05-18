@@ -20,29 +20,108 @@ describe('SoloJointOpsView', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('tracks activation order through start and next activation actions', () => {
+  it('tracks activation draws with reset deck and draw activation actions', () => {
     render(<SoloJointOpsView />);
 
-    fireEvent.change(screen.getByLabelText('Initiative'), {
-      target: { value: 'npo' },
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+
+    const npoModelSelect = screen.getByLabelText(
+      'NPO model selection'
+    ) as HTMLSelectElement;
+    const operativeName =
+      npoModelSelect.options[
+        npoModelSelect.selectedIndex
+      ]?.textContent?.trim() || '';
+    fireEvent.click(screen.getByRole('button', { name: 'Add NPO Model' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Team Setup' }));
+
+    const npoTeamNameInput = screen.getByLabelText('NPO Team Name');
+    const npoTeamBuilder = npoTeamNameInput.closest('.team-builder');
+    expect(npoTeamBuilder).not.toBeNull();
+
+    const addOperativeButton = within(npoTeamBuilder as HTMLElement).getByRole(
+      'button',
+      {
+        name: new RegExp(`${operativeName}\\s*Add`, 'i'),
+      }
+    );
+    fireEvent.click(addOperativeButton);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Reset Deck' }));
+
+    expect(
+      screen.getByText('Activation 0 · Deck remaining: 1')
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Draw Activation' }));
+
+    expect(
+      screen.getByText('Activation 1 · Deck remaining: 0')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Current NPO Activation:')).toBeInTheDocument();
+    const activationPanel = screen
+      .getByText('Current NPO Activation:')
+      .closest('.current-activation');
+    expect(activationPanel).not.toBeNull();
+    expect(
+      within(activationPanel as HTMLElement).queryByRole('combobox')
+    ).not.toBeInTheDocument();
+    const activationOperativeList = (
+      activationPanel as HTMLElement
+    ).querySelector('.activation-operator-list');
+    expect(activationOperativeList).not.toBeNull();
+    expect(
+      within(activationOperativeList as HTMLElement).getByText(operativeName)
+    ).toBeInTheDocument();
+  });
+
+  it('supports duplicate card instances via count controls', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Add NPO Model' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Team Setup' }));
+
+    const npoTeamNameInput = screen.getByLabelText('NPO Team Name');
+    const npoTeamBuilder = npoTeamNameInput.closest('.team-builder');
+    expect(npoTeamBuilder).not.toBeNull();
+
+    const addButtons = within(npoTeamBuilder as HTMLElement).getAllByRole(
+      'button',
+      {
+        name: /\s*Add$/i,
+      }
+    );
+    fireEvent.click(addButtons[0]);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Reset Deck' }));
+    const deckToggleButton = screen.getByRole('button', {
+      name: /(Expand|Collapse).*card/i,
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Start Activations' }));
+    const initialCountMatch = deckToggleButton.textContent?.match(/(\d+)/);
+    const initialCount = Number(initialCountMatch?.[1] ?? '0');
+    expect(initialCount).toBeGreaterThan(0);
 
-    expect(
-      screen.getByText('Turning Point 1 · Activation 1 · Active: NPO Team')
-    ).toBeInTheDocument();
+    if (deckToggleButton.textContent?.includes('Expand')) {
+      fireEvent.click(deckToggleButton);
+    }
+    fireEvent.click(screen.getByRole('button', { name: 'Edit' }));
 
-    fireEvent.click(screen.getByRole('button', { name: 'Next Activation' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: /Increase .* instance count/i })
+    );
 
-    expect(
-      screen.getByText('Turning Point 1 · Activation 2 · Active: Player Team')
-    ).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole('button', { name: 'Next Turning Point' }));
-
-    expect(
-      screen.getByText('Turning Point 2 · Activation 0 · Active: NPO Team')
-    ).toBeInTheDocument();
+    const updatedDeckToggleButton = screen.getByRole('button', {
+      name: /(Expand|Collapse).*card/i,
+    });
+    const updatedCountMatch =
+      updatedDeckToggleButton.textContent?.match(/(\d+)/);
+    const updatedCount = Number(updatedCountMatch?.[1] ?? '0');
+    expect(updatedCount).toBe(initialCount + 1);
   });
 
   it('creates and updates an NPO runner card from the list builder', () => {
@@ -77,20 +156,62 @@ describe('SoloJointOpsView', () => {
     );
     fireEvent.click(addOperativeButton);
 
+    fireEvent.click(screen.getByRole('button', { name: 'Reset Deck' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Draw Activation' }));
+
+    const matchingRunnerHeadings = screen.getAllByRole('heading', {
+      name: operativeName,
+    });
+    expect(matchingRunnerHeadings.length).toBeGreaterThan(0);
+
+    const operativeCard = matchingRunnerHeadings[0].closest('article');
+    expect(operativeCard).not.toBeNull();
+
     expect(
-      screen.getByRole('heading', { name: `${operativeName} (NPO Team)` })
+      within(operativeCard as HTMLElement).getByText('Damage Taken: 0')
     ).toBeInTheDocument();
-    expect(screen.getByText('Damage Taken: 0')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: '+1' }));
-    expect(screen.getByText('Damage Taken: 1')).toBeInTheDocument();
+    fireEvent.click(
+      within(operativeCard as HTMLElement).getByRole('button', { name: '+1' })
+    );
+    expect(
+      within(operativeCard as HTMLElement).getByText('Damage Taken: 1')
+    ).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: '-1' }));
-    fireEvent.click(screen.getByRole('button', { name: '-1' }));
-    expect(screen.getByText('Damage Taken: 0')).toBeInTheDocument();
+    fireEvent.click(
+      within(operativeCard as HTMLElement).getByRole('button', { name: '-1' })
+    );
+    fireEvent.click(
+      within(operativeCard as HTMLElement).getByRole('button', { name: '-1' })
+    );
+    expect(
+      within(operativeCard as HTMLElement).getByText('Damage Taken: 0')
+    ).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Injured' }));
-    expect(screen.getByRole('checkbox', { name: 'Injured' })).toBeChecked();
+    const npoStatusPanel = screen.getByRole('heading', {
+      name: 'NPO Operative Status',
+    });
+    const statusPanelContainer = npoStatusPanel.closest('.npo-roster-panel');
+    expect(statusPanelContainer).not.toBeNull();
+
+    const statusOperativeRows =
+      statusPanelContainer?.querySelectorAll('.npo-roster-item') ?? [];
+    expect(statusOperativeRows.length).toBeGreaterThan(0);
+
+    const statusOperativeRow = statusOperativeRows[0] ?? null;
+    expect(statusOperativeRow).not.toBeNull();
+
+    const incapacitatedToggle = within(
+      statusOperativeRow as HTMLElement
+    ).getByRole('button', {
+      name: 'Active 🪖',
+    });
+    fireEvent.click(incapacitatedToggle);
+    expect(
+      within(statusOperativeRow as HTMLElement).getByRole('button', {
+        name: 'Incapacitated ☠',
+      })
+    ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
     const npoListBuilder = screen.getByLabelText('NPO list builder');

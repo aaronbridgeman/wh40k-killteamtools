@@ -88,6 +88,7 @@ interface ActivationCard {
   id: string;
   label: string;
   operativeIds: string[]; // SoloListOperative ids of linked operatives
+  count: number;
 }
 
 interface RunnerOperative {
@@ -502,17 +503,32 @@ const loadState = (): SoloJointOpsState => {
         )
           ? (
               (maybe as { activationDeck?: unknown[] }).activationDeck ?? []
-            ).filter(
-              (c): c is ActivationCard =>
-                !!c &&
-                typeof c === 'object' &&
-                isString((c as Partial<ActivationCard>).id) &&
-                isString((c as Partial<ActivationCard>).label) &&
-                Array.isArray((c as Partial<ActivationCard>).operativeIds) &&
-                ((c as Partial<ActivationCard>).operativeIds ?? []).every(
-                  isString
-                )
-            )
+            ).flatMap((cardLike) => {
+              if (!cardLike || typeof cardLike !== 'object') return [];
+              const card = cardLike as Partial<ActivationCard>;
+              if (
+                !isString(card.id) ||
+                !isString(card.label) ||
+                !Array.isArray(card.operativeIds) ||
+                !card.operativeIds.every(isString)
+              ) {
+                return [];
+              }
+
+              const count =
+                typeof card.count === 'number' && card.count > 0
+                  ? Math.floor(card.count)
+                  : 1;
+
+              return [
+                {
+                  id: card.id,
+                  label: card.label,
+                  operativeIds: card.operativeIds,
+                  count,
+                },
+              ];
+            })
           : [],
       };
     }
@@ -1167,9 +1183,13 @@ export function SoloJointOpsView() {
   );
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const [transferHint, setTransferHint] = useState<TransferHint | null>(null);
-  // Ephemeral draw-pile: card IDs in shuffled order, reset each turning point
+  // Ephemeral draw-pile: card IDs in shuffled order, reset via Reset Deck
   const [drawPile, setDrawPile] = useState<string[]>([]);
   const [drawnCardId, setDrawnCardId] = useState<string | null>(null);
+  const [editingDeckCardId, setEditingDeckCardId] = useState<string | null>(
+    null
+  );
+  const [isDeckSectionExpanded, setIsDeckSectionExpanded] = useState(false);
 
   const listsImportRef = useRef<HTMLInputElement | null>(null);
   const profilesImportRef = useRef<HTMLInputElement | null>(null);
@@ -1319,12 +1339,49 @@ export function SoloJointOpsView() {
     );
   }, [selectedNpoTeam, state.lists]);
 
-  const activeTeamLabel = useMemo(() => {
-    if (state.activeSide === 'player') {
-      return selectedPlayerTeam?.name ?? 'Player Team';
-    }
-    return selectedNpoTeam?.name ?? 'NPO Team';
-  }, [selectedNpoTeam, selectedPlayerTeam, state.activeSide]);
+  const npoRunnerOperatives = useMemo(
+    () => runnerOperatives.filter((operative) => operative.side === 'npo'),
+    [runnerOperatives]
+  );
+
+  const npoRunnerOperativeNames = useMemo(
+    () =>
+      new Map(
+        npoRunnerOperatives.map((operative) => [
+          operative.sourceOperativeId,
+          operative.name,
+        ])
+      ),
+    [npoRunnerOperatives]
+  );
+
+  const currentDrawnCard = useMemo(
+    () => state.activationDeck.find((card) => card.id === drawnCardId) ?? null,
+    [drawnCardId, state.activationDeck]
+  );
+
+  const currentActivatedOperatives = useMemo(() => {
+    if (!currentDrawnCard) return [];
+    const linkedIds = new Set(currentDrawnCard.operativeIds);
+    return npoRunnerOperatives.filter(
+      (operative) =>
+        linkedIds.has(operative.sourceOperativeId) && !operative.incapacitated
+    );
+  }, [currentDrawnCard, npoRunnerOperatives]);
+
+  const currentDrawnCardLinkedNames = useMemo(
+    () => currentActivatedOperatives.map((operative) => operative.name),
+    [currentActivatedOperatives]
+  );
+
+  const totalDeckCardInstances = useMemo(
+    () =>
+      state.activationDeck.reduce(
+        (total, card) => total + Math.max(1, Math.floor(card.count || 1)),
+        0
+      ),
+    [state.activationDeck]
+  );
 
   useEffect(() => {
     if (!hasLocalStorageApi()) {
@@ -1719,7 +1776,16 @@ export function SoloJointOpsView() {
     deck: ActivationCard[],
     ops: RunnerOperative[]
   ): string[] =>
-    shuffle(deck.filter((c) => !isCardExhausted(c, ops)).map((c) => c.id));
+    shuffle(
+      deck
+        .filter((card) => !isCardExhausted(card, ops))
+        .flatMap((card) =>
+          Array.from(
+            { length: Math.max(1, Math.floor(card.count || 1)) },
+            () => card.id
+          )
+        )
+    );
 
   /** Auto-generates one card per NPO operative from runner operatives. */
   const buildDeckFromNpoOperatives = (
@@ -1731,6 +1797,7 @@ export function SoloJointOpsView() {
         id: generateUniqueId('deck-card'),
         label: op.name,
         operativeIds: [op.sourceOperativeId],
+        count: 1,
       }));
 
   const addDeckCard = () => {
@@ -1738,11 +1805,13 @@ export function SoloJointOpsView() {
       id: generateUniqueId('deck-card'),
       label: 'New Card',
       operativeIds: [],
+      count: 1,
     };
     setState((prev) => ({
       ...prev,
       activationDeck: [...prev.activationDeck, card],
     }));
+    setEditingDeckCardId(card.id);
   };
 
   const updateDeckCard = (cardId: string, updates: Partial<ActivationCard>) => {
@@ -1761,15 +1830,17 @@ export function SoloJointOpsView() {
     }));
     setDrawPile((prev) => prev.filter((id) => id !== cardId));
     if (drawnCardId === cardId) setDrawnCardId(null);
+    if (editingDeckCardId === cardId) setEditingDeckCardId(null);
   };
 
   // --- Activation flow ---
 
-  const startActivationSequence = () => {
+  const resetActivationDeck = () => {
     setState((prev) => {
       let deck = prev.activationDeck;
       if (deck.length === 0) {
         deck = buildDeckFromNpoOperatives(runnerOperatives);
+        setIsDeckSectionExpanded(false);
       }
       const pile = buildShuffledPile(deck, runnerOperatives);
       setDrawPile(pile);
@@ -1777,8 +1848,8 @@ export function SoloJointOpsView() {
       return {
         ...prev,
         activationDeck: deck,
-        activationNumber: 1,
-        activeSide: prev.initiative,
+        activationNumber: 0,
+        activeSide: 'npo',
       };
     });
   };
@@ -1798,42 +1869,25 @@ export function SoloJointOpsView() {
     return { cardId: null, remaining: [] };
   };
 
-  const nextActivation = () => {
+  const drawActivation = () => {
     setState((prev) => {
-      const nextSide: ActivationSide =
-        prev.activeSide === 'player' ? 'npo' : 'player';
-      const nextNumber = prev.activationNumber + 1;
+      const { cardId, remaining } = drawNextNpoCard(
+        drawPile,
+        prev.activationDeck,
+        runnerOperatives
+      );
 
-      if (nextSide === 'npo') {
-        const { cardId, remaining } = drawNextNpoCard(
-          drawPile,
-          prev.activationDeck,
-          runnerOperatives
-        );
-        setDrawPile(remaining);
-        setDrawnCardId(cardId);
-      } else {
-        setDrawnCardId(null);
+      setDrawPile(remaining);
+      setDrawnCardId(cardId);
+
+      if (!cardId) {
+        return prev;
       }
 
       return {
         ...prev,
-        activationNumber: nextNumber,
-        activeSide: nextSide,
-      };
-    });
-  };
-
-  const nextTurningPoint = () => {
-    setState((prev) => {
-      const pile = buildShuffledPile(prev.activationDeck, runnerOperatives);
-      setDrawPile(pile);
-      setDrawnCardId(null);
-      return {
-        ...prev,
-        turningPoint: prev.turningPoint + 1,
-        activationNumber: 0,
-        activeSide: prev.initiative,
+        activationNumber: prev.activationNumber + 1,
+        activeSide: 'npo',
       };
     });
   };
@@ -2446,165 +2500,235 @@ export function SoloJointOpsView() {
           </section>
 
           <section className="solo-card">
-            <h3>Activation Deck</h3>
+            <div className="deck-panel-header">
+              <h3>Activation Deck</h3>
+              <button
+                type="button"
+                onClick={() => setIsDeckSectionExpanded((prev) => !prev)}
+              >
+                {isDeckSectionExpanded ? 'Collapse' : 'Expand'} ({' '}
+                {totalDeckCardInstances} card
+                {totalDeckCardInstances !== 1 ? 's' : ''})
+              </button>
+            </div>
             <p className="deck-description">
-              Default activation deck — one card per NPO operative, shuffled
-              each turning point. Customise cards before starting.
+              Default behavior is one card per NPO operative. You can edit card
+              links and instance counts when needed.
             </p>
 
-            {state.activationDeck.length === 0 ? (
+            {!isDeckSectionExpanded ? (
+              <p className="deck-collapsed-note">
+                Deck collapsed. {totalDeckCardInstances} activation card
+                {totalDeckCardInstances !== 1 ? 's' : ''} configured.
+              </p>
+            ) : state.activationDeck.length === 0 ? (
               <p className="deck-empty-note">
-                No cards configured. A card per NPO operative will be
-                auto-generated when activations start.
+                No cards configured. A default deck is created when you reset
+                the deck in Activation.
               </p>
             ) : (
               <ul className="deck-card-list">
                 {state.activationDeck.map((card) => {
                   const exhausted = isCardExhausted(card, runnerOperatives);
+                  const linkedOperativeNames = card.operativeIds
+                    .map((operativeId) =>
+                      npoRunnerOperativeNames.get(operativeId)
+                    )
+                    .filter((name): name is string => Boolean(name));
+                  const isEditing = editingDeckCardId === card.id;
                   return (
                     <li
                       key={card.id}
                       className={`deck-card-item${exhausted ? ' deck-card-exhausted' : ''}`}
                     >
-                      <input
-                        aria-label="Card label"
-                        value={card.label}
-                        onChange={(e) =>
-                          updateDeckCard(card.id, { label: e.target.value })
-                        }
-                      />
-                      <div className="deck-card-links">
-                        <span className="deck-card-links-label">
-                          Linked operatives:
-                        </span>
-                        {runnerOperatives
-                          .filter((op) => op.side === 'npo')
-                          .map((op) => {
-                            const linked = card.operativeIds.includes(
-                              op.sourceOperativeId
-                            );
-                            return (
-                              <label
-                                key={op.id}
-                                className="deck-card-link-toggle"
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={linked}
-                                  onChange={() => {
-                                    const next = linked
-                                      ? card.operativeIds.filter(
-                                          (id) => id !== op.sourceOperativeId
-                                        )
-                                      : [
-                                          ...card.operativeIds,
-                                          op.sourceOperativeId,
-                                        ];
-                                    updateDeckCard(card.id, {
-                                      operativeIds: next,
-                                    });
-                                  }}
-                                />
-                                {op.name}
-                              </label>
-                            );
-                          })}
-                        {runnerOperatives.filter((op) => op.side === 'npo')
-                          .length === 0 && (
-                          <span className="deck-no-operatives">
-                            No NPO operatives selected yet.
+                      <div className="deck-card-header">
+                        <div className="deck-card-title-wrap">
+                          <span className="deck-card-linked-count">
+                            {linkedOperativeNames.length} linked
                           </span>
-                        )}
+                          <span className="deck-card-linked-count">
+                            x{Math.max(1, Math.floor(card.count || 1))}
+                          </span>
+                        </div>
+                        <div className="deck-card-controls">
+                          <button
+                            type="button"
+                            aria-expanded={isEditing}
+                            aria-controls={`deck-editor-${card.id}`}
+                            onClick={() =>
+                              setEditingDeckCardId((prev) =>
+                                prev === card.id ? null : card.id
+                              )
+                            }
+                          >
+                            {isEditing ? 'Done' : 'Edit'}
+                          </button>
+                          <button
+                            type="button"
+                            className="danger-button"
+                            onClick={() => removeDeckCard(card.id)}
+                          >
+                            Remove
+                          </button>
+                        </div>
                       </div>
-                      <button
-                        type="button"
-                        className="danger-button"
-                        onClick={() => removeDeckCard(card.id)}
-                      >
-                        Remove
-                      </button>
+                      <p className="deck-card-summary">
+                        <span>Linked operatives:</span>{' '}
+                        {linkedOperativeNames.length > 0
+                          ? linkedOperativeNames.join(', ')
+                          : 'No linked operatives yet'}
+                      </p>
+
+                      {isEditing && (
+                        <div
+                          className="deck-card-editor"
+                          id={`deck-editor-${card.id}`}
+                        >
+                          <div className="deck-card-count-controls">
+                            <span className="deck-card-links-label">
+                              Card instances:
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateDeckCard(card.id, {
+                                  count: Math.max(
+                                    1,
+                                    Math.floor((card.count || 1) - 1)
+                                  ),
+                                })
+                              }
+                              disabled={(card.count || 1) <= 1}
+                              aria-label="Decrease card instance count"
+                            >
+                              -
+                            </button>
+                            <span className="deck-card-count-value">
+                              {Math.max(1, Math.floor(card.count || 1))}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateDeckCard(card.id, {
+                                  count: Math.max(
+                                    1,
+                                    Math.floor((card.count || 1) + 1)
+                                  ),
+                                })
+                              }
+                              aria-label="Increase card instance count"
+                            >
+                              +
+                            </button>
+                          </div>
+                          <div className="deck-card-links">
+                            <span className="deck-card-links-label">
+                              Select linked operatives:
+                            </span>
+                            {npoRunnerOperatives.map((operative) => {
+                              const linked = card.operativeIds.includes(
+                                operative.sourceOperativeId
+                              );
+                              return (
+                                <label
+                                  key={operative.id}
+                                  className="deck-card-link-toggle"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={linked}
+                                    onChange={() => {
+                                      const next = linked
+                                        ? card.operativeIds.filter(
+                                            (id) =>
+                                              id !== operative.sourceOperativeId
+                                          )
+                                        : [
+                                            ...card.operativeIds,
+                                            operative.sourceOperativeId,
+                                          ];
+                                      updateDeckCard(card.id, {
+                                        operativeIds: next,
+                                      });
+                                    }}
+                                  />
+                                  {operative.name}
+                                </label>
+                              );
+                            })}
+                            {npoRunnerOperatives.length === 0 && (
+                              <span className="deck-no-operatives">
+                                No NPO operatives selected yet.
+                              </span>
+                            )}
+                          </div>
+                          <p className="deck-editor-tip">
+                            Tip: set instances above 1 to duplicate this card in
+                            the deck.
+                          </p>
+                        </div>
+                      )}
                     </li>
                   );
                 })}
               </ul>
             )}
 
-            <div className="deck-actions">
-              <button type="button" onClick={addDeckCard}>
-                Add Card
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  const generated =
-                    buildDeckFromNpoOperatives(runnerOperatives);
-                  setState((prev) => ({
-                    ...prev,
-                    activationDeck: generated,
-                  }));
-                }}
-                disabled={
-                  runnerOperatives.filter((op) => op.side === 'npo').length ===
-                  0
-                }
-              >
-                Reset to Default (one card per operative)
-              </button>
-            </div>
+            {isDeckSectionExpanded && (
+              <div className="deck-actions">
+                <button type="button" onClick={addDeckCard}>
+                  Add Card
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const generated =
+                      buildDeckFromNpoOperatives(runnerOperatives);
+                    setState((prev) => ({
+                      ...prev,
+                      activationDeck: generated,
+                    }));
+                    setEditingDeckCardId(null);
+                    setIsDeckSectionExpanded(false);
+                  }}
+                  disabled={npoRunnerOperatives.length === 0}
+                >
+                  Reset to Default (one card per operative)
+                </button>
+              </div>
+            )}
           </section>
 
-          <section className="solo-card">
-            <h3>Activation</h3>
-            <div className="activation-controls">
-              <label htmlFor="initiative-side">Initiative</label>
-              <select
-                id="initiative-side"
-                value={state.initiative}
-                onChange={(event) =>
-                  updateState({
-                    initiative: event.target.value as ActivationSide,
-                  })
-                }
-              >
-                <option value="player">
-                  {selectedPlayerTeam?.name ?? 'Player Team'}
-                </option>
-                <option value="npo">
-                  {selectedNpoTeam?.name ?? 'NPO Team'}
-                </option>
-              </select>
-              <button type="button" onClick={startActivationSequence}>
-                Start Activations
-              </button>
-              <button
-                type="button"
-                onClick={nextActivation}
-                disabled={state.activationNumber === 0}
-              >
-                Next Activation
-              </button>
-              <button type="button" onClick={nextTurningPoint}>
-                Next Turning Point
-              </button>
-            </div>
-            <p aria-live="polite" className="activation-status">
-              Turning Point {state.turningPoint} · Activation{' '}
-              {state.activationNumber} · Active: {activeTeamLabel}
-            </p>
-            {state.activeSide === 'npo' &&
-              state.activationNumber > 0 &&
-              (() => {
-                const card = state.activationDeck.find(
-                  (c) => c.id === drawnCardId
-                );
-                return (
+          <div className="activation-runner-layout">
+            <div className="activation-runner-main">
+              <section className="solo-card">
+                <h3>Activation</h3>
+                <div className="activation-controls">
+                  <button type="button" onClick={resetActivationDeck}>
+                    Reset Deck
+                  </button>
+                  <button
+                    type="button"
+                    onClick={drawActivation}
+                    disabled={drawPile.length === 0}
+                  >
+                    Draw Activation
+                  </button>
+                </div>
+                <p aria-live="polite" className="activation-status">
+                  Activation {state.activationNumber} · Deck remaining:{' '}
+                  {drawPile.length}
+                </p>
+                {currentDrawnCard && (
                   <div
                     className="current-activation"
                     role="status"
                     aria-live="polite"
                   >
                     <strong>Current NPO Activation:</strong>{' '}
-                    {card ? card.label : '—'}
+                    {currentDrawnCardLinkedNames.length > 0
+                      ? currentDrawnCardLinkedNames.join(', ')
+                      : 'No active linked operatives'}
                     {drawPile.length > 0 && (
                       <span className="deck-remaining">
                         {drawPile.length} card
@@ -2613,98 +2737,142 @@ export function SoloJointOpsView() {
                     )}
                     {drawPile.length === 0 && state.activationNumber > 0 && (
                       <span className="deck-exhausted-note">
-                        Deck exhausted — use Next Turning Point to reshuffle.
+                        Deck exhausted — use Reset Deck to reshuffle.
                       </span>
                     )}
+                    {currentActivatedOperatives.length > 0 && (
+                      <div className="activation-operator-list-wrap">
+                        <span className="activation-operator-list-label">
+                          Activating operatives:
+                        </span>
+                        <ul className="activation-operator-list">
+                          {currentActivatedOperatives.map((operative) => (
+                            <li key={operative.id}>{operative.name}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {currentDrawnCard.operativeIds.length > 0 &&
+                      currentActivatedOperatives.length === 0 && (
+                        <span className="deck-exhausted-note">
+                          All linked operatives are incapacitated.
+                        </span>
+                      )}
                   </div>
-                );
-              })()}
-          </section>
+                )}
+              </section>
 
-          <section className="solo-card">
-            <h3>Operative Runner Cards</h3>
-            {runnerOperatives.length === 0 ? (
-              <p>Add operatives in List Builder to run the game here.</p>
-            ) : (
-              <div className="npo-cards">
-                {runnerOperatives.map((operative) => (
-                  <article
-                    className={`npo-card${operative.incapacitated ? ' npo-card-incapacitated' : ''}${
-                      state.activeSide === 'npo' &&
-                      drawnCardId !== null &&
-                      state.activationDeck
-                        .find((c) => c.id === drawnCardId)
-                        ?.operativeIds.includes(operative.sourceOperativeId)
-                        ? ' npo-card-active'
-                        : ''
-                    }`}
-                    key={operative.id}
-                  >
-                    <h4>
-                      {operative.name}{' '}
-                      <small>
-                        (
-                        {operative.side === 'player'
-                          ? (selectedPlayerTeam?.name ?? 'Player Team')
-                          : (selectedNpoTeam?.name ?? 'NPO Team')}
-                        )
-                      </small>
-                    </h4>
-                    {renderProfileSummary(operative.profileId)}
-                    <p>Damage Taken: {operative.damageTaken}</p>
-                    <div className="input-row">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateRunnerOperative(operative.id, {
-                            damageTaken: Math.max(0, operative.damageTaken - 1),
-                          })
-                        }
+              <section className="solo-card">
+                <h3>Operative Runner Cards</h3>
+                {!currentDrawnCard ? (
+                  <p>Draw an activation to show operative runner cards.</p>
+                ) : currentActivatedOperatives.length === 0 ? (
+                  <p>No active operatives on the drawn card.</p>
+                ) : (
+                  <div className="npo-cards">
+                    {currentActivatedOperatives.map((operative) => (
+                      <article
+                        className={`npo-card npo-card-active${
+                          operative.incapacitated
+                            ? ' npo-card-incapacitated'
+                            : ''
+                        }`}
+                        key={operative.id}
                       >
-                        -1
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateRunnerOperative(operative.id, {
-                            damageTaken: operative.damageTaken + 1,
-                          })
-                        }
+                        <div className="npo-card-header">
+                          <h4>{operative.name}</h4>
+                          <span className="npo-card-team-chip">
+                            {selectedNpoTeam?.name ?? 'NPO Team'}
+                          </span>
+                        </div>
+                        {renderProfileSummary(operative.profileId)}
+                        <p className="npo-card-damage">
+                          Damage Taken: {operative.damageTaken}
+                        </p>
+                        <div className="npo-card-actions-row">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateRunnerOperative(operative.id, {
+                                damageTaken: Math.max(
+                                  0,
+                                  operative.damageTaken - 1
+                                ),
+                              })
+                            }
+                          >
+                            -1
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateRunnerOperative(operative.id, {
+                                damageTaken: operative.damageTaken + 1,
+                              })
+                            }
+                          >
+                            +1
+                          </button>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                )}
+              </section>
+            </div>
+
+            <aside className="solo-card npo-roster-panel">
+              <h3>NPO Operative Status</h3>
+              {npoRunnerOperatives.length === 0 ? (
+                <p>No NPO operatives selected yet.</p>
+              ) : (
+                <ul className="npo-roster-list">
+                  {npoRunnerOperatives.map((operative) => {
+                    const isOnCurrentCard =
+                      currentDrawnCard?.operativeIds.includes(
+                        operative.sourceOperativeId
+                      ) ?? false;
+
+                    return (
+                      <li
+                        key={operative.id}
+                        className={`npo-roster-item${
+                          operative.incapacitated
+                            ? ' npo-roster-item-incapacitated'
+                            : ''
+                        }${isOnCurrentCard ? ' npo-roster-item-active' : ''}`}
                       >
-                        +1
-                      </button>
-                    </div>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={operative.injured}
-                        onChange={(event) =>
-                          updateRunnerOperative(operative.id, {
-                            injured: event.target.checked,
-                          })
-                        }
-                      />
-                      Injured
-                    </label>
-                    {operative.side === 'npo' && (
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={operative.incapacitated}
-                          onChange={(event) =>
+                        <div className="npo-roster-name-row">
+                          <span>{operative.name}</span>
+                          {isOnCurrentCard && (
+                            <span className="npo-roster-active-chip">
+                              Current Card
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          type="button"
+                          className={`incap-toggle${
+                            operative.incapacitated ? ' is-on' : ''
+                          }`}
+                          onClick={() =>
                             updateRunnerOperative(operative.id, {
-                              incapacitated: event.target.checked,
+                              incapacitated: !operative.incapacitated,
                             })
                           }
-                        />
-                        Incapacitated
-                      </label>
-                    )}
-                  </article>
-                ))}
-              </div>
-            )}
-          </section>
+                          aria-pressed={operative.incapacitated}
+                        >
+                          {operative.incapacitated
+                            ? 'Incapacitated ☠'
+                            : 'Active 🪖'}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </aside>
+          </div>
         </>
       )}
 

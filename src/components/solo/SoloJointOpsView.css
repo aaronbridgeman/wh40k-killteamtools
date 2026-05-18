@@ -296,6 +296,28 @@
   color: var(--text-secondary);
 }
 
+.deck-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.deck-panel-header h3 {
+  margin: 0;
+}
+
+.deck-collapsed-note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-color) 88%, black);
+  padding: 0.55rem 0.7rem;
+}
+
 .deck-empty-note {
   font-size: 0.9rem;
   color: var(--text-secondary);
@@ -319,8 +341,86 @@
   background: var(--card-background);
 }
 
-.deck-card-item input[type='text'],
-.deck-card-item input:not([type]) {
+.deck-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.deck-card-title-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.deck-card-header h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.deck-card-linked-count {
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.08rem 0.45rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--surface-color) 75%, black);
+}
+
+.deck-card-controls {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.deck-card-summary {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.deck-card-summary span {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.deck-card-editor {
+  display: grid;
+  gap: 0.45rem;
+  border-top: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+  padding-top: 0.55rem;
+}
+
+.deck-card-count-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.deck-card-count-value {
+  min-width: 2ch;
+  text-align: center;
+  font-weight: 600;
+}
+
+.deck-editor-tip {
+  margin: 0.1rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.deck-card-field {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.deck-card-editor input[type='text'],
+.deck-card-editor input:not([type]) {
   font-weight: 600;
   width: 100%;
 }
@@ -365,6 +465,18 @@
   gap: 0.5rem;
 }
 
+.activation-runner-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(260px, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.activation-runner-main {
+  display: grid;
+  gap: 1rem;
+}
+
 .current-activation {
   margin-top: 0.75rem;
   padding: 0.6rem 0.85rem;
@@ -390,6 +502,36 @@
   margin-left: auto;
 }
 
+.activation-operator-list-wrap {
+  margin-left: auto;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.activation-operator-list-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.activation-operator-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.activation-operator-list li {
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  background: color-mix(in srgb, var(--surface-color) 82%, black);
+  font-size: 0.82rem;
+}
+
 /* --- Runner card states --- */
 
 .npo-card-incapacitated {
@@ -410,12 +552,106 @@
 
 .npo-card {
   border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 0.75rem;
+  border-radius: 10px;
+  padding: 0.9rem;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--surface-color) 92%, black),
+    color-mix(in srgb, var(--card-background) 95%, black)
+  );
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.npo-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.55rem;
 }
 
 .npo-card h4 {
-  margin: 0 0 0.5rem;
+  margin: 0;
+}
+
+.npo-card-team-chip {
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.12rem 0.5rem;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--surface-color) 86%, black);
+}
+
+.npo-card-damage {
+  margin: 0.25rem 0 0.55rem;
+  font-weight: 600;
+}
+
+.npo-card-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.incap-toggle {
+  border: 1px solid color-mix(in srgb, var(--success-color) 82%, black);
+  background: color-mix(in srgb, var(--success-color) 20%, transparent);
+  color: #bbf7d0;
+}
+
+.incap-toggle.is-on {
+  border-color: color-mix(in srgb, var(--error-color) 80%, black);
+  background: color-mix(in srgb, var(--error-color) 24%, transparent);
+  color: #fecaca;
+}
+
+.npo-roster-panel {
+  position: sticky;
+  top: 1rem;
+}
+
+.npo-roster-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.npo-roster-item {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.55rem 0.65rem;
+  display: grid;
+  gap: 0.45rem;
+  background: color-mix(in srgb, var(--surface-color) 88%, black);
+}
+
+.npo-roster-item-active {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 28%, transparent);
+}
+
+.npo-roster-item-incapacitated {
+  opacity: 0.65;
+}
+
+.npo-roster-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.npo-roster-active-chip {
+  border: 1px solid var(--accent-color);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  font-size: 0.72rem;
+  color: color-mix(in srgb, var(--accent-color) 85%, white);
 }
 
 .profile-summary {
@@ -497,6 +733,14 @@
 }
 
 @media (max-width: 768px) {
+  .activation-runner-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .npo-roster-panel {
+    position: static;
+  }
+
   .team-transfer-grid {
     grid-template-columns: 1fr;
   }
@@ -511,5 +755,47 @@
 
   .list-name-row {
     grid-template-columns: 1fr;
+  }
+
+  .deck-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .deck-panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .deck-panel-header button {
+    width: 100%;
+  }
+
+  .deck-card-controls {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .deck-card-controls button {
+    width: 100%;
+  }
+
+  .activation-operator-list-wrap {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .activation-operator-list-label {
+    text-align: left;
+  }
+
+  .activation-operator-list {
+    justify-content: flex-start;
+  }
+
+  .npo-card-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

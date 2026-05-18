@@ -369,8 +369,9 @@ JSON Schema will validate all configuration files to ensure:
 1. **Game Runner (Default Tab)**
    - Pane-based team setup for Player and NPO team configuration
    - Manual team selection via dual-list transfer UX (available vs selected)
-   - Initiative and activation sequencing controls
-   - Runner cards for active team operatives with damage and injured tracking
+   - Activation deck controls with reset/draw flow and list display of all operatives linked to the drawn card
+   - Collapsible activation deck editor with per-card operative links and instance counts
+   - Runner cards for currently activated operatives with damage controls and incapacitated on/off toggles
    - Team management controls for naming teams, selecting source lists, and selecting team members
 
 2. **List Builder**
