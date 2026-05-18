@@ -288,6 +288,120 @@
   font-weight: 600;
 }
 
+/* --- Activation Deck --- */
+
+.deck-description {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.deck-empty-note {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+.deck-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.deck-card-item {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  display: grid;
+  gap: 0.5rem;
+  background: var(--card-background);
+}
+
+.deck-card-item input[type='text'],
+.deck-card-item input:not([type]) {
+  font-weight: 600;
+  width: 100%;
+}
+
+.deck-card-exhausted {
+  opacity: 0.45;
+}
+
+.deck-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.deck-card-links-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-right: 0.25rem;
+}
+
+.deck-card-link-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--surface-color);
+  cursor: pointer;
+}
+
+.deck-no-operatives {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.deck-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.current-activation {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent-color) 8%, transparent);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+}
+
+.deck-remaining {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: auto;
+}
+
+.deck-exhausted-note {
+  font-size: 0.8rem;
+  color: var(--error-color);
+  margin-left: auto;
+}
+
+/* --- Runner card states --- */
+
+.npo-card-incapacitated {
+  opacity: 0.45;
+  border-color: var(--error-color);
+}
+
+.npo-card-active {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
 .npo-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

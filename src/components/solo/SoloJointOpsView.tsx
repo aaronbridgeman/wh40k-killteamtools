@@ -84,6 +84,12 @@ interface SoloTeam {
   autoWoundsLimit: number;
 }
 
+interface ActivationCard {
+  id: string;
+  label: string;
+  operativeIds: string[]; // SoloListOperative ids of linked operatives
+}
+
 interface RunnerOperative {
   id: string;
   side: ActivationSide;
@@ -92,6 +98,7 @@ interface RunnerOperative {
   profileId: string;
   damageTaken: number;
   injured: boolean;
+  incapacitated: boolean;
 }
 
 interface SoloBackupFile {
@@ -222,6 +229,7 @@ const buildInitialState = () => {
     turningPoint: 1,
     activationNumber: 0,
     activeSide: 'player' as ActivationSide,
+    activationDeck: [] as ActivationCard[],
   };
 };
 
@@ -489,6 +497,23 @@ const loadState = (): SoloJointOpsState => {
             ? maybe.activationNumber
             : fallback.activationNumber,
         activeSide: maybe.activeSide === 'npo' ? 'npo' : 'player',
+        activationDeck: Array.isArray(
+          (maybe as { activationDeck?: unknown }).activationDeck
+        )
+          ? (
+              (maybe as { activationDeck?: unknown[] }).activationDeck ?? []
+            ).filter(
+              (c): c is ActivationCard =>
+                !!c &&
+                typeof c === 'object' &&
+                isString((c as Partial<ActivationCard>).id) &&
+                isString((c as Partial<ActivationCard>).label) &&
+                Array.isArray((c as Partial<ActivationCard>).operativeIds) &&
+                ((c as Partial<ActivationCard>).operativeIds ?? []).every(
+                  isString
+                )
+            )
+          : [],
       };
     }
 
@@ -1142,6 +1167,9 @@ export function SoloJointOpsView() {
   );
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const [transferHint, setTransferHint] = useState<TransferHint | null>(null);
+  // Ephemeral draw-pile: card IDs in shuffled order, reset each turning point
+  const [drawPile, setDrawPile] = useState<string[]>([]);
+  const [drawnCardId, setDrawnCardId] = useState<string | null>(null);
 
   const listsImportRef = useRef<HTMLInputElement | null>(null);
   const profilesImportRef = useRef<HTMLInputElement | null>(null);
@@ -1418,6 +1446,7 @@ export function SoloJointOpsView() {
           profileId: operative.profileId,
           damageTaken: persisted?.damageTaken ?? 0,
           injured: persisted?.injured ?? false,
+          incapacitated: persisted?.incapacitated ?? false,
         };
       });
     });
@@ -1669,29 +1698,144 @@ export function SoloJointOpsView() {
     );
   };
 
-  const startActivationSequence = () => {
+  // --- Activation Deck helpers ---
+
+  /** Returns true if every operative linked to a card is incapacitated. */
+  const isCardExhausted = (
+    card: ActivationCard,
+    ops: RunnerOperative[]
+  ): boolean => {
+    if (card.operativeIds.length === 0) return false;
+    const incapacitatedIds = new Set(
+      ops
+        .filter((op) => op.side === 'npo' && op.incapacitated)
+        .map((op) => op.sourceOperativeId)
+    );
+    return card.operativeIds.every((id) => incapacitatedIds.has(id));
+  };
+
+  /** Builds a shuffled draw pile from the deck, excluding exhausted cards. */
+  const buildShuffledPile = (
+    deck: ActivationCard[],
+    ops: RunnerOperative[]
+  ): string[] =>
+    shuffle(deck.filter((c) => !isCardExhausted(c, ops)).map((c) => c.id));
+
+  /** Auto-generates one card per NPO operative from runner operatives. */
+  const buildDeckFromNpoOperatives = (
+    ops: RunnerOperative[]
+  ): ActivationCard[] =>
+    ops
+      .filter((op) => op.side === 'npo')
+      .map((op) => ({
+        id: generateUniqueId('deck-card'),
+        label: op.name,
+        operativeIds: [op.sourceOperativeId],
+      }));
+
+  const addDeckCard = () => {
+    const card: ActivationCard = {
+      id: generateUniqueId('deck-card'),
+      label: 'New Card',
+      operativeIds: [],
+    };
     setState((prev) => ({
       ...prev,
-      activationNumber: 1,
-      activeSide: prev.initiative,
+      activationDeck: [...prev.activationDeck, card],
     }));
+  };
+
+  const updateDeckCard = (cardId: string, updates: Partial<ActivationCard>) => {
+    setState((prev) => ({
+      ...prev,
+      activationDeck: prev.activationDeck.map((c) =>
+        c.id === cardId ? { ...c, ...updates } : c
+      ),
+    }));
+  };
+
+  const removeDeckCard = (cardId: string) => {
+    setState((prev) => ({
+      ...prev,
+      activationDeck: prev.activationDeck.filter((c) => c.id !== cardId),
+    }));
+    setDrawPile((prev) => prev.filter((id) => id !== cardId));
+    if (drawnCardId === cardId) setDrawnCardId(null);
+  };
+
+  // --- Activation flow ---
+
+  const startActivationSequence = () => {
+    setState((prev) => {
+      let deck = prev.activationDeck;
+      if (deck.length === 0) {
+        deck = buildDeckFromNpoOperatives(runnerOperatives);
+      }
+      const pile = buildShuffledPile(deck, runnerOperatives);
+      setDrawPile(pile);
+      setDrawnCardId(null);
+      return {
+        ...prev,
+        activationDeck: deck,
+        activationNumber: 1,
+        activeSide: prev.initiative,
+      };
+    });
+  };
+
+  const drawNextNpoCard = (
+    pile: string[],
+    deck: ActivationCard[],
+    ops: RunnerOperative[]
+  ): { cardId: string | null; remaining: string[] } => {
+    const remaining = [...pile];
+    while (remaining.length > 0) {
+      const cardId = remaining.shift()!;
+      const card = deck.find((c) => c.id === cardId);
+      if (!card || isCardExhausted(card, ops)) continue;
+      return { cardId, remaining };
+    }
+    return { cardId: null, remaining: [] };
   };
 
   const nextActivation = () => {
-    setState((prev) => ({
-      ...prev,
-      activationNumber: prev.activationNumber + 1,
-      activeSide: prev.activeSide === 'player' ? 'npo' : 'player',
-    }));
+    setState((prev) => {
+      const nextSide: ActivationSide =
+        prev.activeSide === 'player' ? 'npo' : 'player';
+      const nextNumber = prev.activationNumber + 1;
+
+      if (nextSide === 'npo') {
+        const { cardId, remaining } = drawNextNpoCard(
+          drawPile,
+          prev.activationDeck,
+          runnerOperatives
+        );
+        setDrawPile(remaining);
+        setDrawnCardId(cardId);
+      } else {
+        setDrawnCardId(null);
+      }
+
+      return {
+        ...prev,
+        activationNumber: nextNumber,
+        activeSide: nextSide,
+      };
+    });
   };
 
   const nextTurningPoint = () => {
-    setState((prev) => ({
-      ...prev,
-      turningPoint: prev.turningPoint + 1,
-      activationNumber: 0,
-      activeSide: prev.initiative,
-    }));
+    setState((prev) => {
+      const pile = buildShuffledPile(prev.activationDeck, runnerOperatives);
+      setDrawPile(pile);
+      setDrawnCardId(null);
+      return {
+        ...prev,
+        turningPoint: prev.turningPoint + 1,
+        activationNumber: 0,
+        activeSide: prev.initiative,
+      };
+    });
   };
 
   const createProfile = () => {
@@ -2302,6 +2446,114 @@ export function SoloJointOpsView() {
           </section>
 
           <section className="solo-card">
+            <h3>Activation Deck</h3>
+            <p className="deck-description">
+              Default activation deck — one card per NPO operative, shuffled
+              each turning point. Customise cards before starting.
+            </p>
+
+            {state.activationDeck.length === 0 ? (
+              <p className="deck-empty-note">
+                No cards configured. A card per NPO operative will be
+                auto-generated when activations start.
+              </p>
+            ) : (
+              <ul className="deck-card-list">
+                {state.activationDeck.map((card) => {
+                  const exhausted = isCardExhausted(card, runnerOperatives);
+                  return (
+                    <li
+                      key={card.id}
+                      className={`deck-card-item${exhausted ? ' deck-card-exhausted' : ''}`}
+                    >
+                      <input
+                        aria-label="Card label"
+                        value={card.label}
+                        onChange={(e) =>
+                          updateDeckCard(card.id, { label: e.target.value })
+                        }
+                      />
+                      <div className="deck-card-links">
+                        <span className="deck-card-links-label">
+                          Linked operatives:
+                        </span>
+                        {runnerOperatives
+                          .filter((op) => op.side === 'npo')
+                          .map((op) => {
+                            const linked = card.operativeIds.includes(
+                              op.sourceOperativeId
+                            );
+                            return (
+                              <label
+                                key={op.id}
+                                className="deck-card-link-toggle"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={linked}
+                                  onChange={() => {
+                                    const next = linked
+                                      ? card.operativeIds.filter(
+                                          (id) => id !== op.sourceOperativeId
+                                        )
+                                      : [
+                                          ...card.operativeIds,
+                                          op.sourceOperativeId,
+                                        ];
+                                    updateDeckCard(card.id, {
+                                      operativeIds: next,
+                                    });
+                                  }}
+                                />
+                                {op.name}
+                              </label>
+                            );
+                          })}
+                        {runnerOperatives.filter((op) => op.side === 'npo')
+                          .length === 0 && (
+                          <span className="deck-no-operatives">
+                            No NPO operatives selected yet.
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        className="danger-button"
+                        onClick={() => removeDeckCard(card.id)}
+                      >
+                        Remove
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+
+            <div className="deck-actions">
+              <button type="button" onClick={addDeckCard}>
+                Add Card
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const generated =
+                    buildDeckFromNpoOperatives(runnerOperatives);
+                  setState((prev) => ({
+                    ...prev,
+                    activationDeck: generated,
+                  }));
+                }}
+                disabled={
+                  runnerOperatives.filter((op) => op.side === 'npo').length ===
+                  0
+                }
+              >
+                Reset to Default (one card per operative)
+              </button>
+            </div>
+          </section>
+
+          <section className="solo-card">
             <h3>Activation</h3>
             <div className="activation-controls">
               <label htmlFor="initiative-side">Initiative</label>
@@ -2339,6 +2591,34 @@ export function SoloJointOpsView() {
               Turning Point {state.turningPoint} · Activation{' '}
               {state.activationNumber} · Active: {activeTeamLabel}
             </p>
+            {state.activeSide === 'npo' &&
+              state.activationNumber > 0 &&
+              (() => {
+                const card = state.activationDeck.find(
+                  (c) => c.id === drawnCardId
+                );
+                return (
+                  <div
+                    className="current-activation"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <strong>Current NPO Activation:</strong>{' '}
+                    {card ? card.label : '—'}
+                    {drawPile.length > 0 && (
+                      <span className="deck-remaining">
+                        {drawPile.length} card
+                        {drawPile.length !== 1 ? 's' : ''} remaining
+                      </span>
+                    )}
+                    {drawPile.length === 0 && state.activationNumber > 0 && (
+                      <span className="deck-exhausted-note">
+                        Deck exhausted — use Next Turning Point to reshuffle.
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
           </section>
 
           <section className="solo-card">
@@ -2348,7 +2628,18 @@ export function SoloJointOpsView() {
             ) : (
               <div className="npo-cards">
                 {runnerOperatives.map((operative) => (
-                  <article className="npo-card" key={operative.id}>
+                  <article
+                    className={`npo-card${operative.incapacitated ? ' npo-card-incapacitated' : ''}${
+                      state.activeSide === 'npo' &&
+                      drawnCardId !== null &&
+                      state.activationDeck
+                        .find((c) => c.id === drawnCardId)
+                        ?.operativeIds.includes(operative.sourceOperativeId)
+                        ? ' npo-card-active'
+                        : ''
+                    }`}
+                    key={operative.id}
+                  >
                     <h4>
                       {operative.name}{' '}
                       <small>
@@ -2395,6 +2686,20 @@ export function SoloJointOpsView() {
                       />
                       Injured
                     </label>
+                    {operative.side === 'npo' && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={operative.incapacitated}
+                          onChange={(event) =>
+                            updateRunnerOperative(operative.id, {
+                              incapacitated: event.target.checked,
+                            })
+                          }
+                        />
+                        Incapacitated
+                      </label>
+                    )}
                   </article>
                 ))}
               </div>
