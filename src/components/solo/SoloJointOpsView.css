@@ -29,9 +29,9 @@
 .game-runner-setup-gate {
   order: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, auto);
+  grid-template-columns: 1fr;
   align-items: start;
-  gap: 0.65rem;
+  gap: 0.55rem;
 }
 
 .game-runner-setup-copy {
@@ -41,22 +41,36 @@
 .game-runner-setup-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.45rem;
+  gap: 0.55rem;
 }
 
 .game-runner-setup-action {
   display: grid;
   align-content: start;
-  gap: 0.25rem;
+  gap: 0.35rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem 0.55rem;
+  background: color-mix(in srgb, var(--surface-color) 90%, black);
 }
 
 .game-runner-setup-action button {
   width: 100%;
+  text-align: left;
+}
+
+.setup-action-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text-secondary) 85%, white);
 }
 
 .setup-action-meta {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
+  line-height: 1.3;
   color: var(--text-secondary);
 }
 
@@ -74,6 +88,10 @@
   background: #f97316;
   border-color: #ea580c;
   color: #fff;
+}
+
+.game-runner-setup-gate.is-warning .game-runner-setup-action {
+  background: color-mix(in srgb, #ffedd5 26%, var(--surface-color));
 }
 
 .setup-modal-backdrop {
@@ -859,6 +877,7 @@
 
   .game-runner-setup-actions {
     grid-template-columns: 1fr;
+    gap: 0.4rem;
   }
 
   .game-runner-setup-gate button {

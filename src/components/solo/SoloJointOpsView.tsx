@@ -2230,11 +2230,20 @@ export function SoloJointOpsView() {
             </div>
             <div className="game-runner-setup-actions">
               <div className="game-runner-setup-action">
+                <span className="setup-action-label">Team Setup</span>
                 <button type="button" onClick={() => setIsTeamSetupOpen(true)}>
                   {isGameSetupComplete ? 'Manage Team Setup' : '⚠️ Setup Team'}
                 </button>
+                <p className="setup-action-meta">
+                  {isGameSetupComplete
+                    ? 'NPO team ready. Player team is optional.'
+                    : 'Required before activation flow can start.'}
+                </p>
               </div>
               <div className="game-runner-setup-action">
+                <span className="setup-action-label">
+                  Activation Deck Setup
+                </span>
                 <button type="button" onClick={() => setIsDeckSetupOpen(true)}>
                   Manage Activation Deck ({totalDeckCardInstances} card
                   {totalDeckCardInstances !== 1 ? 's' : ''})
