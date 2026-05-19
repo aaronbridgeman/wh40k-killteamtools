@@ -3024,33 +3024,38 @@ export function SoloJointOpsView() {
                           </span>
                         </div>
                         {renderProfileSummary(operative.profileId)}
-                        <p className="npo-card-damage">
-                          Damage Taken: {operative.damageTaken}
-                        </p>
-                        <div className="npo-card-actions-row">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              updateRunnerOperative(operative.id, {
-                                damageTaken: Math.max(
-                                  0,
-                                  operative.damageTaken - 1
-                                ),
-                              })
-                            }
-                          >
-                            -1
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              updateRunnerOperative(operative.id, {
-                                damageTaken: operative.damageTaken + 1,
-                              })
-                            }
-                          >
-                            +1
-                          </button>
+                        <div className="npo-card-damage-controls">
+                          <p className="npo-card-damage">
+                            Damage Taken:{' '}
+                            <strong className="npo-card-damage-value">
+                              {operative.damageTaken}
+                            </strong>
+                          </p>
+                          <div className="npo-card-actions-row">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateRunnerOperative(operative.id, {
+                                  damageTaken: Math.max(
+                                    0,
+                                    operative.damageTaken - 1
+                                  ),
+                                })
+                              }
+                            >
+                              -1
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateRunnerOperative(operative.id, {
+                                  damageTaken: operative.damageTaken + 1,
+                                })
+                              }
+                            >
+                              +1
+                            </button>
+                          </div>
                         </div>
                       </article>
                     ))}

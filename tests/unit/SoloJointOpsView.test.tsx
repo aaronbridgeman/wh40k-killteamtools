@@ -174,16 +174,18 @@ describe('SoloJointOpsView', () => {
     const operativeCard = matchingRunnerHeadings[0].closest('article');
     expect(operativeCard).not.toBeNull();
 
-    expect(
-      within(operativeCard as HTMLElement).getByText('Damage Taken: 0')
-    ).toBeInTheDocument();
+    const damageRow = (operativeCard as HTMLElement).querySelector(
+      '.npo-card-damage'
+    );
+    expect(damageRow).not.toBeNull();
+
+    expect(damageRow as HTMLElement).toHaveTextContent('Damage Taken:');
+    expect(damageRow as HTMLElement).toHaveTextContent('0');
 
     fireEvent.click(
       within(operativeCard as HTMLElement).getByRole('button', { name: '+1' })
     );
-    expect(
-      within(operativeCard as HTMLElement).getByText('Damage Taken: 1')
-    ).toBeInTheDocument();
+    expect(damageRow as HTMLElement).toHaveTextContent('1');
 
     fireEvent.click(
       within(operativeCard as HTMLElement).getByRole('button', { name: '-1' })
@@ -191,9 +193,7 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(
       within(operativeCard as HTMLElement).getByRole('button', { name: '-1' })
     );
-    expect(
-      within(operativeCard as HTMLElement).getByText('Damage Taken: 0')
-    ).toBeInTheDocument();
+    expect(damageRow as HTMLElement).toHaveTextContent('0');
 
     const npoStatusPanel = screen.getByRole('heading', {
       name: 'NPO Operative Status',

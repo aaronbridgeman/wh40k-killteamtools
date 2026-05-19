@@ -717,15 +717,40 @@
   background: color-mix(in srgb, var(--surface-color) 86%, black);
 }
 
+.npo-card-damage-controls {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.3rem 0.4rem;
+  background: color-mix(in srgb, var(--surface-color) 86%, black);
+  display: grid;
+  gap: 0.3rem;
+}
+
 .npo-card-damage {
-  margin: 0.1rem 0 0.3rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: 0.83rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.npo-card-damage-value {
+  font-size: 1rem;
+  line-height: 1;
+  color: color-mix(in srgb, #fecaca 85%, white);
 }
 
 .npo-card-actions-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.npo-card-actions-row button {
+  width: 100%;
+  padding: 0.35rem 0.55rem;
 }
 
 .incap-toggle {
