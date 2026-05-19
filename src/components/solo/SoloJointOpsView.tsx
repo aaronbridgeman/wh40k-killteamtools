@@ -2132,6 +2132,35 @@ export function SoloJointOpsView() {
    * Renders summary content for Datacard entries, resolved profiles,
    * or a fallback when the referenced profile cannot be found.
    */
+  const parseSpecialRules = (specialRules: string): string[] =>
+    specialRules
+      .split(',')
+      .map((rule) => rule.trim())
+      .filter(Boolean);
+
+  const parseBehaviorRules = (
+    behaviorRules: string
+  ): { intro: string; steps: string[] } => {
+    const normalized = behaviorRules.replace(/\s+/g, ' ').trim();
+    if (!normalized) {
+      return { intro: '', steps: [] };
+    }
+
+    const firstStepIndex = normalized.search(/\b1\.\s*/);
+    if (firstStepIndex === -1) {
+      return { intro: normalized, steps: [] };
+    }
+
+    const intro = normalized.slice(0, firstStepIndex).trim();
+    const steps = normalized
+      .slice(firstStepIndex)
+      .split(/(?=\b\d+\.\s)/)
+      .map((step) => step.replace(/^\d+\.\s*/, '').trim())
+      .filter(Boolean);
+
+    return { intro, steps };
+  };
+
   const renderProfileSummary = (profileId: string) => {
     if (profileId === DATACARD_PROFILE_ID) {
       return (
@@ -2144,23 +2173,117 @@ export function SoloJointOpsView() {
     if (!profile) {
       return <p className="profile-summary">Profile data unavailable.</p>;
     }
+
+    const behavior = parseBehaviorRules(profile.behaviorRules);
+
     return (
       <div className="profile-summary">
-        <p>
-          APL {profile.apl} · Move {profile.move} · Save {profile.save} · Wounds{' '}
-          {profile.wounds}
-        </p>
-        <p>
-          Ranged:{' '}
-          {profile.rangedWeapons.map((weapon) => weapon.name).join(', ') ||
-            'None'}
-        </p>
-        <p>
-          Melee:{' '}
-          {profile.meleeWeapons.map((weapon) => weapon.name).join(', ') ||
-            'None'}
-        </p>
-        {profile.behaviorRules && <p>Behavior: {profile.behaviorRules}</p>}
+        <div className="profile-stats-grid">
+          <div className="profile-stat-chip is-apl">
+            <span className="profile-stat-label">⚡ APL</span>
+            <strong>{profile.apl}</strong>
+          </div>
+          <div className="profile-stat-chip is-move">
+            <span className="profile-stat-label">🏃 Move</span>
+            <strong>{profile.move}</strong>
+          </div>
+          <div className="profile-stat-chip is-save">
+            <span className="profile-stat-label">🛡️ Save</span>
+            <strong>{profile.save}</strong>
+          </div>
+          <div className="profile-stat-chip is-wounds">
+            <span className="profile-stat-label">❤️ Wounds</span>
+            <strong>{profile.wounds}</strong>
+          </div>
+        </div>
+
+        <div className="runner-weapon-section">
+          <h5>🔫 Ranged Weapons</h5>
+          {profile.rangedWeapons.length === 0 ? (
+            <p className="runner-weapon-none">None</p>
+          ) : (
+            <div className="runner-weapon-list">
+              {profile.rangedWeapons.map((weapon) => {
+                const rules = parseSpecialRules(weapon.specialRules);
+                return (
+                  <article className="runner-weapon-card" key={weapon.id}>
+                    <p className="runner-weapon-name">{weapon.name}</p>
+                    <div className="runner-weapon-metrics">
+                      <span>{weapon.attacks}A</span>
+                      <span>{weapon.skill}</span>
+                      <span>
+                        N/C {weapon.damage}/{weapon.criticalDamage}
+                      </span>
+                    </div>
+                    {rules.length > 0 ? (
+                      <div className="runner-weapon-rules">
+                        {rules.map((rule) => (
+                          <span className="runner-weapon-rule-chip" key={rule}>
+                            {rule}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="runner-weapon-no-rules">No special rules</p>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        <div className="runner-weapon-section">
+          <h5>⚔️ Melee Weapons</h5>
+          {profile.meleeWeapons.length === 0 ? (
+            <p className="runner-weapon-none">None</p>
+          ) : (
+            <div className="runner-weapon-list">
+              {profile.meleeWeapons.map((weapon) => {
+                const rules = parseSpecialRules(weapon.specialRules);
+                return (
+                  <article className="runner-weapon-card" key={weapon.id}>
+                    <p className="runner-weapon-name">{weapon.name}</p>
+                    <div className="runner-weapon-metrics">
+                      <span>{weapon.attacks}A</span>
+                      <span>{weapon.skill}</span>
+                      <span>
+                        N/C {weapon.damage}/{weapon.criticalDamage}
+                      </span>
+                    </div>
+                    {rules.length > 0 ? (
+                      <div className="runner-weapon-rules">
+                        {rules.map((rule) => (
+                          <span className="runner-weapon-rule-chip" key={rule}>
+                            {rule}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="runner-weapon-no-rules">No special rules</p>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {profile.behaviorRules && (
+          <div className="runner-behavior">
+            <p className="runner-behavior-title">🤖 Behavior</p>
+            {behavior.intro && (
+              <p className="runner-behavior-intro">{behavior.intro}</p>
+            )}
+            {behavior.steps.length > 0 ? (
+              <ol className="runner-behavior-steps">
+                {behavior.steps.map((step, index) => (
+                  <li key={`${profile.id}-step-${index}`}>{step}</li>
+                ))}
+              </ol>
+            ) : null}
+          </div>
+        )}
       </div>
     );
   };
