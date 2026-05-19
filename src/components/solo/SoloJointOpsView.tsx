@@ -5,6 +5,7 @@ import './SoloJointOpsView.css';
 type ActivationSide = 'player' | 'npo';
 type SoloTab = 'game-runner' | 'list-builder' | 'profile-manager';
 type NemesisSize = 'small' | 'medium' | 'large' | 'custom';
+type NemesisWeaponType = 'ranged' | 'melee';
 type NpoTeamSelectionRule =
   | 'manual'
   | 'random'
@@ -58,6 +59,15 @@ interface NemesisOperative {
   name: string;
   size: NemesisSize;
   profileId: string;
+  rangedWeapons: SoloWeaponProfile[];
+  meleeWeapons: SoloWeaponProfile[];
+}
+
+interface NemesisWeaponOption {
+  id: string;
+  type: NemesisWeaponType;
+  source: 'official' | 'consolidated';
+  profile: SoloWeaponProfile;
 }
 
 interface CatalogTeam {
@@ -171,12 +181,367 @@ const NEMESIS_SIZE_PRESETS: Record<
     move: string;
     save: string;
     wounds: number;
+    maxWeapons: number;
   }
 > = {
-  small: { control: 4, move: '6"', save: '4+', wounds: 35 },
-  medium: { control: 5, move: '6"', save: '4+', wounds: 50 },
-  large: { control: 6, move: '6"', save: '4+', wounds: 75 },
+  small: { control: 4, move: '6"', save: '4+', wounds: 35, maxWeapons: 2 },
+  medium: { control: 5, move: '6"', save: '4+', wounds: 50, maxWeapons: 2 },
+  large: { control: 6, move: '6"', save: '4+', wounds: 75, maxWeapons: 3 },
 };
+
+const CUSTOM_NEMESIS_WEAPON_LIMIT = 2;
+
+// Official nemesis weapons from uploaded tables.
+const OFFICIAL_NEMESIS_RANGED_WEAPONS: SoloWeaponProfile[] = [
+  {
+    id: 'official-ranged-autocannon',
+    name: 'Autocannon',
+    attacks: 5,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '6',
+    specialRules: '',
+  },
+  {
+    id: 'official-ranged-burst-cannon',
+    name: 'Burst cannon',
+    attacks: 5,
+    skill: '3+',
+    damage: '3',
+    criticalDamage: '4',
+    specialRules: 'Ceaseless, Torrent 1"',
+  },
+  {
+    id: 'official-ranged-cyclic-ion-raker',
+    name: 'Cyclic ion raker',
+    attacks: 5,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules:
+      'Heavy (Reposition only), Piercing 1, Selection 2, Torrent 2"',
+  },
+  {
+    id: 'official-ranged-flamestorm-cannon',
+    name: 'Flamestorm cannon',
+    attacks: 6,
+    skill: '2+',
+    damage: '3',
+    criticalDamage: '3',
+    specialRules: 'Range 8", Heavy (Reposition only), Selection 2, Torrent 2"',
+  },
+  {
+    id: 'official-ranged-havoc-launcher',
+    name: 'Havoc launcher',
+    attacks: 4,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '6',
+    specialRules: 'Blast 2"',
+  },
+  {
+    id: 'official-ranged-heavy-bolter',
+    name: 'Heavy bolter',
+    attacks: 5,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Piercing Crits 1, Torrent 1"',
+  },
+  {
+    id: 'official-ranged-heavy-flamer',
+    name: 'Heavy flamer',
+    attacks: 5,
+    skill: '2+',
+    damage: '3',
+    criticalDamage: '3',
+    specialRules: 'Range 8", Saturate, Torrent 2"',
+  },
+  {
+    id: 'official-ranged-heavy-onslaught-gatling-cannon',
+    name: 'Heavy onslaught gatling cannon',
+    attacks: 6,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Heavy (Reposition only), Selection 2, Torrent 2"',
+  },
+  {
+    id: 'official-ranged-heavy-phosphor-blaster',
+    name: 'Heavy phosphor blaster',
+    attacks: 5,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Saturate, Severe',
+  },
+  {
+    id: 'official-ranged-heavy-rail-rifle',
+    name: 'Heavy rail rifle',
+    attacks: 5,
+    skill: '3+',
+    damage: '6',
+    criticalDamage: '7',
+    specialRules: 'Heavy (Reposition only), Piercing 2, Selection 2',
+  },
+  {
+    id: 'official-ranged-heavy-stubber',
+    name: 'Heavy stubber',
+    attacks: 5,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Torrent 1"',
+  },
+  {
+    id: 'official-ranged-lascannon',
+    name: 'Lascannon',
+    attacks: 4,
+    skill: '3+',
+    damage: '6',
+    criticalDamage: '7',
+    specialRules: 'Heavy (Reposition only), Piercing 2',
+  },
+  {
+    id: 'official-ranged-macro-plasma-incinerator-standard',
+    name: 'Macro plasma incinerator (standard)',
+    attacks: 5,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '6',
+    specialRules: 'Blast 2", Heavy (Reposition only), Piercing 1, Selection 2',
+  },
+  {
+    id: 'official-ranged-macro-plasma-incinerator-supercharge',
+    name: 'Macro plasma incinerator (supercharge)',
+    attacks: 5,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '6',
+    specialRules:
+      'Blast 2", Heavy (Reposition only), Lethal 5+, Piercing 1, Selection 2',
+  },
+  {
+    id: 'official-ranged-meltagun',
+    name: 'Meltagun',
+    attacks: 4,
+    skill: '3+',
+    damage: '6',
+    criticalDamage: '3',
+    specialRules: 'Range 6", Devastating 4, Piercing 2',
+  },
+  {
+    id: 'official-ranged-missile-launcher-frag',
+    name: 'Missile launcher (frag)',
+    attacks: 4,
+    skill: '3+',
+    damage: '3',
+    criticalDamage: '5',
+    specialRules: 'Blast 2"',
+  },
+  {
+    id: 'official-ranged-missile-launcher-krak',
+    name: 'Missile launcher (krak)',
+    attacks: 4,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '7',
+    specialRules: 'Piercing 1',
+  },
+  {
+    id: 'official-ranged-multi-melta',
+    name: 'Multi-melta',
+    attacks: 4,
+    skill: '3+',
+    damage: '6',
+    criticalDamage: '3',
+    specialRules: 'Devastating 4, Heavy (Reposition only), Piercing 2',
+  },
+  {
+    id: 'official-ranged-plasma-cannon-standard',
+    name: 'Plasma cannon (standard)',
+    attacks: 4,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '6',
+    specialRules: 'Blast 2", Heavy (Reposition only), Piercing 1',
+  },
+  {
+    id: 'official-ranged-plasma-cannon-supercharge',
+    name: 'Plasma cannon (supercharge)',
+    attacks: 4,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '6',
+    specialRules:
+      'Blast 2", Heavy (Reposition only), Hot, Lethal 5+, Piercing 1',
+  },
+  {
+    id: 'official-ranged-plasma-gun-standard',
+    name: 'Plasma gun (standard)',
+    attacks: 4,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '6',
+    specialRules: 'Piercing 1',
+  },
+  {
+    id: 'official-ranged-plasma-gun-supercharge',
+    name: 'Plasma gun (supercharge)',
+    attacks: 4,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '6',
+    specialRules: 'Hot, Lethal 5+, Piercing 1',
+  },
+  {
+    id: 'official-ranged-rokkit-launcha',
+    name: 'Rokkit launcha',
+    attacks: 6,
+    skill: '4+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Blast 1"',
+  },
+  {
+    id: 'official-ranged-shuriken-cannon',
+    name: 'Shuriken cannon',
+    attacks: 5,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Rending, Torrent 1"',
+  },
+  {
+    id: 'official-ranged-splinter-cannon',
+    name: 'Splinter cannon',
+    attacks: 5,
+    skill: '3+',
+    damage: '3',
+    criticalDamage: '5',
+    specialRules: 'Lethal 5+, Torrent 1"',
+  },
+  {
+    id: 'official-ranged-starcannon',
+    name: 'Starcannon',
+    attacks: 4,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '6',
+    specialRules: 'Lethal 5+, Piercing 1',
+  },
+  {
+    id: 'official-ranged-stranglethorn-cannon',
+    name: 'Stranglethorn cannon',
+    attacks: 5,
+    skill: '3+',
+    damage: '3',
+    criticalDamage: '5',
+    specialRules: 'Blast 2", Lethal 5+',
+  },
+  {
+    id: 'official-ranged-thermal-spear',
+    name: 'Thermal spear',
+    attacks: 5,
+    skill: '3+',
+    damage: '6',
+    criticalDamage: '3',
+    specialRules:
+      "Devastating 4, Heavy (Reposition only), Piercing 2, Selection 2, Twinned: Select one other ranged weapon this operative has to have the Ceaseless weapon rule; if it's a burst cannon, add 1 to its Atk stat instead.",
+  },
+];
+const OFFICIAL_NEMESIS_MELEE_WEAPONS: SoloWeaponProfile[] = [
+  {
+    id: 'official-melee-chain-weapon',
+    name: 'Chain weapon',
+    attacks: 4,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '6',
+    specialRules: 'Brutal, Rending',
+  },
+  {
+    id: 'official-melee-close-combat-weapon',
+    name: 'Close combat weapon',
+    attacks: 3,
+    skill: '4+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Selection 0',
+  },
+  {
+    id: 'official-melee-dread-saw',
+    name: 'Dread saw',
+    attacks: 5,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Rending',
+  },
+  {
+    id: 'official-melee-fleshmower',
+    name: 'Fleshmower',
+    attacks: 5,
+    skill: '2+',
+    damage: '4',
+    criticalDamage: '5',
+    specialRules: 'Brutal',
+  },
+  {
+    id: 'official-melee-power-fist',
+    name: 'Power fist',
+    attacks: 4,
+    skill: '3+',
+    damage: '6',
+    criticalDamage: '8',
+    specialRules: 'Brutal, Shock',
+  },
+  {
+    id: 'official-melee-power-scourge',
+    name: 'Power scourge',
+    attacks: 6,
+    skill: '3+',
+    damage: '3',
+    criticalDamage: '5',
+    specialRules: 'Lethal 5+',
+  },
+  {
+    id: 'official-melee-power-talon',
+    name: 'Power talon',
+    attacks: 4,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '6',
+    specialRules: 'Lethal 5+, Rending',
+  },
+  {
+    id: 'official-melee-power-weapon',
+    name: 'Power weapon',
+    attacks: 4,
+    skill: '3+',
+    damage: '5',
+    criticalDamage: '7',
+    specialRules: 'Lethal 5+',
+  },
+  {
+    id: 'official-melee-scything-talons',
+    name: 'Scything talons',
+    attacks: 5,
+    skill: '3+',
+    damage: '4',
+    criticalDamage: '6',
+    specialRules: 'Ceaseless',
+  },
+  {
+    id: 'official-melee-thunder-hammer',
+    name: 'Thunder hammer',
+    attacks: 4,
+    skill: '3+',
+    damage: '6',
+    criticalDamage: '8',
+    specialRules: 'Shock, Stun',
+  },
+];
 
 const operativeCatalog = operativeCatalogData as OperativeCatalog;
 
@@ -194,6 +559,40 @@ const defaultWeapon = (name = 'Weapon Profile'): SoloWeaponProfile => ({
   criticalDamage: '4',
   specialRules: '',
 });
+
+const toWeaponKey = (weapon: SoloWeaponProfile): string =>
+  [
+    weapon.name.trim().toLowerCase(),
+    weapon.attacks,
+    weapon.skill.trim().toLowerCase(),
+    weapon.damage.trim().toLowerCase(),
+    weapon.criticalDamage.trim().toLowerCase(),
+    weapon.specialRules.trim().toLowerCase(),
+  ].join('|');
+
+const toWeaponOptionId = (weapon: SoloWeaponProfile, source: string): string =>
+  `${source}-${toWeaponKey(weapon)
+    .replace(/[^a-z0-9|]/g, '-')
+    .replace(/\|+/g, '-')}`;
+
+const dedupeWeapons = (weapons: SoloWeaponProfile[]): SoloWeaponProfile[] => {
+  const deduped = new Map<string, SoloWeaponProfile>();
+  weapons.forEach((weapon) => {
+    const key = toWeaponKey(weapon);
+    if (!deduped.has(key)) {
+      deduped.set(key, weapon);
+    }
+  });
+
+  return Array.from(deduped.values()).sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+};
+
+const getNemesisWeaponLimit = (size: NemesisSize): number =>
+  size === 'custom'
+    ? CUSTOM_NEMESIS_WEAPON_LIMIT
+    : NEMESIS_SIZE_PRESETS[size].maxWeapons;
 
 const defaultProfile = (): SoloProfile => ({
   id: generateUniqueId('profile'),
@@ -318,7 +717,11 @@ const isValidNemesisOperative = (value: unknown): value is NemesisOperative => {
     isString(nemesis.id) &&
     isString(nemesis.name) &&
     isValidNemesisSize(nemesis.size) &&
-    isString(nemesis.profileId)
+    isString(nemesis.profileId) &&
+    Array.isArray(nemesis.rangedWeapons) &&
+    nemesis.rangedWeapons.every(isValidWeaponProfile) &&
+    Array.isArray(nemesis.meleeWeapons) &&
+    nemesis.meleeWeapons.every(isValidWeaponProfile)
   );
 };
 
@@ -442,7 +845,20 @@ const loadState = (): SoloJointOpsState => {
       )
         ? (
             (maybe as { nemesisOperatives?: unknown[] }).nemesisOperatives ?? []
-          ).filter(isValidNemesisOperative)
+          ).flatMap((entry) => {
+            if (!entry || typeof entry !== 'object') return [];
+            const legacy = entry as Partial<NemesisOperative>;
+            const normalized = {
+              ...legacy,
+              rangedWeapons: Array.isArray(legacy.rangedWeapons)
+                ? legacy.rangedWeapons
+                : [],
+              meleeWeapons: Array.isArray(legacy.meleeWeapons)
+                ? legacy.meleeWeapons
+                : [],
+            };
+            return isValidNemesisOperative(normalized) ? [normalized] : [];
+          })
         : [];
       const lists = maybe.lists.filter(isValidList);
       if (profiles.length === 0 || lists.length === 0) continue;
@@ -1303,6 +1719,10 @@ export function SoloJointOpsView() {
   const [customNemesisMove, setCustomNemesisMove] = useState('6"');
   const [customNemesisSave, setCustomNemesisSave] = useState('4+');
   const [customNemesisWounds, setCustomNemesisWounds] = useState(50);
+  const [selectedNemesisRangedWeaponIds, setSelectedNemesisRangedWeaponIds] =
+    useState<string[]>([]);
+  const [selectedNemesisMeleeWeaponIds, setSelectedNemesisMeleeWeaponIds] =
+    useState<string[]>([]);
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const [transferHint, setTransferHint] = useState<TransferHint | null>(null);
   // Ephemeral draw-pile: card IDs in shuffled order, reset via Reset Deck
@@ -2095,6 +2515,29 @@ export function SoloJointOpsView() {
     const normalizedName = newNemesisName.trim();
     if (!normalizedName) return;
 
+    const selectedRangedWeapons = selectedNemesisRangedWeaponIds
+      .map(
+        (weaponId) =>
+          nemesisRangedWeaponOptions.find((option) => option.id === weaponId)
+            ?.profile
+      )
+      .filter((weapon): weapon is SoloWeaponProfile => Boolean(weapon))
+      .map((weapon) => ({
+        ...weapon,
+        id: generateUniqueId('weapon'),
+      }));
+    const selectedMeleeWeapons = selectedNemesisMeleeWeaponIds
+      .map(
+        (weaponId) =>
+          nemesisMeleeWeaponOptions.find((option) => option.id === weaponId)
+            ?.profile
+      )
+      .filter((weapon): weapon is SoloWeaponProfile => Boolean(weapon))
+      .map((weapon) => ({
+        ...weapon,
+        id: generateUniqueId('weapon'),
+      }));
+
     const resolvedStats =
       newNemesisSize === 'custom'
         ? {
@@ -2114,8 +2557,8 @@ export function SoloJointOpsView() {
       move: resolvedStats.move,
       save: resolvedStats.save,
       wounds: resolvedStats.wounds,
-      rangedWeapons: [],
-      meleeWeapons: [],
+      rangedWeapons: selectedRangedWeapons,
+      meleeWeapons: selectedMeleeWeapons,
       behaviorRules: '',
       usesControlStat: true,
     };
@@ -2125,6 +2568,8 @@ export function SoloJointOpsView() {
       name: normalizedName,
       size: newNemesisSize,
       profileId,
+      rangedWeapons: selectedRangedWeapons,
+      meleeWeapons: selectedMeleeWeapons,
     };
 
     setState((prev) => ({
@@ -2327,7 +2772,21 @@ export function SoloJointOpsView() {
         ? parsed.profiles.filter(isValidProfile)
         : [];
       const importedNemesisOperatives = Array.isArray(parsed.nemesisOperatives)
-        ? parsed.nemesisOperatives.filter(isValidNemesisOperative)
+        ? parsed.nemesisOperatives.flatMap((entry) => {
+            if (!entry || typeof entry !== 'object') return [];
+            const legacy = entry as Partial<NemesisOperative>;
+            const normalized = {
+              ...legacy,
+              rangedWeapons: Array.isArray(legacy.rangedWeapons)
+                ? legacy.rangedWeapons
+                : [],
+              meleeWeapons: Array.isArray(legacy.meleeWeapons)
+                ? legacy.meleeWeapons
+                : [],
+            };
+
+            return isValidNemesisOperative(normalized) ? [normalized] : [];
+          })
         : [];
 
       if (importedProfiles.length === 0) {
@@ -2355,8 +2814,92 @@ export function SoloJointOpsView() {
 
   const activeProfile =
     state.profiles.find((profile) => profile.id === editingProfileId) ?? null;
+  const consolidatedRangedWeaponPool = useMemo(
+    () =>
+      dedupeWeapons(
+        operativeCatalog.operatives.flatMap(
+          (operative) => operative.profile.rangedWeapons
+        )
+      ),
+    []
+  );
+  const consolidatedMeleeWeaponPool = useMemo(
+    () =>
+      dedupeWeapons(
+        operativeCatalog.operatives.flatMap(
+          (operative) => operative.profile.meleeWeapons
+        )
+      ),
+    []
+  );
+  const officialRangedWeaponPool = useMemo(
+    () => dedupeWeapons(OFFICIAL_NEMESIS_RANGED_WEAPONS),
+    []
+  );
+  const officialMeleeWeaponPool = useMemo(
+    () => dedupeWeapons(OFFICIAL_NEMESIS_MELEE_WEAPONS),
+    []
+  );
+  const nemesisRangedWeaponOptions = useMemo(() => {
+    const options: NemesisWeaponOption[] = [
+      ...officialRangedWeaponPool.map((profile) => ({
+        id: toWeaponOptionId(profile, 'official-ranged'),
+        type: 'ranged' as const,
+        source: 'official' as const,
+        profile,
+      })),
+      ...consolidatedRangedWeaponPool.map((profile) => ({
+        id: toWeaponOptionId(profile, 'consolidated-ranged'),
+        type: 'ranged' as const,
+        source: 'consolidated' as const,
+        profile,
+      })),
+    ];
+
+    const deduped = new Map<string, NemesisWeaponOption>();
+    options.forEach((option) => {
+      const key = `${option.type}:${toWeaponKey(option.profile)}`;
+      if (!deduped.has(key) || option.source === 'official') {
+        deduped.set(key, option);
+      }
+    });
+
+    return Array.from(deduped.values());
+  }, [consolidatedRangedWeaponPool, officialRangedWeaponPool]);
+  const nemesisMeleeWeaponOptions = useMemo(() => {
+    const options: NemesisWeaponOption[] = [
+      ...officialMeleeWeaponPool.map((profile) => ({
+        id: toWeaponOptionId(profile, 'official-melee'),
+        type: 'melee' as const,
+        source: 'official' as const,
+        profile,
+      })),
+      ...consolidatedMeleeWeaponPool.map((profile) => ({
+        id: toWeaponOptionId(profile, 'consolidated-melee'),
+        type: 'melee' as const,
+        source: 'consolidated' as const,
+        profile,
+      })),
+    ];
+
+    const deduped = new Map<string, NemesisWeaponOption>();
+    options.forEach((option) => {
+      const key = `${option.type}:${toWeaponKey(option.profile)}`;
+      if (!deduped.has(key) || option.source === 'official') {
+        deduped.set(key, option);
+      }
+    });
+
+    return Array.from(deduped.values());
+  }, [consolidatedMeleeWeaponPool, officialMeleeWeaponPool]);
   const selectedNemesisPreset =
     newNemesisSize === 'custom' ? null : NEMESIS_SIZE_PRESETS[newNemesisSize];
+  const selectedNemesisWeaponCount =
+    selectedNemesisRangedWeaponIds.length +
+    selectedNemesisMeleeWeaponIds.length;
+  const selectedNemesisWeaponLimit = getNemesisWeaponLimit(newNemesisSize);
+  const isNemesisWeaponLimitExceeded =
+    selectedNemesisWeaponCount > selectedNemesisWeaponLimit;
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
   const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
 
@@ -2364,6 +2907,46 @@ export function SoloJointOpsView() {
     if (profileId === DATACARD_PROFILE_ID) return 'Datacard';
     return profileLookup.get(profileId)?.name ?? 'Unknown Profile';
   };
+
+  useEffect(() => {
+    const validIds = new Set(
+      nemesisRangedWeaponOptions.map((option) => option.id)
+    );
+    setSelectedNemesisRangedWeaponIds((prev) => {
+      const filtered = prev.filter((id) => validIds.has(id));
+      if (filtered.length > 0) return filtered;
+
+      const defaults = nemesisRangedWeaponOptions
+        .filter((option) => option.source === 'official')
+        .slice(0, selectedNemesisWeaponLimit)
+        .map((option) => option.id);
+      if (defaults.length > 0) return defaults;
+
+      return nemesisRangedWeaponOptions
+        .slice(0, Math.min(1, selectedNemesisWeaponLimit))
+        .map((option) => option.id);
+    });
+  }, [nemesisRangedWeaponOptions, selectedNemesisWeaponLimit]);
+
+  useEffect(() => {
+    const validIds = new Set(
+      nemesisMeleeWeaponOptions.map((option) => option.id)
+    );
+    setSelectedNemesisMeleeWeaponIds((prev) => {
+      const filtered = prev.filter((id) => validIds.has(id));
+      if (filtered.length > 0) return filtered;
+
+      const defaults = nemesisMeleeWeaponOptions
+        .filter((option) => option.source === 'official')
+        .slice(0, selectedNemesisWeaponLimit)
+        .map((option) => option.id);
+      if (defaults.length > 0) return defaults;
+
+      return nemesisMeleeWeaponOptions
+        .slice(0, Math.min(1, selectedNemesisWeaponLimit))
+        .map((option) => option.id);
+    });
+  }, [nemesisMeleeWeaponOptions, selectedNemesisWeaponLimit]);
 
   useEffect(() => {
     if (!transferHint) return;
@@ -3629,9 +4212,119 @@ export function SoloJointOpsView() {
               <p className="team-selection-meta">
                 Control {selectedNemesisPreset.control} · Move{' '}
                 {selectedNemesisPreset.move} · Save {selectedNemesisPreset.save}{' '}
-                · Wounds {selectedNemesisPreset.wounds}
+                · Wounds {selectedNemesisPreset.wounds} · Weapon selections{' '}
+                {selectedNemesisPreset.maxWeapons}
               </p>
             )}
+
+            {newNemesisSize === 'custom' && (
+              <p className="team-selection-meta">
+                Custom weapon selection limit: {CUSTOM_NEMESIS_WEAPON_LIMIT}
+              </p>
+            )}
+
+            <p className="team-selection-meta">
+              Selected weapons: {selectedNemesisWeaponCount} /{' '}
+              {selectedNemesisWeaponLimit}
+            </p>
+            {isNemesisWeaponLimitExceeded && (
+              <p className="deck-exhausted-note" role="status">
+                Warning: selected weapons exceed the recommended limit for this
+                nemesis size. Manual override is allowed.
+              </p>
+            )}
+
+            <div className="profile-weapon-layout">
+              <section className="profile-weapon-group">
+                <h5>Nemesis Ranged Weapons</h5>
+                <p className="team-selection-meta">
+                  Official: {officialRangedWeaponPool.length} · Consolidated:{' '}
+                  {consolidatedRangedWeaponPool.length}
+                </p>
+                {officialRangedWeaponPool.length === 0 && (
+                  <p className="team-transfer-empty">
+                    Official ranged table not loaded yet. Consolidated entries
+                    are generated from current operative profiles.
+                  </p>
+                )}
+                <ul>
+                  {nemesisRangedWeaponOptions.map((option) => {
+                    const selected = selectedNemesisRangedWeaponIds.includes(
+                      option.id
+                    );
+                    return (
+                      <li key={option.id}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={selected}
+                            onChange={() => {
+                              setSelectedNemesisRangedWeaponIds((prev) =>
+                                selected
+                                  ? prev.filter((id) => id !== option.id)
+                                  : [...prev, option.id]
+                              );
+                            }}
+                            aria-label={`Select ranged weapon ${option.profile.name}`}
+                          />{' '}
+                          {option.profile.name}{' '}
+                          <small>
+                            ({option.source}, {option.profile.attacks}A,{' '}
+                            {option.profile.skill}, {option.profile.damage}/
+                            {option.profile.criticalDamage})
+                          </small>
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+
+              <section className="profile-weapon-group">
+                <h5>Nemesis Melee Weapons</h5>
+                <p className="team-selection-meta">
+                  Official: {officialMeleeWeaponPool.length} · Consolidated:{' '}
+                  {consolidatedMeleeWeaponPool.length}
+                </p>
+                {officialMeleeWeaponPool.length === 0 && (
+                  <p className="team-transfer-empty">
+                    Official melee table not loaded yet. Consolidated entries
+                    are generated from current operative profiles.
+                  </p>
+                )}
+                <ul>
+                  {nemesisMeleeWeaponOptions.map((option) => {
+                    const selected = selectedNemesisMeleeWeaponIds.includes(
+                      option.id
+                    );
+                    return (
+                      <li key={option.id}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={selected}
+                            onChange={() => {
+                              setSelectedNemesisMeleeWeaponIds((prev) =>
+                                selected
+                                  ? prev.filter((id) => id !== option.id)
+                                  : [...prev, option.id]
+                              );
+                            }}
+                            aria-label={`Select melee weapon ${option.profile.name}`}
+                          />{' '}
+                          {option.profile.name}{' '}
+                          <small>
+                            ({option.source}, {option.profile.attacks}A,{' '}
+                            {option.profile.skill}, {option.profile.damage}/
+                            {option.profile.criticalDamage})
+                          </small>
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            </div>
 
             {newNemesisSize === 'custom' && (
               <div className="profile-editor-grid">
@@ -3696,6 +4389,10 @@ export function SoloJointOpsView() {
               <ul>
                 {state.nemesisOperatives.map((nemesis) => {
                   const profile = profileLookup.get(nemesis.profileId);
+                  const weaponCount =
+                    (profile?.rangedWeapons.length ?? 0) +
+                    (profile?.meleeWeapons.length ?? 0);
+                  const weaponLimit = getNemesisWeaponLimit(nemesis.size);
                   return (
                     <li key={nemesis.id}>
                       <span>
@@ -3704,8 +4401,18 @@ export function SoloJointOpsView() {
                         <small>
                           Control: {profile?.apl ?? '-'} · Move:{' '}
                           {profile?.move ?? '-'} · Save: {profile?.save ?? '-'}{' '}
-                          · Wounds: {profile?.wounds ?? '-'}
+                          · Wounds: {profile?.wounds ?? '-'} · Weapons:{' '}
+                          {weaponCount}/{weaponLimit}
                         </small>
+                        {weaponCount > weaponLimit && (
+                          <>
+                            <br />
+                            <small>
+                              Warning: weapon selections exceed recommended
+                              limit.
+                            </small>
+                          </>
+                        )}
                       </span>
                       <button
                         type="button"

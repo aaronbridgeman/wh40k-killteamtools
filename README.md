@@ -72,6 +72,8 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Datacard Default Option**: Player list entries default to a `Datacard` profile option
 - **NPO Profile Manager**: Create/edit/delete profile stat blocks with ranged/melee weapon profiles and behavior rules
 - **Nemesis Manager**: Create Nemesis operatives by name and size (Small/Medium/Large/Custom). Size presets set Control, Move, Save, and Wounds automatically
+- **Nemesis Weapon Selection Rules**: Size sets recommended weapon selection limits (Small 2, Medium 2, Large 3; Custom 2 default). Over-limit manual overrides are allowed with warning messages
+- **Consolidated Nemesis Weapon Pools**: Ranged and melee lists are auto-generated from operative profiles so they stay current as new operatives/weapon profiles are added; official table slots are scaffolded for future uploads
 - **Backup/Restore**: Import and export lists and profiles as JSON backup files
 
 ### Reference Pages

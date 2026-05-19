@@ -359,4 +359,50 @@ describe('SoloJointOpsView', () => {
       screen.getByText('Activation 0 · Deck remaining: 2')
     ).toBeInTheDocument();
   });
+
+  it('allows nemesis weapon limit override and shows a warning', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'NPO Profile Manager' })
+    );
+
+    fireEvent.change(screen.getByLabelText('Nemesis name'), {
+      target: { value: 'Overloaded Nemesis' },
+    });
+    fireEvent.change(screen.getByLabelText('Nemesis size'), {
+      target: { value: 'small' },
+    });
+
+    const weaponToggles = screen.getAllByRole('checkbox').filter((element) => {
+      const label = element.getAttribute('aria-label') ?? '';
+      return label.includes('Select ranged weapon') ||
+        label.includes('Select melee weapon');
+    });
+    expect(weaponToggles.length).toBeGreaterThan(0);
+
+    let toggled = 0;
+    weaponToggles.forEach((toggle) => {
+      if (toggled >= 3) return;
+      const input = toggle as HTMLInputElement;
+      if (!input.checked) {
+        fireEvent.click(toggle);
+        toggled += 1;
+      }
+    });
+
+    expect(
+      screen.getByText(/selected weapons exceed the recommended limit/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Create Nemesis Operative' })
+    );
+
+    expect(screen.getAllByText(/Overloaded Nemesis/i).length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(/Warning: weapon selections exceed recommended limit/i)
+        .length
+    ).toBeGreaterThan(0);
+  });
 });

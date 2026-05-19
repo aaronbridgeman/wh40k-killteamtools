@@ -405,6 +405,11 @@ JSON Schema will validate all configuration files to ensure:
    - Create Nemesis operatives with name and size (Small, Medium, Large, Custom)
    - Size presets assign Control/Move/Save/Wounds from mission-pack rules
    - Custom size allows manual Control/Move/Save/Wounds values
+   - Size assigns recommended weapon selection limits (Small 2, Medium 2, Large 3; Custom defaults to 2)
+   - Manual weapon-limit override is allowed and surfaced with explicit warning copy
+   - Supports separate ranged and melee weapon selection pools
+   - Consolidated ranged/melee pools are generated from operative weapon profiles to stay current as content expands
+   - Official ranged/melee list slots are scaffolded so uploaded tables can become the default source
    - Created Nemesis operatives are reusable in both player and NPO list builders
 
 ## 5. Data Extraction Strategy
