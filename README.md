@@ -66,7 +66,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Model + Profile Workflow**: Select a model first, then optionally override its profile; custom model descriptions are supported and require an explicit profile assignment
 - **NPO Profile Overrides**: NPO profile override selection includes built-in NPO catalog profiles (for example Marksman/Brawler roles) alongside custom profiles
 - **Team Builder (in Game Runner)**: Configure Player or NPO teams in focused setup panes; manual selection uses a dual-list transfer UI (available -> selected) while NPO teams also support automatic rule-driven selection up to a wounds limit
-- **Activation Deck Editor**: Deck panel is collapsed by default with total card count; per-card edit mode supports operative links and card instance counts (duplicates)
+- **Activation Deck Editor**: Compact deck summary with popup deck setup; per-card edit mode supports operative links and card instance counts (duplicates)
 - **NPO Selection Rules**: Manual, Random, Melee-heavy, Ranged-heavy, Elite (higher wounds first), and Horde (lower wounds first)
 - **Datacard Default Option**: Player list entries default to a `Datacard` profile option
 - **Profile Manager**: Create/edit/delete profile stat blocks with ranged/melee weapon profiles and behavior rules

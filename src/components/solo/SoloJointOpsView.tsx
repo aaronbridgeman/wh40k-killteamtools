@@ -1189,7 +1189,7 @@ export function SoloJointOpsView() {
   const [editingDeckCardId, setEditingDeckCardId] = useState<string | null>(
     null
   );
-  const [isDeckSectionExpanded, setIsDeckSectionExpanded] = useState(false);
+  const [isDeckSetupOpen, setIsDeckSetupOpen] = useState(false);
   const [isTeamSetupOpen, setIsTeamSetupOpen] = useState(false);
 
   const listsImportRef = useRef<HTMLInputElement | null>(null);
@@ -1844,7 +1844,7 @@ export function SoloJointOpsView() {
       let deck = prev.activationDeck;
       if (deck.length === 0) {
         deck = buildDeckFromNpoOperatives(runnerOperatives);
-        setIsDeckSectionExpanded(false);
+        setIsDeckSetupOpen(false);
       }
       const pile = buildShuffledPile(deck, runnerOperatives);
       setDrawPile(pile);
@@ -2547,205 +2547,219 @@ export function SoloJointOpsView() {
             </div>
           )}
 
-          <section className="solo-card game-runner-main">
+          <section className="solo-card game-runner-main deck-setup-gate">
             <div className="deck-panel-header">
               <h3>Activation Deck</h3>
-              <button
-                type="button"
-                onClick={() => setIsDeckSectionExpanded((prev) => !prev)}
-              >
-                {isDeckSectionExpanded ? 'Collapse' : 'Expand'} ({' '}
-                {totalDeckCardInstances} card
+              <button type="button" onClick={() => setIsDeckSetupOpen(true)}>
+                Manage Activation Deck ( {totalDeckCardInstances} card
                 {totalDeckCardInstances !== 1 ? 's' : ''})
               </button>
             </div>
-            <p className="deck-description">
-              Default behavior is one card per NPO operative. You can edit card
-              links and instance counts when needed.
+            <p className="deck-collapsed-note">
+              {totalDeckCardInstances} activation card
+              {totalDeckCardInstances !== 1 ? 's' : ''} configured.
             </p>
-
-            {!isDeckSectionExpanded ? (
-              <p className="deck-collapsed-note">
-                Deck collapsed. {totalDeckCardInstances} activation card
-                {totalDeckCardInstances !== 1 ? 's' : ''} configured.
-              </p>
-            ) : state.activationDeck.length === 0 ? (
-              <p className="deck-empty-note">
-                No cards configured. A default deck is created when you reset
-                the deck in Activation.
-              </p>
-            ) : (
-              <ul className="deck-card-list">
-                {state.activationDeck.map((card) => {
-                  const exhausted = isCardExhausted(card, runnerOperatives);
-                  const linkedOperativeNames = card.operativeIds
-                    .map((operativeId) =>
-                      npoRunnerOperativeNames.get(operativeId)
-                    )
-                    .filter((name): name is string => Boolean(name));
-                  const isEditing = editingDeckCardId === card.id;
-                  return (
-                    <li
-                      key={card.id}
-                      className={`deck-card-item${exhausted ? ' deck-card-exhausted' : ''}`}
-                    >
-                      <div className="deck-card-header">
-                        <div className="deck-card-title-wrap">
-                          <span className="deck-card-linked-count">
-                            {linkedOperativeNames.length} linked
-                          </span>
-                          <span className="deck-card-linked-count">
-                            x{Math.max(1, Math.floor(card.count || 1))}
-                          </span>
-                        </div>
-                        <div className="deck-card-controls">
-                          <button
-                            type="button"
-                            aria-expanded={isEditing}
-                            aria-controls={`deck-editor-${card.id}`}
-                            onClick={() =>
-                              setEditingDeckCardId((prev) =>
-                                prev === card.id ? null : card.id
-                              )
-                            }
-                          >
-                            {isEditing ? 'Done' : 'Edit'}
-                          </button>
-                          <button
-                            type="button"
-                            className="danger-button"
-                            onClick={() => removeDeckCard(card.id)}
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      </div>
-                      <p className="deck-card-summary">
-                        <span>Linked operatives:</span>{' '}
-                        {linkedOperativeNames.length > 0
-                          ? linkedOperativeNames.join(', ')
-                          : 'No linked operatives yet'}
-                      </p>
-
-                      {isEditing && (
-                        <div
-                          className="deck-card-editor"
-                          id={`deck-editor-${card.id}`}
-                        >
-                          <div className="deck-card-count-controls">
-                            <span className="deck-card-links-label">
-                              Card instances:
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateDeckCard(card.id, {
-                                  count: Math.max(
-                                    1,
-                                    Math.floor((card.count || 1) - 1)
-                                  ),
-                                })
-                              }
-                              disabled={(card.count || 1) <= 1}
-                              aria-label="Decrease card instance count"
-                            >
-                              -
-                            </button>
-                            <span className="deck-card-count-value">
-                              {Math.max(1, Math.floor(card.count || 1))}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateDeckCard(card.id, {
-                                  count: Math.max(
-                                    1,
-                                    Math.floor((card.count || 1) + 1)
-                                  ),
-                                })
-                              }
-                              aria-label="Increase card instance count"
-                            >
-                              +
-                            </button>
-                          </div>
-                          <div className="deck-card-links">
-                            <span className="deck-card-links-label">
-                              Select linked operatives:
-                            </span>
-                            {npoRunnerOperatives.map((operative) => {
-                              const linked = card.operativeIds.includes(
-                                operative.sourceOperativeId
-                              );
-                              return (
-                                <label
-                                  key={operative.id}
-                                  className="deck-card-link-toggle"
-                                >
-                                  <input
-                                    type="checkbox"
-                                    checked={linked}
-                                    onChange={() => {
-                                      const next = linked
-                                        ? card.operativeIds.filter(
-                                            (id) =>
-                                              id !== operative.sourceOperativeId
-                                          )
-                                        : [
-                                            ...card.operativeIds,
-                                            operative.sourceOperativeId,
-                                          ];
-                                      updateDeckCard(card.id, {
-                                        operativeIds: next,
-                                      });
-                                    }}
-                                  />
-                                  {operative.name}
-                                </label>
-                              );
-                            })}
-                            {npoRunnerOperatives.length === 0 && (
-                              <span className="deck-no-operatives">
-                                No NPO operatives selected yet.
-                              </span>
-                            )}
-                          </div>
-                          <p className="deck-editor-tip">
-                            Tip: set instances above 1 to duplicate this card in
-                            the deck.
-                          </p>
-                        </div>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-
-            {isDeckSectionExpanded && (
-              <div className="deck-actions">
-                <button type="button" onClick={addDeckCard}>
-                  Add Card
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const generated =
-                      buildDeckFromNpoOperatives(runnerOperatives);
-                    setState((prev) => ({
-                      ...prev,
-                      activationDeck: generated,
-                    }));
-                    setEditingDeckCardId(null);
-                    setIsDeckSectionExpanded(false);
-                  }}
-                  disabled={npoRunnerOperatives.length === 0}
-                >
-                  Reset to Default (one card per operative)
-                </button>
-              </div>
-            )}
           </section>
+
+          {isDeckSetupOpen && (
+            <div
+              className="setup-modal-backdrop"
+              role="dialog"
+              aria-modal
+              aria-label="Activation Deck Setup"
+            >
+              <section className="solo-card setup-modal">
+                <div className="setup-modal-header">
+                  <h3>Activation Deck Setup</h3>
+                  <button
+                    type="button"
+                    onClick={() => setIsDeckSetupOpen(false)}
+                  >
+                    Done
+                  </button>
+                </div>
+                <p className="deck-description">
+                  Default behavior is one card per NPO operative. You can edit
+                  card links and instance counts when needed.
+                </p>
+
+                {state.activationDeck.length === 0 ? (
+                  <p className="deck-empty-note">
+                    No cards configured. A default deck is created when you
+                    reset the deck in Activation.
+                  </p>
+                ) : (
+                  <ul className="deck-card-list">
+                    {state.activationDeck.map((card) => {
+                      const exhausted = isCardExhausted(card, runnerOperatives);
+                      const linkedOperativeNames = card.operativeIds
+                        .map((operativeId) =>
+                          npoRunnerOperativeNames.get(operativeId)
+                        )
+                        .filter((name): name is string => Boolean(name));
+                      const isEditing = editingDeckCardId === card.id;
+                      return (
+                        <li
+                          key={card.id}
+                          className={`deck-card-item${exhausted ? ' deck-card-exhausted' : ''}`}
+                        >
+                          <div className="deck-card-header">
+                            <div className="deck-card-title-wrap">
+                              <span className="deck-card-linked-count">
+                                {linkedOperativeNames.length} linked
+                              </span>
+                              <span className="deck-card-linked-count">
+                                x{Math.max(1, Math.floor(card.count || 1))}
+                              </span>
+                            </div>
+                            <div className="deck-card-controls">
+                              <button
+                                type="button"
+                                aria-expanded={isEditing}
+                                aria-controls={`deck-editor-${card.id}`}
+                                onClick={() =>
+                                  setEditingDeckCardId((prev) =>
+                                    prev === card.id ? null : card.id
+                                  )
+                                }
+                              >
+                                {isEditing ? 'Done' : 'Edit'}
+                              </button>
+                              <button
+                                type="button"
+                                className="danger-button"
+                                onClick={() => removeDeckCard(card.id)}
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          </div>
+                          <p className="deck-card-summary">
+                            <span>Linked operatives:</span>{' '}
+                            {linkedOperativeNames.length > 0
+                              ? linkedOperativeNames.join(', ')
+                              : 'No linked operatives yet'}
+                          </p>
+
+                          {isEditing && (
+                            <div
+                              className="deck-card-editor"
+                              id={`deck-editor-${card.id}`}
+                            >
+                              <div className="deck-card-count-controls">
+                                <span className="deck-card-links-label">
+                                  Card instances:
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    updateDeckCard(card.id, {
+                                      count: Math.max(
+                                        1,
+                                        Math.floor((card.count || 1) - 1)
+                                      ),
+                                    })
+                                  }
+                                  disabled={(card.count || 1) <= 1}
+                                  aria-label="Decrease card instance count"
+                                >
+                                  -
+                                </button>
+                                <span className="deck-card-count-value">
+                                  {Math.max(1, Math.floor(card.count || 1))}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    updateDeckCard(card.id, {
+                                      count: Math.max(
+                                        1,
+                                        Math.floor((card.count || 1) + 1)
+                                      ),
+                                    })
+                                  }
+                                  aria-label="Increase card instance count"
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <div className="deck-card-links">
+                                <span className="deck-card-links-label">
+                                  Select linked operatives:
+                                </span>
+                                {npoRunnerOperatives.map((operative) => {
+                                  const linked = card.operativeIds.includes(
+                                    operative.sourceOperativeId
+                                  );
+                                  return (
+                                    <label
+                                      key={operative.id}
+                                      className="deck-card-link-toggle"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        checked={linked}
+                                        onChange={() => {
+                                          const next = linked
+                                            ? card.operativeIds.filter(
+                                                (id) =>
+                                                  id !==
+                                                  operative.sourceOperativeId
+                                              )
+                                            : [
+                                                ...card.operativeIds,
+                                                operative.sourceOperativeId,
+                                              ];
+                                          updateDeckCard(card.id, {
+                                            operativeIds: next,
+                                          });
+                                        }}
+                                      />
+                                      {operative.name}
+                                    </label>
+                                  );
+                                })}
+                                {npoRunnerOperatives.length === 0 && (
+                                  <span className="deck-no-operatives">
+                                    No NPO operatives selected yet.
+                                  </span>
+                                )}
+                              </div>
+                              <p className="deck-editor-tip">
+                                Tip: set instances above 1 to duplicate this
+                                card in the deck.
+                              </p>
+                            </div>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+
+                <div className="deck-actions">
+                  <button type="button" onClick={addDeckCard}>
+                    Add Card
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const generated =
+                        buildDeckFromNpoOperatives(runnerOperatives);
+                      setState((prev) => ({
+                        ...prev,
+                        activationDeck: generated,
+                      }));
+                      setEditingDeckCardId(null);
+                    }}
+                    disabled={npoRunnerOperatives.length === 0}
+                  >
+                    Reset to Default (one card per operative)
+                  </button>
+                </div>
+              </section>
+            </div>
+          )}
 
           <div className="activation-runner-layout game-runner-main">
             <div className="activation-runner-main">

@@ -3,6 +3,20 @@
   gap: 0.65rem;
 }
 
+.solo-joint-ops-view > header {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.solo-joint-ops-view > header h2 {
+  margin: 0;
+}
+
+.solo-joint-ops-view > header p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
 .game-runner-layout {
   display: grid;
   gap: 0.65rem;
@@ -10,6 +24,11 @@
 
 .game-runner-main {
   order: 1;
+}
+
+.deck-setup-gate {
+  display: grid;
+  gap: 0.4rem;
 }
 
 .game-runner-setup-gate {
@@ -373,7 +392,7 @@
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: color-mix(in srgb, var(--surface-color) 88%, black);
-  padding: 0.55rem 0.7rem;
+  padding: 0.4rem 0.6rem;
 }
 
 .deck-empty-note {

@@ -105,27 +105,25 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(addButtons[0]);
 
     fireEvent.click(screen.getByRole('button', { name: 'Reset Deck' }));
-    const deckToggleButton = screen.getByRole('button', {
-      name: /(Expand|Collapse).*card/i,
+    const deckManageButton = screen.getByRole('button', {
+      name: /Manage Activation Deck.*card/i,
     });
-    const initialCountMatch = deckToggleButton.textContent?.match(/(\d+)/);
+    const initialCountMatch = deckManageButton.textContent?.match(/(\d+)/);
     const initialCount = Number(initialCountMatch?.[1] ?? '0');
     expect(initialCount).toBeGreaterThan(0);
 
-    if (deckToggleButton.textContent?.includes('Expand')) {
-      fireEvent.click(deckToggleButton);
-    }
+    fireEvent.click(deckManageButton);
     fireEvent.click(screen.getByRole('button', { name: 'Edit' }));
 
     fireEvent.click(
       screen.getByRole('button', { name: /Increase .* instance count/i })
     );
 
-    const updatedDeckToggleButton = screen.getByRole('button', {
-      name: /(Expand|Collapse).*card/i,
+    const updatedDeckManageButton = screen.getByRole('button', {
+      name: /Manage Activation Deck.*card/i,
     });
     const updatedCountMatch =
-      updatedDeckToggleButton.textContent?.match(/(\d+)/);
+      updatedDeckManageButton.textContent?.match(/(\d+)/);
     const updatedCount = Number(updatedCountMatch?.[1] ?? '0');
     expect(updatedCount).toBe(initialCount + 1);
   });

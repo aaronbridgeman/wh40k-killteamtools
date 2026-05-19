@@ -334,7 +334,7 @@ The root component that manages:
 **SoloJointOpsView** (`components/solo/SoloJointOpsView.tsx`)
 
 - Tabbed workflow for solo/joint ops against NPOs:
-  - **Game Runner** (default): setup-status gate with warning state when NPO team setup is incomplete, popup team-setup UI (NPO-first with optional player pane), collapsible activation deck editor (with per-card instance counts), reset/draw activation controls, list-based current activation display, and runner cards shown for currently activated operatives
+  - **Game Runner** (default): setup-status gate with warning state when NPO team setup is incomplete, popup team-setup UI (NPO-first with optional player pane), compact activation deck summary with popup deck editor (with per-card instance counts), reset/draw activation controls, list-based current activation display, and runner cards shown for currently activated operatives
   - **List Builder**: player/NPO list management with model-first selection, optional profile override, and custom model entries that require explicit profiles
   - **Profile Manager**: profile CRUD for APL/Move/Save/Wounds, weapon profiles, and behavior rules
 - Explicit domain separation:

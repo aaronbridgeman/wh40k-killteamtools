@@ -371,7 +371,7 @@ JSON Schema will validate all configuration files to ensure:
    - Popup team setup UI with NPO-first pane ordering and Player setup as optional
    - Manual team selection via dual-list transfer UX (available vs selected)
    - Activation deck controls with reset/draw flow and list display of all operatives linked to the drawn card
-   - Collapsible activation deck editor with per-card operative links and instance counts
+   - Compact activation deck summary with popup deck editor and per-card operative links/instance counts
    - Runner cards for currently activated operatives with damage controls and incapacitated on/off toggles
    - Team management controls for naming teams, selecting source lists, and selecting team members
 
