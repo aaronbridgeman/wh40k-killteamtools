@@ -2220,7 +2220,7 @@ export function SoloJointOpsView() {
               isGameSetupComplete ? '' : ' is-warning'
             }`}
           >
-            <div>
+            <div className="game-runner-setup-copy">
               <h3>Game Runner</h3>
               <p className="setup-gate-text">
                 {isGameSetupComplete
@@ -2228,9 +2228,23 @@ export function SoloJointOpsView() {
                   : 'Game setup is incomplete. Configure your NPO team before running activations.'}
               </p>
             </div>
-            <button type="button" onClick={() => setIsTeamSetupOpen(true)}>
-              {isGameSetupComplete ? 'Manage Team Setup' : '⚠️ Setup Team'}
-            </button>
+            <div className="game-runner-setup-actions">
+              <div className="game-runner-setup-action">
+                <button type="button" onClick={() => setIsTeamSetupOpen(true)}>
+                  {isGameSetupComplete ? 'Manage Team Setup' : '⚠️ Setup Team'}
+                </button>
+              </div>
+              <div className="game-runner-setup-action">
+                <button type="button" onClick={() => setIsDeckSetupOpen(true)}>
+                  Manage Activation Deck ({totalDeckCardInstances} card
+                  {totalDeckCardInstances !== 1 ? 's' : ''})
+                </button>
+                <p className="setup-action-meta">
+                  {totalDeckCardInstances} activation card
+                  {totalDeckCardInstances !== 1 ? 's' : ''} configured.
+                </p>
+              </div>
+            </div>
           </section>
 
           {isTeamSetupOpen && (
@@ -2546,20 +2560,6 @@ export function SoloJointOpsView() {
               </section>
             </div>
           )}
-
-          <section className="solo-card game-runner-main deck-setup-gate">
-            <div className="deck-panel-header">
-              <h3>Activation Deck</h3>
-              <button type="button" onClick={() => setIsDeckSetupOpen(true)}>
-                Manage Activation Deck ( {totalDeckCardInstances} card
-                {totalDeckCardInstances !== 1 ? 's' : ''})
-              </button>
-            </div>
-            <p className="deck-collapsed-note">
-              {totalDeckCardInstances} activation card
-              {totalDeckCardInstances !== 1 ? 's' : ''} configured.
-            </p>
-          </section>
 
           {isDeckSetupOpen && (
             <div

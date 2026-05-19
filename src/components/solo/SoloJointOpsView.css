@@ -26,17 +26,38 @@
   order: 1;
 }
 
-.deck-setup-gate {
-  display: grid;
-  gap: 0.4rem;
-}
-
 .game-runner-setup-gate {
   order: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, auto);
+  align-items: start;
+  gap: 0.65rem;
+}
+
+.game-runner-setup-copy {
+  min-width: 0;
+}
+
+.game-runner-setup-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.game-runner-setup-action {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+}
+
+.game-runner-setup-action button {
+  width: 100%;
+}
+
+.setup-action-meta {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
 }
 
 .setup-gate-text {
@@ -831,23 +852,21 @@
     padding: 0.55rem;
   }
 
-  .game-runner-setup-gate,
-  .deck-setup-gate {
+  .game-runner-setup-gate {
+    grid-template-columns: 1fr;
     gap: 0.35rem;
   }
 
-  .game-runner-setup-gate {
-    align-items: flex-start;
-    flex-direction: column;
+  .game-runner-setup-actions {
+    grid-template-columns: 1fr;
   }
 
-  .game-runner-setup-gate button,
-  .deck-panel-header button {
+  .game-runner-setup-gate button {
     width: 100%;
   }
 
   .setup-gate-text,
-  .deck-collapsed-note {
+  .setup-action-meta {
     font-size: 0.84rem;
   }
 
@@ -920,13 +939,6 @@
   .deck-card-header {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .deck-panel-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
-    margin-bottom: 0.35rem;
   }
 
   .deck-card-controls {
