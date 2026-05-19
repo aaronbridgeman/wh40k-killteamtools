@@ -2214,11 +2214,26 @@ export function SoloJointOpsView() {
                   <article className="runner-weapon-card" key={weapon.id}>
                     <p className="runner-weapon-name">{weapon.name}</p>
                     <div className="runner-weapon-metrics">
-                      <span>{weapon.attacks}A</span>
-                      <span>{weapon.skill}</span>
-                      <span>
-                        N/C {weapon.damage}/{weapon.criticalDamage}
-                      </span>
+                      <div className="runner-weapon-metric-chip is-attacks">
+                        <span className="runner-weapon-metric-label">
+                          🎲 Attacks
+                        </span>
+                        <strong>{weapon.attacks}</strong>
+                      </div>
+                      <div className="runner-weapon-metric-chip is-hit">
+                        <span className="runner-weapon-metric-label">
+                          🎯 Hit
+                        </span>
+                        <strong>{weapon.skill}</strong>
+                      </div>
+                      <div className="runner-weapon-metric-chip is-damage">
+                        <span className="runner-weapon-metric-label">
+                          💥 Damage
+                        </span>
+                        <strong>
+                          N {weapon.damage} / C {weapon.criticalDamage}
+                        </strong>
+                      </div>
                     </div>
                     {rules.length > 0 ? (
                       <div className="runner-weapon-rules">
@@ -2250,11 +2265,26 @@ export function SoloJointOpsView() {
                   <article className="runner-weapon-card" key={weapon.id}>
                     <p className="runner-weapon-name">{weapon.name}</p>
                     <div className="runner-weapon-metrics">
-                      <span>{weapon.attacks}A</span>
-                      <span>{weapon.skill}</span>
-                      <span>
-                        N/C {weapon.damage}/{weapon.criticalDamage}
-                      </span>
+                      <div className="runner-weapon-metric-chip is-attacks">
+                        <span className="runner-weapon-metric-label">
+                          🎲 Attacks
+                        </span>
+                        <strong>{weapon.attacks}</strong>
+                      </div>
+                      <div className="runner-weapon-metric-chip is-hit">
+                        <span className="runner-weapon-metric-label">
+                          🎯 Hit
+                        </span>
+                        <strong>{weapon.skill}</strong>
+                      </div>
+                      <div className="runner-weapon-metric-chip is-damage">
+                        <span className="runner-weapon-metric-label">
+                          💥 Damage
+                        </span>
+                        <strong>
+                          N {weapon.damage} / C {weapon.criticalDamage}
+                        </strong>
+                      </div>
                     </div>
                     {rules.length > 0 ? (
                       <div className="runner-weapon-rules">

@@ -901,18 +901,58 @@
 }
 
 .runner-weapon-metrics {
-  display: flex;
-  gap: 0.35rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem;
 }
 
-.runner-weapon-metrics span {
+.runner-weapon-metric-chip {
   border: 1px solid var(--border-color);
-  border-radius: 999px;
-  padding: 0.08rem 0.45rem;
-  font-size: 0.75rem;
+  border-radius: 8px;
+  padding: 0.22rem 0.4rem;
+  display: grid;
+  gap: 0.08rem;
+  background: color-mix(in srgb, var(--surface-color) 86%, black);
+}
+
+.runner-weapon-metric-chip.is-damage {
+  grid-column: 1 / -1;
+}
+
+.runner-weapon-metric-chip.is-attacks {
+  border-color: color-mix(
+    in srgb,
+    var(--stat-apl-color) 58%,
+    var(--border-color)
+  );
+  background: color-mix(in srgb, var(--stat-apl-color) 14%, transparent);
+}
+
+.runner-weapon-metric-chip.is-hit {
+  border-color: color-mix(
+    in srgb,
+    var(--stat-movement-color) 58%,
+    var(--border-color)
+  );
+  background: color-mix(in srgb, var(--stat-movement-color) 14%, transparent);
+}
+
+.runner-weapon-metric-chip.is-damage {
+  border-color: color-mix(in srgb, var(--error-color) 56%, var(--border-color));
+  background: color-mix(in srgb, var(--error-color) 12%, transparent);
+}
+
+.runner-weapon-metric-label {
+  font-size: 0.67rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   color: var(--text-secondary);
-  background: color-mix(in srgb, var(--surface-color) 78%, black);
+  font-weight: 700;
+}
+
+.runner-weapon-metric-chip strong {
+  font-size: 0.82rem;
+  line-height: 1.15;
 }
 
 .runner-weapon-rules {
