@@ -686,6 +686,24 @@
   margin-bottom: 0.35rem;
 }
 
+.npo-card-header-main {
+  min-width: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.runner-identity-line {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  line-height: 1.25;
+}
+
+.runner-identity-line span {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
 .npo-card h4 {
   margin: 0;
 }
@@ -760,6 +778,17 @@
   gap: 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+.npo-roster-profile-line {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.npo-roster-profile-line span {
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .npo-roster-active-chip {

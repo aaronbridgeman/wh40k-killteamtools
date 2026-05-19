@@ -2122,6 +2122,11 @@ export function SoloJointOpsView() {
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
   const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
 
+  const getProfileDisplayName = (profileId: string): string => {
+    if (profileId === DATACARD_PROFILE_ID) return 'Datacard';
+    return profileLookup.get(profileId)?.name ?? 'Unknown Profile';
+  };
+
   useEffect(() => {
     if (!transferHint) return;
     const timeout = setTimeout(() => setTransferHint(null), 280);
@@ -2974,7 +2979,16 @@ export function SoloJointOpsView() {
                         key={operative.id}
                       >
                         <div className="npo-card-header">
-                          <h4>{operative.name}</h4>
+                          <div className="npo-card-header-main">
+                            <h4>{operative.name}</h4>
+                            <p className="runner-identity-line">
+                              <span>Model:</span> {operative.name}
+                            </p>
+                            <p className="runner-identity-line">
+                              <span>Profile:</span>{' '}
+                              {getProfileDisplayName(operative.profileId)}
+                            </p>
+                          </div>
                           <span className="npo-card-team-chip">
                             {selectedNpoTeam?.name ?? 'NPO Team'}
                           </span>
@@ -3044,6 +3058,10 @@ export function SoloJointOpsView() {
                             </span>
                           )}
                         </div>
+                        <p className="npo-roster-profile-line">
+                          <span>Profile:</span>{' '}
+                          {getProfileDisplayName(operative.profileId)}
+                        </p>
                         <button
                           type="button"
                           className={`incap-toggle${
