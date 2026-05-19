@@ -335,15 +335,17 @@ The root component that manages:
 
 - Tabbed workflow for solo/joint ops against NPOs:
   - **Game Runner** (default): setup-status gate with warning state when NPO team setup is incomplete, popup team-setup UI (NPO-first with optional player pane), compact activation deck summary with popup deck editor (with per-card instance counts), reset/draw activation controls, list-based current activation display, and runner cards shown for currently activated operatives
-  - **List Builder**: player/NPO list management with model-first selection, optional profile override, and custom model entries that require explicit profiles
-  - **Profile Manager**: profile CRUD for APL/Move/Save/Wounds, weapon profiles, and behavior rules
+    - **List Builder**: player/NPO list management with model-first selection, optional profile override, custom model entries that require explicit profiles, and Nemesis entries that can be added to either side
+    - **NPO Profile Manager**: profile CRUD for APL or Control/Move/Save/Wounds, weapon profiles, and behavior rules
+    - **Nemesis Manager**: create Nemesis operatives (Small/Medium/Large/Custom) with size-driven core stats
 - Explicit domain separation:
   - **Profile**: complete stat block + weapon profiles + behavior rules
   - **List**: a pool of models with a selected profile per entry
   - **Team**: a playable subset of a list selected for a game
+    - **Nemesis Operative**: reusable named operative definition with linked profile and size metadata
 - NPO team selection supports manual and rule-driven modes: random, melee-heavy, ranged-heavy, elite, and horde (with wounds-limit targeting)
 - Persists solo/joint ops state to localStorage and supports profile/list backup import/export (JSON)
-- Includes Datacard profile option for player list entries, NPO profile overrides sourced from NPO-flagged catalog teams, and explicit-profile handling for custom models
+- Includes Datacard profile option for player list entries, NPO profile overrides sourced from NPO-flagged catalog teams, explicit-profile handling for custom models, and default two-card activation counts for NPO Nemesis operatives
 
 #### Rules Components
 

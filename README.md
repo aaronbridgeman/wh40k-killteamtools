@@ -62,15 +62,16 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 **Solo / Joint Ops**
 
 - **Game Runner**: Default tab with a setup-status gate (warning state until configured), popup Team Setup UI, a reset/draw activation deck flow, current-activation operative lists, and operative runner cards shown only for activated operatives
-- **Operative Card Detail UX**: Runner cards show boxed stat chips (APL/Move/Save/Wounds), detailed ranged/melee weapon profile cards (including Normal/Critical damage and special rules), and auto-formatted behavior steps for numbered instruction text
-- **List Builder**: Build and persist player/NPO lists as model pools, with each list entry carrying a profile assignment (defaulting to Datacard for player entries)
+- **Operative Card Detail UX**: Runner cards show boxed stat chips (APL or Control / Move / Save / Wounds), detailed ranged/melee weapon profile cards (including Normal/Critical damage and special rules), and auto-formatted behavior steps for numbered instruction text
+- **List Builder**: Build and persist player/NPO lists as model pools, with each list entry carrying a profile assignment (defaulting to Datacard for player entries); Nemesis operatives can be added to either side
 - **Model + Profile Workflow**: Select a model first, then optionally override its profile; custom model descriptions are supported and require an explicit profile assignment
 - **NPO Profile Overrides**: NPO profile override selection includes built-in NPO catalog profiles (for example Marksman/Brawler roles) alongside custom profiles
 - **Team Builder (in Game Runner)**: Configure Player or NPO teams in focused setup panes; manual selection uses a dual-list transfer UI (available -> selected) while NPO teams also support automatic rule-driven selection up to a wounds limit
-- **Activation Deck Editor**: Compact deck summary with popup deck setup; per-card edit mode supports operative links and card instance counts (duplicates)
+- **Activation Deck Editor**: Compact deck summary with popup deck setup; per-card edit mode supports operative links and card instance counts (duplicates). Default generation gives NPO Nemesis operatives two cards
 - **NPO Selection Rules**: Manual, Random, Melee-heavy, Ranged-heavy, Elite (higher wounds first), and Horde (lower wounds first)
 - **Datacard Default Option**: Player list entries default to a `Datacard` profile option
-- **Profile Manager**: Create/edit/delete profile stat blocks with ranged/melee weapon profiles and behavior rules
+- **NPO Profile Manager**: Create/edit/delete profile stat blocks with ranged/melee weapon profiles and behavior rules
+- **Nemesis Manager**: Create Nemesis operatives by name and size (Small/Medium/Large/Custom). Size presets set Control, Move, Save, and Wounds automatically
 - **Backup/Restore**: Import and export lists and profiles as JSON backup files
 
 ### Reference Pages

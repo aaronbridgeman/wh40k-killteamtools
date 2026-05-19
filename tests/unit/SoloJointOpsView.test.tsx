@@ -13,7 +13,7 @@ describe('SoloJointOpsView', () => {
       screen.getByRole('button', { name: 'List Builder' })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Profile Manager' })
+      screen.getByRole('button', { name: 'NPO Profile Manager' })
     ).toBeInTheDocument();
     expect(
       screen.queryByRole('heading', { name: 'Deployment' })
@@ -301,5 +301,62 @@ describe('SoloJointOpsView', () => {
 
     expect(profileOptions).toContain('Brawler Trooper');
     expect(profileOptions).toContain('Marksman Trooper');
+  });
+
+  it('creates nemesis operatives and gives NPO nemesis two default activation cards', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'NPO Profile Manager' })
+    );
+
+    fireEvent.change(screen.getByLabelText('Nemesis name'), {
+      target: { value: 'Armoured Sentinel' },
+    });
+    fireEvent.change(screen.getByLabelText('Nemesis size'), {
+      target: { value: 'medium' },
+    });
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Create Nemesis Operative' })
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Player Lists' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Add Nemesis Operative' })
+    );
+    expect(screen.getByLabelText('Player list builder')).toHaveTextContent(
+      'Armoured Sentinel'
+    );
+
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Lists' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Add Nemesis Operative' })
+    );
+    expect(screen.getByLabelText('NPO list builder')).toHaveTextContent(
+      'Armoured Sentinel'
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: /Setup Team|Manage Team Setup/i })
+    );
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Team Setup' }));
+
+    const npoTeamNameInput = screen.getByLabelText('NPO Team Name');
+    const npoTeamBuilder = npoTeamNameInput.closest('.team-builder');
+    expect(npoTeamBuilder).not.toBeNull();
+
+    fireEvent.click(
+      within(npoTeamBuilder as HTMLElement).getByRole('button', {
+        name: /Armoured Sentinel\s*Add/i,
+      })
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Reset Deck' }));
+    expect(
+      screen.getByText('Activation 0 · Deck remaining: 2')
+    ).toBeInTheDocument();
   });
 });

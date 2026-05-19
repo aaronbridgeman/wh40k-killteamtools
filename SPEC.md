@@ -372,6 +372,7 @@ JSON Schema will validate all configuration files to ensure:
    - Manual team selection via dual-list transfer UX (available vs selected)
    - Activation deck controls with reset/draw flow and list display of all operatives linked to the drawn card
    - Compact activation deck summary with popup deck editor and per-card operative links/instance counts
+   - Default deck generation uses one card per NPO operative, except NPO Nemesis operatives which start with two cards
    - Runner cards for currently activated operatives with damage controls and incapacitated on/off toggles
    - Team management controls for naming teams, selecting source lists, and selecting team members
 
@@ -381,6 +382,7 @@ JSON Schema will validate all configuration files to ensure:
    - `Datacard` profile selection is available and default for player entries
    - NPO override selection includes all catalog profiles from NPO-flagged teams, in addition to custom profiles
    - NPO and custom entries use explicit profile assignments by default
+   - Nemesis operatives can be added to either player or NPO lists
    - Lists are persisted and support backup/import
 
 3. **NPO Team Selection Rules**
@@ -392,12 +394,18 @@ JSON Schema will validate all configuration files to ensure:
    - Horde (lower wounds first)
    - Optional wounds limit to tune team difficulty
 
-4. **Profile Manager**
+4. **NPO Profile Manager**
    - Create/edit/delete profiles used by list entries
-   - Profile data includes APL, Move, Save, Wounds
+   - Profile data includes APL (or Control for Nemesis), Move, Save, Wounds
    - Profile data includes ranged and melee weapon profiles
    - Profile data includes behavior rules where applicable
    - Profiles are persisted and support backup/import
+
+5. **Nemesis Manager**
+   - Create Nemesis operatives with name and size (Small, Medium, Large, Custom)
+   - Size presets assign Control/Move/Save/Wounds from mission-pack rules
+   - Custom size allows manual Control/Move/Save/Wounds values
+   - Created Nemesis operatives are reusable in both player and NPO list builders
 
 ## 5. Data Extraction Strategy
 

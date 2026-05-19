@@ -4,6 +4,7 @@ import './SoloJointOpsView.css';
 
 type ActivationSide = 'player' | 'npo';
 type SoloTab = 'game-runner' | 'list-builder' | 'profile-manager';
+type NemesisSize = 'small' | 'medium' | 'large' | 'custom';
 type NpoTeamSelectionRule =
   | 'manual'
   | 'random'
@@ -35,6 +36,7 @@ interface SoloProfile {
   rangedWeapons: SoloWeaponProfile[];
   meleeWeapons: SoloWeaponProfile[];
   behaviorRules: string;
+  usesControlStat?: boolean;
 }
 
 interface SoloListOperative {
@@ -46,6 +48,16 @@ interface SoloListOperative {
   teamName?: string;
   customDescription?: string;
   requiresExplicitProfile?: boolean;
+  operativeType?: 'catalog' | 'custom' | 'nemesis';
+  nemesisId?: string;
+  activationCardCount?: number;
+}
+
+interface NemesisOperative {
+  id: string;
+  name: string;
+  size: NemesisSize;
+  profileId: string;
 }
 
 interface CatalogTeam {
@@ -97,6 +109,7 @@ interface RunnerOperative {
   sourceOperativeId: string;
   name: string;
   profileId: string;
+  activationCardCount: number;
   damageTaken: number;
   injured: boolean;
   incapacitated: boolean;
@@ -107,6 +120,7 @@ interface SoloBackupFile {
   profiles?: SoloProfile[];
   lists?: SoloList[];
   teams?: SoloTeam[];
+  nemesisOperatives?: NemesisOperative[];
 }
 
 interface AddListOperativeInput {
@@ -117,6 +131,9 @@ interface AddListOperativeInput {
   teamName?: string;
   customDescription?: string;
   requiresExplicitProfile?: boolean;
+  operativeType?: 'catalog' | 'custom' | 'nemesis';
+  nemesisId?: string;
+  activationCardCount?: number;
 }
 
 interface ProfileSelectOption {
@@ -143,8 +160,23 @@ const hasLocalStorageApi = (): boolean => {
 };
 const DATACARD_PROFILE_ID = 'datacard';
 const NPO_OPERATIVES_TEAM_ID = 'mission-pack-npo-operatives';
+const NEMESIS_TEAM_ID = 'nemesis-operatives';
 const ALL_TEAMS_ID = '__all-teams__';
 const CUSTOM_MODEL_ID = '__custom-model__';
+
+const NEMESIS_SIZE_PRESETS: Record<
+  Exclude<NemesisSize, 'custom'>,
+  {
+    control: number;
+    move: string;
+    save: string;
+    wounds: number;
+  }
+> = {
+  small: { control: 4, move: '6"', save: '4+', wounds: 35 },
+  medium: { control: 5, move: '6"', save: '4+', wounds: 50 },
+  large: { control: 6, move: '6"', save: '4+', wounds: 75 },
+};
 
 const operativeCatalog = operativeCatalogData as OperativeCatalog;
 
@@ -220,6 +252,7 @@ const buildInitialState = () => {
   const starterTeams = createDefaultTeams(starterLists);
   return {
     profiles: [starterProfile],
+    nemesisOperatives: [] as NemesisOperative[],
     lists: [starterLists.player, starterLists.npo],
     teams: [starterTeams.player, starterTeams.npo],
     selectedPlayerListId: starterLists.player.id,
@@ -266,7 +299,26 @@ const isValidProfile = (value: unknown): value is SoloProfile => {
     profile.rangedWeapons.every(isValidWeaponProfile) &&
     Array.isArray(profile.meleeWeapons) &&
     profile.meleeWeapons.every(isValidWeaponProfile) &&
-    isString(profile.behaviorRules)
+    isString(profile.behaviorRules) &&
+    (profile.usesControlStat === undefined ||
+      typeof profile.usesControlStat === 'boolean')
+  );
+};
+
+const isValidNemesisSize = (value: unknown): value is NemesisSize =>
+  value === 'small' ||
+  value === 'medium' ||
+  value === 'large' ||
+  value === 'custom';
+
+const isValidNemesisOperative = (value: unknown): value is NemesisOperative => {
+  if (!value || typeof value !== 'object') return false;
+  const nemesis = value as Partial<NemesisOperative>;
+  return (
+    isString(nemesis.id) &&
+    isString(nemesis.name) &&
+    isValidNemesisSize(nemesis.size) &&
+    isString(nemesis.profileId)
   );
 };
 
@@ -283,7 +335,14 @@ const isValidListOperative = (value: unknown): value is SoloListOperative => {
     (operative.customDescription === undefined ||
       isString(operative.customDescription)) &&
     (operative.requiresExplicitProfile === undefined ||
-      typeof operative.requiresExplicitProfile === 'boolean')
+      typeof operative.requiresExplicitProfile === 'boolean') &&
+    (operative.operativeType === undefined ||
+      operative.operativeType === 'catalog' ||
+      operative.operativeType === 'custom' ||
+      operative.operativeType === 'nemesis') &&
+    (operative.nemesisId === undefined || isString(operative.nemesisId)) &&
+    (operative.activationCardCount === undefined ||
+      typeof operative.activationCardCount === 'number')
   );
 };
 
@@ -378,6 +437,13 @@ const loadState = (): SoloJointOpsState => {
       }
 
       const profiles = maybe.profiles.filter(isValidProfile);
+      const nemesisOperatives = Array.isArray(
+        (maybe as { nemesisOperatives?: unknown[] }).nemesisOperatives
+      )
+        ? (
+            (maybe as { nemesisOperatives?: unknown[] }).nemesisOperatives ?? []
+          ).filter(isValidNemesisOperative)
+        : [];
       const lists = maybe.lists.filter(isValidList);
       if (profiles.length === 0 || lists.length === 0) continue;
 
@@ -448,6 +514,7 @@ const loadState = (): SoloJointOpsState => {
 
       return {
         profiles,
+        nemesisOperatives,
         lists,
         teams: normalizedTeams,
         selectedPlayerListId:
@@ -673,6 +740,7 @@ function SoloListEditor({
   selectedListId,
   availableTeams,
   catalogOperatives,
+  nemesisOperatives,
   profiles,
   profileLookup,
   defaultTeamId,
@@ -681,6 +749,7 @@ function SoloListEditor({
   onDeleteList,
   onRenameList,
   onAddOperative,
+  onAddNemesisOperative,
   onRemoveOperative,
 }: {
   side: ActivationSide;
@@ -688,6 +757,7 @@ function SoloListEditor({
   selectedListId: string;
   availableTeams: CatalogTeam[];
   catalogOperatives: CatalogOperative[];
+  nemesisOperatives: NemesisOperative[];
   profiles: SoloProfile[];
   profileLookup: Map<string, SoloProfile>;
   defaultTeamId: string;
@@ -696,6 +766,7 @@ function SoloListEditor({
   onDeleteList: (listId: string) => void;
   onRenameList: (listId: string, name: string) => void;
   onAddOperative: (listId: string, operative: AddListOperativeInput) => void;
+  onAddNemesisOperative: (listId: string, nemesisId: string) => void;
   onRemoveOperative: (listId: string, operativeId: string) => void;
 }) {
   const [newListName, setNewListName] = useState('');
@@ -704,6 +775,9 @@ function SoloListEditor({
   const [selectedProfileOverrideId, setSelectedProfileOverrideId] =
     useState('');
   const [customModelDescription, setCustomModelDescription] = useState('');
+  const [selectedNemesisId, setSelectedNemesisId] = useState(
+    nemesisOperatives[0]?.id ?? ''
+  );
 
   const sideLabel = side === 'player' ? 'Player' : 'NPO';
   const selectedList = lists.find((list) => list.id === selectedListId) ??
@@ -828,6 +902,14 @@ function SoloListEditor({
       setSelectedProfileOverrideId('');
     }
   }, [selectableProfileOverrides, selectedProfileOverrideId]);
+
+  useEffect(() => {
+    if (
+      !nemesisOperatives.some((nemesis) => nemesis.id === selectedNemesisId)
+    ) {
+      setSelectedNemesisId(nemesisOperatives[0]?.id ?? '');
+    }
+  }, [nemesisOperatives, selectedNemesisId]);
 
   return (
     <article className="team-builder" aria-label={`${sideLabel} list builder`}>
@@ -964,6 +1046,8 @@ function SoloListEditor({
                 teamName: selectedTeamName,
                 customDescription: customModelText,
                 requiresExplicitProfile: true,
+                operativeType: 'custom',
+                activationCardCount: 1,
               });
               setCustomModelDescription('');
               return;
@@ -975,6 +1059,8 @@ function SoloListEditor({
               modelId: selectedModelOperative.id,
               teamId: selectedModelOperative.teamId,
               teamName: selectedModelOperative.teamName,
+              operativeType: 'catalog',
+              activationCardCount: 1,
             });
           }}
           disabled={
@@ -1000,6 +1086,36 @@ function SoloListEditor({
           aria-label={`${sideLabel} custom model description`}
         />
       )}
+
+      <label htmlFor={`${side}-nemesis-selection`}>{sideLabel} Nemesis</label>
+      <div className="input-row input-row-stack-mobile catalog-add-row">
+        <select
+          id={`${side}-nemesis-selection`}
+          value={selectedNemesisId}
+          onChange={(event) => setSelectedNemesisId(event.target.value)}
+          aria-label={`${sideLabel} nemesis operative selection`}
+        >
+          {nemesisOperatives.length === 0 ? (
+            <option value="">No nemesis operatives created yet</option>
+          ) : (
+            nemesisOperatives.map((nemesis) => (
+              <option key={nemesis.id} value={nemesis.id}>
+                {nemesis.name}
+              </option>
+            ))
+          )}
+        </select>
+        <button
+          type="button"
+          onClick={() => {
+            if (!selectedList.id || !selectedNemesisId) return;
+            onAddNemesisOperative(selectedList.id, selectedNemesisId);
+          }}
+          disabled={!selectedList.id || !selectedNemesisId}
+        >
+          Add Nemesis Operative
+        </button>
+      </div>
 
       <ul>
         {selectedList.operatives.map((operative) => {
@@ -1181,6 +1297,12 @@ export function SoloJointOpsView() {
   const [editingProfileId, setEditingProfileId] = useState(
     initialState.profiles[0]?.id ?? ''
   );
+  const [newNemesisName, setNewNemesisName] = useState('');
+  const [newNemesisSize, setNewNemesisSize] = useState<NemesisSize>('small');
+  const [customNemesisControl, setCustomNemesisControl] = useState(5);
+  const [customNemesisMove, setCustomNemesisMove] = useState('6"');
+  const [customNemesisSave, setCustomNemesisSave] = useState('4+');
+  const [customNemesisWounds, setCustomNemesisWounds] = useState(50);
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const [transferHint, setTransferHint] = useState<TransferHint | null>(null);
   // Ephemeral draw-pile: card IDs in shuffled order, reset via Reset Deck
@@ -1505,6 +1627,10 @@ export function SoloJointOpsView() {
           side: operative.side,
           name: operative.name,
           profileId: operative.profileId,
+          activationCardCount: Math.max(
+            1,
+            persisted?.activationCardCount ?? operative.activationCardCount ?? 1
+          ),
           damageTaken: persisted?.damageTaken ?? 0,
           injured: persisted?.injured ?? false,
           incapacitated: persisted?.incapacitated ?? false,
@@ -1720,12 +1846,35 @@ export function SoloJointOpsView() {
                   teamName: operative.teamName,
                   customDescription: operative.customDescription,
                   requiresExplicitProfile: operative.requiresExplicitProfile,
+                  operativeType: operative.operativeType,
+                  nemesisId: operative.nemesisId,
+                  activationCardCount: operative.activationCardCount,
                 },
               ],
             }
           : list
       ),
     }));
+  };
+
+  const addNemesisToList = (listId: string, nemesisId: string) => {
+    const list = state.lists.find((item) => item.id === listId);
+    const nemesis = state.nemesisOperatives.find(
+      (item) => item.id === nemesisId
+    );
+    if (!list || !nemesis) return;
+
+    addOperativeToList(listId, {
+      name: nemesis.name,
+      profileId: nemesis.profileId,
+      teamId: NEMESIS_TEAM_ID,
+      teamName: 'Nemesis',
+      modelId: `nemesis:${nemesis.id}`,
+      operativeType: 'nemesis',
+      nemesisId: nemesis.id,
+      activationCardCount: list.side === 'npo' ? 2 : 1,
+      requiresExplicitProfile: true,
+    });
   };
 
   const removeOperativeFromList = (listId: string, operativeId: string) => {
@@ -1791,7 +1940,7 @@ export function SoloJointOpsView() {
         )
     );
 
-  /** Auto-generates one card per NPO operative from runner operatives. */
+  /** Auto-generates default cards from NPO runner operatives. */
   const buildDeckFromNpoOperatives = (
     ops: RunnerOperative[]
   ): ActivationCard[] =>
@@ -1801,7 +1950,7 @@ export function SoloJointOpsView() {
         id: generateUniqueId('deck-card'),
         label: op.name,
         operativeIds: [op.sourceOperativeId],
-        count: 1,
+        count: Math.max(1, op.activationCardCount),
       }));
 
   const addDeckCard = () => {
@@ -1942,6 +2091,88 @@ export function SoloJointOpsView() {
     });
   };
 
+  const createNemesisOperative = () => {
+    const normalizedName = newNemesisName.trim();
+    if (!normalizedName) return;
+
+    const resolvedStats =
+      newNemesisSize === 'custom'
+        ? {
+            control: Math.max(1, customNemesisControl),
+            move: customNemesisMove.trim() || '6"',
+            save: customNemesisSave.trim() || '4+',
+            wounds: Math.max(1, customNemesisWounds),
+          }
+        : NEMESIS_SIZE_PRESETS[newNemesisSize];
+
+    const profileId = generateUniqueId('nemesis-profile');
+    const nemesisId = generateUniqueId('nemesis');
+    const profile: SoloProfile = {
+      id: profileId,
+      name: `${normalizedName} (Nemesis)`,
+      apl: resolvedStats.control,
+      move: resolvedStats.move,
+      save: resolvedStats.save,
+      wounds: resolvedStats.wounds,
+      rangedWeapons: [],
+      meleeWeapons: [],
+      behaviorRules: '',
+      usesControlStat: true,
+    };
+
+    const nemesisOperative: NemesisOperative = {
+      id: nemesisId,
+      name: normalizedName,
+      size: newNemesisSize,
+      profileId,
+    };
+
+    setState((prev) => ({
+      ...prev,
+      profiles: [...prev.profiles, profile],
+      nemesisOperatives: [...prev.nemesisOperatives, nemesisOperative],
+    }));
+    setNewNemesisName('');
+  };
+
+  const deleteNemesisOperative = (nemesisId: string) => {
+    setState((prev) => {
+      const target = prev.nemesisOperatives.find(
+        (item) => item.id === nemesisId
+      );
+      if (!target) return prev;
+
+      const removedOperativeIds = new Set<string>();
+      const nextLists = prev.lists.map((list) => ({
+        ...list,
+        operatives: list.operatives.filter((operative) => {
+          const matches = operative.nemesisId === nemesisId;
+          if (matches) {
+            removedOperativeIds.add(operative.id);
+          }
+          return !matches;
+        }),
+      }));
+
+      return {
+        ...prev,
+        nemesisOperatives: prev.nemesisOperatives.filter(
+          (item) => item.id !== nemesisId
+        ),
+        profiles: prev.profiles.filter(
+          (profile) => profile.id !== target.profileId
+        ),
+        lists: nextLists,
+        teams: prev.teams.map((team) => ({
+          ...team,
+          operativeIds: team.operativeIds.filter(
+            (id) => !removedOperativeIds.has(id)
+          ),
+        })),
+      };
+    });
+  };
+
   /**
    * Serializes backup payload JSON and triggers a browser download.
    * Creates and revokes a temporary object URL for cleanup.
@@ -1970,6 +2201,7 @@ export function SoloJointOpsView() {
     downloadBackup('solo-joint-ops-profiles.json', {
       schemaVersion: 1,
       profiles: state.profiles,
+      nemesisOperatives: state.nemesisOperatives,
     });
   };
 
@@ -2094,6 +2326,9 @@ export function SoloJointOpsView() {
       const importedProfiles = Array.isArray(parsed.profiles)
         ? parsed.profiles.filter(isValidProfile)
         : [];
+      const importedNemesisOperatives = Array.isArray(parsed.nemesisOperatives)
+        ? parsed.nemesisOperatives.filter(isValidNemesisOperative)
+        : [];
 
       if (importedProfiles.length === 0) {
         setImportMessage('No valid profiles were found in this backup file.');
@@ -2103,6 +2338,7 @@ export function SoloJointOpsView() {
       setState((prev) => ({
         ...prev,
         profiles: importedProfiles,
+        nemesisOperatives: importedNemesisOperatives,
       }));
       setEditingProfileId(importedProfiles[0].id);
       setImportMessage(`Imported ${importedProfiles.length} profile(s).`);
@@ -2119,6 +2355,8 @@ export function SoloJointOpsView() {
 
   const activeProfile =
     state.profiles.find((profile) => profile.id === editingProfileId) ?? null;
+  const selectedNemesisPreset =
+    newNemesisSize === 'custom' ? null : NEMESIS_SIZE_PRESETS[newNemesisSize];
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
   const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
 
@@ -2180,12 +2418,13 @@ export function SoloJointOpsView() {
     }
 
     const behavior = parseBehaviorRules(profile.behaviorRules);
+    const primaryStatLabel = profile.usesControlStat ? '🎛️ Control' : '⚡ APL';
 
     return (
       <div className="profile-summary">
         <div className="profile-stats-grid">
           <div className="profile-stat-chip is-apl">
-            <span className="profile-stat-label">⚡ APL</span>
+            <span className="profile-stat-label">{primaryStatLabel}</span>
             <strong>{profile.apl}</strong>
           </div>
           <div className="profile-stat-chip is-move">
@@ -2328,8 +2567,8 @@ export function SoloJointOpsView() {
       <header>
         <h2>Solo / Joint Ops</h2>
         <p>
-          Game runner, list builder, and profile manager for solo or joint
-          operations.
+          Game runner, list builder, NPO profile manager, and nemesis manager
+          for solo or joint operations.
         </p>
       </header>
 
@@ -2353,7 +2592,7 @@ export function SoloJointOpsView() {
           className={activeTab === 'profile-manager' ? 'active' : ''}
           onClick={() => setActiveTab('profile-manager')}
         >
-          Profile Manager
+          NPO Profile Manager
         </button>
       </nav>
 
@@ -2746,8 +2985,9 @@ export function SoloJointOpsView() {
                   </button>
                 </div>
                 <p className="deck-description">
-                  Default behavior is one card per NPO operative. You can edit
-                  card links and instance counts when needed.
+                  Default behavior is one card per NPO operative (two for NPO
+                  nemesis operatives). You can edit card links and instance
+                  counts when needed.
                 </p>
 
                 {state.activationDeck.length === 0 ? (
@@ -2921,7 +3161,7 @@ export function SoloJointOpsView() {
                     }}
                     disabled={npoRunnerOperatives.length === 0}
                   >
-                    Reset to Default (one card per operative)
+                    Reset to Default (standard per-operative cards)
                   </button>
                 </div>
               </section>
@@ -3128,8 +3368,8 @@ export function SoloJointOpsView() {
           <h3>List Builder</h3>
           <p>
             Build and store player/NPO model lists with optional profile
-            overrides. Player entries default to Datacard, while NPO and custom
-            model entries use explicit profiles.
+            overrides. Player entries default to Datacard, while NPO, custom
+            model, and nemesis entries use explicit profiles.
           </p>
 
           <div className="solo-tabs list-builder-subtabs" role="tablist">
@@ -3163,6 +3403,7 @@ export function SoloJointOpsView() {
                   selectedListId={selectedPlayerList.id}
                   availableTeams={playerCatalogTeams}
                   catalogOperatives={operativeCatalog.operatives}
+                  nemesisOperatives={state.nemesisOperatives}
                   profiles={state.profiles}
                   profileLookup={profileLookup}
                   defaultTeamId={selectedPlayerTeamForList}
@@ -3173,6 +3414,7 @@ export function SoloJointOpsView() {
                   onDeleteList={deleteList}
                   onRenameList={renameList}
                   onAddOperative={addOperativeToList}
+                  onAddNemesisOperative={addNemesisToList}
                   onRemoveOperative={removeOperativeFromList}
                 />
               )}
@@ -3186,6 +3428,7 @@ export function SoloJointOpsView() {
                   selectedListId={selectedNpoList.id}
                   availableTeams={npoCatalogTeams}
                   catalogOperatives={operativeCatalog.operatives}
+                  nemesisOperatives={state.nemesisOperatives}
                   profiles={state.profiles}
                   profileLookup={profileLookup}
                   defaultTeamId={selectedNpoTeamForList}
@@ -3196,6 +3439,7 @@ export function SoloJointOpsView() {
                   onDeleteList={deleteList}
                   onRenameList={renameList}
                   onAddOperative={addOperativeToList}
+                  onAddNemesisOperative={addNemesisToList}
                   onRemoveOperative={removeOperativeFromList}
                 />
               )}
@@ -3224,10 +3468,11 @@ export function SoloJointOpsView() {
 
       {activeTab === 'profile-manager' && (
         <section className="solo-card">
-          <h3>Profile Manager</h3>
+          <h3>NPO Profile Manager</h3>
           <p>
-            Create and edit operative profiles used by lists. Profiles include
-            core stats, ranged/melee weapon profiles, and behavior rules.
+            Create and edit NPO operative profiles used by lists. Profiles
+            include core stats, ranged/melee weapon profiles, and behavior
+            rules.
           </p>
 
           <div className="profile-toolbar">
@@ -3270,7 +3515,7 @@ export function SoloJointOpsView() {
                 />
               </label>
               <label>
-                APL
+                {activeProfile.usesControlStat ? 'Control' : 'APL'}
                 <input
                   type="number"
                   min={1}
@@ -3348,6 +3593,133 @@ export function SoloJointOpsView() {
               </div>
             </div>
           )}
+
+          <section className="team-builder">
+            <h4>Nemesis Manager</h4>
+            <p>
+              Create Nemesis operatives with size-driven core stats. Nemesis can
+              then be added to either Player or NPO lists.
+            </p>
+
+            <label htmlFor="nemesis-name">Nemesis Name</label>
+            <input
+              id="nemesis-name"
+              value={newNemesisName}
+              onChange={(event) => setNewNemesisName(event.target.value)}
+              placeholder="Armoured Sentinel"
+              aria-label="Nemesis name"
+            />
+
+            <label htmlFor="nemesis-size">Nemesis Size</label>
+            <select
+              id="nemesis-size"
+              value={newNemesisSize}
+              onChange={(event) =>
+                setNewNemesisSize(event.target.value as NemesisSize)
+              }
+              aria-label="Nemesis size"
+            >
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+              <option value="custom">Custom</option>
+            </select>
+
+            {selectedNemesisPreset && (
+              <p className="team-selection-meta">
+                Control {selectedNemesisPreset.control} · Move{' '}
+                {selectedNemesisPreset.move} · Save {selectedNemesisPreset.save}{' '}
+                · Wounds {selectedNemesisPreset.wounds}
+              </p>
+            )}
+
+            {newNemesisSize === 'custom' && (
+              <div className="profile-editor-grid">
+                <label>
+                  Control
+                  <input
+                    type="number"
+                    min={1}
+                    value={customNemesisControl}
+                    onChange={(event) =>
+                      setCustomNemesisControl(
+                        Math.max(1, Number(event.target.value) || 1)
+                      )
+                    }
+                  />
+                </label>
+                <label>
+                  Move
+                  <input
+                    value={customNemesisMove}
+                    onChange={(event) =>
+                      setCustomNemesisMove(event.target.value)
+                    }
+                  />
+                </label>
+                <label>
+                  Save
+                  <input
+                    value={customNemesisSave}
+                    onChange={(event) =>
+                      setCustomNemesisSave(event.target.value)
+                    }
+                  />
+                </label>
+                <label>
+                  Wounds
+                  <input
+                    type="number"
+                    min={1}
+                    value={customNemesisWounds}
+                    onChange={(event) =>
+                      setCustomNemesisWounds(
+                        Math.max(1, Number(event.target.value) || 1)
+                      )
+                    }
+                  />
+                </label>
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={createNemesisOperative}
+              disabled={!newNemesisName.trim()}
+            >
+              Create Nemesis Operative
+            </button>
+
+            {state.nemesisOperatives.length === 0 ? (
+              <p className="team-transfer-empty">No nemesis operatives yet.</p>
+            ) : (
+              <ul>
+                {state.nemesisOperatives.map((nemesis) => {
+                  const profile = profileLookup.get(nemesis.profileId);
+                  return (
+                    <li key={nemesis.id}>
+                      <span>
+                        {nemesis.name} <small>({nemesis.size})</small>
+                        <br />
+                        <small>
+                          Control: {profile?.apl ?? '-'} · Move:{' '}
+                          {profile?.move ?? '-'} · Save: {profile?.save ?? '-'}{' '}
+                          · Wounds: {profile?.wounds ?? '-'}
+                        </small>
+                      </span>
+                      <button
+                        type="button"
+                        className="danger-button"
+                        onClick={() => deleteNemesisOperative(nemesis.id)}
+                      >
+                        Remove
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </section>
 
           <div className="backup-controls">
             <button type="button" onClick={exportProfiles}>
