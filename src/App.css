@@ -222,17 +222,22 @@
 }
 
 @media (max-width: 768px) {
+  .app-header {
+    padding: 0.8rem 0.75rem 0.65rem;
+  }
+
   .app-header h1 {
     font-size: 1.8rem;
   }
 
   .subtitle {
     font-size: 1rem;
+    margin-top: 0.2rem;
   }
 
   .nav-buttons {
     gap: 0.5rem;
-    margin-top: 1rem;
+    margin-top: 0.6rem;
   }
 
   .nav-button {
@@ -244,5 +249,9 @@
 
   .operatives-grid {
     grid-template-columns: 1fr;
+  }
+
+  .app-main {
+    padding: 0.65rem 0.75rem;
   }
 }
