@@ -356,6 +356,8 @@ JSON Schema will validate all configuration files to ensure:
 2. **List**
    - Collection of model entries available to a side
    - Each entry references a profile (or Datacard default for player entries)
+   - Selected model/profile combinations show a pre-add datacard preview in the list builder
+   - Added list entries provide clickable profile links that open a popup datacard summary
    - Supports profile overrides (e.g., assigning a player model to an NPO profile)
    - Supports custom model descriptions; custom entries must choose an explicit profile
 

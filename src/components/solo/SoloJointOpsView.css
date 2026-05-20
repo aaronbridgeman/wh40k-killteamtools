@@ -197,6 +197,17 @@
   gap: 0.4rem;
 }
 
+.profile-preview-panel {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.55rem 0.65rem;
+  background: color-mix(in srgb, var(--surface-color) 88%, black);
+}
+
+.profile-preview-panel h5 {
+  margin: 0;
+}
+
 .team-selection-meta {
   margin: 0;
   font-size: 0.85rem;
@@ -228,6 +239,21 @@
 .team-builder li span {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.profile-link-button {
+  border: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--accent-color) 90%, white);
+  font-weight: 700;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+  cursor: pointer;
+}
+
+.profile-preview-modal {
+  width: min(820px, 100%);
 }
 
 .team-transfer {

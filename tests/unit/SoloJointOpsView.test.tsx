@@ -225,11 +225,17 @@ describe('SoloJointOpsView', () => {
     expect(npoListBuilder).toHaveTextContent(operativeName);
   });
 
-  it('uses Datacard by default and allows profile override for player models', () => {
+  it('shows preview before add and opens datacard popup from list profile link', () => {
     render(<SoloJointOpsView />);
 
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
     fireEvent.click(screen.getByRole('tab', { name: 'Player Lists' }));
+
+    expect(
+      screen.getByRole('heading', { name: 'Selected Datacard Preview' })
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Default datacard:/i)).toBeInTheDocument();
+
     fireEvent.click(screen.getByRole('button', { name: 'Add Player Model' }));
 
     expect(screen.getByText(/Profile: Datacard/i)).toBeInTheDocument();
@@ -242,9 +248,22 @@ describe('SoloJointOpsView', () => {
     fireEvent.change(playerProfileOverride, {
       target: { value: overrideProfileId },
     });
+    expect(screen.getByText(/Profile override: NPO Trooper/i)).toBeInTheDocument();
+
     fireEvent.click(screen.getByRole('button', { name: 'Add Player Model' }));
 
     expect(screen.getByText(/Profile: NPO Trooper/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Profile: NPO Trooper/i }));
+    expect(
+      screen.getByRole('heading', { name: /Datacard$/i })
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Using profile override: NPO Trooper/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(
+      screen.queryByText(/Using profile override: NPO Trooper/i)
+    ).not.toBeInTheDocument();
   });
 
   it('requires explicit profile for custom models', () => {
@@ -277,12 +296,15 @@ describe('SoloJointOpsView', () => {
 
     expect(screen.getByText(/Custom Beast/i)).toBeInTheDocument();
     expect(
-      screen.getByText(
-        new RegExp(
-          `Profile: ${selectedProfileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} \\(required\\)`,
+      screen.getAllByRole('button', {
+        name: new RegExp(
+          `Profile: ${selectedProfileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`,
           'i'
-        )
-      )
+        ),
+      }).length
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getByText(/\(required\)/i)
     ).toBeInTheDocument();
   });
 

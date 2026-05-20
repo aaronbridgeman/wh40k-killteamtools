@@ -1313,6 +1313,233 @@ function TeamOperativeTransfer({
   );
 }
 
+const parseSpecialRules = (specialRules: string): string[] =>
+  specialRules
+    .split(',')
+    .map((rule) => rule.trim())
+    .filter(Boolean);
+
+const parseBehaviorRules = (
+  behaviorRules: string
+): { intro: string; steps: string[] } => {
+  const normalized = behaviorRules.replace(/\s+/g, ' ').trim();
+  if (!normalized) {
+    return { intro: '', steps: [] };
+  }
+
+  const firstStepIndex = normalized.search(/\b1\.\s*/);
+  if (firstStepIndex === -1) {
+    return { intro: normalized, steps: [] };
+  }
+
+  const intro = normalized.slice(0, firstStepIndex).trim();
+  const steps = normalized
+    .slice(firstStepIndex)
+    .split(/(?=\b\d+\.\s)/)
+    .map((step) => step.replace(/^\d+\.\s*/, '').trim())
+    .filter(Boolean);
+
+  return { intro, steps };
+};
+
+function renderDetailedProfileSummary(profile: SoloProfile | null) {
+  if (!profile) {
+    return <p className="profile-summary">Profile data unavailable.</p>;
+  }
+
+  const behavior = parseBehaviorRules(profile.behaviorRules);
+  const primaryStatLabel = profile.usesControlStat ? '🎛️ Control' : '⚡ APL';
+  const allegianceTraits =
+    profile.allegianceTraits
+      ?.map((traitId) =>
+        NEMESIS_ALLEGIANCE_TRAITS.find((trait) => trait.id === traitId)
+      )
+      .filter((trait): trait is NemesisTraitOption => Boolean(trait)) ?? [];
+  const nemesisTraits =
+    profile.nemesisTraits
+      ?.map((traitId) => NEMESIS_TRAITS.find((trait) => trait.id === traitId))
+      .filter((trait): trait is NemesisTraitOption => Boolean(trait)) ?? [];
+
+  return (
+    <div className="profile-summary">
+      <div className="profile-stats-grid">
+        <div className="profile-stat-chip is-apl">
+          <span className="profile-stat-label">{primaryStatLabel}</span>
+          <strong>{profile.apl}</strong>
+        </div>
+        <div className="profile-stat-chip is-move">
+          <span className="profile-stat-label">🏃 Move</span>
+          <strong>{profile.move}</strong>
+        </div>
+        <div className="profile-stat-chip is-save">
+          <span className="profile-stat-label">🛡️ Save</span>
+          <strong>{profile.save}</strong>
+        </div>
+        <div className="profile-stat-chip is-wounds">
+          <span className="profile-stat-label">❤️ Wounds</span>
+          <strong>{profile.wounds}</strong>
+        </div>
+      </div>
+
+      {(allegianceTraits.length > 0 || nemesisTraits.length > 0) && (
+        <div className="runner-weapon-section">
+          <h5>☠️ Traits</h5>
+          {allegianceTraits.length > 0 && (
+            <>
+              <p className="team-selection-meta">Allegiance Traits</p>
+              <div className="runner-weapon-list">
+                {allegianceTraits.map((trait) => (
+                  <article
+                    className="runner-weapon-card"
+                    key={`allegiance-${profile.id}-${trait.id}`}
+                  >
+                    <p className="runner-weapon-name">{trait.name}</p>
+                    <p className="runner-weapon-no-rules">
+                      {trait.description}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </>
+          )}
+          {nemesisTraits.length > 0 && (
+            <>
+              <p className="team-selection-meta">Nemesis Traits</p>
+              <div className="runner-weapon-list">
+                {nemesisTraits.map((trait) => (
+                  <article
+                    className="runner-weapon-card"
+                    key={`nemesis-${profile.id}-${trait.id}`}
+                  >
+                    <p className="runner-weapon-name">{trait.name}</p>
+                    <p className="runner-weapon-no-rules">
+                      {trait.description}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      <div className="runner-weapon-section">
+        <h5>🔫 Ranged Weapons</h5>
+        {profile.rangedWeapons.length === 0 ? (
+          <p className="runner-weapon-none">None</p>
+        ) : (
+          <div className="runner-weapon-list">
+            {profile.rangedWeapons.map((weapon) => {
+              const rules = parseSpecialRules(weapon.specialRules);
+              return (
+                <article className="runner-weapon-card" key={weapon.id}>
+                  <p className="runner-weapon-name">{weapon.name}</p>
+                  <div className="runner-weapon-metrics">
+                    <div className="runner-weapon-metric-chip is-attacks">
+                      <span className="runner-weapon-metric-label">
+                        🎲 Attacks
+                      </span>
+                      <strong>{weapon.attacks}</strong>
+                    </div>
+                    <div className="runner-weapon-metric-chip is-hit">
+                      <span className="runner-weapon-metric-label">🎯 Hit</span>
+                      <strong>{weapon.skill}</strong>
+                    </div>
+                    <div className="runner-weapon-metric-chip is-damage">
+                      <span className="runner-weapon-metric-label">
+                        💥 Damage
+                      </span>
+                      <strong>
+                        N {weapon.damage} / C {weapon.criticalDamage}
+                      </strong>
+                    </div>
+                  </div>
+                  {rules.length > 0 ? (
+                    <div className="runner-weapon-rules">
+                      {rules.map((rule) => (
+                        <span className="runner-weapon-rule-chip" key={rule}>
+                          {rule}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="runner-weapon-no-rules">No special rules</p>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      <div className="runner-weapon-section">
+        <h5>⚔️ Melee Weapons</h5>
+        {profile.meleeWeapons.length === 0 ? (
+          <p className="runner-weapon-none">None</p>
+        ) : (
+          <div className="runner-weapon-list">
+            {profile.meleeWeapons.map((weapon) => {
+              const rules = parseSpecialRules(weapon.specialRules);
+              return (
+                <article className="runner-weapon-card" key={weapon.id}>
+                  <p className="runner-weapon-name">{weapon.name}</p>
+                  <div className="runner-weapon-metrics">
+                    <div className="runner-weapon-metric-chip is-attacks">
+                      <span className="runner-weapon-metric-label">
+                        🎲 Attacks
+                      </span>
+                      <strong>{weapon.attacks}</strong>
+                    </div>
+                    <div className="runner-weapon-metric-chip is-hit">
+                      <span className="runner-weapon-metric-label">🎯 Hit</span>
+                      <strong>{weapon.skill}</strong>
+                    </div>
+                    <div className="runner-weapon-metric-chip is-damage">
+                      <span className="runner-weapon-metric-label">
+                        💥 Damage
+                      </span>
+                      <strong>
+                        N {weapon.damage} / C {weapon.criticalDamage}
+                      </strong>
+                    </div>
+                  </div>
+                  {rules.length > 0 ? (
+                    <div className="runner-weapon-rules">
+                      {rules.map((rule) => (
+                        <span className="runner-weapon-rule-chip" key={rule}>
+                          {rule}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="runner-weapon-no-rules">No special rules</p>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {profile.behaviorRules && (
+        <div className="runner-behavior">
+          <p className="runner-behavior-title">🤖 Behavior</p>
+          {behavior.intro && (
+            <p className="runner-behavior-intro">{behavior.intro}</p>
+          )}
+          {behavior.steps.length > 0 ? (
+            <ol className="runner-behavior-steps">
+              {behavior.steps.map((step, index) => (
+                <li key={`${profile.id}-step-${index}`}>{step}</li>
+              ))}
+            </ol>
+          ) : null}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SoloListEditor({
   side,
   lists,
@@ -1357,6 +1584,9 @@ function SoloListEditor({
   const [selectedNemesisId, setSelectedNemesisId] = useState(
     nemesisOperatives[0]?.id ?? ''
   );
+  const [inspectedOperativeId, setInspectedOperativeId] = useState<
+    string | null
+  >(null);
 
   const sideLabel = side === 'player' ? 'Player' : 'NPO';
   const selectedList = lists.find((list) => list.id === selectedListId) ??
@@ -1441,6 +1671,14 @@ function SoloListEditor({
     );
   }, [filteredCatalogOperatives]);
 
+  const catalogOperativeLookup = useMemo(() => {
+    const map = new Map<string, CatalogOperative>();
+    catalogOperatives.forEach((operative) => {
+      map.set(operative.id, operative);
+    });
+    return map;
+  }, [catalogOperatives]);
+
   const selectableProfileOverrides = useMemo(() => {
     if (side !== 'npo') {
       return profiles;
@@ -1489,6 +1727,40 @@ function SoloListEditor({
       setSelectedNemesisId(nemesisOperatives[0]?.id ?? '');
     }
   }, [nemesisOperatives, selectedNemesisId]);
+
+  const selectedPreviewProfile = isCustomModel
+    ? selectedProfileOverrideId
+      ? (profileLookup.get(selectedProfileOverrideId) ?? null)
+      : null
+    : selectedProfileOverrideId
+      ? (profileLookup.get(selectedProfileOverrideId) ?? null)
+      : (selectedModelOperative?.profile ?? null);
+
+  const selectedPreviewLabel = isCustomModel
+    ? selectedProfileOverrideId
+      ? 'Explicit profile override'
+      : 'Select a profile override to preview a custom model datacard.'
+    : selectedProfileOverrideId
+      ? `Profile override: ${
+          profileLookup.get(selectedProfileOverrideId)?.name ??
+          'Unknown Profile'
+        }`
+      : `Default datacard: ${selectedModelOperative?.profile.name ?? 'Model Profile'}`;
+
+  const inspectedOperative = inspectedOperativeId
+    ? (selectedList.operatives.find(
+        (operative) => operative.id === inspectedOperativeId
+      ) ?? null)
+    : null;
+
+  const inspectedProfile = inspectedOperative
+    ? inspectedOperative.profileId === DATACARD_PROFILE_ID
+      ? inspectedOperative.modelId
+        ? (catalogOperativeLookup.get(inspectedOperative.modelId)?.profile ??
+          null)
+        : null
+      : (profileLookup.get(inspectedOperative.profileId) ?? null)
+    : null;
 
   return (
     <article className="team-builder" aria-label={`${sideLabel} list builder`}>
@@ -1696,6 +1968,12 @@ function SoloListEditor({
         </button>
       </div>
 
+      <section className="profile-preview-panel" aria-live="polite">
+        <h5>Selected Datacard Preview</h5>
+        <p className="team-selection-meta">{selectedPreviewLabel}</p>
+        {renderDetailedProfileSummary(selectedPreviewProfile)}
+      </section>
+
       <ul>
         {selectedList.operatives.map((operative) => {
           const profileName =
@@ -1710,7 +1988,13 @@ function SoloListEditor({
                 <small>({operative.teamName ?? 'Unknown Team'})</small>
                 <br />
                 <small>
-                  Profile: {profileName}
+                  <button
+                    type="button"
+                    className="profile-link-button"
+                    onClick={() => setInspectedOperativeId(operative.id)}
+                  >
+                    Profile: {profileName}
+                  </button>
                   {operative.requiresExplicitProfile ? ' (required)' : ''}
                 </small>
               </span>
@@ -1724,6 +2008,31 @@ function SoloListEditor({
           );
         })}
       </ul>
+
+      {inspectedOperative && (
+        <div className="setup-modal-backdrop" role="dialog" aria-modal>
+          <section className="solo-card setup-modal profile-preview-modal">
+            <div className="setup-modal-header">
+              <h4>{inspectedOperative.name} Datacard</h4>
+              <button
+                type="button"
+                onClick={() => setInspectedOperativeId(null)}
+              >
+                Close
+              </button>
+            </div>
+            <p className="team-selection-meta">
+              {inspectedOperative.profileId === DATACARD_PROFILE_ID
+                ? 'Using operative datacard profile.'
+                : `Using profile override: ${
+                    profileLookup.get(inspectedOperative.profileId)?.name ??
+                    'Unknown Profile'
+                  }`}
+            </p>
+            {renderDetailedProfileSummary(inspectedProfile)}
+          </section>
+        </div>
+      )}
     </article>
   );
 }
@@ -3194,35 +3503,6 @@ export function SoloJointOpsView() {
    * Renders summary content for Datacard entries, resolved profiles,
    * or a fallback when the referenced profile cannot be found.
    */
-  const parseSpecialRules = (specialRules: string): string[] =>
-    specialRules
-      .split(',')
-      .map((rule) => rule.trim())
-      .filter(Boolean);
-
-  const parseBehaviorRules = (
-    behaviorRules: string
-  ): { intro: string; steps: string[] } => {
-    const normalized = behaviorRules.replace(/\s+/g, ' ').trim();
-    if (!normalized) {
-      return { intro: '', steps: [] };
-    }
-
-    const firstStepIndex = normalized.search(/\b1\.\s*/);
-    if (firstStepIndex === -1) {
-      return { intro: normalized, steps: [] };
-    }
-
-    const intro = normalized.slice(0, firstStepIndex).trim();
-    const steps = normalized
-      .slice(firstStepIndex)
-      .split(/(?=\b\d+\.\s)/)
-      .map((step) => step.replace(/^\d+\.\s*/, '').trim())
-      .filter(Boolean);
-
-    return { intro, steps };
-  };
-
   const renderProfileSummary = (profileId: string) => {
     if (profileId === DATACARD_PROFILE_ID) {
       return (
@@ -3231,206 +3511,7 @@ export function SoloJointOpsView() {
         </p>
       );
     }
-    const profile = profileLookup.get(profileId);
-    if (!profile) {
-      return <p className="profile-summary">Profile data unavailable.</p>;
-    }
-
-    const behavior = parseBehaviorRules(profile.behaviorRules);
-    const primaryStatLabel = profile.usesControlStat ? '🎛️ Control' : '⚡ APL';
-    const allegianceTraits =
-      profile.allegianceTraits
-        ?.map((traitId) =>
-          NEMESIS_ALLEGIANCE_TRAITS.find((trait) => trait.id === traitId)
-        )
-        .filter((trait): trait is NemesisTraitOption => Boolean(trait)) ?? [];
-    const nemesisTraits =
-      profile.nemesisTraits
-        ?.map((traitId) => NEMESIS_TRAITS.find((trait) => trait.id === traitId))
-        .filter((trait): trait is NemesisTraitOption => Boolean(trait)) ?? [];
-
-    return (
-      <div className="profile-summary">
-        <div className="profile-stats-grid">
-          <div className="profile-stat-chip is-apl">
-            <span className="profile-stat-label">{primaryStatLabel}</span>
-            <strong>{profile.apl}</strong>
-          </div>
-          <div className="profile-stat-chip is-move">
-            <span className="profile-stat-label">🏃 Move</span>
-            <strong>{profile.move}</strong>
-          </div>
-          <div className="profile-stat-chip is-save">
-            <span className="profile-stat-label">🛡️ Save</span>
-            <strong>{profile.save}</strong>
-          </div>
-          <div className="profile-stat-chip is-wounds">
-            <span className="profile-stat-label">❤️ Wounds</span>
-            <strong>{profile.wounds}</strong>
-          </div>
-        </div>
-
-        {(allegianceTraits.length > 0 || nemesisTraits.length > 0) && (
-          <div className="runner-weapon-section">
-            <h5>☠️ Traits</h5>
-            {allegianceTraits.length > 0 && (
-              <>
-                <p className="team-selection-meta">Allegiance Traits</p>
-                <div className="runner-weapon-list">
-                  {allegianceTraits.map((trait) => (
-                    <article
-                      className="runner-weapon-card"
-                      key={`allegiance-${profile.id}-${trait.id}`}
-                    >
-                      <p className="runner-weapon-name">{trait.name}</p>
-                      <p className="runner-weapon-no-rules">
-                        {trait.description}
-                      </p>
-                    </article>
-                  ))}
-                </div>
-              </>
-            )}
-            {nemesisTraits.length > 0 && (
-              <>
-                <p className="team-selection-meta">Nemesis Traits</p>
-                <div className="runner-weapon-list">
-                  {nemesisTraits.map((trait) => (
-                    <article
-                      className="runner-weapon-card"
-                      key={`nemesis-${profile.id}-${trait.id}`}
-                    >
-                      <p className="runner-weapon-name">{trait.name}</p>
-                      <p className="runner-weapon-no-rules">
-                        {trait.description}
-                      </p>
-                    </article>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
-        <div className="runner-weapon-section">
-          <h5>🔫 Ranged Weapons</h5>
-          {profile.rangedWeapons.length === 0 ? (
-            <p className="runner-weapon-none">None</p>
-          ) : (
-            <div className="runner-weapon-list">
-              {profile.rangedWeapons.map((weapon) => {
-                const rules = parseSpecialRules(weapon.specialRules);
-                return (
-                  <article className="runner-weapon-card" key={weapon.id}>
-                    <p className="runner-weapon-name">{weapon.name}</p>
-                    <div className="runner-weapon-metrics">
-                      <div className="runner-weapon-metric-chip is-attacks">
-                        <span className="runner-weapon-metric-label">
-                          🎲 Attacks
-                        </span>
-                        <strong>{weapon.attacks}</strong>
-                      </div>
-                      <div className="runner-weapon-metric-chip is-hit">
-                        <span className="runner-weapon-metric-label">
-                          🎯 Hit
-                        </span>
-                        <strong>{weapon.skill}</strong>
-                      </div>
-                      <div className="runner-weapon-metric-chip is-damage">
-                        <span className="runner-weapon-metric-label">
-                          💥 Damage
-                        </span>
-                        <strong>
-                          N {weapon.damage} / C {weapon.criticalDamage}
-                        </strong>
-                      </div>
-                    </div>
-                    {rules.length > 0 ? (
-                      <div className="runner-weapon-rules">
-                        {rules.map((rule) => (
-                          <span className="runner-weapon-rule-chip" key={rule}>
-                            {rule}
-                          </span>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="runner-weapon-no-rules">No special rules</p>
-                    )}
-                  </article>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        <div className="runner-weapon-section">
-          <h5>⚔️ Melee Weapons</h5>
-          {profile.meleeWeapons.length === 0 ? (
-            <p className="runner-weapon-none">None</p>
-          ) : (
-            <div className="runner-weapon-list">
-              {profile.meleeWeapons.map((weapon) => {
-                const rules = parseSpecialRules(weapon.specialRules);
-                return (
-                  <article className="runner-weapon-card" key={weapon.id}>
-                    <p className="runner-weapon-name">{weapon.name}</p>
-                    <div className="runner-weapon-metrics">
-                      <div className="runner-weapon-metric-chip is-attacks">
-                        <span className="runner-weapon-metric-label">
-                          🎲 Attacks
-                        </span>
-                        <strong>{weapon.attacks}</strong>
-                      </div>
-                      <div className="runner-weapon-metric-chip is-hit">
-                        <span className="runner-weapon-metric-label">
-                          🎯 Hit
-                        </span>
-                        <strong>{weapon.skill}</strong>
-                      </div>
-                      <div className="runner-weapon-metric-chip is-damage">
-                        <span className="runner-weapon-metric-label">
-                          💥 Damage
-                        </span>
-                        <strong>
-                          N {weapon.damage} / C {weapon.criticalDamage}
-                        </strong>
-                      </div>
-                    </div>
-                    {rules.length > 0 ? (
-                      <div className="runner-weapon-rules">
-                        {rules.map((rule) => (
-                          <span className="runner-weapon-rule-chip" key={rule}>
-                            {rule}
-                          </span>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="runner-weapon-no-rules">No special rules</p>
-                    )}
-                  </article>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {profile.behaviorRules && (
-          <div className="runner-behavior">
-            <p className="runner-behavior-title">🤖 Behavior</p>
-            {behavior.intro && (
-              <p className="runner-behavior-intro">{behavior.intro}</p>
-            )}
-            {behavior.steps.length > 0 ? (
-              <ol className="runner-behavior-steps">
-                {behavior.steps.map((step, index) => (
-                  <li key={`${profile.id}-step-${index}`}>{step}</li>
-                ))}
-              </ol>
-            ) : null}
-          </div>
-        )}
-      </div>
-    );
+    return renderDetailedProfileSummary(profileLookup.get(profileId) ?? null);
   };
 
   return (
