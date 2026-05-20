@@ -17320,6 +17320,262 @@
       }
     },
     {
+      "id": "mission-pack-npo-operatives--devout-brawler--11",
+      "teamId": "mission-pack-npo-operatives",
+      "teamName": "Mission Pack NPO Operatives",
+      "name": "Devout Brawler",
+      "profile": {
+        "id": "mission-pack-npo-operatives--devout-brawler--11",
+        "name": "Devout Brawler",
+        "apl": 2,
+        "move": "5\"",
+        "save": "5+",
+        "wounds": 6,
+        "rangedWeapons": [],
+        "meleeWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--devout-brawler--11--w0",
+            "name": "Crude melee weapon",
+            "attacks": 4,
+            "skill": "5+",
+            "damage": "2",
+            "criticalDamage": "3",
+            "specialRules": "Ceaseless"
+          }
+        ],
+        "behaviorRules": "This NPO will move towards the enemy to fight them, but will protect the Scroll Bearer NPO and seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. Normal behaviour priority: 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible. Special behaviour (if there is no Scroll Bearer carrying the marker): 1. Pick up Marker on the Scroll marker if this operative can. 2. Fight an operative that contests the Scroll marker, or a player operative that prevents this. 3. Charge such an operative. 4. Fall Back towards the Scroll marker, to cover if possible. 5. Reposition towards the Scroll marker, to cover if possible (a subsequent Dash action can fulfil this, if able). 6. Dash towards the Scroll marker, to cover if possible."
+      }
+    },
+    {
+      "id": "mission-pack-npo-operatives--devout-marksman--12",
+      "teamId": "mission-pack-npo-operatives",
+      "teamName": "Mission Pack NPO Operatives",
+      "name": "Devout Marksman",
+      "profile": {
+        "id": "mission-pack-npo-operatives--devout-marksman--12",
+        "name": "Devout Marksman",
+        "apl": 2,
+        "move": "5\"",
+        "save": "5+",
+        "wounds": 6,
+        "rangedWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--devout-marksman--12--w0",
+            "name": "Shotgun",
+            "attacks": 4,
+            "skill": "4+",
+            "damage": "3",
+            "criticalDamage": "3",
+            "specialRules": "Rng 6\""
+          }
+        ],
+        "meleeWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--devout-marksman--12--w1",
+            "name": "Crude melee weapon",
+            "attacks": 3,
+            "skill": "5+",
+            "damage": "2",
+            "criticalDamage": "3",
+            "specialRules": ""
+          }
+        ],
+        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy, but will protect the Scroll Bearer NPO and seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. Normal behaviour priority: 1. Fall Back to cover, if possible to a location where there is a valid target that is not obscured and that protects the Scroll Bearer NPO or Scroll marker. 2. Shoot. 3. Reposition to cover as in the first action (a subsequent Dash action can fulfil this, if able). 4. Dash to cover as in the first action. Special behaviour (if there is no Scroll Bearer carrying the marker): 1. Pick up Marker on the Scroll marker if this operative can. 2. Fall Back towards the Scroll marker, to cover if possible. 3. Shoot a player operative that contests the Scroll marker, or a player operative that prevents this. 4. Reposition towards the Scroll marker, to cover if possible (a subsequent Dash action can fulfil this, if able). 5. Dash towards the Scroll marker, to cover if possible."
+      }
+    },
+    {
+      "id": "mission-pack-npo-operatives--devout-scroll-bearer--13",
+      "teamId": "mission-pack-npo-operatives",
+      "teamName": "Mission Pack NPO Operatives",
+      "name": "Devout Scroll Bearer",
+      "profile": {
+        "id": "mission-pack-npo-operatives--devout-scroll-bearer--13",
+        "name": "Devout Scroll Bearer",
+        "apl": 2,
+        "move": "5\"",
+        "save": "5+",
+        "wounds": 6,
+        "rangedWeapons": [],
+        "meleeWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--devout-scroll-bearer--13--w0",
+            "name": "Crude melee weapon",
+            "attacks": 4,
+            "skill": "5+",
+            "damage": "2",
+            "criticalDamage": "3",
+            "specialRules": "Ceaseless"
+          }
+        ],
+        "behaviorRules": "This operative cannot have an Engage order, be readied, or be activated. Whenever a Scroll Bearer NPO activation card is drawn, perform a free Reposition action towards the killzone edge specified by the mission. This NPO will attempt to get as close as possible to that killzone edge, but will seek cover and protection on its way. Holy Purpose: whenever an operative is shooting, fighting against, or retaliating against this operative, in the Resolve Attack Dice step, the first time an attack dice inflicts damage on this operative during that sequence, roll one D6: on a 3+, ignore that inflicted damage. Devout Protection: whenever this operative is selected as the valid target of a Shoot action or to fight against during the Fight action, select one other NPO visible to and within 3\" of it to become the valid target or to be fought against instead (as appropriate) even if it would not normally be a valid target."
+      }
+    },
+    {
+      "id": "mission-pack-npo-operatives--cultist-trooper--14",
+      "teamId": "mission-pack-npo-operatives",
+      "teamName": "Mission Pack NPO Operatives",
+      "name": "Cultist Trooper",
+      "profile": {
+        "id": "mission-pack-npo-operatives--cultist-trooper--14",
+        "name": "Cultist Trooper",
+        "apl": 2,
+        "move": "6\"",
+        "save": "5+",
+        "wounds": 7,
+        "rangedWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--cultist-trooper--14--w0",
+            "name": "Trooper firearm",
+            "attacks": 4,
+            "skill": "4+",
+            "damage": "2",
+            "criticalDamage": "4",
+            "specialRules": "Balanced"
+          }
+        ],
+        "meleeWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--cultist-trooper--14--w1",
+            "name": "Cult knife",
+            "attacks": 4,
+            "skill": "4+",
+            "damage": "2",
+            "criticalDamage": "3",
+            "specialRules": ""
+          }
+        ],
+        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy. When activated, if it can perform the Shoot action during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover. If possible, to a location where there is a valid target that is not obscured. 2. Shoot. 3. Reposition to cover (a subsequent Dash action can fulfil this, if able). 4. Dash to cover."
+      }
+    },
+    {
+      "id": "mission-pack-npo-operatives--cultist-warrior--15",
+      "teamId": "mission-pack-npo-operatives",
+      "teamName": "Mission Pack NPO Operatives",
+      "name": "Cultist Warrior",
+      "profile": {
+        "id": "mission-pack-npo-operatives--cultist-warrior--15",
+        "name": "Cultist Warrior",
+        "apl": 2,
+        "move": "6\"",
+        "save": "4+",
+        "wounds": 8,
+        "rangedWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--cultist-warrior--15--w0",
+            "name": "Warrior firearm",
+            "attacks": 4,
+            "skill": "4+",
+            "damage": "3",
+            "criticalDamage": "4",
+            "specialRules": "Balanced"
+          }
+        ],
+        "meleeWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--cultist-warrior--15--w1",
+            "name": "Cult knife",
+            "attacks": 4,
+            "skill": "4+",
+            "damage": "2",
+            "criticalDamage": "3",
+            "specialRules": ""
+          }
+        ],
+        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy. When activated, if it can perform the Shoot action during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover. If possible, to a location where there is a valid target that is not obscured. 2. Shoot. 3. Reposition to cover (a subsequent Dash action can fulfil this, if able). 4. Dash to cover."
+      }
+    },
+    {
+      "id": "mission-pack-npo-operatives--cultist-knife-fighter--16",
+      "teamId": "mission-pack-npo-operatives",
+      "teamName": "Mission Pack NPO Operatives",
+      "name": "Cultist Knife Fighter",
+      "profile": {
+        "id": "mission-pack-npo-operatives--cultist-knife-fighter--16",
+        "name": "Cultist Knife Fighter",
+        "apl": 2,
+        "move": "6\"",
+        "save": "4+",
+        "wounds": 9,
+        "rangedWeapons": [],
+        "meleeWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--cultist-knife-fighter--16--w0",
+            "name": "Cult blades",
+            "attacks": 4,
+            "skill": "4+",
+            "damage": "4",
+            "criticalDamage": "5",
+            "specialRules": "Ceaseless"
+          }
+        ],
+        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+      }
+    },
+    {
+      "id": "mission-pack-npo-operatives--cultist-heavy--17",
+      "teamId": "mission-pack-npo-operatives",
+      "teamName": "Mission Pack NPO Operatives",
+      "name": "Cultist Heavy",
+      "profile": {
+        "id": "mission-pack-npo-operatives--cultist-heavy--17",
+        "name": "Cultist Heavy",
+        "apl": 3,
+        "move": "6\"",
+        "save": "4+",
+        "wounds": 14,
+        "rangedWeapons": [],
+        "meleeWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--cultist-heavy--17--w0",
+            "name": "Cult axe",
+            "attacks": 5,
+            "skill": "3+",
+            "damage": "4",
+            "criticalDamage": "5",
+            "specialRules": "Ceaseless, Brutal"
+          }
+        ],
+        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. Exemplar of the Creed: this operative can perform two Fight actions during its activation. Priority: 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+      }
+    },
+    {
+      "id": "mission-pack-npo-operatives--sniper--18",
+      "teamId": "mission-pack-npo-operatives",
+      "teamName": "Mission Pack NPO Operatives",
+      "name": "Sniper",
+      "profile": {
+        "id": "mission-pack-npo-operatives--sniper--18",
+        "name": "Sniper",
+        "apl": 0,
+        "move": "-",
+        "save": "3+",
+        "wounds": 12,
+        "rangedWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--sniper--18--w0",
+            "name": "Sniper rifle",
+            "attacks": 2,
+            "skill": "3+",
+            "damage": "3",
+            "criticalDamage": "3",
+            "specialRules": "Devastating 3, Heavy, Silent"
+          }
+        ],
+        "meleeWeapons": [
+          {
+            "id": "mission-pack-npo-operatives--sniper--18--w1",
+            "name": "Gun butt",
+            "attacks": 3,
+            "skill": "4+",
+            "damage": "2",
+            "criticalDamage": "3",
+            "specialRules": ""
+          }
+        ],
+        "behaviorRules": "This operative cannot move, have an Engage order, be readied or be activated. Whenever an NPO would activate, if this operative is a valid target for it, perform the Shoot action with this operative instead; it then has no longer reloaded. Reload: in the Ready step of each Strategy phase, this operative has reloaded. Each time after this operative performs the Shoot action, roll one D6; after that many player activations this turning point, this operative has reloaded. Sniper's Vantage: whenever this operative is shooting, operatives cannot be obscured when determining visibility from this operative, and the visibility line can be drawn from any part of the Vantage terrain this operative is on, or from the rampart touching that Vantage terrain."
+      }
+    },
+    {
       "id": "pathfinders--mv4-mv7-mv31-mv33--0",
       "teamId": "pathfinders",
       "teamName": "Pathfinders",

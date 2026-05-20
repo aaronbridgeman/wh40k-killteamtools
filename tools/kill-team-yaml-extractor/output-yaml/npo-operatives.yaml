@@ -465,3 +465,251 @@ npo_operatives:
       to cover if possible (a subsequent Dash action can fulfil this, if able). 4.
       Dash towards the closest player operative, to cover if possible.
     cost: 0AP
+
+- name: Devout Brawler
+  stats:
+    apl: 2
+    mv: 5"
+    sv: 5+
+    w: 6
+  weapons:
+  - name: Crude melee weapon
+    type: Melee
+    a: 4
+    bs_ws: 5+
+    d: 2/3
+    rules:
+    - Ceaseless
+  rules:
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will protect
+      the Scroll Bearer NPO and seek cover on its way. When activated, if it can
+      perform either of its first two actions during that activation, give it an
+      Engage order. If it cannot, give it a Conceal order. Normal behaviour priority:
+      1. Fight. 2. Charge the closest player operative via the shortest possible route.
+      3. Reposition towards the closest player operative, to cover if possible (a
+      subsequent Dash action can fulfil this, if able). 4. Dash towards the closest
+      player operative, to cover if possible. Special behaviour (if there is no Scroll
+      Bearer carrying the marker): 1. Pick up Marker on the Scroll marker if this
+      operative can. 2. Fight an operative that contests the Scroll marker, or a player
+      operative that prevents this. 3. Charge such an operative. 4. Fall Back towards
+      the Scroll marker, to cover if possible. 5. Reposition towards the Scroll marker,
+      to cover if possible (a subsequent Dash action can fulfil this, if able). 6.
+      Dash towards the Scroll marker, to cover if possible.
+    cost: 0AP
+
+- name: Devout Marksman
+  stats:
+    apl: 2
+    mv: 5"
+    sv: 5+
+    w: 6
+  weapons:
+  - name: Shotgun
+    type: Ranged
+    a: 4
+    bs_ws: 4+
+    d: 3/3
+    rules:
+    - Rng 6"
+  - name: Crude melee weapon
+    type: Melee
+    a: 3
+    bs_ws: 5+
+    d: 2/3
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This NPO will move to an ideal position to shoot the enemy, but
+      will protect the Scroll Bearer NPO and seek cover on its way. When activated,
+      if it can perform either of its first two actions during that activation, give
+      it an Engage order. If it cannot, give it a Conceal order. Normal behaviour
+      priority: 1. Fall Back to cover, if possible to a location where there is a
+      valid target that is not obscured and that protects the Scroll Bearer NPO or
+      Scroll marker. 2. Shoot. 3. Reposition to cover as in the first action (a subsequent
+      Dash action can fulfil this, if able). 4. Dash to cover as in the first action.
+      Special behaviour (if there is no Scroll Bearer carrying the marker): 1. Pick
+      up Marker on the Scroll marker if this operative can. 2. Fall Back towards the
+      Scroll marker, to cover if possible. 3. Shoot a player operative that contests
+      the Scroll marker, or a player operative that prevents this. 4. Reposition towards
+      the Scroll marker, to cover if possible (a subsequent Dash action can fulfil
+      this, if able). 5. Dash towards the Scroll marker, to cover if possible.
+    cost: 0AP
+
+- name: Devout Scroll Bearer
+  stats:
+    apl: 2
+    mv: 5"
+    sv: 5+
+    w: 6
+  weapons:
+  - name: Crude melee weapon
+    type: Melee
+    a: 4
+    bs_ws: 5+
+    d: 2/3
+    rules:
+    - Ceaseless
+  rules:
+  - name: Behaviour
+    description: This operative cannot have an Engage order, be readied, or be activated.
+      Whenever a Scroll Bearer NPO activation card is drawn, perform a free Reposition
+      action towards the killzone edge specified by the mission. This NPO will attempt
+      to get as close as possible to that killzone edge, but will seek cover and protection
+      on its way. Holy Purpose: whenever an operative is shooting, fighting against,
+      or retaliating against this operative, in the Resolve Attack Dice step, the
+      first time an attack dice inflicts damage on this operative during that sequence,
+      roll one D6: on a 3+, ignore that inflicted damage. Devout Protection: whenever
+      this operative is selected as the valid target of a Shoot action or to fight
+      against during the Fight action, select one other NPO visible to and within
+      3" of it to become the valid target or to be fought against instead (as appropriate)
+      even if it would not normally be a valid target.
+    cost: 0AP
+
+- name: Cultist Trooper
+  stats:
+    apl: 2
+    mv: 6"
+    sv: 5+
+    w: 7
+  weapons:
+  - name: Trooper firearm
+    type: Ranged
+    a: 4
+    bs_ws: 4+
+    d: 2/4
+    rules:
+    - Balanced
+  - name: Cult knife
+    type: Melee
+    a: 4
+    bs_ws: 4+
+    d: 2/3
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This NPO will move to an ideal position to shoot the enemy. When
+      activated, if it can perform the Shoot action during that activation, give it
+      an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover.
+      If possible, to a location where there is a valid target that is not obscured.
+      2. Shoot. 3. Reposition to cover (a subsequent Dash action can fulfil this,
+      if able). 4. Dash to cover.
+    cost: 0AP
+
+- name: Cultist Warrior
+  stats:
+    apl: 2
+    mv: 6"
+    sv: 4+
+    w: 8
+  weapons:
+  - name: Warrior firearm
+    type: Ranged
+    a: 4
+    bs_ws: 4+
+    d: 3/4
+    rules:
+    - Balanced
+  - name: Cult knife
+    type: Melee
+    a: 4
+    bs_ws: 4+
+    d: 2/3
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This NPO will move to an ideal position to shoot the enemy. When
+      activated, if it can perform the Shoot action during that activation, give it
+      an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover.
+      If possible, to a location where there is a valid target that is not obscured.
+      2. Shoot. 3. Reposition to cover (a subsequent Dash action can fulfil this,
+      if able). 4. Dash to cover.
+    cost: 0AP
+
+- name: Cultist Knife Fighter
+  stats:
+    apl: 2
+    mv: 6"
+    sv: 4+
+    w: 9
+  weapons:
+  - name: Cult blades
+    type: Melee
+    a: 4
+    bs_ws: 4+
+    d: 4/5
+    rules:
+    - Ceaseless
+  rules:
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will seek
+      cover on its way. When activated, if it can perform either of its first two
+      actions during that activation, give it an Engage order. If it cannot, give
+      it a Conceal order. 1. Fight. 2. Charge the closest player operative via the
+      shortest possible route. 3. Reposition towards the closest player operative,
+      to cover if possible (a subsequent Dash action can fulfil this, if able). 4.
+      Dash towards the closest player operative, to cover if possible.
+    cost: 0AP
+
+- name: Cultist Heavy
+  stats:
+    apl: 3
+    mv: 6"
+    sv: 4+
+    w: 14
+  weapons:
+  - name: Cult axe
+    type: Melee
+    a: 5
+    bs_ws: 3+
+    d: 4/5
+    rules:
+    - Ceaseless
+    - Brutal
+  rules:
+  - name: Behaviour
+    description: This NPO will move towards the enemy to fight them, but will seek
+      cover on its way. When activated, if it can perform either of its first two
+      actions during that activation, give it an Engage order. If it cannot, give
+      it a Conceal order. Exemplar of the Creed: this operative can perform two Fight
+      actions during its activation. Priority: 1. Fight. 2. Charge the closest player
+      operative via the shortest possible route. 3. Reposition towards the closest
+      player operative, to cover if possible (a subsequent Dash action can fulfil
+      this, if able). 4. Dash towards the closest player operative, to cover if possible.
+    cost: 0AP
+
+- name: Sniper
+  stats:
+    apl: 0
+    mv: -
+    sv: 3+
+    w: 12
+  weapons:
+  - name: Sniper rifle
+    type: Ranged
+    a: 2
+    bs_ws: 3+
+    d: 3/3
+    rules:
+    - Devastating 3
+    - Heavy
+    - Silent
+  - name: Gun butt
+    type: Melee
+    a: 3
+    bs_ws: 4+
+    d: 2/3
+    rules: []
+  rules:
+  - name: Behaviour
+    description: This operative cannot move, have an Engage order, be readied or
+      be activated. Whenever an NPO would activate, if this operative is a valid target
+      for it, perform the Shoot action with this operative instead; it then has no
+      longer reloaded. Reload: in the Ready step of each Strategy phase, this operative
+      has reloaded. Each time after this operative performs the Shoot action, roll
+      one D6; after that many player activations this turning point, this operative
+      has reloaded. Sniper's Vantage: whenever this operative is shooting, operatives
+      cannot be obscured when determining visibility from this operative, and the
+      visibility line can be drawn from any part of the Vantage terrain this operative
+      is on, or from the rampart touching that Vantage terrain.
+    cost: 0AP
