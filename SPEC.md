@@ -401,15 +401,23 @@ JSON Schema will validate all configuration files to ensure:
    - Profile data includes behavior rules where applicable
    - Profiles are persisted and support backup/import
 
-5. **Nemesis Manager**
+5. **Nemesis Profile Manager**
+   - Dedicated top-level tab for Nemesis operative creation and maintenance
    - Create Nemesis operatives with name and size (Small, Medium, Large, Custom)
    - Size presets assign Control/Move/Save/Wounds from mission-pack rules
    - Custom size allows manual Control/Move/Save/Wounds values
+   - Presents Control/Move/Save/Wounds preview in datacard-style stat chips
    - Size assigns recommended weapon selection limits (Small 2, Medium 2, Large 3; Custom defaults to 2)
    - Manual weapon-limit override is allowed and surfaced with explicit warning copy
    - Supports separate ranged and melee weapon selection pools
+   - Ranged and melee weapon editors are collapsed by default and edited independently
+   - Weapon selection uses button toggles with selected states highlighted and sorted to the top
+   - Weapon source mode supports `Default` (official tables only) and `Extended` (official + consolidated pools)
    - Consolidated ranged/melee pools are generated from operative weapon profiles to stay current as content expands
-   - Official ranged/melee list slots are scaffolded so uploaded tables can become the default source
+   - Official ranged/melee tables are the default source when available
+   - Supports allegiance-trait and nemesis-trait selection pools
+   - One allegiance trait and one nemesis trait are recommended, with override warnings when selecting multiple
+   - Selected traits are persisted on Nemesis profiles and displayed in datacard summaries
    - Created Nemesis operatives are reusable in both player and NPO list builders
 
 ## 5. Data Extraction Strategy

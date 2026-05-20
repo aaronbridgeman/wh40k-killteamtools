@@ -337,7 +337,11 @@ The root component that manages:
   - **Game Runner** (default): setup-status gate with warning state when NPO team setup is incomplete, popup team-setup UI (NPO-first with optional player pane), compact activation deck summary with popup deck editor (with per-card instance counts), reset/draw activation controls, list-based current activation display, and runner cards shown for currently activated operatives
     - **List Builder**: player/NPO list management with model-first selection, optional profile override, custom model entries that require explicit profiles, and Nemesis entries that can be added to either side
     - **NPO Profile Manager**: profile CRUD for APL or Control/Move/Save/Wounds, weapon profiles, and behavior rules
-    - **Nemesis Manager**: create Nemesis operatives (Small/Medium/Large/Custom) with size-driven core stats and configurable weapon selections
+    - **Nemesis Profile Manager**: create Nemesis operatives (Small/Medium/Large/Custom) with size-driven core stats and configurable weapon selections
+        - Supports weapon source modes: `Default` (official tables only) and `Extended` (official + consolidated pools)
+        - Uses separate collapsed ranged/melee editors with button toggles; selected weapons are highlighted and sorted to the top
+        - Supports separate allegiance-trait and nemesis-trait selections (recommended 1 each) with override warnings when selecting multiple
+        - Persists selected traits on the Nemesis profile so they render in datacard summaries
 - Explicit domain separation:
   - **Profile**: complete stat block + weapon profiles + behavior rules
   - **List**: a pool of models with a selected profile per entry
@@ -345,7 +349,7 @@ The root component that manages:
     - **Nemesis Operative**: reusable named operative definition with linked profile, size metadata, and selected ranged/melee weapons
 - NPO team selection supports manual and rule-driven modes: random, melee-heavy, ranged-heavy, elite, and horde (with wounds-limit targeting)
 - Persists solo/joint ops state to localStorage and supports profile/list backup import/export (JSON)
-- Includes Datacard profile option for player list entries, NPO profile overrides sourced from NPO-flagged catalog teams, explicit-profile handling for custom models, consolidated nemesis weapon pools generated from operative data, manual-overridable size-based nemesis weapon limits, and default two-card activation counts for NPO Nemesis operatives
+- Includes Datacard profile option for player list entries, NPO profile overrides sourced from NPO-flagged catalog teams, explicit-profile handling for custom models, consolidated nemesis weapon pools generated from operative data, manual-overridable size-based nemesis weapon limits, manual-overridable Nemesis trait-selection limits, and default two-card activation counts for NPO Nemesis operatives
 
 #### Rules Components
 

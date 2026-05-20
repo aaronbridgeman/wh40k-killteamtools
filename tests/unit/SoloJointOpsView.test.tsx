@@ -309,6 +309,9 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'NPO Profile Manager' })
     );
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Nemesis Profile Manager' })
+    );
 
     fireEvent.change(screen.getByLabelText('Nemesis name'), {
       target: { value: 'Armoured Sentinel' },
@@ -366,6 +369,9 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'NPO Profile Manager' })
     );
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Nemesis Profile Manager' })
+    );
 
     fireEvent.change(screen.getByLabelText('Nemesis name'), {
       target: { value: 'Overloaded Nemesis' },
@@ -374,18 +380,23 @@ describe('SoloJointOpsView', () => {
       target: { value: 'small' },
     });
 
-    const weaponToggles = screen.getAllByRole('checkbox').filter((element) => {
+    fireEvent.click(screen.getByRole('button', { name: 'Edit Ranged' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Edit Melee' }));
+
+    const weaponToggles = screen.getAllByRole('button').filter((element) => {
       const label = element.getAttribute('aria-label') ?? '';
-      return label.includes('Select ranged weapon') ||
-        label.includes('Select melee weapon');
+      return (
+        label.includes('Toggle ranged weapon') ||
+        label.includes('Toggle melee weapon')
+      );
     });
     expect(weaponToggles.length).toBeGreaterThan(0);
 
     let toggled = 0;
     weaponToggles.forEach((toggle) => {
       if (toggled >= 3) return;
-      const input = toggle as HTMLInputElement;
-      if (!input.checked) {
+      const button = toggle as HTMLButtonElement;
+      if (button.getAttribute('aria-pressed') !== 'true') {
         fireEvent.click(toggle);
         toggled += 1;
       }
@@ -404,5 +415,154 @@ describe('SoloJointOpsView', () => {
       screen.getAllByText(/Warning: weapon selections exceed recommended limit/i)
         .length
     ).toBeGreaterThan(0);
+  });
+
+  it('counts Selection X weapon rules toward selection limit', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'NPO Profile Manager' })
+    );
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Nemesis Profile Manager' })
+    );
+
+    fireEvent.change(screen.getByLabelText('Nemesis name'), {
+      target: { value: 'Weighted Nemesis' },
+    });
+    fireEvent.change(screen.getByLabelText('Nemesis size'), {
+      target: { value: 'small' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Edit Ranged' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Edit Melee' }));
+
+    const rangedToggles = screen.getAllByRole('button').filter((element) => {
+      const label = element.getAttribute('aria-label') ?? '';
+      return label.includes('Toggle ranged weapon');
+    });
+
+    rangedToggles.forEach((toggle) => {
+      const button = toggle as HTMLButtonElement;
+      if (button.getAttribute('aria-pressed') === 'true') {
+        fireEvent.click(toggle);
+      }
+    });
+
+    const meleeToggles = screen.getAllByRole('button').filter((element) => {
+      const label = element.getAttribute('aria-label') ?? '';
+      return label.includes('Toggle melee weapon');
+    });
+
+    meleeToggles.forEach((toggle) => {
+      const button = toggle as HTMLButtonElement;
+      if (button.getAttribute('aria-pressed') === 'true') {
+        fireEvent.click(toggle);
+      }
+    });
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /Toggle ranged weapon Cyclic ion raker/i })
+    );
+    expect(
+      screen.queryByText(/selected weapons exceed the recommended limit/i)
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /Toggle ranged weapon Autocannon/i })
+    );
+    expect(
+      screen.getByText(/selected weapons exceed the recommended limit/i)
+    ).toBeInTheDocument();
+  });
+
+  it('allows trait override warnings and shows selected traits on datacard summary', () => {
+    window.localStorage.clear();
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'NPO Profile Manager' })
+    );
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Nemesis Profile Manager' })
+    );
+
+    fireEvent.change(screen.getByLabelText('Nemesis name'), {
+      target: { value: 'Trait Nemesis' },
+    });
+
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /Toggle allegiance trait Let the Galaxy Burn/i,
+      })
+    );
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /Toggle allegiance trait Defenders of the Imperium/i,
+      })
+    );
+
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /Toggle nemesis trait Focused Targeting/i,
+      })
+    );
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /Toggle nemesis trait Shielded/i,
+      })
+    );
+
+    expect(
+      screen.getByText(/more than one allegiance trait selected/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/more than one nemesis trait selected/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Create Nemesis Operative' })
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Lists' }));
+
+    const npoNemesisSelect = screen.getByLabelText(
+      'NPO Nemesis'
+    ) as HTMLSelectElement;
+    const traitNemesisOption = within(npoNemesisSelect).getByRole('option', {
+      name: 'Trait Nemesis',
+    }) as HTMLOptionElement;
+    fireEvent.change(npoNemesisSelect, {
+      target: { value: traitNemesisOption.value },
+    });
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Add Nemesis Operative' })
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Game Runner' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: /Setup Team|Manage Team Setup/i })
+    );
+    fireEvent.click(screen.getByRole('tab', { name: 'NPO Team Setup' }));
+
+    const npoTeamNameInput = screen.getByLabelText('NPO Team Name');
+    const npoTeamBuilder = npoTeamNameInput.closest('.team-builder');
+    expect(npoTeamBuilder).not.toBeNull();
+
+    fireEvent.click(
+      within(npoTeamBuilder as HTMLElement).getByRole('button', {
+        name: /Trait Nemesis\s*Add/i,
+      })
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Reset Deck' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Draw Activation' }));
+
+    expect(screen.getByText('Let the Galaxy Burn')).toBeInTheDocument();
+    expect(screen.getByText('Defenders of the Imperium')).toBeInTheDocument();
+    expect(screen.getByText('Focused Targeting')).toBeInTheDocument();
+    expect(screen.getByText('Shielded')).toBeInTheDocument();
   });
 });

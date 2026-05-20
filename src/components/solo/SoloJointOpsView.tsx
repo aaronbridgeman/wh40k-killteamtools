@@ -3,7 +3,11 @@ import operativeCatalogData from '@/data/solo/operativeCatalog.json';
 import './SoloJointOpsView.css';
 
 type ActivationSide = 'player' | 'npo';
-type SoloTab = 'game-runner' | 'list-builder' | 'profile-manager';
+type SoloTab =
+  | 'game-runner'
+  | 'list-builder'
+  | 'npo-profile-manager'
+  | 'nemesis-profile-manager';
 type NemesisSize = 'small' | 'medium' | 'large' | 'custom';
 type NemesisWeaponType = 'ranged' | 'melee';
 type NpoTeamSelectionRule =
@@ -38,6 +42,8 @@ interface SoloProfile {
   meleeWeapons: SoloWeaponProfile[];
   behaviorRules: string;
   usesControlStat?: boolean;
+  allegianceTraits?: string[];
+  nemesisTraits?: string[];
 }
 
 interface SoloListOperative {
@@ -61,6 +67,14 @@ interface NemesisOperative {
   profileId: string;
   rangedWeapons: SoloWeaponProfile[];
   meleeWeapons: SoloWeaponProfile[];
+  allegianceTraits?: string[];
+  nemesisTraits?: string[];
+}
+
+interface NemesisTraitOption {
+  id: string;
+  name: string;
+  description: string;
 }
 
 interface NemesisWeaponOption {
@@ -190,6 +204,129 @@ const NEMESIS_SIZE_PRESETS: Record<
 };
 
 const CUSTOM_NEMESIS_WEAPON_LIMIT = 2;
+const NEMESIS_TRAIT_LIMIT = 1;
+
+const NEMESIS_ALLEGIANCE_TRAITS: NemesisTraitOption[] = [
+  {
+    id: 'aeldari-arrogant-superiority',
+    name: 'Arrogant Superiority',
+    description: 'Aeldari allegiance trait.',
+  },
+  {
+    id: 'chaos-let-the-galaxy-burn',
+    name: 'Let the Galaxy Burn',
+    description: 'Chaos allegiance trait.',
+  },
+  {
+    id: 'imperium-defenders-of-the-imperium',
+    name: 'Defenders of the Imperium',
+    description: 'Imperium allegiance trait.',
+  },
+  {
+    id: 'leagues-of-votann-acquisition-at-all-costs',
+    name: 'Acquisition at All Costs',
+    description: 'Leagues of Votann allegiance trait.',
+  },
+  {
+    id: 'necron-living-metal',
+    name: 'Living Metal',
+    description: 'Necron allegiance trait.',
+  },
+  {
+    id: 'ork-waaagh',
+    name: 'Waaagh!',
+    description: 'Ork allegiance trait.',
+  },
+  {
+    id: 'tau-empire-supporting-fire',
+    name: 'Supporting Fire',
+    description: 'Tau Empire allegiance trait.',
+  },
+  {
+    id: 'tyranid-will-of-the-hive-mind',
+    name: 'Will of the Hive Mind',
+    description: 'Tyranid allegiance trait.',
+  },
+];
+
+const NEMESIS_TRAITS: NemesisTraitOption[] = [
+  {
+    id: 'nemesis-armoured',
+    name: 'Armoured',
+    description:
+      "Improve this operative's Save stat by 1 against shooting attacks with normal damage 3 or less.",
+  },
+  {
+    id: 'nemesis-blitz',
+    name: 'Blitz',
+    description:
+      'After this operative performs Charge, its melee weapons gain Severe and Shock for the rest of that activation.',
+  },
+  {
+    id: 'nemesis-duellist',
+    name: 'Duellist',
+    description:
+      'When fighting or retaliating, resolve one success before the normal order; if used, that success must be blocked.',
+  },
+  {
+    id: 'nemesis-focused-targeting',
+    name: 'Focused Targeting',
+    description:
+      'If this operative shoots before performing another action in its activation, ranged weapons gain Punishing.',
+  },
+  {
+    id: 'nemesis-close-range-lethality',
+    name: 'Close-range Lethality',
+    description:
+      'When shooting the closest valid target within 8 inches, ranged weapons gain Lethal 5+ and Severe if they already have Lethal.',
+  },
+  {
+    id: 'nemesis-fury',
+    name: 'Fury',
+    description:
+      "Melee weapons gain Ceaseless (or Relentless if already Ceaseless); worsen this operative's ranged Hit stat by 1.",
+  },
+  {
+    id: 'nemesis-implacable',
+    name: 'Implacable',
+    description: 'Ignore Save stat changes from being injured.',
+  },
+  {
+    id: 'nemesis-crushing-impact',
+    name: 'Crushing Impact',
+    description:
+      'After finishing movement during Charge, inflict D3+3 damage on one enemy operative within control range.',
+  },
+  {
+    id: 'nemesis-shielded',
+    name: 'Shielded',
+    description:
+      'Once per battle, when an attack die inflicts damage on this operative, ignore that inflicted damage.',
+  },
+  {
+    id: 'nemesis-shrouded',
+    name: 'Shrouded',
+    description:
+      'When an enemy shoots this operative from more than 8 inches away, attack dice cannot be re-rolled.',
+  },
+  {
+    id: 'nemesis-tenacious',
+    name: 'Tenacious',
+    description: 'Ignore Move stat changes from being injured.',
+  },
+  {
+    id: 'nemesis-tough',
+    name: 'Tough',
+    description:
+      'When an attack die inflicts damage 4 or more, roll one D6; on 5+, subtract 1 from that inflicted damage.',
+  },
+  {
+    id: 'nemesis-violent-demise',
+    name: 'Violent Demise',
+    description:
+      'If this operative is incapacitated, before removal inflict D6+1 damage on each other operative within 3 inches (with normal heavy-terrain exceptions).',
+  },
+];
 
 // Official nemesis weapons from uploaded tables.
 const OFFICIAL_NEMESIS_RANGED_WEAPONS: SoloWeaponProfile[] = [
@@ -594,6 +731,20 @@ const getNemesisWeaponLimit = (size: NemesisSize): number =>
     ? CUSTOM_NEMESIS_WEAPON_LIMIT
     : NEMESIS_SIZE_PRESETS[size].maxWeapons;
 
+const getWeaponSelectionCost = (weapon: SoloWeaponProfile): number => {
+  const matches = Array.from(
+    weapon.specialRules.matchAll(/\bselection\s+(\d+)\b/gi)
+  );
+  if (matches.length === 0) return 1;
+
+  const parsed = matches
+    .map((match) => Number(match[1]))
+    .filter((value) => Number.isFinite(value));
+  if (parsed.length === 0) return 1;
+
+  return Math.max(0, parsed[parsed.length - 1]);
+};
+
 const defaultProfile = (): SoloProfile => ({
   id: generateUniqueId('profile'),
   name: 'NPO Trooper',
@@ -700,7 +851,13 @@ const isValidProfile = (value: unknown): value is SoloProfile => {
     profile.meleeWeapons.every(isValidWeaponProfile) &&
     isString(profile.behaviorRules) &&
     (profile.usesControlStat === undefined ||
-      typeof profile.usesControlStat === 'boolean')
+      typeof profile.usesControlStat === 'boolean') &&
+    (profile.allegianceTraits === undefined ||
+      (Array.isArray(profile.allegianceTraits) &&
+        profile.allegianceTraits.every(isString))) &&
+    (profile.nemesisTraits === undefined ||
+      (Array.isArray(profile.nemesisTraits) &&
+        profile.nemesisTraits.every(isString)))
   );
 };
 
@@ -721,7 +878,13 @@ const isValidNemesisOperative = (value: unknown): value is NemesisOperative => {
     Array.isArray(nemesis.rangedWeapons) &&
     nemesis.rangedWeapons.every(isValidWeaponProfile) &&
     Array.isArray(nemesis.meleeWeapons) &&
-    nemesis.meleeWeapons.every(isValidWeaponProfile)
+    nemesis.meleeWeapons.every(isValidWeaponProfile) &&
+    (nemesis.allegianceTraits === undefined ||
+      (Array.isArray(nemesis.allegianceTraits) &&
+        nemesis.allegianceTraits.every(isString))) &&
+    (nemesis.nemesisTraits === undefined ||
+      (Array.isArray(nemesis.nemesisTraits) &&
+        nemesis.nemesisTraits.every(isString)))
   );
 };
 
@@ -1719,10 +1882,23 @@ export function SoloJointOpsView() {
   const [customNemesisMove, setCustomNemesisMove] = useState('6"');
   const [customNemesisSave, setCustomNemesisSave] = useState('4+');
   const [customNemesisWounds, setCustomNemesisWounds] = useState(50);
+  const [showExtendedNemesisWeapons, setShowExtendedNemesisWeapons] =
+    useState(false);
+  const [isRangedNemesisEditorOpen, setIsRangedNemesisEditorOpen] =
+    useState(false);
+  const [isMeleeNemesisEditorOpen, setIsMeleeNemesisEditorOpen] =
+    useState(false);
   const [selectedNemesisRangedWeaponIds, setSelectedNemesisRangedWeaponIds] =
     useState<string[]>([]);
   const [selectedNemesisMeleeWeaponIds, setSelectedNemesisMeleeWeaponIds] =
     useState<string[]>([]);
+  const [
+    selectedNemesisAllegianceTraitIds,
+    setSelectedNemesisAllegianceTraitIds,
+  ] = useState<string[]>([]);
+  const [selectedNemesisTraitIds, setSelectedNemesisTraitIds] = useState<
+    string[]
+  >([]);
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const [transferHint, setTransferHint] = useState<TransferHint | null>(null);
   // Ephemeral draw-pile: card IDs in shuffled order, reset via Reset Deck
@@ -2561,6 +2737,8 @@ export function SoloJointOpsView() {
       meleeWeapons: selectedMeleeWeapons,
       behaviorRules: '',
       usesControlStat: true,
+      allegianceTraits: selectedNemesisAllegianceTraitIds,
+      nemesisTraits: selectedNemesisTraitIds,
     };
 
     const nemesisOperative: NemesisOperative = {
@@ -2570,6 +2748,8 @@ export function SoloJointOpsView() {
       profileId,
       rangedWeapons: selectedRangedWeapons,
       meleeWeapons: selectedMeleeWeapons,
+      allegianceTraits: selectedNemesisAllegianceTraitIds,
+      nemesisTraits: selectedNemesisTraitIds,
     };
 
     setState((prev) => ({
@@ -2578,6 +2758,8 @@ export function SoloJointOpsView() {
       nemesisOperatives: [...prev.nemesisOperatives, nemesisOperative],
     }));
     setNewNemesisName('');
+    setSelectedNemesisAllegianceTraitIds([]);
+    setSelectedNemesisTraitIds([]);
   };
 
   const deleteNemesisOperative = (nemesisId: string) => {
@@ -2840,7 +3022,7 @@ export function SoloJointOpsView() {
     () => dedupeWeapons(OFFICIAL_NEMESIS_MELEE_WEAPONS),
     []
   );
-  const nemesisRangedWeaponOptions = useMemo(() => {
+  const allNemesisRangedWeaponOptions = useMemo(() => {
     const options: NemesisWeaponOption[] = [
       ...officialRangedWeaponPool.map((profile) => ({
         id: toWeaponOptionId(profile, 'official-ranged'),
@@ -2866,7 +3048,7 @@ export function SoloJointOpsView() {
 
     return Array.from(deduped.values());
   }, [consolidatedRangedWeaponPool, officialRangedWeaponPool]);
-  const nemesisMeleeWeaponOptions = useMemo(() => {
+  const allNemesisMeleeWeaponOptions = useMemo(() => {
     const options: NemesisWeaponOption[] = [
       ...officialMeleeWeaponPool.map((profile) => ({
         id: toWeaponOptionId(profile, 'official-melee'),
@@ -2892,14 +3074,68 @@ export function SoloJointOpsView() {
 
     return Array.from(deduped.values());
   }, [consolidatedMeleeWeaponPool, officialMeleeWeaponPool]);
+  const nemesisRangedWeaponOptions = useMemo(
+    () =>
+      showExtendedNemesisWeapons
+        ? allNemesisRangedWeaponOptions
+        : allNemesisRangedWeaponOptions.filter(
+            (option) => option.source === 'official'
+          ),
+    [allNemesisRangedWeaponOptions, showExtendedNemesisWeapons]
+  );
+  const nemesisMeleeWeaponOptions = useMemo(
+    () =>
+      showExtendedNemesisWeapons
+        ? allNemesisMeleeWeaponOptions
+        : allNemesisMeleeWeaponOptions.filter(
+            (option) => option.source === 'official'
+          ),
+    [allNemesisMeleeWeaponOptions, showExtendedNemesisWeapons]
+  );
   const selectedNemesisPreset =
     newNemesisSize === 'custom' ? null : NEMESIS_SIZE_PRESETS[newNemesisSize];
-  const selectedNemesisWeaponCount =
-    selectedNemesisRangedWeaponIds.length +
-    selectedNemesisMeleeWeaponIds.length;
+  const nemesisPreviewStats = selectedNemesisPreset
+    ? {
+        control: selectedNemesisPreset.control,
+        move: selectedNemesisPreset.move,
+        save: selectedNemesisPreset.save,
+        wounds: selectedNemesisPreset.wounds,
+      }
+    : {
+        control: customNemesisControl,
+        move: customNemesisMove,
+        save: customNemesisSave,
+        wounds: customNemesisWounds,
+      };
+  const selectedNemesisRangedWeapons = useMemo(
+    () =>
+      allNemesisRangedWeaponOptions.filter((option) =>
+        selectedNemesisRangedWeaponIds.includes(option.id)
+      ),
+    [allNemesisRangedWeaponOptions, selectedNemesisRangedWeaponIds]
+  );
+  const selectedNemesisMeleeWeapons = useMemo(
+    () =>
+      allNemesisMeleeWeaponOptions.filter((option) =>
+        selectedNemesisMeleeWeaponIds.includes(option.id)
+      ),
+    [allNemesisMeleeWeaponOptions, selectedNemesisMeleeWeaponIds]
+  );
+  const selectedNemesisWeaponCount = useMemo(
+    () =>
+      [...selectedNemesisRangedWeapons, ...selectedNemesisMeleeWeapons].reduce(
+        (total, weapon) => total + getWeaponSelectionCost(weapon.profile),
+        0
+      ),
+    [selectedNemesisMeleeWeapons, selectedNemesisRangedWeapons]
+  );
   const selectedNemesisWeaponLimit = getNemesisWeaponLimit(newNemesisSize);
   const isNemesisWeaponLimitExceeded =
     selectedNemesisWeaponCount > selectedNemesisWeaponLimit;
+  const isNemesisAllegianceTraitLimitExceeded =
+    selectedNemesisAllegianceTraitIds.length > NEMESIS_TRAIT_LIMIT;
+  const isNemesisTraitLimitExceeded =
+    selectedNemesisTraitIds.length > NEMESIS_TRAIT_LIMIT;
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
   const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
 
@@ -3002,6 +3238,16 @@ export function SoloJointOpsView() {
 
     const behavior = parseBehaviorRules(profile.behaviorRules);
     const primaryStatLabel = profile.usesControlStat ? '🎛️ Control' : '⚡ APL';
+    const allegianceTraits =
+      profile.allegianceTraits
+        ?.map((traitId) =>
+          NEMESIS_ALLEGIANCE_TRAITS.find((trait) => trait.id === traitId)
+        )
+        .filter((trait): trait is NemesisTraitOption => Boolean(trait)) ?? [];
+    const nemesisTraits =
+      profile.nemesisTraits
+        ?.map((traitId) => NEMESIS_TRAITS.find((trait) => trait.id === traitId))
+        .filter((trait): trait is NemesisTraitOption => Boolean(trait)) ?? [];
 
     return (
       <div className="profile-summary">
@@ -3023,6 +3269,48 @@ export function SoloJointOpsView() {
             <strong>{profile.wounds}</strong>
           </div>
         </div>
+
+        {(allegianceTraits.length > 0 || nemesisTraits.length > 0) && (
+          <div className="runner-weapon-section">
+            <h5>☠️ Traits</h5>
+            {allegianceTraits.length > 0 && (
+              <>
+                <p className="team-selection-meta">Allegiance Traits</p>
+                <div className="runner-weapon-list">
+                  {allegianceTraits.map((trait) => (
+                    <article
+                      className="runner-weapon-card"
+                      key={`allegiance-${profile.id}-${trait.id}`}
+                    >
+                      <p className="runner-weapon-name">{trait.name}</p>
+                      <p className="runner-weapon-no-rules">
+                        {trait.description}
+                      </p>
+                    </article>
+                  ))}
+                </div>
+              </>
+            )}
+            {nemesisTraits.length > 0 && (
+              <>
+                <p className="team-selection-meta">Nemesis Traits</p>
+                <div className="runner-weapon-list">
+                  {nemesisTraits.map((trait) => (
+                    <article
+                      className="runner-weapon-card"
+                      key={`nemesis-${profile.id}-${trait.id}`}
+                    >
+                      <p className="runner-weapon-name">{trait.name}</p>
+                      <p className="runner-weapon-no-rules">
+                        {trait.description}
+                      </p>
+                    </article>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
 
         <div className="runner-weapon-section">
           <h5>🔫 Ranged Weapons</h5>
@@ -3172,10 +3460,17 @@ export function SoloJointOpsView() {
         </button>
         <button
           type="button"
-          className={activeTab === 'profile-manager' ? 'active' : ''}
-          onClick={() => setActiveTab('profile-manager')}
+          className={activeTab === 'npo-profile-manager' ? 'active' : ''}
+          onClick={() => setActiveTab('npo-profile-manager')}
         >
           NPO Profile Manager
+        </button>
+        <button
+          type="button"
+          className={activeTab === 'nemesis-profile-manager' ? 'active' : ''}
+          onClick={() => setActiveTab('nemesis-profile-manager')}
+        >
+          Nemesis Profile Manager
         </button>
       </nav>
 
@@ -4049,7 +4344,7 @@ export function SoloJointOpsView() {
         </section>
       )}
 
-      {activeTab === 'profile-manager' && (
+      {activeTab === 'npo-profile-manager' && (
         <section className="solo-card">
           <h3>NPO Profile Manager</h3>
           <p>
@@ -4177,6 +4472,35 @@ export function SoloJointOpsView() {
             </div>
           )}
 
+          <div className="backup-controls">
+            <button type="button" onClick={exportProfiles}>
+              Download Profiles Backup
+            </button>
+            <button
+              type="button"
+              onClick={() => profilesImportRef.current?.click()}
+            >
+              Import Profiles Backup
+            </button>
+            <input
+              ref={profilesImportRef}
+              type="file"
+              accept="application/json,.json"
+              onChange={handleProfilesImport}
+              className="visually-hidden"
+            />
+          </div>
+        </section>
+      )}
+
+      {activeTab === 'nemesis-profile-manager' && (
+        <section className="solo-card">
+          <h3>Nemesis Profile Manager</h3>
+          <p>
+            Create and manage Nemesis operatives with size-driven core stats and
+            weapon selections.
+          </p>
+
           <section className="team-builder">
             <h4>Nemesis Manager</h4>
             <p>
@@ -4223,107 +4547,23 @@ export function SoloJointOpsView() {
               </p>
             )}
 
-            <p className="team-selection-meta">
-              Selected weapons: {selectedNemesisWeaponCount} /{' '}
-              {selectedNemesisWeaponLimit}
-            </p>
-            {isNemesisWeaponLimitExceeded && (
-              <p className="deck-exhausted-note" role="status">
-                Warning: selected weapons exceed the recommended limit for this
-                nemesis size. Manual override is allowed.
-              </p>
-            )}
-
-            <div className="profile-weapon-layout">
-              <section className="profile-weapon-group">
-                <h5>Nemesis Ranged Weapons</h5>
-                <p className="team-selection-meta">
-                  Official: {officialRangedWeaponPool.length} · Consolidated:{' '}
-                  {consolidatedRangedWeaponPool.length}
-                </p>
-                {officialRangedWeaponPool.length === 0 && (
-                  <p className="team-transfer-empty">
-                    Official ranged table not loaded yet. Consolidated entries
-                    are generated from current operative profiles.
-                  </p>
-                )}
-                <ul>
-                  {nemesisRangedWeaponOptions.map((option) => {
-                    const selected = selectedNemesisRangedWeaponIds.includes(
-                      option.id
-                    );
-                    return (
-                      <li key={option.id}>
-                        <label>
-                          <input
-                            type="checkbox"
-                            checked={selected}
-                            onChange={() => {
-                              setSelectedNemesisRangedWeaponIds((prev) =>
-                                selected
-                                  ? prev.filter((id) => id !== option.id)
-                                  : [...prev, option.id]
-                              );
-                            }}
-                            aria-label={`Select ranged weapon ${option.profile.name}`}
-                          />{' '}
-                          {option.profile.name}{' '}
-                          <small>
-                            ({option.source}, {option.profile.attacks}A,{' '}
-                            {option.profile.skill}, {option.profile.damage}/
-                            {option.profile.criticalDamage})
-                          </small>
-                        </label>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-
-              <section className="profile-weapon-group">
-                <h5>Nemesis Melee Weapons</h5>
-                <p className="team-selection-meta">
-                  Official: {officialMeleeWeaponPool.length} · Consolidated:{' '}
-                  {consolidatedMeleeWeaponPool.length}
-                </p>
-                {officialMeleeWeaponPool.length === 0 && (
-                  <p className="team-transfer-empty">
-                    Official melee table not loaded yet. Consolidated entries
-                    are generated from current operative profiles.
-                  </p>
-                )}
-                <ul>
-                  {nemesisMeleeWeaponOptions.map((option) => {
-                    const selected = selectedNemesisMeleeWeaponIds.includes(
-                      option.id
-                    );
-                    return (
-                      <li key={option.id}>
-                        <label>
-                          <input
-                            type="checkbox"
-                            checked={selected}
-                            onChange={() => {
-                              setSelectedNemesisMeleeWeaponIds((prev) =>
-                                selected
-                                  ? prev.filter((id) => id !== option.id)
-                                  : [...prev, option.id]
-                              );
-                            }}
-                            aria-label={`Select melee weapon ${option.profile.name}`}
-                          />{' '}
-                          {option.profile.name}{' '}
-                          <small>
-                            ({option.source}, {option.profile.attacks}A,{' '}
-                            {option.profile.skill}, {option.profile.damage}/
-                            {option.profile.criticalDamage})
-                          </small>
-                        </label>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
+            <div className="profile-stats-grid">
+              <div className="profile-stat-chip is-apl">
+                <span className="profile-stat-label">🎛️ Control</span>
+                <strong>{nemesisPreviewStats.control}</strong>
+              </div>
+              <div className="profile-stat-chip is-move">
+                <span className="profile-stat-label">🏃 Move</span>
+                <strong>{nemesisPreviewStats.move || '-'}</strong>
+              </div>
+              <div className="profile-stat-chip is-save">
+                <span className="profile-stat-label">🛡️ Save</span>
+                <strong>{nemesisPreviewStats.save || '-'}</strong>
+              </div>
+              <div className="profile-stat-chip is-wounds">
+                <span className="profile-stat-label">❤️ Wounds</span>
+                <strong>{Math.max(1, nemesisPreviewStats.wounds || 1)}</strong>
+              </div>
             </div>
 
             {newNemesisSize === 'custom' && (
@@ -4375,6 +4615,481 @@ export function SoloJointOpsView() {
               </div>
             )}
 
+            <div className="solo-tabs" aria-label="Nemesis weapon source">
+              <button
+                type="button"
+                className={!showExtendedNemesisWeapons ? 'active' : ''}
+                onClick={() => setShowExtendedNemesisWeapons(false)}
+              >
+                Default
+              </button>
+              <button
+                type="button"
+                className={showExtendedNemesisWeapons ? 'active' : ''}
+                onClick={() => setShowExtendedNemesisWeapons(true)}
+              >
+                Extended
+              </button>
+            </div>
+            <p className="team-selection-meta">
+              Weapon source:{' '}
+              {showExtendedNemesisWeapons ? 'Extended' : 'Default'}.{' '}
+              {showExtendedNemesisWeapons
+                ? 'Includes official and consolidated options.'
+                : 'Official options only.'}
+            </p>
+
+            <p className="team-selection-meta">
+              Selected weapons: {selectedNemesisWeaponCount} /{' '}
+              {selectedNemesisWeaponLimit}
+            </p>
+            {isNemesisWeaponLimitExceeded && (
+              <p className="deck-exhausted-note" role="status">
+                Warning: selected weapons exceed the recommended limit for this
+                nemesis size. Manual override is allowed.
+              </p>
+            )}
+
+            <div className="profile-weapon-layout">
+              <section className="profile-weapon-group">
+                <div className="deck-panel-header">
+                  <h5>Nemesis Ranged Weapons</h5>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setIsRangedNemesisEditorOpen((prevIsOpen) => !prevIsOpen)
+                    }
+                  >
+                    {isRangedNemesisEditorOpen ? 'Done' : 'Edit Ranged'}
+                  </button>
+                </div>
+                <p className="team-selection-meta">
+                  Official: {officialRangedWeaponPool.length} · Consolidated:{' '}
+                  {consolidatedRangedWeaponPool.length}
+                </p>
+                {!showExtendedNemesisWeapons &&
+                  officialRangedWeaponPool.length === 0 && (
+                    <p className="team-transfer-empty">
+                      Official ranged table not loaded yet. Consolidated entries
+                      are generated from current operative profiles.
+                    </p>
+                  )}
+                {!isRangedNemesisEditorOpen ? (
+                  selectedNemesisRangedWeapons.length === 0 ? (
+                    <p className="deck-collapsed-note">
+                      No ranged weapons selected.
+                    </p>
+                  ) : (
+                    <div className="runner-weapon-list">
+                      {selectedNemesisRangedWeapons.map((weapon) => {
+                        const rules = parseSpecialRules(
+                          weapon.profile.specialRules
+                        );
+                        return (
+                          <article
+                            className="runner-weapon-card"
+                            key={`selected-ranged-${weapon.id}`}
+                          >
+                            <p className="runner-weapon-name">
+                              {weapon.profile.name}{' '}
+                              <small>({weapon.source})</small>
+                            </p>
+                            <div className="runner-weapon-metrics">
+                              <div className="runner-weapon-metric-chip is-attacks">
+                                <span className="runner-weapon-metric-label">
+                                  🎲 Attacks
+                                </span>
+                                <strong>{weapon.profile.attacks}</strong>
+                              </div>
+                              <div className="runner-weapon-metric-chip is-hit">
+                                <span className="runner-weapon-metric-label">
+                                  🎯 Hit
+                                </span>
+                                <strong>{weapon.profile.skill}</strong>
+                              </div>
+                              <div className="runner-weapon-metric-chip is-damage">
+                                <span className="runner-weapon-metric-label">
+                                  💥 Damage
+                                </span>
+                                <strong>
+                                  N {weapon.profile.damage} / C{' '}
+                                  {weapon.profile.criticalDamage}
+                                </strong>
+                              </div>
+                            </div>
+                            {rules.length > 0 ? (
+                              <div className="runner-weapon-rules">
+                                {rules.map((rule) => (
+                                  <span
+                                    className="runner-weapon-rule-chip"
+                                    key={rule}
+                                  >
+                                    {rule}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="runner-weapon-no-rules">
+                                No special rules
+                              </p>
+                            )}
+                          </article>
+                        );
+                      })}
+                    </div>
+                  )
+                ) : (
+                  <div className="runner-weapon-list">
+                    {[...nemesisRangedWeaponOptions]
+                      .sort((a, b) => {
+                        const aSelected =
+                          selectedNemesisRangedWeaponIds.includes(a.id) ? 1 : 0;
+                        const bSelected =
+                          selectedNemesisRangedWeaponIds.includes(b.id) ? 1 : 0;
+                        if (aSelected !== bSelected)
+                          return bSelected - aSelected;
+                        return a.profile.name.localeCompare(b.profile.name);
+                      })
+                      .map((option) => {
+                        const selected =
+                          selectedNemesisRangedWeaponIds.includes(option.id);
+                        const rules = parseSpecialRules(
+                          option.profile.specialRules
+                        );
+                        return (
+                          <article
+                            className="runner-weapon-card"
+                            key={option.id}
+                          >
+                            <p className="runner-weapon-name">
+                              {option.profile.name}{' '}
+                              <small>({option.source})</small>
+                            </p>
+                            <div className="runner-weapon-metrics">
+                              <div className="runner-weapon-metric-chip is-attacks">
+                                <span className="runner-weapon-metric-label">
+                                  🎲 Attacks
+                                </span>
+                                <strong>{option.profile.attacks}</strong>
+                              </div>
+                              <div className="runner-weapon-metric-chip is-hit">
+                                <span className="runner-weapon-metric-label">
+                                  🎯 Hit
+                                </span>
+                                <strong>{option.profile.skill}</strong>
+                              </div>
+                              <div className="runner-weapon-metric-chip is-damage">
+                                <span className="runner-weapon-metric-label">
+                                  💥 Damage
+                                </span>
+                                <strong>
+                                  N {option.profile.damage} / C{' '}
+                                  {option.profile.criticalDamage}
+                                </strong>
+                              </div>
+                            </div>
+                            {rules.length > 0 ? (
+                              <div className="runner-weapon-rules">
+                                {rules.map((rule) => (
+                                  <span
+                                    className="runner-weapon-rule-chip"
+                                    key={rule}
+                                  >
+                                    {rule}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="runner-weapon-no-rules">
+                                No special rules
+                              </p>
+                            )}
+                            <button
+                              type="button"
+                              className={`incap-toggle${selected ? ' is-on' : ''}`}
+                              onClick={() => {
+                                setSelectedNemesisRangedWeaponIds((prev) =>
+                                  selected
+                                    ? prev.filter((id) => id !== option.id)
+                                    : [...prev, option.id]
+                                );
+                              }}
+                              aria-pressed={selected}
+                              aria-label={`Toggle ranged weapon ${option.profile.name}`}
+                            >
+                              {selected ? 'Selected' : 'Select'}
+                            </button>
+                          </article>
+                        );
+                      })}
+                  </div>
+                )}
+              </section>
+
+              <section className="profile-weapon-group">
+                <div className="deck-panel-header">
+                  <h5>Nemesis Melee Weapons</h5>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setIsMeleeNemesisEditorOpen((prevIsOpen) => !prevIsOpen)
+                    }
+                  >
+                    {isMeleeNemesisEditorOpen ? 'Done' : 'Edit Melee'}
+                  </button>
+                </div>
+                <p className="team-selection-meta">
+                  Official: {officialMeleeWeaponPool.length} · Consolidated:{' '}
+                  {consolidatedMeleeWeaponPool.length}
+                </p>
+                {!showExtendedNemesisWeapons &&
+                  officialMeleeWeaponPool.length === 0 && (
+                    <p className="team-transfer-empty">
+                      Official melee table not loaded yet. Consolidated entries
+                      are generated from current operative profiles.
+                    </p>
+                  )}
+                {!isMeleeNemesisEditorOpen ? (
+                  selectedNemesisMeleeWeapons.length === 0 ? (
+                    <p className="deck-collapsed-note">
+                      No melee weapons selected.
+                    </p>
+                  ) : (
+                    <div className="runner-weapon-list">
+                      {selectedNemesisMeleeWeapons.map((weapon) => {
+                        const rules = parseSpecialRules(
+                          weapon.profile.specialRules
+                        );
+                        return (
+                          <article
+                            className="runner-weapon-card"
+                            key={`selected-melee-${weapon.id}`}
+                          >
+                            <p className="runner-weapon-name">
+                              {weapon.profile.name}{' '}
+                              <small>({weapon.source})</small>
+                            </p>
+                            <div className="runner-weapon-metrics">
+                              <div className="runner-weapon-metric-chip is-attacks">
+                                <span className="runner-weapon-metric-label">
+                                  🎲 Attacks
+                                </span>
+                                <strong>{weapon.profile.attacks}</strong>
+                              </div>
+                              <div className="runner-weapon-metric-chip is-hit">
+                                <span className="runner-weapon-metric-label">
+                                  🎯 Hit
+                                </span>
+                                <strong>{weapon.profile.skill}</strong>
+                              </div>
+                              <div className="runner-weapon-metric-chip is-damage">
+                                <span className="runner-weapon-metric-label">
+                                  💥 Damage
+                                </span>
+                                <strong>
+                                  N {weapon.profile.damage} / C{' '}
+                                  {weapon.profile.criticalDamage}
+                                </strong>
+                              </div>
+                            </div>
+                            {rules.length > 0 ? (
+                              <div className="runner-weapon-rules">
+                                {rules.map((rule) => (
+                                  <span
+                                    className="runner-weapon-rule-chip"
+                                    key={rule}
+                                  >
+                                    {rule}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="runner-weapon-no-rules">
+                                No special rules
+                              </p>
+                            )}
+                          </article>
+                        );
+                      })}
+                    </div>
+                  )
+                ) : (
+                  <div className="runner-weapon-list">
+                    {[...nemesisMeleeWeaponOptions]
+                      .sort((a, b) => {
+                        const aSelected =
+                          selectedNemesisMeleeWeaponIds.includes(a.id) ? 1 : 0;
+                        const bSelected =
+                          selectedNemesisMeleeWeaponIds.includes(b.id) ? 1 : 0;
+                        if (aSelected !== bSelected)
+                          return bSelected - aSelected;
+                        return a.profile.name.localeCompare(b.profile.name);
+                      })
+                      .map((option) => {
+                        const selected = selectedNemesisMeleeWeaponIds.includes(
+                          option.id
+                        );
+                        const rules = parseSpecialRules(
+                          option.profile.specialRules
+                        );
+                        return (
+                          <article
+                            className="runner-weapon-card"
+                            key={option.id}
+                          >
+                            <p className="runner-weapon-name">
+                              {option.profile.name}{' '}
+                              <small>({option.source})</small>
+                            </p>
+                            <div className="runner-weapon-metrics">
+                              <div className="runner-weapon-metric-chip is-attacks">
+                                <span className="runner-weapon-metric-label">
+                                  🎲 Attacks
+                                </span>
+                                <strong>{option.profile.attacks}</strong>
+                              </div>
+                              <div className="runner-weapon-metric-chip is-hit">
+                                <span className="runner-weapon-metric-label">
+                                  🎯 Hit
+                                </span>
+                                <strong>{option.profile.skill}</strong>
+                              </div>
+                              <div className="runner-weapon-metric-chip is-damage">
+                                <span className="runner-weapon-metric-label">
+                                  💥 Damage
+                                </span>
+                                <strong>
+                                  N {option.profile.damage} / C{' '}
+                                  {option.profile.criticalDamage}
+                                </strong>
+                              </div>
+                            </div>
+                            {rules.length > 0 ? (
+                              <div className="runner-weapon-rules">
+                                {rules.map((rule) => (
+                                  <span
+                                    className="runner-weapon-rule-chip"
+                                    key={rule}
+                                  >
+                                    {rule}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="runner-weapon-no-rules">
+                                No special rules
+                              </p>
+                            )}
+                            <button
+                              type="button"
+                              className={`incap-toggle${selected ? ' is-on' : ''}`}
+                              onClick={() => {
+                                setSelectedNemesisMeleeWeaponIds((prev) =>
+                                  selected
+                                    ? prev.filter((id) => id !== option.id)
+                                    : [...prev, option.id]
+                                );
+                              }}
+                              aria-pressed={selected}
+                              aria-label={`Toggle melee weapon ${option.profile.name}`}
+                            >
+                              {selected ? 'Selected' : 'Select'}
+                            </button>
+                          </article>
+                        );
+                      })}
+                  </div>
+                )}
+              </section>
+            </div>
+
+            <div className="runner-weapon-section">
+              <h5>Allegiance Traits</h5>
+              <p className="team-selection-meta">
+                Selected allegiance traits:{' '}
+                {selectedNemesisAllegianceTraitIds.length} /{' '}
+                {NEMESIS_TRAIT_LIMIT}
+              </p>
+              {isNemesisAllegianceTraitLimitExceeded && (
+                <p className="deck-exhausted-note" role="status">
+                  Warning: more than one allegiance trait selected. Manual
+                  override is allowed.
+                </p>
+              )}
+              <div className="runner-weapon-list">
+                {NEMESIS_ALLEGIANCE_TRAITS.map((trait) => {
+                  const selected = selectedNemesisAllegianceTraitIds.includes(
+                    trait.id
+                  );
+                  return (
+                    <article className="runner-weapon-card" key={trait.id}>
+                      <p className="runner-weapon-name">{trait.name}</p>
+                      <p className="runner-weapon-no-rules">
+                        {trait.description}
+                      </p>
+                      <button
+                        type="button"
+                        className={`incap-toggle${selected ? ' is-on' : ''}`}
+                        onClick={() => {
+                          setSelectedNemesisAllegianceTraitIds((prev) =>
+                            selected
+                              ? prev.filter((id) => id !== trait.id)
+                              : [...prev, trait.id]
+                          );
+                        }}
+                        aria-pressed={selected}
+                        aria-label={`Toggle allegiance trait ${trait.name}`}
+                      >
+                        {selected ? 'Selected' : 'Select'}
+                      </button>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="runner-weapon-section">
+              <h5>Nemesis Traits</h5>
+              <p className="team-selection-meta">
+                Selected nemesis traits: {selectedNemesisTraitIds.length} /{' '}
+                {NEMESIS_TRAIT_LIMIT}
+              </p>
+              {isNemesisTraitLimitExceeded && (
+                <p className="deck-exhausted-note" role="status">
+                  Warning: more than one nemesis trait selected. Manual override
+                  is allowed.
+                </p>
+              )}
+              <div className="runner-weapon-list">
+                {NEMESIS_TRAITS.map((trait) => {
+                  const selected = selectedNemesisTraitIds.includes(trait.id);
+                  return (
+                    <article className="runner-weapon-card" key={trait.id}>
+                      <p className="runner-weapon-name">{trait.name}</p>
+                      <p className="runner-weapon-no-rules">
+                        {trait.description}
+                      </p>
+                      <button
+                        type="button"
+                        className={`incap-toggle${selected ? ' is-on' : ''}`}
+                        onClick={() => {
+                          setSelectedNemesisTraitIds((prev) =>
+                            selected
+                              ? prev.filter((id) => id !== trait.id)
+                              : [...prev, trait.id]
+                          );
+                        }}
+                        aria-pressed={selected}
+                        aria-label={`Toggle nemesis trait ${trait.name}`}
+                      >
+                        {selected ? 'Selected' : 'Select'}
+                      </button>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+
             <button
               type="button"
               onClick={createNemesisOperative}
@@ -4389,9 +5104,13 @@ export function SoloJointOpsView() {
               <ul>
                 {state.nemesisOperatives.map((nemesis) => {
                   const profile = profileLookup.get(nemesis.profileId);
-                  const weaponCount =
-                    (profile?.rangedWeapons.length ?? 0) +
-                    (profile?.meleeWeapons.length ?? 0);
+                  const weaponCount = [
+                    ...(profile?.rangedWeapons ?? []),
+                    ...(profile?.meleeWeapons ?? []),
+                  ].reduce(
+                    (total, weapon) => total + getWeaponSelectionCost(weapon),
+                    0
+                  );
                   const weaponLimit = getNemesisWeaponLimit(nemesis.size);
                   return (
                     <li key={nemesis.id}>
