@@ -2218,6 +2218,9 @@ export function SoloJointOpsView() {
   );
   const [isDeckSetupOpen, setIsDeckSetupOpen] = useState(false);
   const [isTeamSetupOpen, setIsTeamSetupOpen] = useState(false);
+  const [inspectedRunnerOperativeId, setInspectedRunnerOperativeId] = useState<
+    string | null
+  >(null);
 
   const listsImportRef = useRef<HTMLInputElement | null>(null);
   const profilesImportRef = useRef<HTMLInputElement | null>(null);
@@ -2375,6 +2378,14 @@ export function SoloJointOpsView() {
     [runnerOperatives]
   );
 
+  const inspectedRunnerOperative = useMemo(
+    () =>
+      npoRunnerOperatives.find(
+        (operative) => operative.id === inspectedRunnerOperativeId
+      ) ?? null,
+    [inspectedRunnerOperativeId, npoRunnerOperatives]
+  );
+
   const npoRunnerOperativeNames = useMemo(
     () =>
       new Map(
@@ -2404,6 +2415,16 @@ export function SoloJointOpsView() {
     () => currentActivatedOperatives.map((operative) => operative.name),
     [currentActivatedOperatives]
   );
+
+  useEffect(() => {
+    if (!inspectedRunnerOperativeId) return;
+    const exists = npoRunnerOperatives.some(
+      (operative) => operative.id === inspectedRunnerOperativeId
+    );
+    if (!exists) {
+      setInspectedRunnerOperativeId(null);
+    }
+  }, [inspectedRunnerOperativeId, npoRunnerOperatives]);
 
   const totalDeckCardInstances = useMemo(
     () =>
@@ -4285,7 +4306,16 @@ export function SoloJointOpsView() {
                         }${isOnCurrentCard ? ' npo-roster-item-active' : ''}`}
                       >
                         <div className="npo-roster-name-row">
-                          <span>{operative.name}</span>
+                          <button
+                            type="button"
+                            className="profile-link-button npo-roster-name-button"
+                            onClick={() =>
+                              setInspectedRunnerOperativeId(operative.id)
+                            }
+                            aria-label={`View datacard for ${operative.name}`}
+                          >
+                            {operative.name}
+                          </button>
                           {isOnCurrentCard && (
                             <span className="npo-roster-active-chip">
                               Current Card
@@ -4318,6 +4348,23 @@ export function SoloJointOpsView() {
                 </ul>
               )}
             </aside>
+
+            {inspectedRunnerOperative && (
+              <div className="setup-modal-backdrop" role="dialog" aria-modal>
+                <section className="solo-card setup-modal profile-preview-modal">
+                  <div className="setup-modal-header">
+                    <h3>{inspectedRunnerOperative.name} Datacard</h3>
+                    <button
+                      type="button"
+                      onClick={() => setInspectedRunnerOperativeId(null)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                  {renderProfileSummary(inspectedRunnerOperative.profileId)}
+                </section>
+              </div>
+            )}
           </div>
         </div>
       )}

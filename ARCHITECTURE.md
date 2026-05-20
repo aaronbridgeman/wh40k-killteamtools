@@ -335,6 +335,7 @@ The root component that manages:
 
 - Tabbed workflow for solo/joint ops against NPOs:
   - **Game Runner** (default): setup-status gate with warning state when NPO team setup is incomplete, popup team-setup UI (NPO-first with optional player pane), compact activation deck summary with popup deck editor (with per-card instance counts), reset/draw activation controls, list-based current activation display, and runner cards shown for currently activated operatives
+    - NPO Operative Status rows include clickable operative names that open a datacard popup, separate from Active/Incapacitated toggles
         - **List Builder**: player/NPO list management with model-first selection, optional profile override, custom model entries that require explicit profiles, and Nemesis entries that can be added to either side
             - Shows a live datacard preview for the currently selected model/profile before add
             - Added operative rows expose clickable profile links that open a popup datacard summary

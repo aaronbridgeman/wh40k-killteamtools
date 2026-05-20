@@ -62,6 +62,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 **Solo / Joint Ops**
 
 - **Game Runner**: Default tab with a setup-status gate (warning state until configured), popup Team Setup UI, a reset/draw activation deck flow, current-activation operative lists, and operative runner cards shown only for activated operatives
+- **Operative Status Datacard Popup**: In Game Runner, clicking an NPO operative in the Operative Status panel opens a datacard popup for quick Save/Wounds/weapon inspection while keeping Active/Incapacitated as a separate control
 - **Operative Card Detail UX**: Runner cards show boxed stat chips (APL or Control / Move / Save / Wounds), detailed ranged/melee weapon profile cards (including Normal/Critical damage and special rules), and auto-formatted behavior steps for numbered instruction text
 - **List Builder**: Build and persist player/NPO lists as model pools, with each list entry carrying a profile assignment (defaulting to Datacard for player entries); Nemesis operatives can be added to either side
 - **Datacard Preview in Builder**: Selecting a model/profile now shows the resolved datacard summary immediately before adding the operative

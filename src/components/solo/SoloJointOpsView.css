@@ -831,6 +831,11 @@
   font-weight: 600;
 }
 
+.npo-roster-name-button {
+  text-align: left;
+  font-size: 0.9rem;
+}
+
 .npo-roster-profile-line {
   margin: 0;
   font-size: 0.78rem;

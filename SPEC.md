@@ -376,6 +376,7 @@ JSON Schema will validate all configuration files to ensure:
    - Compact activation deck summary with popup deck editor and per-card operative links/instance counts
    - Default deck generation uses one card per NPO operative, except NPO Nemesis operatives which start with two cards
    - Runner cards for currently activated operatives with damage controls and incapacitated on/off toggles
+   - NPO Operative Status panel supports click-to-open datacard popups per operative while retaining separate Active/Incapacitated controls
    - Team management controls for naming teams, selecting source lists, and selecting team members
 
 2. **List Builder**

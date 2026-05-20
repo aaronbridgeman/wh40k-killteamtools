@@ -208,6 +208,24 @@ describe('SoloJointOpsView', () => {
     const statusOperativeRow = statusOperativeRows[0] ?? null;
     expect(statusOperativeRow).not.toBeNull();
 
+    const datacardButton = within(
+      statusOperativeRow as HTMLElement
+    ).getByRole('button', {
+      name: new RegExp(`View datacard for ${operativeName}`, 'i'),
+    });
+    fireEvent.click(datacardButton);
+    expect(
+      screen.getByRole('heading', {
+        name: new RegExp(`${operativeName} Datacard`, 'i'),
+      })
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(
+      screen.queryByRole('heading', {
+        name: new RegExp(`${operativeName} Datacard`, 'i'),
+      })
+    ).not.toBeInTheDocument();
+
     const incapacitatedToggle = within(
       statusOperativeRow as HTMLElement
     ).getByRole('button', {
