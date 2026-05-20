@@ -1,0 +1,1 @@
+import{e as r,f as o,j as e,h as n,i as a,Q as t}from"./virtual_pwa-register-D-7Ob0hk.js";r({onNeedRefresh(){console.warn("New content available, please refresh.")},onOfflineReady(){console.warn("App ready to work offline.")}});o.createRoot(document.getElementById("root")).render(e.jsx(n.StrictMode,{children:e.jsx(a,{children:e.jsx(t,{})})}));
