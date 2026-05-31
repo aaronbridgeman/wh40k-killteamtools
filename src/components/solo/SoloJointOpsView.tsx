@@ -1,13 +1,9 @@
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+﻿import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import operativeCatalogData from '@/data/solo/operativeCatalog.json';
 import allegianceTraitsData from '@/data/solo/allegianceTraits.json';
 import './SoloJointOpsView.css';
-import { useVoiceCommands } from '@/services/voiceCommandService';
-import { VoiceIndicator } from '@/components/common/VoiceIndicator';
-import { resetActivationDeck, drawActivation } from '@/services/soloActions';
-import { setInspectedRunnerOperativeId, updateRunnerOperative } from '@/services/teamStorage';
 
-type ActivationSide = 'player' | 'npo';
+export type ActivationSide = 'player' | 'npo';
 type SoloTab =
   | 'game-runner'
   | 'list-builder'
@@ -24,9 +20,9 @@ type NpoTeamSelectionRule =
   | 'horde';
 
 type TeamSetupPane = 'player' | 'npo';
-type TransferDirection = 'to-selected' | 'to-unselected';
+export type TransferDirection = 'to-selected' | 'to-unselected';
 
-interface SoloWeaponProfile {
+export interface SoloWeaponProfile {
   id: string;
   name: string;
   attacks: number;
@@ -36,7 +32,7 @@ interface SoloWeaponProfile {
   specialRules: string;
 }
 
-interface SoloProfile {
+export interface SoloProfile {
   id: string;
   name: string;
   apl: number;
@@ -51,7 +47,7 @@ interface SoloProfile {
   nemesisTraits?: string[];
 }
 
-interface SoloListOperative {
+export interface SoloListOperative {
   id: string;
   name: string;
   profileId: string;
@@ -65,7 +61,7 @@ interface SoloListOperative {
   activationCardCount?: number;
 }
 
-interface NemesisOperative {
+export interface NemesisOperative {
   id: string;
   name: string;
   size: NemesisSize;
@@ -89,13 +85,13 @@ interface NemesisWeaponOption {
   profile: SoloWeaponProfile;
 }
 
-interface CatalogTeam {
+export interface CatalogTeam {
   id: string;
   name: string;
   side: 'player' | 'npo' | 'both';
 }
 
-interface CatalogOperative {
+export interface CatalogOperative {
   id: string;
   teamId: string;
   teamName: string;
@@ -108,14 +104,14 @@ interface OperativeCatalog {
   operatives: CatalogOperative[];
 }
 
-interface SoloList {
+export interface SoloList {
   id: string;
   name: string;
   side: ActivationSide;
   operatives: SoloListOperative[];
 }
 
-interface SoloTeam {
+export interface SoloTeam {
   id: string;
   name: string;
   side: ActivationSide;
@@ -152,7 +148,7 @@ interface SoloBackupFile {
   nemesisOperatives?: NemesisOperative[];
 }
 
-interface AddListOperativeInput {
+export interface AddListOperativeInput {
   name: string;
   profileId: string;
   modelId?: string;
@@ -170,7 +166,7 @@ interface ProfileSelectOption {
   name: string;
 }
 
-interface TransferHint {
+export interface TransferHint {
   teamId: string;
   operativeId: string;
   direction: TransferDirection;
@@ -1323,10 +1319,7 @@ function adjustHitForInjured(skill: string): string {
   return `${value + 1}${suffix}`;
 }
 
-function renderDetailedProfileSummary(
-  profile: SoloProfile | null,
-  injured = false
-) {
+function renderDetailedProfileSummary(profile: SoloProfile | null, injured = false) {
   if (!profile) {
     return <p className="profile-summary">Profile data unavailable.</p>;
   }
@@ -1429,14 +1422,8 @@ function renderDetailedProfileSummary(
                     </div>
                     <div className="runner-weapon-metric-chip is-hit">
                       <span className="runner-weapon-metric-label">🎯 Hit</span>
-                      <strong
-                        className={
-                          injured ? 'stat-injured-modifier' : undefined
-                        }
-                      >
-                        {injured
-                          ? adjustHitForInjured(weapon.skill)
-                          : weapon.skill}
+                      <strong className={injured ? 'stat-injured-modifier' : undefined}>
+                        {injured ? adjustHitForInjured(weapon.skill) : weapon.skill}
                       </strong>
                     </div>
                     <div className="runner-weapon-metric-chip is-damage">
@@ -1486,14 +1473,8 @@ function renderDetailedProfileSummary(
                     </div>
                     <div className="runner-weapon-metric-chip is-hit">
                       <span className="runner-weapon-metric-label">🎯 Hit</span>
-                      <strong
-                        className={
-                          injured ? 'stat-injured-modifier' : undefined
-                        }
-                      >
-                        {injured
-                          ? adjustHitForInjured(weapon.skill)
-                          : weapon.skill}
+                      <strong className={injured ? 'stat-injured-modifier' : undefined}>
+                        {injured ? adjustHitForInjured(weapon.skill) : weapon.skill}
                       </strong>
                     </div>
                     <div className="runner-weapon-metric-chip is-damage">
@@ -1847,7 +1828,7 @@ function SoloListEditor({
           )}
           {side === 'npo' && selectedTeamId === ALL_TEAMS_ID
             ? groupedCatalogOperatives.map(([teamName, operatives]) => (
-                <optgroup key={teamName} label
+                <optgroup key={teamName} label={teamName}>
                   {operatives.map((operative) => (
                     <option key={operative.id} value={operative.id}>
                       {operative.name}
@@ -2009,7 +1990,9 @@ function SoloListEditor({
             </li>
           );
         })}
-      </ul
+      </ul>
+
+      {inspectedOperative && (
         <div className="setup-modal-backdrop" role="dialog" aria-modal>
           <section className="solo-card setup-modal profile-preview-modal">
             <div className="setup-modal-header">
@@ -2377,6 +2360,7 @@ export function SoloJointOpsView() {
     () => runnerOperatives.filter((operative) => operative.side === 'npo'),
     [runnerOperatives]
   );
+
 
   const npoRunnerOperativeNames = useMemo(
     () =>
@@ -3542,10 +3526,7 @@ export function SoloJointOpsView() {
         </p>
       );
     }
-    return renderDetailedProfileSummary(
-      profileLookup.get(profileId) ?? null,
-      injured
-    );
+    return renderDetailedProfileSummary(profileLookup.get(profileId) ?? null, injured);
   };
 
   return (
@@ -3895,9 +3876,7 @@ export function SoloJointOpsView() {
                         <option value="horde">Horde (low wounds first)</option>
                       </select>
 
-                      <label htmlFor="npo-wounds-limit">
-                        NPO Wounds Limit
-                      </label>
+                      <label htmlFor="npo-wounds-limit">NPO Wounds Limit</label>
                       <input
                         id="npo-wounds-limit"
                         type="number"
@@ -4247,10 +4226,14 @@ export function SoloJointOpsView() {
                     : currentActivatedOperatives;
 
                   if (!inspectedRunnerOperativeId && !currentDrawnCard) {
-                    return <p>Draw an activation to show active NPO cards.</p>;
+                    return (
+                      <p>Draw an activation to show active NPO cards.</p>
+                    );
                   }
                   if (displayOperatives.length === 0) {
-                    return <p>No active operatives on the drawn card.</p>;
+                    return (
+                      <p>No active operatives on the drawn card.</p>
+                    );
                   }
 
                   return (
@@ -4309,10 +4292,7 @@ export function SoloJointOpsView() {
                                 </span>
                               </div>
                             </div>
-                            {renderProfileSummary(
-                              operative.profileId,
-                              isInjured
-                            )}
+                            {renderProfileSummary(operative.profileId, isInjured)}
                             <div className="npo-card-damage-controls">
                               <div className="npo-card-wounds-row">
                                 <span className="npo-card-wounds-label">
@@ -5178,21 +5158,6 @@ export function SoloJointOpsView() {
                                 No special rules
                               </p>
                             )}
-                            <button
-                              type="button"
-                              className={`incap-toggle${selected ? ' is-on' : ''}`}
-                              onClick={() => {
-                                setSelectedNemesisMeleeWeaponIds((prev) =>
-                                  selected
-                                    ? prev.filter((id) => id !== option.id)
-                                    : [...prev, option.id]
-                                );
-                              }}
-                              aria-pressed={selected}
-                              aria-label={`Toggle melee weapon ${option.profile.name}`}
-                            >
-                              {selected ? 'Selected' : 'Select'}
-                            </button>
                           </article>
                         );
                       })}
@@ -5306,8 +5271,7 @@ export function SoloJointOpsView() {
               )}
               <div className="allegiance-trait-grid">
                 {orderedNemesisAllegianceTraits.map((trait) => {
-                  const selected =
-                    selectedNemesisAllegianceTraitId === trait.id;
+                  const selected = selectedNemesisAllegianceTraitId === trait.id;
                   return (
                     <button
                       type="button"
@@ -5457,1423 +5421,3 @@ export function SoloJointOpsView() {
     </div>
   );
 }
-
-const handleVoiceCommand = (command: string, args?: string) => {
-  switch (command) {
-    case 'reset':
-      resetActivationDeck();
-      break;
-    case 'next':
-      drawActivation();
-      break;
-    case 'show card':
-      if (args) setInspectedRunnerOperativeId(args);
-      break;
-    case 'add wound':
-      if (selectedOperative) updateRunnerOperative(selectedOperative.id, 1);
-      break;
-    case 'remove wound':
-      if (selectedOperative) updateRunnerOperative(selectedOperative.id, -1);
-      break;
-    default:
-      console.log('Unknown command:', command);
-  }
-};
-
-const { isListening, startListening, stopListening } = useVoiceCommands(handleVoiceCommand);
-
-const SoloJointOpsView = () => {
-  const initialState = useMemo(() => loadState(), []);
-  const [activeTab, setActiveTab] = useState<SoloTab>('game-runner');
-  const [activeListBuilderSide, setActiveListBuilderSide] =
-    useState<ActivationSide>('npo');
-  const [activeTeamSetupPane, setActiveTeamSetupPane] =
-    useState<TeamSetupPane>('npo');
-  const [state, setState] = useState<SoloJointOpsState>(initialState);
-  const [runnerOperatives, setRunnerOperatives] = useState<RunnerOperative[]>(
-    []
-  );
-  const [selectedPlayerTeamForList, setSelectedPlayerTeamForList] = useState(
-    () =>
-      operativeCatalog.teams.find((team) => team.id !== NPO_OPERATIVES_TEAM_ID)
-        ?.id ?? ''
-  );
-  const [selectedNpoTeamForList, setSelectedNpoTeamForList] = useState(
-    NPO_OPERATIVES_TEAM_ID
-  );
-  const [newPlayerTeamName, setNewPlayerTeamName] = useState('');
-  const [newNpoTeamName, setNewNpoTeamName] = useState('');
-  const [editingProfileId, setEditingProfileId] = useState(
-    initialState.profiles[0]?.id ?? ''
-  );
-  const [newNemesisName, setNewNemesisName] = useState('');
-  const [newNemesisSize, setNewNemesisSize] = useState<NemesisSize>('small');
-  const [customNemesisControl, setCustomNemesisControl] = useState(5);
-  const [customNemesisMove, setCustomNemesisMove] = useState('6"');
-  const [customNemesisSave, setCustomNemesisSave] = useState('4+');
-  const [customNemesisWounds, setCustomNemesisWounds] = useState(50);
-  const [showExtendedNemesisWeapons, setShowExtendedNemesisWeapons] =
-    useState(false);
-  const [isRangedNemesisEditorOpen, setIsRangedNemesisEditorOpen] =
-    useState(false);
-  const [isMeleeNemesisEditorOpen, setIsMeleeNemesisEditorOpen] =
-    useState(false);
-  const [selectedNemesisRangedWeaponIds, setSelectedNemesisRangedWeaponIds] =
-    useState<string[]>([]);
-  const [selectedNemesisMeleeWeaponIds, setSelectedNemesisMeleeWeaponIds] =
-    useState<string[]>([]);
-  const [
-    selectedNemesisAllegianceTraitIds,
-    setSelectedNemesisAllegianceTraitIds,
-  ] = useState<string[]>([]);
-  const [selectedNemesisTraitIds, setSelectedNemesisTraitIds] = useState<
-    string[]
-  >([]);
-  const [importMessage, setImportMessage] = useState<string | null>(null);
-  const [transferHint, setTransferHint] = useState<TransferHint | null>(null);
-  // Ephemeral draw-pile: card IDs in shuffled order, reset via Reset Deck
-  const [drawPile, setDrawPile] = useState<string[]>([]);
-  const [drawnCardId, setDrawnCardId] = useState<string | null>(null);
-  const [editingDeckCardId, setEditingDeckCardId] = useState<string | null>(
-    null
-  );
-  const [isDeckSetupOpen, setIsDeckSetupOpen] = useState(false);
-  const [isTeamSetupOpen, setIsTeamSetupOpen] = useState(false);
-  const [inspectedRunnerOperativeId, setInspectedRunnerOperativeId] = useState<
-    string | null
-  >(null);
-
-  const listsImportRef = useRef<HTMLInputElement | null>(null);
-  const profilesImportRef = useRef<HTMLInputElement | null>(null);
-
-  const playerLists = useMemo(
-    () => state.lists.filter((list) => list.side === 'player'),
-    [state.lists]
-  );
-  const npoLists = useMemo(
-    () => state.lists.filter((list) => list.side === 'npo'),
-    [state.lists]
-  );
-  const playerTeams = useMemo(
-    () => state.teams.filter((team) => team.side === 'player'),
-    [state.teams]
-  );
-  const npoTeams = useMemo(
-    () => state.teams.filter((team) => team.side === 'npo'),
-    [state.teams]
-  );
-
-  const selectedPlayerList =
-    playerLists.find((list) => list.id === state.selectedPlayerListId) ??
-    playerLists[0] ??
-    null;
-  const selectedNpoList =
-    npoLists.find((list) => list.id === state.selectedNpoListId) ??
-    npoLists[0] ??
-    null;
-  const selectedPlayerTeam =
-    playerTeams.find((team) => team.id === state.selectedPlayerTeamId) ??
-    playerTeams[0] ??
-    null;
-  const selectedNpoTeam =
-    npoTeams.find((team) => team.id === state.selectedNpoTeamId) ??
-    npoTeams[0] ??
-    null;
-
-  const profileLookup = useMemo(() => {
-    const map = new Map<string, SoloProfile>();
-
-    operativeCatalog.operatives.forEach((operative) => {
-      map.set(operative.profile.id, operative.profile);
-    });
-
-    state.profiles.forEach((profile) => {
-      map.set(profile.id, profile);
-    });
-
-    return map;
-  }, [state.profiles]);
-
-  const playerCatalogTeams = useMemo(
-    () =>
-      operativeCatalog.teams.filter(
-        (team) => team.id !== NPO_OPERATIVES_TEAM_ID
-      ),
-    []
-  );
-
-  const npoCatalogTeams = useMemo(() => operativeCatalog.teams, []);
-
-  const getTeamSourceList = (team: SoloTeam | null) => {
-    if (!team) return null;
-    return state.lists.find((list) => list.id === team.sourceListId) ?? null;
-  };
-
-  const pickNpoOperativeIds = (
-    operatives: SoloListOperative[],
-    selectionRule: NpoTeamSelectionRule,
-    autoWoundsLimit: number
-  ) => {
-    const withProfiles = operatives.map((operative) => ({
-      operative,
-      profile:
-        operative.profileId === DATACARD_PROFILE_ID
-          ? null
-          : (profileLookup.get(operative.profileId) ?? null),
-    }));
-
-    let ordered = withProfiles;
-    if (selectionRule === 'random') {
-      ordered = shuffle(withProfiles);
-    } else if (selectionRule === 'melee-heavy') {
-      ordered = [...withProfiles].sort(
-        (a, b) => getMeleeScore(b.profile) - getMeleeScore(a.profile)
-      );
-    } else if (selectionRule === 'ranged-heavy') {
-      ordered = [...withProfiles].sort(
-        (a, b) => getRangedScore(b.profile) - getRangedScore(a.profile)
-      );
-    } else if (selectionRule === 'elite') {
-      ordered = [...withProfiles].sort(
-        (a, b) => (b.profile?.wounds ?? 0) - (a.profile?.wounds ?? 0)
-      );
-    } else if (selectionRule === 'horde') {
-      ordered = [...withProfiles].sort(
-        (a, b) => (a.profile?.wounds ?? 0) - (b.profile?.wounds ?? 0)
-      );
-    }
-
-    if (selectionRule === 'manual') {
-      return ordered.map((entry) => entry.operative.id);
-    }
-
-    const woundsLimit = Math.max(0, autoWoundsLimit);
-    if (woundsLimit === 0) {
-      return ordered.map((entry) => entry.operative.id);
-    }
-
-    const picked: string[] = [];
-    let totalWounds = 0;
-
-    ordered.forEach(({ operative, profile }) => {
-      const wounds = Math.max(0, profile?.wounds ?? 0);
-      const nextTotal = totalWounds + wounds;
-      if (picked.length === 0 || nextTotal <= woundsLimit) {
-        picked.push(operative.id);
-        totalWounds = nextTotal;
-      }
-    });
-
-    return picked;
-  };
-
-  const selectedPlayerTeamOperatives = useMemo(() => {
-    if (!selectedPlayerTeam) return [];
-    const sourceList = state.lists.find(
-      (list) => list.id === selectedPlayerTeam.sourceListId
-    );
-    if (!sourceList) return [];
-    const allowedIds = new Set(selectedPlayerTeam.operativeIds);
-    return sourceList.operatives.filter((operative) =>
-      allowedIds.has(operative.id)
-    );
-  }, [selectedPlayerTeam, state.lists]);
-
-  const selectedNpoTeamOperatives = useMemo(() => {
-    if (!selectedNpoTeam) return [];
-    const sourceList = state.lists.find(
-      (list) => list.id === selectedNpoTeam.sourceListId
-    );
-    if (!sourceList) return [];
-    const allowedIds = new Set(selectedNpoTeam.operativeIds);
-    return sourceList.operatives.filter((operative) =>
-      allowedIds.has(operative.id)
-    );
-  }, [selectedNpoTeam, state.lists]);
-
-  const isGameSetupComplete =
-    !!selectedNpoTeam && selectedNpoTeamOperatives.length > 0;
-
-  const npoRunnerOperatives = useMemo(
-    () => runnerOperatives.filter((operative) => operative.side === 'npo'),
-    [runnerOperatives]
-  );
-
-  const npoRunnerOperativeNames = useMemo(
-    () =>
-      new Map(
-        npoRunnerOperatives.map((operative) => [
-          operative.sourceOperativeId,
-          operative.name,
-        ])
-      ),
-    [npoRunnerOperatives]
-  );
-
-  const currentDrawnCard = useMemo(
-    () => state.activationDeck.find((card) => card.id === drawnCardId) ?? null,
-    [drawnCardId, state.activationDeck]
-  );
-
-  const currentActivatedOperatives = useMemo(() => {
-    if (!currentDrawnCard) return [];
-    const linkedIds = new Set(currentDrawnCard.operativeIds);
-    return npoRunnerOperatives.filter(
-      (operative) =>
-        linkedIds.has(operative.sourceOperativeId) && !operative.incapacitated
-    );
-  }, [currentDrawnCard, npoRunnerOperatives]);
-
-  const currentDrawnCardLinkedNames = useMemo(
-    () => currentActivatedOperatives.map((operative) => operative.name),
-    [currentActivatedOperatives]
-  );
-
-  useEffect(() => {
-    if (!inspectedRunnerOperativeId) return;
-    const exists = npoRunnerOperatives.some(
-      (operative) => operative.id === inspectedRunnerOperativeId
-    );
-    if (!exists) {
-      setInspectedRunnerOperativeId(null);
-    }
-  }, [inspectedRunnerOperativeId, npoRunnerOperatives]);
-
-  const totalDeckCardInstances = useMemo(
-    () =>
-      state.activationDeck.reduce(
-        (total, card) => total + Math.max(1, Math.floor(card.count || 1)),
-        0
-      ),
-    [state.activationDeck]
-  );
-
-  useEffect(() => {
-    if (!hasLocalStorageApi()) {
-      return;
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [state]);
-
-  useEffect(() => {
-    if (
-      !playerCatalogTeams.some((team) => team.id === selectedPlayerTeamForList)
-    ) {
-      setSelectedPlayerTeamForList(playerCatalogTeams[0]?.id ?? '');
-    }
-  }, [playerCatalogTeams, selectedPlayerTeamForList]);
-
-  useEffect(() => {
-    if (!npoCatalogTeams.some((team) => team.id === selectedNpoTeamForList)) {
-      setSelectedNpoTeamForList(NPO_OPERATIVES_TEAM_ID);
-    }
-  }, [npoCatalogTeams, selectedNpoTeamForList]);
-
-  useEffect(() => {
-    if (!editingProfileId || !profileLookup.has(editingProfileId)) {
-      setEditingProfileId(state.profiles[0]?.id ?? '');
-    }
-  }, [editingProfileId, profileLookup, state.profiles]);
-
-  useEffect(() => {
-    if (!playerTeams.some((team) => team.id === state.selectedPlayerTeamId)) {
-      setState((prev) => ({
-        ...prev,
-        selectedPlayerTeamId: playerTeams[0]?.id ?? '',
-      }));
-    }
-  }, [playerTeams, state.selectedPlayerTeamId]);
-
-  useEffect(() => {
-    if (!npoTeams.some((team) => team.id === state.selectedNpoTeamId)) {
-      setState((prev) => ({
-        ...prev,
-        selectedNpoTeamId: npoTeams[0]?.id ?? '',
-      }));
-    }
-  }, [npoTeams, state.selectedNpoTeamId]);
-
-  useEffect(() => {
-    const teamListPairs = state.teams.map((team) => {
-      const fallbackListId =
-        team.side === 'player'
-          ? (playerLists[0]?.id ?? '')
-          : (npoLists[0]?.id ?? '');
-      const sourceListId = state.lists.some(
-        (list) => list.id === team.sourceListId
-      )
-        ? team.sourceListId
-        : fallbackListId;
-      const sourceList = state.lists.find((list) => list.id === sourceListId);
-      const filteredIds = sourceList
-        ? team.operativeIds.filter((operativeId) =>
-            sourceList.operatives.some(
-              (operative) => operative.id === operativeId
-            )
-          )
-        : [];
-      return { team, sourceListId, filteredIds };
-    });
-
-    const needsRepair = teamListPairs.some(
-      ({ team, sourceListId, filteredIds }) =>
-        sourceListId !== team.sourceListId ||
-        filteredIds.length !== team.operativeIds.length
-    );
-
-    if (!needsRepair) return;
-
-    setState((prev) => ({
-      ...prev,
-      teams: prev.teams.map((team) => {
-        const next = teamListPairs.find((pair) => pair.team.id === team.id);
-        if (!next) return team;
-        return {
-          ...team,
-          sourceListId: next.sourceListId,
-          operativeIds: next.filteredIds,
-        };
-      }),
-    }));
-  }, [npoLists, playerLists, state.lists, state.teams]);
-
-  useEffect(() => {
-    const activeOperatives = [
-      ...selectedPlayerTeamOperatives.map((operative) => ({
-        ...operative,
-        side: 'player' as const,
-      })),
-      ...selectedNpoTeamOperatives.map((operative) => ({
-        ...operative,
-        side: 'npo' as const,
-      })),
-    ];
-
-    setRunnerOperatives((prev) => {
-      const existing = new Map(
-        prev.map((operative) => [
-          `${operative.side}:${operative.sourceOperativeId}`,
-          operative,
-        ])
-      );
-
-      return activeOperatives.map((operative) => {
-        const key = `${operative.side}:${operative.id}`;
-        const persisted = existing.get(key);
-        return {
-          id: persisted?.id ?? generateUniqueId('runner-op'),
-          sourceOperativeId: operative.id,
-          side: operative.side,
-          name: operative.name,
-          profileId: operative.profileId,
-          activationCardCount: Math.max(
-            1,
-            persisted?.activationCardCount ?? operative.activationCardCount ?? 1
-          ),
-          damageTaken: persisted?.damageTaken ?? 0,
-          injured: persisted?.injured ?? false,
-          incapacitated: persisted?.incapacitated ?? false,
-        };
-      });
-    });
-  }, [selectedNpoTeamOperatives, selectedPlayerTeamOperatives]);
-
-  const updateState = (updates: Partial<SoloJointOpsState>) => {
-    setState((prev) => ({ ...prev, ...updates }));
-  };
-
-  const addList = (side: ActivationSide, name: string) => {
-    const normalized = name.trim();
-    if (!normalized) return;
-    const newList: SoloList = {
-      id: generateUniqueId('list'),
-      name: normalized,
-      side,
-      operatives: [],
-    };
-    setState((prev) => ({
-      ...prev,
-      lists: [...prev.lists, newList],
-      ...(side === 'player'
-        ? { selectedPlayerListId: newList.id }
-        : { selectedNpoListId: newList.id }),
-    }));
-  };
-
-  const addTeam = (side: ActivationSide, name: string) => {
-    const normalized = name.trim();
-    if (!normalized) return;
-
-    const sourceList = state.lists.find((list) => list.side === side);
-    if (!sourceList) return;
-
-    const team: SoloTeam = {
-      id: generateUniqueId('team'),
-      name: normalized,
-      side,
-      sourceListId: sourceList.id,
-      operativeIds: [],
-      selectionRule: 'manual',
-      autoWoundsLimit: side === 'npo' ? 20 : 0,
-    };
-
-    setState((prev) => ({
-      ...prev,
-      teams: [...prev.teams, team],
-      ...(side === 'player'
-        ? { selectedPlayerTeamId: team.id }
-        : { selectedNpoTeamId: team.id }),
-    }));
-  };
-
-  const updateTeam = (teamId: string, updates: Partial<SoloTeam>) => {
-    setState((prev) => ({
-      ...prev,
-      teams: prev.teams.map((team) =>
-        team.id === teamId ? { ...team, ...updates } : team
-      ),
-    }));
-  };
-
-  const deleteTeam = (teamId: string) => {
-    setState((prev) => {
-      const team = prev.teams.find((item) => item.id === teamId);
-      if (!team) return prev;
-
-      const remaining = prev.teams.filter((item) => item.id !== teamId);
-      const sameSide = remaining.filter((item) => item.side === team.side);
-      if (sameSide.length === 0) return prev;
-
-      return {
-        ...prev,
-        teams: remaining,
-        ...(team.side === 'player'
-          ? {
-              selectedPlayerTeamId:
-                prev.selectedPlayerTeamId === teamId
-                  ? sameSide[0].id
-                  : prev.selectedPlayerTeamId,
-            }
-          : {
-              selectedNpoTeamId:
-                prev.selectedNpoTeamId === teamId
-                  ? sameSide[0].id
-                  : prev.selectedNpoTeamId,
-            }),
-      };
-    });
-  };
-
-  const toggleTeamOperative = (teamId: string, operativeId: string) => {
-    setState((prev) => ({
-      ...prev,
-      teams: prev.teams.map((team) => {
-        if (team.id !== teamId) return team;
-        const hasOperative = team.operativeIds.includes(operativeId);
-        return {
-          ...team,
-          operativeIds: hasOperative
-            ? team.operativeIds.filter((id) => id !== operativeId)
-            : [...team.operativeIds, operativeId],
-        };
-      }),
-    }));
-  };
-
-  const moveTeamOperative = (
-    team: SoloTeam,
-    operativeId: string,
-    direction: TransferDirection
-  ) => {
-    const hasOperative = team.operativeIds.includes(operativeId);
-    if (direction === 'to-selected' && hasOperative) return;
-    if (direction === 'to-unselected' && !hasOperative) return;
-
-    toggleTeamOperative(team.id, operativeId);
-    setTransferHint({ teamId: team.id, operativeId, direction });
-  };
-
-  const applyNpoTeamSelectionRule = (teamId: string) => {
-    setState((prev) => {
-      const team = prev.teams.find((item) => item.id === teamId);
-      if (!team || team.side !== 'npo') return prev;
-
-      const sourceList = prev.lists.find(
-        (list) => list.id === team.sourceListId
-      );
-      if (!sourceList) return prev;
-
-      const operativeIds = pickNpoOperativeIds(
-        sourceList.operatives,
-        team.selectionRule,
-        team.autoWoundsLimit
-      );
-
-      return {
-        ...prev,
-        teams: prev.teams.map((item) =>
-          item.id === teamId ? { ...item, operativeIds } : item
-        ),
-      };
-    });
-  };
-
-  const renameList = (listId: string, name: string) => {
-    const normalized = name.trim();
-    setState((prev) => ({
-      ...prev,
-      lists: prev.lists.map((list) =>
-        list.id === listId ? { ...list, name: normalized || list.name } : list
-      ),
-    }));
-  };
-
-  const deleteList = (listId: string) => {
-    setState((prev) => {
-      const target = prev.lists.find((list) => list.id === listId);
-      if (!target) return prev;
-      const remaining = prev.lists.filter((list) => list.id !== listId);
-      const sameSide = remaining.filter((list) => list.side === target.side);
-      if (sameSide.length === 0) return prev;
-
-      return {
-        ...prev,
-        lists: remaining,
-        teams: prev.teams.map((team) => {
-          if (team.sourceListId !== listId) return team;
-          return {
-            ...team,
-            sourceListId: sameSide[0].id,
-            operativeIds: [],
-          };
-        }),
-        ...(target.side === 'player'
-          ? {
-              selectedPlayerListId:
-                prev.selectedPlayerListId === listId
-                  ? sameSide[0].id
-                  : prev.selectedPlayerListId,
-            }
-          : {
-              selectedNpoListId:
-                prev.selectedNpoListId === listId
-                  ? sameSide[0].id
-                  : prev.selectedNpoListId,
-            }),
-      };
-    });
-  };
-
-  const addOperativeToList = (
-    listId: string,
-    operative: AddListOperativeInput
-  ) => {
-    setState((prev) => ({
-      ...prev,
-      lists: prev.lists.map((list) =>
-        list.id === listId
-          ? {
-              ...list,
-              operatives: [
-                ...list.operatives,
-                {
-                  id: generateUniqueId('list-op'),
-                  name: operative.name,
-                  profileId: operative.profileId,
-                  modelId: operative.modelId,
-                  teamId: operative.teamId,
-                  teamName: operative.teamName,
-                  customDescription: operative.customDescription,
-                  requiresExplicitProfile: operative.requiresExplicitProfile,
-                  operativeType: operative.operativeType,
-                  nemesisId: operative.nemesisId,
-                  activationCardCount: operative.activationCardCount,
-                },
-              ],
-            }
-          : list
-      ),
-    }));
-  };
-
-  const addNemesisToList = (listId: string, nemesisId: string) => {
-    const list = state.lists.find((item) => item.id === listId);
-    const nemesis = state.nemesisOperatives.find(
-      (item) => item.id === nemesisId
-    );
-    if (!list || !nemesis) return;
-
-    addOperativeToList(listId, {
-      name: nemesis.name,
-      profileId: nemesis.profileId,
-      teamId: NEMESIS_TEAM_ID,
-      teamName: 'Nemesis',
-      modelId: `nemesis:${nemesis.id}`,
-      operativeType: 'nemesis',
-      nemesisId: nemesis.id,
-      activationCardCount: list.side === 'npo' ? 2 : 1,
-      requiresExplicitProfile: true,
-    });
-  };
-
-  const removeOperativeFromList = (listId: string, operativeId: string) => {
-    setState((prev) => ({
-      ...prev,
-      lists: prev.lists.map((list) =>
-        list.id === listId
-          ? {
-              ...list,
-              operatives: list.operatives.filter(
-                (operative) => operative.id !== operativeId
-              ),
-            }
-          : list
-      ),
-      teams: prev.teams.map((team) => ({
-        ...team,
-        operativeIds: team.operativeIds.filter((id) => id !== operativeId),
-      })),
-    }));
-  };
-
-  const updateRunnerOperative = (
-    operativeId: string,
-    updates: Partial<RunnerOperative>
-  ) => {
-    setRunnerOperatives((prev) =>
-      prev.map((operative) =>
-        operative.id === operativeId ? { ...operative, ...updates } : operative
-      )
-    );
-  };
-
-  // --- Activation Deck helpers ---
-
-  /** Returns true if every operative linked to a card is incapacitated. */
-  const isCardExhausted = (
-    card: ActivationCard,
-    ops: RunnerOperative[]
-  ): boolean => {
-    if (card.operativeIds.length === 0) return false;
-    const incapacitatedIds = new Set(
-      ops
-        .filter((op) => op.side === 'npo' && op.incapacitated)
-        .map((op) => op.sourceOperativeId)
-    );
-    return card.operativeIds.every((id) => incapacitatedIds.has(id));
-  };
-
-  /** Builds a shuffled draw pile from the deck, excluding exhausted cards. */
-  const buildShuffledPile = (
-    deck: ActivationCard[],
-    ops: RunnerOperative[]
-  ): string[] =>
-    shuffle(
-      deck
-        .filter((card) => !isCardExhausted(card, ops))
-        .flatMap((card) =>
-          Array.from(
-            { length: Math.max(1, Math.floor(card.count || 1)) },
-            () => card.id
-          )
-        )
-    );
-
-  /** Auto-generates default cards from NPO runner operatives. */
-  const buildDeckFromNpoOperatives = (
-    ops: RunnerOperative[]
-  ): ActivationCard[] =>
-    ops
-      .filter((op) => op.side === 'npo')
-      .map((op) => ({
-        id: generateUniqueId('deck-card'),
-        label: op.name,
-        operativeIds: [op.sourceOperativeId],
-        count: Math.max(1, op.activationCardCount),
-      }));
-
-  const addDeckCard = () => {
-    const card: ActivationCard = {
-      id: generateUniqueId('deck-card'),
-      label: 'New Card',
-      operativeIds: [],
-      count: 1,
-    };
-    setState((prev) => ({
-      ...prev,
-      activationDeck: [...prev.activationDeck, card],
-    }));
-    setEditingDeckCardId(card.id);
-  };
-
-  const updateDeckCard = (cardId: string, updates: Partial<ActivationCard>) => {
-    setState((prev) => ({
-      ...prev,
-      activationDeck: prev.activationDeck.map((c) =>
-        c.id === cardId ? { ...c, ...updates } : c
-      ),
-    }));
-  };
-
-  const removeDeckCard = (cardId: string) => {
-    setState((prev) => ({
-      ...prev,
-      activationDeck: prev.activationDeck.filter((c) => c.id !== cardId),
-    }));
-    setDrawPile((prev) => prev.filter((id) => id !== cardId));
-    if (drawnCardId === cardId) setDrawnCardId(null);
-    if (editingDeckCardId === cardId) setEditingDeckCardId(null);
-  };
-
-  // --- Activation flow ---
-
-  const resetActivationDeck = () => {
-    setState((prev) => {
-      let deck = prev.activationDeck;
-      if (deck.length === 0) {
-        deck = buildDeckFromNpoOperatives(runnerOperatives);
-        setIsDeckSetupOpen(false);
-      }
-      const pile = buildShuffledPile(deck, runnerOperatives);
-      setDrawPile(pile);
-      setDrawnCardId(null);
-      return {
-        ...prev,
-        activationDeck: deck,
-        activationNumber: 0,
-        activeSide: 'npo',
-      };
-    });
-  };
-
-  const drawNextNpoCard = (
-    pile: string[],
-    deck: ActivationCard[],
-    ops: RunnerOperative[]
-  ): { cardId: string | null; remaining: string[] } => {
-    const remaining = [...pile];
-    while (remaining.length > 0) {
-      const cardId = remaining.shift()!;
-      const card = deck.find((c) => c.id === cardId);
-      if (!card || isCardExhausted(card, ops)) continue;
-      return { cardId, remaining };
-    }
-    return { cardId: null, remaining: [] };
-  };
-
-  const drawActivation = () => {
-    setInspectedRunnerOperativeId(null);
-    setState((prev) => {
-      const { cardId, remaining } = drawNextNpoCard(
-        drawPile,
-        prev.activationDeck,
-        runnerOperatives
-      );
-
-      setDrawPile(remaining);
-      setDrawnCardId(cardId);
-
-      if (!cardId) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        activationNumber: prev.activationNumber + 1,
-        activeSide: 'npo',
-      };
-    });
-  };
-
-  const createProfile = () => {
-    const profile = defaultProfile();
-    setState((prev) => ({ ...prev, profiles: [...prev.profiles, profile] }));
-    setEditingProfileId(profile.id);
-  };
-
-  const updateProfile = (profileId: string, updates: Partial<SoloProfile>) => {
-    setState((prev) => ({
-      ...prev,
-      profiles: prev.profiles.map((profile) =>
-        profile.id === profileId ? { ...profile, ...updates } : profile
-      ),
-    }));
-  };
-
-  const deleteProfile = (profileId: string) => {
-    setState((prev) => {
-      if (prev.profiles.length <= 1) return prev;
-
-      const nextProfiles = prev.profiles.filter(
-        (profile) => profile.id !== profileId
-      );
-      const fallbackProfileId = nextProfiles[0]?.id ?? '';
-
-      return {
-        ...prev,
-        profiles: nextProfiles,
-        lists: prev.lists.map((list) => ({
-          ...list,
-          operatives: list.operatives.map((operative) =>
-            operative.profileId === profileId
-              ? {
-                  ...operative,
-                  profileId: operative.requiresExplicitProfile
-                    ? fallbackProfileId || operative.profileId
-                    : list.side === 'player'
-                      ? DATACARD_PROFILE_ID
-                      : fallbackProfileId || operative.profileId,
-                }
-              : operative
-          ),
-        })),
-      };
-    });
-  };
-
-  const createNemesisOperative = () => {
-    const normalizedName = newNemesisName.trim();
-    if (!normalizedName) return;
-
-    const selectedRangedWeapons = selectedNemesisRangedWeaponIds
-      .map(
-        (weaponId) =>
-          nemesisRangedWeaponOptions.find((option) => option.id === weaponId)
-            ?.profile
-      )
-      .filter((weapon): weapon is SoloWeaponProfile => Boolean(weapon))
-      .map((weapon) => ({
-        ...weapon,
-        id: generateUniqueId('weapon'),
-      }));
-    const selectedMeleeWeapons = selectedNemesisMeleeWeaponIds
-      .map(
-        (weaponId) =>
-          nemesisMeleeWeaponOptions.find((option) => option.id === weaponId)
-            ?.profile
-      )
-      .filter((weapon): weapon is SoloWeaponProfile => Boolean(weapon))
-      .map((weapon) => ({
-        ...weapon,
-        id: generateUniqueId('weapon'),
-      }));
-
-    const resolvedStats =
-      newNemesisSize === 'custom'
-        ? {
-            control: Math.max(1, customNemesisControl),
-            move: customNemesisMove.trim() || '6"',
-            save: customNemesisSave.trim() || '4+',
-            wounds: Math.max(1, customNemesisWounds),
-          }
-        : NEMESIS_SIZE_PRESETS[newNemesisSize];
-
-    const profileId = generateUniqueId('nemesis-profile');
-    const nemesisId = generateUniqueId('nemesis');
-    const profile: SoloProfile = {
-      id: profileId,
-      name: `${normalizedName} (Nemesis)`,
-      apl: resolvedStats.control,
-      move: resolvedStats.move,
-      save: resolvedStats.save,
-      wounds: resolvedStats.wounds,
-      rangedWeapons: selectedRangedWeapons,
-      meleeWeapons: selectedMeleeWeapons,
-      behaviorRules: '',
-      usesControlStat: true,
-      allegianceTraits: selectedNemesisAllegianceTraitIds,
-      nemesisTraits: selectedNemesisTraitIds,
-    };
-
-    const nemesisOperative: NemesisOperative = {
-      id: nemesisId,
-      name: normalizedName,
-      size: newNemesisSize,
-      profileId,
-      rangedWeapons: selectedRangedWeapons,
-      meleeWeapons: selectedMeleeWeapons,
-      allegianceTraits: selectedNemesisAllegianceTraitIds,
-      nemesisTraits: selectedNemesisTraitIds,
-    };
-
-    setState((prev) => ({
-      ...prev,
-      profiles: [...prev.profiles, profile],
-      nemesisOperatives: [...prev.nemesisOperatives, nemesisOperative],
-    }));
-    setNewNemesisName('');
-    setSelectedNemesisAllegianceTraitIds([]);
-    setSelectedNemesisTraitIds([]);
-  };
-
-  const deleteNemesisOperative = (nemesisId: string) => {
-    setState((prev) => {
-      const target = prev.nemesisOperatives.find(
-        (item) => item.id === nemesisId
-      );
-      if (!target) return prev;
-
-      const removedOperativeIds = new Set<string>();
-      const nextLists = prev.lists.map((list) => ({
-        ...list,
-        operatives: list.operatives.filter((operative) => {
-          const matches = operative.nemesisId === nemesisId;
-          if (matches) {
-            removedOperativeIds.add(operative.id);
-          }
-          return !matches;
-        }),
-      }));
-
-      return {
-        ...prev,
-        nemesisOperatives: prev.nemesisOperatives.filter(
-          (item) => item.id !== nemesisId
-        ),
-        profiles: prev.profiles.filter(
-          (profile) => profile.id !== target.profileId
-        ),
-        lists: nextLists,
-        teams: prev.teams.map((team) => ({
-          ...team,
-          operativeIds: team.operativeIds.filter(
-            (id) => !removedOperativeIds.has(id)
-          ),
-        })),
-      };
-    });
-  };
-
-  /**
-   * Serializes backup payload JSON and triggers a browser download.
-   * Creates and revokes a temporary object URL for cleanup.
-   */
-  const downloadBackup = (fileName: string, payload: object) => {
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {
-      type: 'application/json;charset=utf-8',
-    });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = fileName;
-    anchor.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const exportLists = () => {
-    downloadBackup('solo-joint-ops-lists.json', {
-      schemaVersion: 1,
-      lists: state.lists,
-      teams: state.teams,
-    });
-  };
-
-  const exportProfiles = () => {
-    downloadBackup('solo-joint-ops-profiles.json', {
-      schemaVersion: 1,
-      profiles: state.profiles,
-      nemesisOperatives: state.nemesisOperatives,
-    });
-  };
-
-  const handleListsImport = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    try {
-      const content = await readFile(file);
-      const parsed = JSON.parse(content) as SoloBackupFile;
-      const importedLists = Array.isArray(parsed.lists)
-        ? parsed.lists.filter(isValidList)
-        : [];
-      const importedTeams = Array.isArray(parsed.teams)
-        ? parsed.teams.filter(isValidTeam)
-        : [];
-
-      if (importedLists.length === 0) {
-        setImportMessage('No valid lists were found in this backup file.');
-        return;
-      }
-
-      if (
-        !importedLists.some((list) => list.side === 'player') ||
-        !importedLists.some((list) => list.side === 'npo')
-      ) {
-        setImportMessage(
-          'Backup must include at least one player list and one NPO list.'
-        );
-        return;
-      }
-
-      const firstPlayer = importedLists.find((list) => list.side === 'player');
-      const firstNpo = importedLists.find((list) => list.side === 'npo');
-      if (!firstPlayer || !firstNpo) return;
-
-      setState((prev) => {
-        const candidateTeams =
-          importedTeams.length > 0 ? importedTeams : prev.teams;
-
-        const remappedTeams = candidateTeams.map((team) => {
-          const fallbackListId =
-            team.side === 'player' ? firstPlayer.id : firstNpo.id;
-          const sourceListId = importedLists.some(
-            (list) => list.id === team.sourceListId && list.side === team.side
-          )
-            ? team.sourceListId
-            : fallbackListId;
-          const sourceList = importedLists.find(
-            (list) => list.id === sourceListId
-          );
-
-          return {
-            ...team,
-            sourceListId,
-            operativeIds: sourceList
-              ? team.operativeIds.filter((operativeId) =>
-                  sourceList.operatives.some(
-                    (operative) => operative.id === operativeId
-                  )
-                )
-              : [],
-          };
-        });
-
-        const fallbackTeams = createDefaultTeams(
-          { player: firstPlayer, npo: firstNpo },
-          {
-            player: prev.teams.find((team) => team.side === 'player')?.name,
-            npo: prev.teams.find((team) => team.side === 'npo')?.name,
-          }
-        );
-
-        const nextTeams = [...remappedTeams];
-        if (!nextTeams.some((team) => team.side === 'player')) {
-          nextTeams.push(fallbackTeams.player);
-        }
-        if (!nextTeams.some((team) => team.side === 'npo')) {
-          nextTeams.push(fallbackTeams.npo);
-        }
-
-        const selectedPlayerTeamId = nextTeams.some(
-          (team) =>
-            team.side === 'player' && team.id === prev.selectedPlayerTeamId
-        )
-          ? prev.selectedPlayerTeamId
-          : (nextTeams.find((team) => team.side === 'player')?.id ?? '');
-
-        const selectedNpoTeamId = nextTeams.some(
-          (team) => team.side === 'npo' && team.id === prev.selectedNpoTeamId
-        )
-          ? prev.selectedNpoTeamId
-          : (nextTeams.find((team) => team.side === 'npo')?.id ?? '');
-
-        return {
-          ...prev,
-          lists: importedLists,
-          teams: nextTeams,
-          selectedPlayerListId: firstPlayer.id,
-          selectedNpoListId: firstNpo.id,
-          selectedPlayerTeamId,
-          selectedNpoTeamId,
-        };
-      });
-      setImportMessage(`Imported ${importedLists.length} list(s).`);
-    } catch (error) {
-      setImportMessage(
-        error instanceof SyntaxError
-          ? 'Unable to import lists: invalid JSON format.'
-          : 'Unable to import lists. Ensure the file contains valid list backup data.'
-      );
-    } finally {
-      event.target.value = '';
-    }
-  };
-
-  const handleProfilesImport = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    try {
-      const content = await readFile(file);
-      const parsed = JSON.parse(content) as SoloBackupFile;
-      const importedProfiles = Array.isArray(parsed.profiles)
-        ? parsed.profiles.filter(isValidProfile)
-        : [];
-      const importedNemesisOperatives = Array.isArray(parsed.nemesisOperatives)
-        ? parsed.nemesisOperatives.flatMap((entry) => {
-            if (!entry || typeof entry !== 'object') return [];
-            const legacy = entry as Partial<NemesisOperative>;
-            const normalized = {
-              ...legacy,
-              rangedWeapons: Array.isArray(legacy.rangedWeapons)
-                ? legacy.rangedWeapons
-                : [],
-              meleeWeapons: Array.isArray(legacy.meleeWeapons)
-                ? legacy.meleeWeapons
-                : [],
-            };
-
-            return isValidNemesisOperative(normalized) ? [normalized] : [];
-          })
-        : [];
-
-      if (importedProfiles.length === 0) {
-        setImportMessage('No valid profiles were found in this backup file.');
-        return;
-      }
-
-      setState((prev) => ({
-        ...prev,
-        profiles: importedProfiles,
-        nemesisOperatives: importedNemesisOperatives,
-      }));
-      setEditingProfileId(importedProfiles[0].id);
-      setImportMessage(`Imported ${importedProfiles.length} profile(s).`);
-    } catch (error) {
-      setImportMessage(
-        error instanceof SyntaxError
-          ? 'Unable to import profiles: invalid JSON format.'
-          : 'Unable to import profiles. Ensure the file contains valid profile backup data.'
-      );
-    } finally {
-      event.target.value = '';
-    }
-  };
-
-  const activeProfile =
-    state.profiles.find((profile) => profile.id === editingProfileId) ?? null;
-  const consolidatedRangedWeaponPool = useMemo(
-    () =>
-      dedupeWeapons(
-        operativeCatalog.operatives.flatMap(
-          (operative) => operative.profile.rangedWeapons
-        )
-      ),
-    []
-  );
-  const consolidatedMeleeWeaponPool = useMemo(
-    () =>
-      dedupeWeapons(
-        operativeCatalog.operatives.flatMap(
-          (operative) => operative.profile.meleeWeapons
-        )
-      ),
-    []
-  );
-  const officialRangedWeaponPool = useMemo(
-    () => dedupeWeapons(OFFICIAL_NEMESIS_RANGED_WEAPONS),
-    []
-  );
-  const officialMeleeWeaponPool = useMemo(
-    () => dedupeWeapons(OFFICIAL_NEMESIS_MELEE_WEAPONS),
-    []
-  );
-  const allNemesisRangedWeaponOptions = useMemo(() => {
-    const options: NemesisWeaponOption[] = [
-      ...officialRangedWeaponPool.map((profile) => ({
-        id: toWeaponOptionId(profile, 'official-ranged'),
-        type: 'ranged' as const,
-        source: 'official' as const,
-        profile,
-      })),
-      ...consolidatedRangedWeaponPool.map((profile) => ({
-        id: toWeaponOptionId(profile, 'consolidated-ranged'),
-        type: 'ranged' as const,
-        source: 'consolidated' as const,
-        profile,
-      })),
-    ];
-
-    const deduped = new Map<string, NemesisWeaponOption>();
-    options.forEach((option) => {
-      const key = `${option.type}:${toWeaponKey(option.profile)}`;
-      if (!deduped.has(key) || option.source === 'official') {
-        deduped.set(key, option);
-      }
-    });
-
-    return Array.from(deduped.values());
-  }, [consolidatedRangedWeaponPool, officialRangedWeaponPool]);
-  const allNemesisMeleeWeaponOptions = useMemo(() => {
-    const options: NemesisWeaponOption[] = [
-      ...officialMeleeWeaponPool.map((profile) => ({
-        id: toWeaponOptionId(profile, 'official-melee'),
-        type: 'melee' as const,
-        source: 'official' as const,
-        profile,
-      })),
-      ...consolidatedMeleeWeaponPool.map((profile) => ({
-        id: toWeaponOptionId(profile, 'consolidated-melee'),
-        type: 'melee' as const,
-        source: 'consolidated' as const,
-        profile,
-      })),
-    ];
-
-    const deduped = new Map<string, NemesisWeaponOption>();
-    options.forEach((option) => {
-      const key = `${option.type}:${toWeaponKey(option.profile)}`;
-      if (!deduped.has(key) || option.source === 'official') {
-        deduped.set(key, option);
-      }
-    });
-
-    return Array.from(deduped.values());
-  }, [consolidatedMeleeWeaponPool, officialMeleeWeaponPool]);
-  const nemesisRangedWeaponOptions = useMemo(
-    () =>
-      showExtendedNemesisWeapons
-        ? allNemesisRangedWeaponOptions
-        : allNemesisRangedWeaponOptions.filter(
-            (option) => option.source === 'official'
-          ),
-    [allNemesisRangedWeaponOptions, showExtendedNemesisWeapons]
-  );
-  const nemesisMeleeWeaponOptions = useMemo(
-    () =>
-      showExtendedNemesisWeapons
-        ? allNemesisMeleeWeaponOptions
-        : allNemesisMeleeWeaponOptions.filter(
-            (option) => option.source === 'official'
-          ),
-    [allNemesisMeleeWeaponOptions, showExtendedNemesisWeapons]
-  );
-  const selectedNemesisPreset =
-    newNemesisSize === 'custom' ? null : NEMESIS_SIZE_PRESETS[newNemesisSize];
-  const nemesisPreviewStats = selectedNemesisPreset
-    ? {
-        control: selectedNemesisPreset.control,
-        move: selectedNemesisPreset.move,
-        save: selectedNemesisPreset.save,
-        wounds: selectedNemesisPreset.wounds,
-      }
-    : {
-        control: customNemesisControl,
-        move: customNemesisMove,
-        save: customNemesisSave,
-        wounds: customNemesisWounds,
-      };
-  const selectedNemesisRangedWeapons = useMemo(
-    () =>
-      allNemesisRangedWeaponOptions.filter((option) =>
-        selectedNemesisRangedWeaponIds.includes(option.id)
-      ),
-    [allNemesisRangedWeaponOptions, selectedNemesisRangedWeaponIds]
-  );
-  const selectedNemesisMeleeWeapons = useMemo(
-    () =>
-      allNemesisMeleeWeaponOptions.filter((option) =>
-        selectedNemesisMeleeWeaponIds.includes(option.id)
-      ),
-    [allNemesisMeleeWeaponOptions, selectedNemesisMeleeWeaponIds]
-  );
-  const selectedNemesisWeaponCount = useMemo(
-    () =>
-      [...selectedNemesisRangedWeapons, ...selectedNemesisMeleeWeapons].reduce(
-        (total, weapon) => total + getWeaponSelectionCost(weapon.profile),
-        0
-      ),
-    [selectedNemesisMeleeWeapons, selectedNemesisRangedWeapons]
-  );
-  const selectedNemesisWeaponLimit = getNemesisWeaponLimit(newNemesisSize);
-  const isNemesisWeaponLimitExceeded =
-    selectedNemesisWeaponCount > selectedNemesisWeaponLimit;
-  const selectedNemesisAllegianceTraitId =
-    selectedNemesisAllegianceTraitIds[0] ?? null;
-  const selectedNemesisAllegianceTrait = useMemo(
-    () =>
-      NEMESIS_ALLEGIANCE_TRAITS.find(
-        (trait) => trait.id === selectedNemesisAllegianceTraitId
-      ) ?? null,
-    [selectedNemesisAllegianceTraitId]
-  );
-  const orderedNemesisAllegianceTraits = useMemo(
-    () =>
-      [...NEMESIS_ALLEGIANCE_TRAITS].sort((a, b) => {
-        const aSelected = a.id === selectedNemesisAllegianceTraitId ? 1 : 0;
-        const bSelected = b.id === selectedNemesisAllegianceTraitId ? 1 : 0;
-        if (aSelected !== bSelected) return bSelected - aSelected;
-        return a.name.localeCompare(b.name);
-      }),
-    [selectedNemesisAllegianceTraitId]
-  );
-  const isNemesisTraitLimitExceeded =
-    selectedNemesisTraitIds.length > NEMESIS_TRAIT_LIMIT;
-  const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
-  const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
-
-  const getProfileDisplayName = (profileId: string): string => {
-    if (profileId === DATACARD_PROFILE_ID) return 'Datacard';
-    return profileLookup.get(profileId)?.name ?? 'Unknown Profile';
-  };
-
-  useEffect(() => {
-    const validIds = new Set(
-      nemesisRangedWeaponOptions.map((option) => option.id)
-    );
-    setSelectedNemesisRangedWeaponIds((prev) => {
-      const filtered = prev.filter((id) => validIds.has(id));
-      if (filtered.length > 0) return filtered;
-
-      const defaults = nemesisRangedWeaponOptions
-        .filter((option) => option.source === 'official')
-        .slice(0, selectedNemesisWeaponLimit)
-        .map((option) => option.id);
-      if (defaults.length > 0) return defaults;
-
-      return nemesisRangedWeaponOptions
-        .slice(0, Math.min(1, selectedNemesisWeaponLimit))
-        .map((option) => option.id);
-    });
-  }, [nemesisRangedWeaponOptions, selectedNemesisWeaponLimit]);
-
-  useEffect(() => {
-    const validIds = new Set(
-      nemesisMeleeWeaponOptions.map((option) => option.id)
-    );
-    setSelectedNemesisMeleeWeaponIds((prev) => {
-      const filtered = prev.filter((id) => validIds.has(id));
-      if (filtered.length > 0) return filtered;
-
-      const defaults = nemesisMeleeWeaponOptions
-        .filter((option) => option.source === 'official')
-        .slice(0, selectedNemesisWeaponLimit)
-        .map((option) => option.id);
-      if (defaults.length > 0) return defaults;
-
-      return nemesisMeleeWeaponOptions
-        .slice(0, Math.min(1, selectedNemesisWeaponLimit))
-        .map((option) => option.id);
-    });
-  }, [nemesisMeleeWeaponOptions, selectedNemesisWeaponLimit]);
-
-  useEffect(() => {
-    if (!transferHint) return;
-    const timeout = setTimeout(() => setTransferHint(null), 280);
-    return () => clearTimeout(timeout);
-  }, [transferHint]);
-
-  /**
-   * Renders summary content for Datacard entries, resolved profiles,
-   * or a fallback when the referenced profile cannot be found.
-   */
-  const renderProfileSummary = (profileId: string, injured = false) => {
-    if (profileId === DATACARD_PROFILE_ID) {
-      return (
-        <p className="profile-summary">
-          Profile: Datacard (use faction operative datacard)
-        </p>
-      );
-    }
-    return renderDetailedProfileSummary(
-      profileLookup.get(profileId) ?? null,
-      injured
-    );
-  };
-
-  return (
-    <div>
-      {/* ...existing UI... */}
-      <VoiceIndicator isListening={isListening} onToggle={() => (isListening ? stopListening() : startListening())} />
-      {/* ...existing UI... */}
-    </div>
-  );
-};
