@@ -175,25 +175,36 @@ describe('SoloJointOpsView', () => {
     expect(operativeCard).not.toBeNull();
 
     const damageRow = (operativeCard as HTMLElement).querySelector(
-      '.npo-card-damage'
+      '.npo-card-damage-controls'
     );
     expect(damageRow).not.toBeNull();
 
-    expect(damageRow as HTMLElement).toHaveTextContent('Damage Taken:');
-    expect(damageRow as HTMLElement).toHaveTextContent('0');
+    expect(damageRow as HTMLElement).toHaveTextContent('Wounds');
+
+    const woundsDisplay = (operativeCard as HTMLElement).querySelector(
+      '.npo-card-wounds-display'
+    ) as HTMLElement;
+    expect(woundsDisplay).not.toBeNull();
+    const initialWoundsText = woundsDisplay.textContent!.trim();
 
     fireEvent.click(
-      within(operativeCard as HTMLElement).getByRole('button', { name: '+1' })
+      within(operativeCard as HTMLElement).getByRole('button', {
+        name: '+1 Dmg',
+      })
     );
-    expect(damageRow as HTMLElement).toHaveTextContent('1');
+    expect(woundsDisplay.textContent!.trim()).not.toBe(initialWoundsText);
 
     fireEvent.click(
-      within(operativeCard as HTMLElement).getByRole('button', { name: '-1' })
+      within(operativeCard as HTMLElement).getByRole('button', {
+        name: '−1 Dmg',
+      })
     );
     fireEvent.click(
-      within(operativeCard as HTMLElement).getByRole('button', { name: '-1' })
+      within(operativeCard as HTMLElement).getByRole('button', {
+        name: '−1 Dmg',
+      })
     );
-    expect(damageRow as HTMLElement).toHaveTextContent('0');
+    expect(woundsDisplay.textContent!.trim()).toBe(initialWoundsText);
 
     const npoStatusPanel = screen.getByRole('heading', {
       name: 'NPO Operative Status',
@@ -208,34 +219,30 @@ describe('SoloJointOpsView', () => {
     const statusOperativeRow = statusOperativeRows[0] ?? null;
     expect(statusOperativeRow).not.toBeNull();
 
-    const datacardButton = within(
-      statusOperativeRow as HTMLElement
-    ).getByRole('button', {
-      name: new RegExp(`View datacard for ${operativeName}`, 'i'),
-    });
-    fireEvent.click(datacardButton);
+    // The roster row itself is the inspect button (aria-label="View X card")
+    fireEvent.click(statusOperativeRow as HTMLElement);
+
+    // When inspecting, the "← Back to Active Card" button appears
     expect(
-      screen.getByRole('heading', {
-        name: new RegExp(`${operativeName} Datacard`, 'i'),
-      })
+      screen.getByRole('button', { name: '← Back to Active Card' })
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+
+    // Go back to normal view
+    fireEvent.click(
+      screen.getByRole('button', { name: '← Back to Active Card' })
+    );
     expect(
-      screen.queryByRole('heading', {
-        name: new RegExp(`${operativeName} Datacard`, 'i'),
-      })
+      screen.queryByRole('button', { name: '← Back to Active Card' })
     ).not.toBeInTheDocument();
 
-    const incapacitatedToggle = within(
-      statusOperativeRow as HTMLElement
-    ).getByRole('button', {
-      name: 'Active 🪖',
+    // Re-inspect the operative to toggle incapacitation via the NPO card
+    fireEvent.click(statusOperativeRow as HTMLElement);
+    const incapacitatedToggle = screen.getByRole('button', {
+      name: '⚡ Quick Incapacitate',
     });
     fireEvent.click(incapacitatedToggle);
     expect(
-      within(statusOperativeRow as HTMLElement).getByRole('button', {
-        name: 'Incapacitated ☠',
-      })
+      screen.getByRole('button', { name: '☠ Incapacitated' })
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'List Builder' }));
