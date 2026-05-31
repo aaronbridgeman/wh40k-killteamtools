@@ -516,7 +516,7 @@ describe('SoloJointOpsView', () => {
     ).toBeInTheDocument();
   });
 
-  it('allows trait override warnings and shows selected traits on datacard summary', () => {
+  it('enforces single allegiance trait selection and shows selected traits on datacard summary', () => {
     window.localStorage.clear();
     render(<SoloJointOpsView />);
 
@@ -553,9 +553,6 @@ describe('SoloJointOpsView', () => {
       })
     );
 
-    expect(
-      screen.getByText(/more than one allegiance trait selected/i)
-    ).toBeInTheDocument();
     expect(
       screen.getByText(/more than one nemesis trait selected/i)
     ).toBeInTheDocument();
@@ -600,8 +597,8 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Reset Deck' }));
     fireEvent.click(screen.getByRole('button', { name: 'Draw Activation' }));
 
-    expect(screen.getByText('Let the Galaxy Burn')).toBeInTheDocument();
     expect(screen.getByText('Defenders of the Imperium')).toBeInTheDocument();
+    expect(screen.queryByText('Let the Galaxy Burn')).not.toBeInTheDocument();
     expect(screen.getByText('Focused Targeting')).toBeInTheDocument();
     expect(screen.getByText('Shielded')).toBeInTheDocument();
   });

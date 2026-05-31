@@ -3439,8 +3439,25 @@ export function SoloJointOpsView() {
   const selectedNemesisWeaponLimit = getNemesisWeaponLimit(newNemesisSize);
   const isNemesisWeaponLimitExceeded =
     selectedNemesisWeaponCount > selectedNemesisWeaponLimit;
-  const isNemesisAllegianceTraitLimitExceeded =
-    selectedNemesisAllegianceTraitIds.length > NEMESIS_TRAIT_LIMIT;
+  const selectedNemesisAllegianceTraitId =
+    selectedNemesisAllegianceTraitIds[0] ?? null;
+  const selectedNemesisAllegianceTrait = useMemo(
+    () =>
+      NEMESIS_ALLEGIANCE_TRAITS.find(
+        (trait) => trait.id === selectedNemesisAllegianceTraitId
+      ) ?? null,
+    [selectedNemesisAllegianceTraitId]
+  );
+  const orderedNemesisAllegianceTraits = useMemo(
+    () =>
+      [...NEMESIS_ALLEGIANCE_TRAITS].sort((a, b) => {
+        const aSelected = a.id === selectedNemesisAllegianceTraitId ? 1 : 0;
+        const bSelected = b.id === selectedNemesisAllegianceTraitId ? 1 : 0;
+        if (aSelected !== bSelected) return bSelected - aSelected;
+        return a.name.localeCompare(b.name);
+      }),
+    [selectedNemesisAllegianceTraitId]
+  );
   const isNemesisTraitLimitExceeded =
     selectedNemesisTraitIds.length > NEMESIS_TRAIT_LIMIT;
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
@@ -5239,43 +5256,44 @@ export function SoloJointOpsView() {
             <div className="runner-weapon-section">
               <h5>Allegiance Traits</h5>
               <p className="team-selection-meta">
-                Selected allegiance traits:{' '}
-                {selectedNemesisAllegianceTraitIds.length} /{' '}
-                {NEMESIS_TRAIT_LIMIT}
+                Selected allegiance trait:{' '}
+                {selectedNemesisAllegianceTraitId ? '1' : '0'} / 1
               </p>
-              {isNemesisAllegianceTraitLimitExceeded && (
-                <p className="deck-exhausted-note" role="status">
-                  Warning: more than one allegiance trait selected. Manual
-                  override is allowed.
-                </p>
+              {selectedNemesisAllegianceTrait && (
+                <article className="runner-weapon-card allegiance-trait-focus-card">
+                  <p className="runner-weapon-name">
+                    {selectedNemesisAllegianceTrait.name}
+                  </p>
+                  <p className="runner-weapon-no-rules">
+                    {selectedNemesisAllegianceTrait.description}
+                  </p>
+                </article>
               )}
-              <div className="runner-weapon-list">
-                {NEMESIS_ALLEGIANCE_TRAITS.map((trait) => {
-                  const selected = selectedNemesisAllegianceTraitIds.includes(
-                    trait.id
-                  );
+              <div className="allegiance-trait-grid">
+                {orderedNemesisAllegianceTraits.map((trait) => {
+                  const selected = selectedNemesisAllegianceTraitId === trait.id;
                   return (
-                    <article className="runner-weapon-card" key={trait.id}>
-                      <p className="runner-weapon-name">{trait.name}</p>
-                      <p className="runner-weapon-no-rules">
-                        {trait.description}
-                      </p>
-                      <button
-                        type="button"
-                        className={`incap-toggle${selected ? ' is-on' : ''}`}
-                        onClick={() => {
-                          setSelectedNemesisAllegianceTraitIds((prev) =>
-                            selected
-                              ? prev.filter((id) => id !== trait.id)
-                              : [...prev, trait.id]
-                          );
-                        }}
-                        aria-pressed={selected}
-                        aria-label={`Toggle allegiance trait ${trait.name}`}
-                      >
+                    <button
+                      type="button"
+                      className={`allegiance-trait-option${
+                        selected ? ' is-selected' : ''
+                      }`}
+                      key={trait.id}
+                      onClick={() => {
+                        setSelectedNemesisAllegianceTraitIds(
+                          selected ? [] : [trait.id]
+                        );
+                      }}
+                      aria-pressed={selected}
+                      aria-label={`Toggle allegiance trait ${trait.name}`}
+                    >
+                      <span className="allegiance-trait-option-name">
+                        {trait.name}
+                      </span>
+                      <span className="allegiance-trait-option-state">
                         {selected ? 'Selected' : 'Select'}
-                      </button>
-                    </article>
+                      </span>
+                    </button>
                   );
                 })}
               </div>

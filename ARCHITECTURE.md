@@ -343,7 +343,7 @@ The root component that manages:
     - **Nemesis Profile Manager**: create Nemesis operatives (Small/Medium/Large/Custom) with size-driven core stats and configurable weapon selections
         - Supports weapon source modes: `Default` (official tables only) and `Extended` (official + consolidated pools)
         - Uses separate collapsed ranged/melee editors with button toggles; selected weapons are highlighted and sorted to the top
-        - Supports separate allegiance-trait and nemesis-trait selections (recommended 1 each) with override warnings when selecting multiple
+        - Supports separate trait selections: allegiance trait is single-select, while nemesis traits remain manual-override capable with warnings when selecting multiple
         - Persists selected traits on the Nemesis profile so they render in datacard summaries
 - Explicit domain separation:
   - **Profile**: complete stat block + weapon profiles + behavior rules

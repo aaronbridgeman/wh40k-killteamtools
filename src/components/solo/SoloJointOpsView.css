@@ -1111,6 +1111,60 @@
   background: color-mix(in srgb, var(--surface-color) 88%, black);
 }
 
+.allegiance-trait-focus-card {
+  border-color: color-mix(in srgb, var(--accent-color) 55%, var(--border-color));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 25%, transparent);
+  margin-bottom: 0.1rem;
+}
+
+.allegiance-trait-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.35rem;
+}
+
+.allegiance-trait-option {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-color) 90%, black);
+  color: var(--text-primary);
+  padding: 0.38rem 0.5rem;
+  min-height: 2.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
+}
+
+.allegiance-trait-option:hover {
+  border-color: color-mix(in srgb, var(--accent-color) 45%, var(--border-color));
+  background: color-mix(in srgb, var(--surface-color) 84%, var(--accent-color));
+}
+
+.allegiance-trait-option.is-selected {
+  border-color: color-mix(in srgb, var(--accent-color) 80%, white);
+  background: color-mix(in srgb, var(--accent-color) 22%, var(--surface-color));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 35%, transparent);
+}
+
+.allegiance-trait-option-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.allegiance-trait-option-state {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
 .runner-weapon-name {
   margin: 0;
   font-weight: 600;
