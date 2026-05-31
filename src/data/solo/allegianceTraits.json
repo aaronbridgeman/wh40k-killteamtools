@@ -12,7 +12,7 @@
   {
     "id": "imperium-defenders-of-the-imperium",
     "name": "Defenders of the Imperium",
-    "description": "Imperium allegiance trait."
+    "description": "When an operative is shooting an Imperium NPO or friendly Imperium Nemesis operative, if that Imperium operative is wholly within its territory, one of its defence dice can be retained as a normal success without rolling it (in addition to any cover save)."
   },
   {
     "id": "leagues-of-votann-acquisition-at-all-costs",
