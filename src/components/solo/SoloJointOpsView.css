@@ -804,18 +804,40 @@
   gap: 0.45rem;
 }
 
+/* Make roster item a fully clickable button/card */
 .npo-roster-item {
+  width: 100%;
+  text-align: left;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 0.55rem 0.65rem;
   display: grid;
-  gap: 0.45rem;
+  gap: 0.35rem;
   background: color-mix(in srgb, var(--surface-color) 88%, black);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.npo-roster-item:hover {
+  border-color: color-mix(in srgb, var(--accent-color) 60%, var(--border-color));
+  background: color-mix(in srgb, var(--surface-color) 80%, var(--accent-color));
 }
 
 .npo-roster-item-active {
   border-color: var(--accent-color);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 28%, transparent);
+}
+
+.npo-roster-item-selected {
+  border-color: color-mix(in srgb, var(--accent-color) 90%, white);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 40%, transparent);
+  background: color-mix(in srgb, var(--surface-color) 75%, var(--accent-color));
 }
 
 .npo-roster-item-incapacitated {
@@ -827,24 +849,18 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
+}
+
+.npo-roster-name {
   font-size: 0.9rem;
   font-weight: 600;
 }
 
-.npo-roster-name-button {
-  text-align: left;
-  font-size: 0.9rem;
-}
-
-.npo-roster-profile-line {
-  margin: 0;
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-}
-
-.npo-roster-profile-line span {
-  font-weight: 700;
-  color: var(--text-primary);
+.npo-roster-chips {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
 }
 
 .npo-roster-active-chip {
@@ -854,6 +870,150 @@
   font-size: 0.72rem;
   color: color-mix(in srgb, var(--accent-color) 85%, white);
 }
+
+.npo-roster-status-badge {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.npo-roster-wounds-line {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.npo-roster-wounds-line .wounds-injured {
+  color: #fbbf24;
+}
+
+.npo-roster-wounds-line .wounds-zero {
+  color: var(--error-color);
+}
+
+/* Active NPO Cards header */
+.npo-cards-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.npo-cards-header h3 {
+  margin: 0;
+}
+
+.npo-cards-reset-btn {
+  font-size: 0.82rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--accent-color);
+  background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+  color: color-mix(in srgb, var(--accent-color) 90%, white);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.npo-cards-reset-btn:hover {
+  background: color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+/* Status chips on the cards */
+.npo-card-status-chips {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.npo-card-status-chip {
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.npo-card-status-chip.is-incapacitated {
+  border: 1px solid var(--error-color);
+  background: color-mix(in srgb, var(--error-color) 20%, transparent);
+  color: #fecaca;
+}
+
+.npo-card-status-chip.is-injured {
+  border: 1px solid #f59e0b;
+  background: color-mix(in srgb, #f59e0b 18%, transparent);
+  color: #fde68a;
+}
+
+.npo-card-status-chip.is-wounded {
+  border: 1px solid #ef4444;
+  background: color-mix(in srgb, #ef4444 14%, transparent);
+  color: #fca5a5;
+}
+
+/* Injured card variant */
+.npo-card-injured {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px color-mix(in srgb, #f59e0b 22%, transparent);
+}
+
+/* Wounds display */
+.npo-card-wounds-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.npo-card-wounds-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.npo-card-wounds-display {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #bbf7d0;
+}
+
+.npo-card-wounds-display.is-wounded {
+  color: #fca5a5;
+}
+
+.npo-card-wounds-display.is-injured {
+  color: #fde68a;
+}
+
+.npo-card-wounds-display.is-zero {
+  color: var(--error-color);
+}
+
+/* Secondary action row */
+.npo-card-actions-secondary {
+  margin-top: 0.2rem;
+}
+
+.reset-health-btn {
+  border: 1px solid color-mix(in srgb, var(--text-secondary) 50%, transparent);
+  background: color-mix(in srgb, var(--surface-color) 70%, black);
+  color: var(--text-secondary);
+}
+
+.reset-health-btn:hover {
+  background: color-mix(in srgb, var(--surface-color) 55%, black);
+  color: var(--text-primary);
+}
+
+/* Injured stat modifier highlight */
+.stat-injured-modifier {
+  color: #fde68a;
+}
+
+
 
 .profile-summary {
   font-size: 0.9rem;

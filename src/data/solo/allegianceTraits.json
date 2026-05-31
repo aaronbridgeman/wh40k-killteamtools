@@ -1,0 +1,42 @@
+[
+  {
+    "id": "aeldari-arrogant-superiority",
+    "name": "Arrogant Superiority",
+    "description": "When an Aeldari NPO or friendly Aeldari Nemesis shoots or fights a ready enemy operative, and two or more fails are rolled, one of those fails can be discarded to reroll another die."
+  },
+  {
+    "id": "chaos-let-the-galaxy-burn",
+    "name": "Let the Galaxy Burn",
+    "description": "Whenever a Chaos NPO or friendly Chaos Nemesis operative is wholly within enemy territory, its weapons gain the Balanced weapon rule."
+  },
+  {
+    "id": "imperium-defenders-of-the-imperium",
+    "name": "Defenders of the Imperium",
+    "description": "Imperium allegiance trait."
+  },
+  {
+    "id": "leagues-of-votann-acquisition-at-all-costs",
+    "name": "Acquisition at All Costs",
+    "description": "When a Leagues of Votann NPO or friendly Leagues of Votann Nemesis shoots or fights an enemy that contests an objective marker or victory-determining area, that operative's weapons gain the Balanced weapon rule."
+  },
+  {
+    "id": "necron-living-metal",
+    "name": "Living Metal",
+    "description": "In the Ready step of each Strategy phase, each Necron NPO and friendly Necron Nemesis operative regains up to D3+1 lost wounds (roll separately for each operative)."
+  },
+  {
+    "id": "ork-waaagh",
+    "name": "Waaagh!",
+    "description": "When an Ork NPO is fighting, its weapons gain Balanced. For Ork Nemesis operatives, worsen the Hit stat of ranged weapons by 1, but their melee weapons gain Severe."
+  },
+  {
+    "id": "tau-empire-supporting-fire",
+    "name": "Supporting Fire",
+    "description": "Whenever a T'au Empire NPO is within 3 in of another operative, its ranged weapons gain Accurate 1. Whenever a friendly T'au Empire Nemesis is within 3 in of another friendly T'au Empire operative, that Nemesis operative's ranged weapons also gain Accurate 1."
+  },
+  {
+    "id": "tyranid-will-of-the-hive-mind",
+    "name": "Will of the Hive Mind",
+    "description": "Ignore stat changes from being injured for Tyranid NPO and friendly Tyranid Nemesis operatives, including weapon stat changes."
+  }
+]

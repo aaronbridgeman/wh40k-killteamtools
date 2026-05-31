@@ -353,6 +353,7 @@ The root component that manages:
 - NPO team selection supports manual and rule-driven modes: random, melee-heavy, ranged-heavy, elite, and horde (with wounds-limit targeting)
 - Persists solo/joint ops state to localStorage and supports profile/list backup import/export (JSON)
 - Includes Datacard profile option for player list entries, NPO profile overrides sourced from NPO-flagged catalog teams, explicit-profile handling for custom models, consolidated nemesis weapon pools generated from operative data, manual-overridable size-based nemesis weapon limits, manual-overridable Nemesis trait-selection limits, and default two-card activation counts for NPO Nemesis operatives
+- Uses JSON-backed allegiance trait metadata in `src/data/solo/allegianceTraits.json` for Nemesis trait cards and profile summaries
 
 #### Rules Components
 

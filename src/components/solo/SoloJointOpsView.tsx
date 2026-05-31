@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import operativeCatalogData from '@/data/solo/operativeCatalog.json';
+import allegianceTraitsData from '@/data/solo/allegianceTraits.json';
 import './SoloJointOpsView.css';
 
 type ActivationSide = 'player' | 'npo';
@@ -206,48 +207,7 @@ const NEMESIS_SIZE_PRESETS: Record<
 const CUSTOM_NEMESIS_WEAPON_LIMIT = 2;
 const NEMESIS_TRAIT_LIMIT = 1;
 
-const NEMESIS_ALLEGIANCE_TRAITS: NemesisTraitOption[] = [
-  {
-    id: 'aeldari-arrogant-superiority',
-    name: 'Arrogant Superiority',
-    description: 'Aeldari allegiance trait.',
-  },
-  {
-    id: 'chaos-let-the-galaxy-burn',
-    name: 'Let the Galaxy Burn',
-    description: 'Chaos allegiance trait.',
-  },
-  {
-    id: 'imperium-defenders-of-the-imperium',
-    name: 'Defenders of the Imperium',
-    description: 'Imperium allegiance trait.',
-  },
-  {
-    id: 'leagues-of-votann-acquisition-at-all-costs',
-    name: 'Acquisition at All Costs',
-    description: 'Leagues of Votann allegiance trait.',
-  },
-  {
-    id: 'necron-living-metal',
-    name: 'Living Metal',
-    description: 'Necron allegiance trait.',
-  },
-  {
-    id: 'ork-waaagh',
-    name: 'Waaagh!',
-    description: 'Ork allegiance trait.',
-  },
-  {
-    id: 'tau-empire-supporting-fire',
-    name: 'Supporting Fire',
-    description: 'Tau Empire allegiance trait.',
-  },
-  {
-    id: 'tyranid-will-of-the-hive-mind',
-    name: 'Will of the Hive Mind',
-    description: 'Tyranid allegiance trait.',
-  },
-];
+const NEMESIS_ALLEGIANCE_TRAITS = allegianceTraitsData as NemesisTraitOption[];
 
 const NEMESIS_TRAITS: NemesisTraitOption[] = [
   {
@@ -1342,7 +1302,24 @@ const parseBehaviorRules = (
   return { intro, steps };
 };
 
-function renderDetailedProfileSummary(profile: SoloProfile | null) {
+function adjustMoveForInjured(move: string): string {
+  const match = move.match(/^(\d+(?:\.\d+)?)(.*)/);
+  if (!match) return move;
+  const value = parseFloat(match[1]);
+  const suffix = match[2];
+  const adjusted = Math.max(1, value - 2);
+  return `${adjusted}${suffix}`;
+}
+
+function adjustHitForInjured(skill: string): string {
+  const match = skill.match(/^(\d+)(.*)/);
+  if (!match) return skill;
+  const value = parseInt(match[1], 10);
+  const suffix = match[2];
+  return `${value + 1}${suffix}`;
+}
+
+function renderDetailedProfileSummary(profile: SoloProfile | null, injured = false) {
   if (!profile) {
     return <p className="profile-summary">Profile data unavailable.</p>;
   }
@@ -1369,7 +1346,9 @@ function renderDetailedProfileSummary(profile: SoloProfile | null) {
         </div>
         <div className="profile-stat-chip is-move">
           <span className="profile-stat-label">🏃 Move</span>
-          <strong>{profile.move}</strong>
+          <strong className={injured ? 'stat-injured-modifier' : undefined}>
+            {injured ? adjustMoveForInjured(profile.move) : profile.move}
+          </strong>
         </div>
         <div className="profile-stat-chip is-save">
           <span className="profile-stat-label">🛡️ Save</span>
@@ -1443,7 +1422,9 @@ function renderDetailedProfileSummary(profile: SoloProfile | null) {
                     </div>
                     <div className="runner-weapon-metric-chip is-hit">
                       <span className="runner-weapon-metric-label">🎯 Hit</span>
-                      <strong>{weapon.skill}</strong>
+                      <strong className={injured ? 'stat-injured-modifier' : undefined}>
+                        {injured ? adjustHitForInjured(weapon.skill) : weapon.skill}
+                      </strong>
                     </div>
                     <div className="runner-weapon-metric-chip is-damage">
                       <span className="runner-weapon-metric-label">
@@ -1492,7 +1473,9 @@ function renderDetailedProfileSummary(profile: SoloProfile | null) {
                     </div>
                     <div className="runner-weapon-metric-chip is-hit">
                       <span className="runner-weapon-metric-label">🎯 Hit</span>
-                      <strong>{weapon.skill}</strong>
+                      <strong className={injured ? 'stat-injured-modifier' : undefined}>
+                        {injured ? adjustHitForInjured(weapon.skill) : weapon.skill}
+                      </strong>
                     </div>
                     <div className="runner-weapon-metric-chip is-damage">
                       <span className="runner-weapon-metric-label">
@@ -2378,13 +2361,6 @@ export function SoloJointOpsView() {
     [runnerOperatives]
   );
 
-  const inspectedRunnerOperative = useMemo(
-    () =>
-      npoRunnerOperatives.find(
-        (operative) => operative.id === inspectedRunnerOperativeId
-      ) ?? null,
-    [inspectedRunnerOperativeId, npoRunnerOperatives]
-  );
 
   const npoRunnerOperativeNames = useMemo(
     () =>
@@ -2949,6 +2925,7 @@ export function SoloJointOpsView() {
   };
 
   const drawActivation = () => {
+    setInspectedRunnerOperativeId(null);
     setState((prev) => {
       const { cardId, remaining } = drawNextNpoCard(
         drawPile,
@@ -3524,7 +3501,7 @@ export function SoloJointOpsView() {
    * Renders summary content for Datacard entries, resolved profiles,
    * or a fallback when the referenced profile cannot be found.
    */
-  const renderProfileSummary = (profileId: string) => {
+  const renderProfileSummary = (profileId: string, injured = false) => {
     if (profileId === DATACARD_PROFILE_ID) {
       return (
         <p className="profile-summary">
@@ -3532,7 +3509,7 @@ export function SoloJointOpsView() {
         </p>
       );
     }
-    return renderDetailedProfileSummary(profileLookup.get(profileId) ?? null);
+    return renderDetailedProfileSummary(profileLookup.get(profileId) ?? null, injured);
   };
 
   return (
@@ -4212,75 +4189,193 @@ export function SoloJointOpsView() {
               </section>
 
               <section className="solo-card">
-                <h3>Operative Runner Cards</h3>
-                {!currentDrawnCard ? (
-                  <p>Draw an activation to show operative runner cards.</p>
-                ) : currentActivatedOperatives.length === 0 ? (
-                  <p>No active operatives on the drawn card.</p>
-                ) : (
-                  <div className="npo-cards">
-                    {currentActivatedOperatives.map((operative) => (
-                      <article
-                        className={`npo-card npo-card-active${
-                          operative.incapacitated
-                            ? ' npo-card-incapacitated'
-                            : ''
-                        }`}
-                        key={operative.id}
-                      >
-                        <div className="npo-card-header">
-                          <div className="npo-card-header-main">
-                            <h4>{operative.name}</h4>
-                            <p className="runner-identity-line">
-                              <span>Model:</span> {operative.name}
-                            </p>
-                            <p className="runner-identity-line">
-                              <span>Profile:</span>{' '}
-                              {getProfileDisplayName(operative.profileId)}
-                            </p>
-                          </div>
-                          <span className="npo-card-team-chip">
-                            {selectedNpoTeam?.name ?? 'NPO Team'}
-                          </span>
-                        </div>
-                        {renderProfileSummary(operative.profileId)}
-                        <div className="npo-card-damage-controls">
-                          <p className="npo-card-damage">
-                            Damage Taken:{' '}
-                            <strong className="npo-card-damage-value">
-                              {operative.damageTaken}
-                            </strong>
-                          </p>
-                          <div className="npo-card-actions-row">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateRunnerOperative(operative.id, {
-                                  damageTaken: Math.max(
-                                    0,
-                                    operative.damageTaken - 1
-                                  ),
-                                })
-                              }
-                            >
-                              -1
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateRunnerOperative(operative.id, {
-                                  damageTaken: operative.damageTaken + 1,
-                                })
-                              }
-                            >
-                              +1
-                            </button>
-                          </div>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                )}
+                <div className="npo-cards-header">
+                  <h3>Active NPO Cards</h3>
+                  {inspectedRunnerOperativeId && (
+                    <button
+                      type="button"
+                      className="npo-cards-reset-btn"
+                      onClick={() => setInspectedRunnerOperativeId(null)}
+                    >
+                      ← Back to Active Card
+                    </button>
+                  )}
+                </div>
+                {(() => {
+                  const displayOperatives = inspectedRunnerOperativeId
+                    ? npoRunnerOperatives.filter(
+                        (op) => op.id === inspectedRunnerOperativeId
+                      )
+                    : currentActivatedOperatives;
+
+                  if (!inspectedRunnerOperativeId && !currentDrawnCard) {
+                    return (
+                      <p>Draw an activation to show active NPO cards.</p>
+                    );
+                  }
+                  if (displayOperatives.length === 0) {
+                    return (
+                      <p>No active operatives on the drawn card.</p>
+                    );
+                  }
+
+                  return (
+                    <div className="npo-cards">
+                      {displayOperatives.map((operative) => {
+                        const maxWounds =
+                          profileLookup.get(operative.profileId)?.wounds ?? 0;
+                        const currentWounds = Math.max(
+                          0,
+                          maxWounds - operative.damageTaken
+                        );
+                        const isWounded =
+                          maxWounds > 0 &&
+                          operative.damageTaken > 0 &&
+                          currentWounds > 0 &&
+                          !operative.incapacitated;
+                        const isInjured =
+                          maxWounds > 0 &&
+                          operative.damageTaken > maxWounds * 0.5 &&
+                          !operative.incapacitated;
+                        return (
+                          <article
+                            className={`npo-card npo-card-active${
+                              operative.incapacitated
+                                ? ' npo-card-incapacitated'
+                                : ''
+                            }${isInjured ? ' npo-card-injured' : ''}`}
+                            key={operative.id}
+                          >
+                            <div className="npo-card-header">
+                              <div className="npo-card-header-main">
+                                <h4>{operative.name}</h4>
+                                <p className="runner-identity-line">
+                                  <span>Profile:</span>{' '}
+                                  {getProfileDisplayName(operative.profileId)}
+                                </p>
+                              </div>
+                              <div className="npo-card-status-chips">
+                                {operative.incapacitated && (
+                                  <span className="npo-card-status-chip is-incapacitated">
+                                    ☠ Incapacitated
+                                  </span>
+                                )}
+                                {isInjured && (
+                                  <span className="npo-card-status-chip is-injured">
+                                    ⚠ Injured
+                                  </span>
+                                )}
+                                {isWounded && !isInjured && (
+                                  <span className="npo-card-status-chip is-wounded">
+                                    🩸 Wounded
+                                  </span>
+                                )}
+                                <span className="npo-card-team-chip">
+                                  {selectedNpoTeam?.name ?? 'NPO Team'}
+                                </span>
+                              </div>
+                            </div>
+                            {renderProfileSummary(operative.profileId, isInjured)}
+                            <div className="npo-card-damage-controls">
+                              <div className="npo-card-wounds-row">
+                                <span className="npo-card-wounds-label">
+                                  Wounds
+                                </span>
+                                <span
+                                  className={`npo-card-wounds-display${
+                                    operative.incapacitated
+                                      ? ' is-zero'
+                                      : isInjured
+                                        ? ' is-injured'
+                                        : isWounded
+                                          ? ' is-wounded'
+                                          : ''
+                                  }`}
+                                >
+                                  {maxWounds > 0
+                                    ? `${currentWounds}/${maxWounds}`
+                                    : `${operative.damageTaken} dmg taken`}
+                                </span>
+                              </div>
+                              <div className="npo-card-actions-row">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    updateRunnerOperative(operative.id, {
+                                      damageTaken: Math.max(
+                                        0,
+                                        operative.damageTaken - 1
+                                      ),
+                                    })
+                                  }
+                                  disabled={operative.damageTaken === 0}
+                                >
+                                  −1 Dmg
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const newDmg =
+                                      maxWounds > 0
+                                        ? Math.min(
+                                            operative.damageTaken + 1,
+                                            maxWounds
+                                          )
+                                        : operative.damageTaken + 1;
+                                    const autoIncap =
+                                      maxWounds > 0 && newDmg >= maxWounds;
+                                    updateRunnerOperative(operative.id, {
+                                      damageTaken: newDmg,
+                                      ...(autoIncap
+                                        ? { incapacitated: true }
+                                        : {}),
+                                    });
+                                  }}
+                                  disabled={
+                                    maxWounds > 0 &&
+                                    operative.damageTaken >= maxWounds
+                                  }
+                                >
+                                  +1 Dmg
+                                </button>
+                              </div>
+                              <div className="npo-card-actions-row npo-card-actions-secondary">
+                                <button
+                                  type="button"
+                                  className={`incap-toggle${
+                                    operative.incapacitated ? ' is-on' : ''
+                                  }`}
+                                  onClick={() =>
+                                    updateRunnerOperative(operative.id, {
+                                      incapacitated: !operative.incapacitated,
+                                    })
+                                  }
+                                  aria-pressed={operative.incapacitated}
+                                >
+                                  {operative.incapacitated
+                                    ? '☠ Incapacitated'
+                                    : '⚡ Quick Incapacitate'}
+                                </button>
+                                <button
+                                  type="button"
+                                  className="reset-health-btn"
+                                  onClick={() =>
+                                    updateRunnerOperative(operative.id, {
+                                      damageTaken: 0,
+                                      incapacitated: false,
+                                    })
+                                  }
+                                >
+                                  ↺ Reset
+                                </button>
+                              </div>
+                            </div>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
               </section>
             </div>
 
@@ -4295,52 +4390,79 @@ export function SoloJointOpsView() {
                       currentDrawnCard?.operativeIds.includes(
                         operative.sourceOperativeId
                       ) ?? false;
+                    const isSelected =
+                      inspectedRunnerOperativeId === operative.id;
+                    const maxWounds =
+                      profileLookup.get(operative.profileId)?.wounds ?? 0;
+                    const currentWounds = Math.max(
+                      0,
+                      maxWounds - operative.damageTaken
+                    );
+                    const isInjured =
+                      maxWounds > 0 &&
+                      operative.damageTaken > maxWounds * 0.5 &&
+                      !operative.incapacitated;
 
                     return (
-                      <li
-                        key={operative.id}
-                        className={`npo-roster-item${
-                          operative.incapacitated
-                            ? ' npo-roster-item-incapacitated'
-                            : ''
-                        }${isOnCurrentCard ? ' npo-roster-item-active' : ''}`}
-                      >
-                        <div className="npo-roster-name-row">
-                          <button
-                            type="button"
-                            className="profile-link-button npo-roster-name-button"
-                            onClick={() =>
-                              setInspectedRunnerOperativeId(operative.id)
-                            }
-                            aria-label={`View datacard for ${operative.name}`}
-                          >
-                            {operative.name}
-                          </button>
-                          {isOnCurrentCard && (
-                            <span className="npo-roster-active-chip">
-                              Current Card
-                            </span>
-                          )}
-                        </div>
-                        <p className="npo-roster-profile-line">
-                          <span>Profile:</span>{' '}
-                          {getProfileDisplayName(operative.profileId)}
-                        </p>
+                      <li key={operative.id}>
                         <button
                           type="button"
-                          className={`incap-toggle${
-                            operative.incapacitated ? ' is-on' : ''
+                          className={`npo-roster-item${
+                            operative.incapacitated
+                              ? ' npo-roster-item-incapacitated'
+                              : ''
+                          }${isOnCurrentCard ? ' npo-roster-item-active' : ''}${
+                            isSelected ? ' npo-roster-item-selected' : ''
                           }`}
                           onClick={() =>
-                            updateRunnerOperative(operative.id, {
-                              incapacitated: !operative.incapacitated,
-                            })
+                            setInspectedRunnerOperativeId(
+                              isSelected ? null : operative.id
+                            )
                           }
-                          aria-pressed={operative.incapacitated}
+                          aria-pressed={isSelected}
+                          aria-label={`View ${operative.name} card`}
                         >
-                          {operative.incapacitated
-                            ? 'Incapacitated ☠'
-                            : 'Active 🪖'}
+                          <div className="npo-roster-name-row">
+                            <span className="npo-roster-name">
+                              {operative.name}
+                            </span>
+                            <div className="npo-roster-chips">
+                              {isOnCurrentCard && (
+                                <span className="npo-roster-active-chip">
+                                  Active
+                                </span>
+                              )}
+                              {operative.incapacitated ? (
+                                <span className="npo-roster-status-badge is-incapacitated">
+                                  ☠
+                                </span>
+                              ) : isInjured ? (
+                                <span className="npo-roster-status-badge is-injured">
+                                  ⚠
+                                </span>
+                              ) : (
+                                <span className="npo-roster-status-badge is-active">
+                                  🪖
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          {maxWounds > 0 && (
+                            <p className="npo-roster-wounds-line">
+                              Wounds:{' '}
+                              <strong
+                                className={
+                                  operative.incapacitated
+                                    ? 'wounds-zero'
+                                    : isInjured
+                                      ? 'wounds-injured'
+                                      : undefined
+                                }
+                              >
+                                {currentWounds}/{maxWounds}
+                              </strong>
+                            </p>
+                          )}
                         </button>
                       </li>
                     );
@@ -4348,23 +4470,6 @@ export function SoloJointOpsView() {
                 </ul>
               )}
             </aside>
-
-            {inspectedRunnerOperative && (
-              <div className="setup-modal-backdrop" role="dialog" aria-modal>
-                <section className="solo-card setup-modal profile-preview-modal">
-                  <div className="setup-modal-header">
-                    <h3>{inspectedRunnerOperative.name} Datacard</h3>
-                    <button
-                      type="button"
-                      onClick={() => setInspectedRunnerOperativeId(null)}
-                    >
-                      Close
-                    </button>
-                  </div>
-                  {renderProfileSummary(inspectedRunnerOperative.profileId)}
-                </section>
-              </div>
-            )}
           </div>
         </div>
       )}
