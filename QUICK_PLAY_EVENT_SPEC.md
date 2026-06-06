@@ -130,7 +130,12 @@ Google Drive JSON file sync is architecturally viable for a GitHub Pages client-
 
 > **Open Question #1:** Should Google Drive sync be implemented? If yes, please create a Google Cloud project, enable the Drive API, and provide the OAuth 2.0 client ID.
 
-**Current status:** Stub/documentation only in `src/services/eventStorage.ts`. Not implemented pending Open Question #1.
+**Current status:** Implemented in `src/services/eventStorage.ts` using Google
+Identity Services OAuth token flow and Drive appData file storage.
+
+- Required environment variable: `VITE_GOOGLE_OAUTH_CLIENT_ID`
+- Quick Play UI includes buttons to connect, save cloud copy, and load cloud copy
+- Primary localStorage persistence remains the default offline-first path
 
 ---
 
@@ -312,7 +317,7 @@ All tests follow the existing patterns in `tests/unit/`. Run with `npm run test`
 
 ## Open Questions for User Input
 
-1. **Google Drive sync:** ✅ *Answered: "Yes, but can do that later."* Stub implemented; deferred.
+1. **Google Drive sync:** ✅ *Implemented.*
 
 2. **Starting CP:** ✅ *Answered: Manual — player adds/removes CP manually.*
 

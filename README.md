@@ -7,7 +7,6 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 | Link                                                                                                          | Description                                                                               |
 | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | [**🎮 Full App**](https://aaronbridgeman.github.io/wh40k-killteamtools/)                                      | Solo/Joint Ops + reference pages (Actions, Rules, Weapon Rules); Single Team mode removed |
-| [**☠️ Quick Play (Standalone)**](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) | Focused Plague Marines tournament tracker — launched via direct link with no other tabs   |
 
 ## 🎯 Features
 
@@ -46,19 +45,6 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Operative Tracking**: Monitor wounds, injured status, and activations
 - **State Persistence**: Game state saved automatically
 
-**Quick Play Event** ☠️ _(Plague Marines — Tournament Companion)_
-
-- **3-Game Event Tracker**: Purpose-built for Plague Marines quick play tournaments
-- **"Remove One" Roster Mechanic**: Display all 7 operatives; remove exactly one non-leader per game
-- **Bombardier Grenade Augmentation**: When Blight Grenades are equipped, the Bombardier's card shows the grenade weapon with +1 Hit stat (4+ → 3+) per the Grenadier ability
-- **Strategic Ploy Selection**: Choose one strategic ploy per turning point; displayed prominently throughout
-- **Firefight Ploy Tracking**: All 4 firefight ploys shown with CP affordability highlighting and used-ploy markers
-- **Command Point Tracker**: Per-game CP with +/− controls
-- **Blight Grenade Usage**: Track remaining uses (max 2 per game; Bombardier exempt)
-- **Learnings & Notes**: Shared free-text field at the bottom for recording observations
-- **Nurgle Green Theme**: Immersive green palette; sacred numbers 3 and 7 featured throughout
-- **Offline Persistence**: All state saved automatically to localStorage
-
 **Solo / Joint Ops**
 
 - **Game Runner**: Default tab with a setup-status gate (warning state until configured), popup Team Setup UI, a reset/draw activation deck flow, current-activation operative lists, and operative runner cards shown only for activated operatives
@@ -75,11 +61,11 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Datacard Default Option**: Player list entries default to a `Datacard` profile option
 - **NPO Profile Manager**: Top-level tab for creating/editing/deleting profile stat blocks with ranged/melee weapon profiles and behavior rules
 - **Nemesis Profile Manager**: Top-level tab for creating and managing Nemesis operatives
-- **Nemesis Manager**: Create Nemesis operatives by name and size (Small/Medium/Large/Custom). Size presets set Control, Move, Save, and Wounds automatically with datacard-style stat chips
+- **Nemesis Manager**: Select an existing Nemesis operative by name to edit it, or pick `Add new` to create one. Size presets (Small/Medium/Large/Custom) set Control, Move, Save, and Wounds automatically with datacard-style stat chips
 - **Nemesis Weapon Selection Rules**: Size sets recommended weapon selection limits (Small 2, Medium 2, Large 3; Custom 2 default). Over-limit manual overrides are allowed with warning messages
 - **Nemesis Weapon Picker UX**: Ranged and melee editors are collapsed by default, edited independently, and use toggle buttons for selection (selected items are highlighted and sorted to the top)
 - **Default/Extended Weapon Sources**: `Default` shows official weapon tables only; `Extended` additionally includes auto-generated consolidated ranged/melee pools from operative profiles
-- **Nemesis Traits**: Select allegiance and nemesis traits for each Nemesis operative. One from each category is recommended, but over-selection is allowed with warning messages (matching weapon-limit behavior), and selected traits are shown on datacard summaries
+- **Nemesis Traits**: Select allegiance and nemesis traits for each Nemesis operative. Allegiance options are shown with faction-prefixed labels (for example `Necrons - Living Metal`) to make selection clearer. One from each category is recommended, but over-selection is allowed with warning messages (matching weapon-limit behavior), and selected traits are shown on datacard summaries
 - **Backup/Restore**: Import and export lists and profiles as JSON backup files
 
 ### Reference Pages
@@ -112,6 +98,27 @@ npm install
 # Start development server
 npm run dev
 ```
+
+### Optional Google Drive Sync Setup
+
+Google login and Drive API access can be enabled while keeping GitHub Pages
+hosting.
+
+1. Create a Google Cloud project and enable the Google Drive API
+2. Create an OAuth 2.0 Web Application credential
+3. Add Authorized JavaScript origins:
+	- `http://localhost:5173`
+	- `https://aaronbridgeman.github.io`
+4. Create `.env.local` in the project root with:
+
+```bash
+VITE_GOOGLE_OAUTH_CLIENT_ID=your_google_oauth_client_id_here
+```
+
+With this variable set, the app can show an optional Login with Google control.
+
+For GitHub Pages deployment, also add a repository variable named
+`VITE_GOOGLE_OAUTH_CLIENT_ID` under Settings -> Secrets and variables -> Actions -> Variables.
 
 The application will be available at `http://localhost:5173`
 
@@ -304,4 +311,3 @@ MIT License - see LICENSE file for details
 
 - [GitHub Repository](https://github.com/aaronbridgeman/wh40k-killteamtools)
 - [Live Application](https://aaronbridgeman.github.io/wh40k-killteamtools/)
-- [☠️ Quick Play — Standalone View](https://aaronbridgeman.github.io/wh40k-killteamtools/?view=quick-play-event) _(Plague Marines tournament tracker, no navigation tabs)_

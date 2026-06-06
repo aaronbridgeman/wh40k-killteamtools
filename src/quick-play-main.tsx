@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { QuickPlayEventView } from './components/event/QuickPlayEventView';
+import App from './App';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import './index.css';
 
@@ -19,7 +19,7 @@ registerSW({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <QuickPlayEventView />
+      <App />
     </ErrorBoundary>
   </React.StrictMode>
 );

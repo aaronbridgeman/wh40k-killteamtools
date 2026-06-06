@@ -25,7 +25,6 @@ export const VIEW_MODES = {
   ACTIONS: 'actions',
   GENERAL_RULES: 'general-rules',
   GAME_MODE: 'game-mode',
-  QUICK_PLAY_EVENT: 'quick-play-event',
 } as const;
 
 // Team View Modes

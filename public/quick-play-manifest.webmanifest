@@ -1,7 +1,7 @@
 {
-  "name": "Kill Team Quick Play",
-  "short_name": "KT Quick Play",
-  "description": "Plague Marines Quick Play Event tracker for Warhammer 40K Kill Team",
+  "name": "Kill Team Dataslate",
+  "short_name": "KT Dataslate",
+  "description": "Kill Team Dataslate reference tool",
   "theme_color": "#1a1a2e",
   "background_color": "#0f0f1e",
   "display": "standalone",

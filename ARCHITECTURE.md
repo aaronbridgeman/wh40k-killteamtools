@@ -243,7 +243,7 @@ graph LR
 The root component that manages:
 
 - Global application state
-- View mode navigation (Solo/Joint Ops, rules pages, quick play links)
+- View mode navigation (Solo/Joint Ops and rules pages)
 - Team building workflow
 - Faction selection and loading
 
@@ -394,39 +394,10 @@ The root component that manages:
 - Tracks and displays limited-use items (weapons, grenades, equipment)
 - Reused by both `GameManagement` and `EventEquipmentTracker`
 
-#### Quick Play Event Components (`components/event/`)
+#### Event Components (`components/event/`)
 
-**QuickPlayEventView** (`components/event/QuickPlayEventView.tsx`)
-
-- Root container for the Quick Play Event feature
-- Loads Plague Marines faction data via `dataLoader`
-- Manages `QuickPlayEventState` and persists via `eventStorage`
-- Applies Nurgle green CSS theme (scoped to `.quick-play-event`)
-
-**EventSetup** (`components/event/EventSetup.tsx`)
-
-- First-run setup form (event name)
-- Calls `onSetupComplete` to transition to main event view
-
-**GamePanel** (`components/event/GamePanel.tsx`)
-
-- Per-game content wrapper for one of the 3 event games
-- Composes `OperativeRosterManager`, `EventEquipmentTracker`, `TurningPointPloys`
-
-**OperativeRosterManager** (`components/event/OperativeRosterManager.tsx`)
-
-- Displays all 7 Plague Marines operatives using `OperativeCard`
-- Allows removing exactly one non-leader operative per game
-- When Blight Grenades are selected, injects a modified grenade `Weapon`
-  into the Bombardier's `OperativeCard` (Hit stat improved by 1: 4+ → 3+)
-
-**EventEquipmentTracker** (`components/event/EventEquipmentTracker.tsx`)
-
-- Renders faction equipment items from loaded `faction.json`
-- Tracks Blight Grenade uses (max 2 per game; Bombardier exempt)
-- Notifies parent when selections or usage change
-
-**TurningPointPloys** (`components/event/TurningPointPloys.tsx`)
+- Legacy event-specific UI has been removed from active app routes.
+- Core event data persistence remains in service layer for potential future reuse.
 
 - Turning point navigation (1–4)
 - Strategic ploy selector: one ploy chosen per turning point, displayed as banner
@@ -477,21 +448,6 @@ The root component that manages:
 6. `injuredCalculator` determines injured status
 7. State persists to LocalStorage
 8. UI updates reactively
-
-### Quick Play Event Flow
-
-1. User taps "☠️ Quick Play" in navigation
-2. `QuickPlayEventView` mounts and calls `loadFaction('plague-marines')` via `dataLoader`
-3. Saved `QuickPlayEventState` is restored from `localStorage` via `eventStorage`
-4. If `setupComplete=false`, `EventSetup` is shown (event name entry)
-5. After setup, game tabs (Game 1 / 2 / 3) and `GamePanel` are rendered
-6. For each game, `OperativeRosterManager` renders all 7 `OperativeCard` components
-7. When Blight Grenades are selected in `EventEquipmentTracker`:
-   - A synthetic `Weapon` object is built with `ballisticSkill` improved by 1 (4+ → 3+)
-   - Bombardier's `OperativeCard` receives augmented weapons list showing the modified grenade
-8. `TurningPointPloys` renders CP tracker, strategic ploy selector, and firefight ploys
-9. Every state change triggers `saveEventState()` persisting to `localStorage`
-10. `LearningsTracker` at the bottom captures free-text notes across all games
 
 ## Service Layer
 
@@ -589,23 +545,20 @@ The root component that manages:
 
 ### eventStorage (`services/eventStorage.ts`)
 
-**Purpose**: Persist Quick Play Event state to `localStorage`
+**Purpose**: Persist event-tracking state and optional cloud sync data
 
 **Key Functions**:
 
-- `getInitialEventState()`: Create empty event state with 3 games
-- `getInitialGameState(n)`: Create empty game state for game n (1–3)
+- `getInitialEventState()`: Create default event state
 - `saveEventState(state)`: Serialise to `localStorage`
 - `loadEventState()`: Deserialise from `localStorage` with validation
-- `clearEventState()`: Remove from `localStorage`
-- `getTurningPointState(game, tp)`: Get or initialise TP state
-- `updateTurningPointState(game, tp, state)`: Immutable TP state update
-- `advanceTurningPoint(game)`: Increment TP, initialise fresh TP state
-- `signInWithGoogle()` _(stub)_: Google Drive OAuth — not yet implemented
-- `saveEventStateToGoogleDrive(state)` _(stub)_: Drive save — not yet implemented
-- `loadEventStateFromGoogleDrive()` _(stub)_: Drive load — not yet implemented
+- `clearEventState()`: Remove persisted event data
+- `signInWithGoogle()`: Start Google OAuth flow
+- `signOutGoogleDriveSync()`: Clear in-memory auth token for current tab
+- `saveEventStateToGoogleDrive(state)`: Persist state to Drive appData folder
+- `loadEventStateFromGoogleDrive()`: Restore state from Drive appData folder
 
-**Dependencies**: `localStorage`, `constants.ts`
+**Dependencies**: `localStorage`, Google Identity Services, Google Drive API
 
 ## State Management
 

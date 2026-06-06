@@ -575,60 +575,351 @@ export function generateMarkdownReport(
 }
 
 // ---------------------------------------------------------------------------
-// Google Drive — stub (not yet implemented)
+// Google Drive sync (optional, requires OAuth client setup)
 // ---------------------------------------------------------------------------
 
+const GOOGLE_IDENTITY_SCRIPT_URL = 'https://accounts.google.com/gsi/client';
+const GOOGLE_DRIVE_FILES_API = 'https://www.googleapis.com/drive/v3/files';
+const GOOGLE_DRIVE_UPLOAD_API = 'https://www.googleapis.com/upload/drive/v3/files';
+const GOOGLE_DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
+const DRIVE_EVENT_FILE_NAME = 'kill-team-event.json';
+
+let googleAccessToken: string | null = null;
+let gisScriptPromise: Promise<void> | null = null;
+let googleAuthInteractionExpiresAt = 0;
+
+interface GoogleTokenResponse {
+  access_token?: string;
+  error?: string;
+  error_description?: string;
+}
+
+interface GoogleTokenClient {
+  requestAccessToken: (params?: { prompt?: string }) => void;
+}
+
+interface GoogleDriveFileSummary {
+  id: string;
+}
+
+interface GoogleDriveFileListResponse {
+  files?: GoogleDriveFileSummary[];
+}
+
+interface GoogleAccountsOAuth2 {
+  initTokenClient: (config: {
+    client_id: string;
+    scope: string;
+    callback: (response: GoogleTokenResponse) => void;
+    error_callback?: (error: unknown) => void;
+  }) => GoogleTokenClient;
+}
+
+interface GoogleGlobal {
+  accounts?: {
+    oauth2?: GoogleAccountsOAuth2;
+  };
+}
+
+function getGoogleClientId(): string {
+  const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
+  if (!clientId) {
+    throw new Error(
+      'Google Drive sync is not configured. Add VITE_GOOGLE_OAUTH_CLIENT_ID to your environment.'
+    );
+  }
+  return clientId;
+}
+
+export function isGoogleDriveSyncConfigured(): boolean {
+  return Boolean(import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID);
+}
+
+export function signOutGoogleDriveSync(): void {
+  googleAccessToken = null;
+}
+
 /**
- * @stub Google Drive OAuth2 sign-in.
- *
- * To implement this feature:
- * 1. Create a Google Cloud project and enable the Drive API v3
- * 2. Configure an OAuth 2.0 Web Application client with the GitHub Pages origin
- * 3. Load the Google Identity Services script and call `google.accounts.oauth2.initTokenClient`
- * 4. Request the `https://www.googleapis.com/auth/drive.file` scope
- * 5. Store the access token in memory (never in localStorage — security risk)
- *
- * See Open Question #1 in QUICK_PLAY_EVENT_SPEC.md.
- *
- * @throws Error always — not yet implemented
+ * Must be called from a direct user gesture before starting Google OAuth.
+ * This prevents popup auth from being triggered automatically on page load.
+ */
+export function beginGoogleAuthInteraction(): void {
+  googleAuthInteractionExpiresAt = Date.now() + 15_000;
+}
+
+function consumeGoogleAuthInteractionOrThrow(): void {
+  if (Date.now() > googleAuthInteractionExpiresAt) {
+    throw new Error(
+      'Google login is gated behind user interaction. Click "Login with Google" to continue.'
+    );
+  }
+  // One-shot consumption to avoid accidental retries without another click.
+  googleAuthInteractionExpiresAt = 0;
+}
+
+async function ensureGoogleIdentityScriptLoaded(): Promise<void> {
+  if (typeof window === 'undefined') {
+    throw new Error('Google login is only available in a browser environment.');
+  }
+
+  const existingGoogle = (window as Window & { google?: GoogleGlobal }).google;
+  if (existingGoogle?.accounts?.oauth2) {
+    return;
+  }
+
+  if (gisScriptPromise) {
+    return gisScriptPromise;
+  }
+
+  gisScriptPromise = new Promise<void>((resolve, reject) => {
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      `script[src="${GOOGLE_IDENTITY_SCRIPT_URL}"]`
+    );
+
+    if (existingScript) {
+      existingScript.addEventListener('load', () => resolve(), { once: true });
+      existingScript.addEventListener(
+        'error',
+        () => reject(new Error('Failed to load Google Identity Services script.')),
+        { once: true }
+      );
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = GOOGLE_IDENTITY_SCRIPT_URL;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => {
+      reject(new Error('Failed to load Google Identity Services script.'));
+    };
+    document.head.appendChild(script);
+  });
+
+  return gisScriptPromise;
+}
+
+async function requestGoogleAccessToken(): Promise<string> {
+  consumeGoogleAuthInteractionOrThrow();
+  await ensureGoogleIdentityScriptLoaded();
+
+  const googleGlobal = (window as Window & { google?: GoogleGlobal }).google;
+  const oauth2 = googleGlobal?.accounts?.oauth2;
+  if (!oauth2) {
+    throw new Error('Google Identity Services is unavailable. Please refresh and try again.');
+  }
+
+  const clientId = getGoogleClientId();
+
+  const token = await new Promise<string>((resolve, reject) => {
+    let resolved = false;
+    const timeoutId = window.setTimeout(() => {
+      if (resolved) return;
+      resolved = true;
+      reject(
+        new Error(
+          'Google sign-in timed out. Please retry and allow popups for this site.'
+        )
+      );
+    }, 30000);
+
+    const settleResolve = (accessToken: string) => {
+      if (resolved) return;
+      resolved = true;
+      window.clearTimeout(timeoutId);
+      resolve(accessToken);
+    };
+
+    const settleReject = (message: string) => {
+      if (resolved) return;
+      resolved = true;
+      window.clearTimeout(timeoutId);
+      reject(new Error(message));
+    };
+
+    const tokenClient = oauth2.initTokenClient({
+      client_id: clientId,
+      scope: GOOGLE_DRIVE_SCOPE,
+      callback: (response: GoogleTokenResponse) => {
+        if (resolved) return;
+
+        if (response.error) {
+          settleReject(
+            response.error_description ||
+              `Google auth failed with error: ${response.error}`
+          );
+          return;
+        }
+
+        if (!response.access_token) {
+          settleReject('Google auth did not return an access token.');
+          return;
+        }
+
+        settleResolve(response.access_token);
+      },
+      error_callback: () => {
+        settleReject('Google auth popup failed or was blocked.');
+      },
+    });
+
+    tokenClient.requestAccessToken({
+      prompt: googleAccessToken ? '' : 'consent',
+    });
+  });
+
+  googleAccessToken = token;
+  return token;
+}
+
+async function getDriveAccessToken(): Promise<string> {
+  if (googleAccessToken) {
+    return googleAccessToken;
+  }
+  return requestGoogleAccessToken();
+}
+
+async function driveRequest(
+  url: string,
+  init: RequestInit = {},
+  retryOnUnauthorized = true
+): Promise<Response> {
+  const token = await getDriveAccessToken();
+  const headers = new Headers(init.headers ?? {});
+  headers.set('Authorization', `Bearer ${token}`);
+
+  const response = await fetch(url, {
+    ...init,
+    headers,
+  });
+
+  if (response.status === 401 && retryOnUnauthorized) {
+    googleAccessToken = null;
+    return driveRequest(url, init, false);
+  }
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(`Google Drive request failed (${response.status}): ${message}`);
+  }
+
+  return response;
+}
+
+function buildMultipartBody(metadata: Record<string, unknown>, content: string): {
+  body: string;
+  boundary: string;
+} {
+  const boundary = `batch_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+
+  const body =
+    `--${boundary}\r\n` +
+    'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+    `${JSON.stringify(metadata)}\r\n` +
+    `--${boundary}\r\n` +
+    'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+    `${content}\r\n` +
+    `--${boundary}--`;
+
+  return { body, boundary };
+}
+
+async function findEventFileIdInDrive(): Promise<string | null> {
+  const query =
+    `name='${DRIVE_EVENT_FILE_NAME}' and trashed=false and 'appDataFolder' in parents`;
+  const url =
+    `${GOOGLE_DRIVE_FILES_API}?spaces=appDataFolder&fields=files(id)&q=${encodeURIComponent(query)}`;
+
+  const response = await driveRequest(url, { method: 'GET' });
+  const payload = (await response.json()) as GoogleDriveFileListResponse;
+  const file = payload.files?.[0];
+  return file?.id ?? null;
+}
+
+function isQuickPlayEventStateShape(value: unknown): value is QuickPlayEventState {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const candidate = value as QuickPlayEventState;
+  if (!Array.isArray(candidate.games)) {
+    return false;
+  }
+
+  return candidate.games.length === QUICK_PLAY_DEFAULTS.GAME_COUNT;
+}
+
+/**
+ * Initiates Google OAuth sign-in and stores the access token in memory.
+ * The token is never written to localStorage.
  */
 export async function signInWithGoogle(): Promise<void> {
-  throw new Error(
-    'Google Drive sync is not yet implemented. See Open Question #1 in QUICK_PLAY_EVENT_SPEC.md.'
-  );
+  await requestGoogleAccessToken();
 }
 
 /**
- * @stub Saves the Quick Play Event state to Google Drive.
- *
- * When implemented, this will:
- * 1. Serialise state to JSON
- * 2. Create or update a file named `kill-team-event.json` in the user's Drive
- *    using the Drive Files API (multipart upload)
- *
- * @param _state - The event state to save (unused until implemented)
- * @throws Error always — not yet implemented
+ * Saves the Quick Play Event state to a JSON file in the user's Google Drive
+ * appData folder. This keeps the file hidden from normal Drive UI while still
+ * allowing cross-device restore.
  */
 export async function saveEventStateToGoogleDrive(
-  _state: QuickPlayEventState
+  state: QuickPlayEventState
 ): Promise<void> {
-  throw new Error(
-    'Google Drive sync is not yet implemented. See Open Question #1 in QUICK_PLAY_EVENT_SPEC.md.'
-  );
+  const existingFileId = await findEventFileIdInDrive();
+  const stateJson = JSON.stringify(state);
+
+  if (existingFileId) {
+    const { body, boundary } = buildMultipartBody({}, stateJson);
+    await driveRequest(
+      `${GOOGLE_DRIVE_UPLOAD_API}/${existingFileId}?uploadType=multipart`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': `multipart/related; boundary=${boundary}`,
+        },
+        body,
+      }
+    );
+    return;
+  }
+
+  const metadata = {
+    name: DRIVE_EVENT_FILE_NAME,
+    parents: ['appDataFolder'],
+  };
+  const { body, boundary } = buildMultipartBody(metadata, stateJson);
+
+  await driveRequest(`${GOOGLE_DRIVE_UPLOAD_API}?uploadType=multipart`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': `multipart/related; boundary=${boundary}`,
+    },
+    body,
+  });
 }
 
 /**
- * @stub Loads the Quick Play Event state from Google Drive.
- *
- * When implemented, this will:
- * 1. Search for `kill-team-event.json` in the user's Drive
- * 2. Download and parse the file contents
- * 3. Validate and return the state
- *
- * @returns null always — not yet implemented
+ * Loads the Quick Play Event state from Google Drive appData folder.
+ * Returns null when no cloud file exists.
  */
 export async function loadEventStateFromGoogleDrive(): Promise<QuickPlayEventState | null> {
-  throw new Error(
-    'Google Drive sync is not yet implemented. See Open Question #1 in QUICK_PLAY_EVENT_SPEC.md.'
+  const existingFileId = await findEventFileIdInDrive();
+  if (!existingFileId) {
+    return null;
+  }
+
+  const response = await driveRequest(
+    `${GOOGLE_DRIVE_FILES_API}/${existingFileId}?alt=media`,
+    {
+      method: 'GET',
+    }
   );
+  const parsed = (await response.json()) as unknown;
+
+  if (!isQuickPlayEventStateShape(parsed)) {
+    throw new Error('Invalid event data found in Google Drive sync file.');
+  }
+
+  return parsed;
 }

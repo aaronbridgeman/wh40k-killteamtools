@@ -24,6 +24,44 @@
   opacity: 0.9;
 }
 
+.auth-actions {
+  margin-top: 0.7rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.auth-button {
+  background-color: rgba(255, 255, 255, 0.22);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 0.45rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-button-secondary {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.auth-status {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
 .nav-buttons {
   display: flex;
   justify-content: center;

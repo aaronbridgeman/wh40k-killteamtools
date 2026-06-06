@@ -206,8 +206,35 @@ const NEMESIS_SIZE_PRESETS: Record<
 
 const CUSTOM_NEMESIS_WEAPON_LIMIT = 2;
 const NEMESIS_TRAIT_LIMIT = 1;
+const ADD_NEW_NEMESIS_OPTION = '__add-new-nemesis__';
 
 const NEMESIS_ALLEGIANCE_TRAITS = allegianceTraitsData as NemesisTraitOption[];
+
+const ALLEGIANCE_FACTION_LABELS: Record<string, string> = {
+  'leagues-of-votann': 'Leagues of Votann',
+  'tau-empire': "T'au Empire",
+  aeldari: 'Aeldari',
+  chaos: 'Chaos',
+  imperium: 'Imperium',
+  necron: 'Necrons',
+  ork: 'Orks',
+  tyranid: 'Tyranids',
+};
+
+const ALLEGIANCE_FACTION_PREFIXES = Object.keys(
+  ALLEGIANCE_FACTION_LABELS
+).sort((a, b) => b.length - a.length);
+
+function getAllegianceFactionLabelFromTraitId(traitId: string): string {
+  const prefix = ALLEGIANCE_FACTION_PREFIXES.find((candidate) =>
+    traitId.startsWith(`${candidate}-`)
+  );
+  return prefix ? ALLEGIANCE_FACTION_LABELS[prefix] : 'Unknown Faction';
+}
+
+function formatAllegianceTraitName(trait: NemesisTraitOption): string {
+  return `${getAllegianceFactionLabelFromTraitId(trait.id)} - ${trait.name}`;
+}
 
 const NEMESIS_TRAITS: NemesisTraitOption[] = [
   {
@@ -1372,7 +1399,9 @@ function renderDetailedProfileSummary(profile: SoloProfile | null, injured = fal
                     className="runner-weapon-card"
                     key={`allegiance-${profile.id}-${trait.id}`}
                   >
-                    <p className="runner-weapon-name">{trait.name}</p>
+                    <p className="runner-weapon-name">
+                      {formatAllegianceTraitName(trait)}
+                    </p>
                     <p className="runner-weapon-no-rules">
                       {trait.description}
                     </p>
@@ -2169,6 +2198,9 @@ export function SoloJointOpsView() {
     initialState.profiles[0]?.id ?? ''
   );
   const [newNemesisName, setNewNemesisName] = useState('');
+  const [selectedNemesisEditorId, setSelectedNemesisEditorId] = useState(
+    ADD_NEW_NEMESIS_OPTION
+  );
   const [newNemesisSize, setNewNemesisSize] = useState<NemesisSize>('small');
   const [customNemesisControl, setCustomNemesisControl] = useState(5);
   const [customNemesisMove, setCustomNemesisMove] = useState('6"');
@@ -3031,8 +3063,12 @@ export function SoloJointOpsView() {
           }
         : NEMESIS_SIZE_PRESETS[newNemesisSize];
 
-    const profileId = generateUniqueId('nemesis-profile');
-    const nemesisId = generateUniqueId('nemesis');
+    const editingNemesis = state.nemesisOperatives.find(
+      (nemesis) => nemesis.id === selectedNemesisEditorId
+    );
+
+    const profileId = editingNemesis?.profileId ?? generateUniqueId('nemesis-profile');
+    const nemesisId = editingNemesis?.id ?? generateUniqueId('nemesis');
     const profile: SoloProfile = {
       id: profileId,
       name: `${normalizedName} (Nemesis)`,
@@ -3059,14 +3095,25 @@ export function SoloJointOpsView() {
       nemesisTraits: selectedNemesisTraitIds,
     };
 
+    if (editingNemesis) {
+      setState((prev) => ({
+        ...prev,
+        profiles: prev.profiles.map((item) =>
+          item.id === profile.id ? profile : item
+        ),
+        nemesisOperatives: prev.nemesisOperatives.map((item) =>
+          item.id === nemesisOperative.id ? nemesisOperative : item
+        ),
+      }));
+      return;
+    }
+
     setState((prev) => ({
       ...prev,
       profiles: [...prev.profiles, profile],
       nemesisOperatives: [...prev.nemesisOperatives, nemesisOperative],
     }));
-    setNewNemesisName('');
-    setSelectedNemesisAllegianceTraitIds([]);
-    setSelectedNemesisTraitIds([]);
+    setSelectedNemesisEditorId(nemesisId);
   };
 
   const deleteNemesisOperative = (nemesisId: string) => {
@@ -3105,6 +3152,9 @@ export function SoloJointOpsView() {
         })),
       };
     });
+    setSelectedNemesisEditorId((prev) =>
+      prev === nemesisId ? ADD_NEW_NEMESIS_OPTION : prev
+    );
   };
 
   /**
@@ -3454,10 +3504,82 @@ export function SoloJointOpsView() {
         const aSelected = a.id === selectedNemesisAllegianceTraitId ? 1 : 0;
         const bSelected = b.id === selectedNemesisAllegianceTraitId ? 1 : 0;
         if (aSelected !== bSelected) return bSelected - aSelected;
-        return a.name.localeCompare(b.name);
+        return formatAllegianceTraitName(a).localeCompare(
+          formatAllegianceTraitName(b)
+        );
       }),
     [selectedNemesisAllegianceTraitId]
   );
+  const isEditingExistingNemesis =
+    selectedNemesisEditorId !== ADD_NEW_NEMESIS_OPTION;
+
+  useEffect(() => {
+    const validEditorIds = new Set([
+      ADD_NEW_NEMESIS_OPTION,
+      ...state.nemesisOperatives.map((nemesis) => nemesis.id),
+    ]);
+    if (!validEditorIds.has(selectedNemesisEditorId)) {
+      setSelectedNemesisEditorId(ADD_NEW_NEMESIS_OPTION);
+    }
+  }, [selectedNemesisEditorId, state.nemesisOperatives]);
+
+  useEffect(() => {
+    if (selectedNemesisEditorId === ADD_NEW_NEMESIS_OPTION) {
+      setNewNemesisName('');
+      setNewNemesisSize('small');
+      setCustomNemesisControl(5);
+      setCustomNemesisMove('6"');
+      setCustomNemesisSave('4+');
+      setCustomNemesisWounds(50);
+      setSelectedNemesisAllegianceTraitIds([]);
+      setSelectedNemesisTraitIds([]);
+      return;
+    }
+
+    const existingNemesis = state.nemesisOperatives.find(
+      (nemesis) => nemesis.id === selectedNemesisEditorId
+    );
+    if (!existingNemesis) {
+      return;
+    }
+
+    const existingProfile = profileLookup.get(existingNemesis.profileId);
+    const rangedByKey = new Map(
+      allNemesisRangedWeaponOptions.map((option) => [toWeaponKey(option.profile), option.id])
+    );
+    const meleeByKey = new Map(
+      allNemesisMeleeWeaponOptions.map((option) => [toWeaponKey(option.profile), option.id])
+    );
+
+    setNewNemesisName(existingNemesis.name);
+    setNewNemesisSize(existingNemesis.size);
+    setCustomNemesisControl(existingProfile?.apl ?? 5);
+    setCustomNemesisMove(existingProfile?.move ?? '6"');
+    setCustomNemesisSave(existingProfile?.save ?? '4+');
+    setCustomNemesisWounds(existingProfile?.wounds ?? 50);
+    setSelectedNemesisRangedWeaponIds(
+      existingNemesis.rangedWeapons
+        .map((weapon) => rangedByKey.get(toWeaponKey(weapon)) ?? null)
+        .filter((weaponId): weaponId is string => Boolean(weaponId))
+    );
+    setSelectedNemesisMeleeWeaponIds(
+      existingNemesis.meleeWeapons
+        .map((weapon) => meleeByKey.get(toWeaponKey(weapon)) ?? null)
+        .filter((weaponId): weaponId is string => Boolean(weaponId))
+    );
+    setSelectedNemesisAllegianceTraitIds(
+      existingNemesis.allegianceTraits ?? existingProfile?.allegianceTraits ?? []
+    );
+    setSelectedNemesisTraitIds(
+      existingNemesis.nemesisTraits ?? existingProfile?.nemesisTraits ?? []
+    );
+  }, [
+    allNemesisMeleeWeaponOptions,
+    allNemesisRangedWeaponOptions,
+    profileLookup,
+    selectedNemesisEditorId,
+    state.nemesisOperatives,
+  ]);
   const isNemesisTraitLimitExceeded =
     selectedNemesisTraitIds.length > NEMESIS_TRAIT_LIMIT;
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
@@ -4759,12 +4881,29 @@ export function SoloJointOpsView() {
             </p>
 
             <label htmlFor="nemesis-name">Nemesis Name</label>
-            <input
+            <select
               id="nemesis-name"
+              value={selectedNemesisEditorId}
+              onChange={(event) => setSelectedNemesisEditorId(event.target.value)}
+              aria-label="Nemesis name"
+            >
+              <option value={ADD_NEW_NEMESIS_OPTION}>Add new</option>
+              {state.nemesisOperatives.map((nemesis) => (
+                <option key={nemesis.id} value={nemesis.id}>
+                  {nemesis.name}
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="nemesis-editor-display-name">
+              {isEditingExistingNemesis ? 'Edit Nemesis Name' : 'New Nemesis Name'}
+            </label>
+            <input
+              id="nemesis-editor-display-name"
               value={newNemesisName}
               onChange={(event) => setNewNemesisName(event.target.value)}
               placeholder="Armoured Sentinel"
-              aria-label="Nemesis name"
+              aria-label="Nemesis display name"
             />
 
             <label htmlFor="nemesis-size">Nemesis Size</label>
@@ -4894,10 +5033,15 @@ export function SoloJointOpsView() {
               {selectedNemesisWeaponLimit}
             </p>
             {isNemesisWeaponLimitExceeded && (
-              <p className="deck-exhausted-note" role="status">
-                Warning: selected weapons exceed the recommended limit for this
-                nemesis size. Manual override is allowed.
-              </p>
+              <>
+                <p className="deck-exhausted-note" role="status">
+                  Warning: selected weapons exceed the recommended limit for this
+                  nemesis size. Manual override is allowed.
+                </p>
+                <p className="team-selection-meta">
+                  Warning: weapon selections exceed recommended limit.
+                </p>
+              </>
             )}
 
             <div className="profile-weapon-layout">
@@ -5262,7 +5406,7 @@ export function SoloJointOpsView() {
               {selectedNemesisAllegianceTrait && (
                 <article className="runner-weapon-card allegiance-trait-focus-card">
                   <p className="runner-weapon-name">
-                    {selectedNemesisAllegianceTrait.name}
+                    {formatAllegianceTraitName(selectedNemesisAllegianceTrait)}
                   </p>
                   <p className="runner-weapon-no-rules">
                     {selectedNemesisAllegianceTrait.description}
@@ -5288,7 +5432,7 @@ export function SoloJointOpsView() {
                       aria-label={`Toggle allegiance trait ${trait.name}`}
                     >
                       <span className="allegiance-trait-option-name">
-                        {trait.name}
+                        {formatAllegianceTraitName(trait)}
                       </span>
                       <span className="allegiance-trait-option-state">
                         {selected ? 'Selected' : 'Select'}
@@ -5346,55 +5490,18 @@ export function SoloJointOpsView() {
               onClick={createNemesisOperative}
               disabled={!newNemesisName.trim()}
             >
-              Create Nemesis Operative
+              {isEditingExistingNemesis
+                ? 'Save Nemesis Operative'
+                : 'Create Nemesis Operative'}
             </button>
-
-            {state.nemesisOperatives.length === 0 ? (
-              <p className="team-transfer-empty">No nemesis operatives yet.</p>
-            ) : (
-              <ul>
-                {state.nemesisOperatives.map((nemesis) => {
-                  const profile = profileLookup.get(nemesis.profileId);
-                  const weaponCount = [
-                    ...(profile?.rangedWeapons ?? []),
-                    ...(profile?.meleeWeapons ?? []),
-                  ].reduce(
-                    (total, weapon) => total + getWeaponSelectionCost(weapon),
-                    0
-                  );
-                  const weaponLimit = getNemesisWeaponLimit(nemesis.size);
-                  return (
-                    <li key={nemesis.id}>
-                      <span>
-                        {nemesis.name} <small>({nemesis.size})</small>
-                        <br />
-                        <small>
-                          Control: {profile?.apl ?? '-'} · Move:{' '}
-                          {profile?.move ?? '-'} · Save: {profile?.save ?? '-'}{' '}
-                          · Wounds: {profile?.wounds ?? '-'} · Weapons:{' '}
-                          {weaponCount}/{weaponLimit}
-                        </small>
-                        {weaponCount > weaponLimit && (
-                          <>
-                            <br />
-                            <small>
-                              Warning: weapon selections exceed recommended
-                              limit.
-                            </small>
-                          </>
-                        )}
-                      </span>
-                      <button
-                        type="button"
-                        className="danger-button"
-                        onClick={() => deleteNemesisOperative(nemesis.id)}
-                      >
-                        Remove
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
+            {isEditingExistingNemesis && (
+              <button
+                type="button"
+                className="danger-button"
+                onClick={() => deleteNemesisOperative(selectedNemesisEditorId)}
+              >
+                Remove Selected Nemesis
+              </button>
             )}
           </section>
 

@@ -94,7 +94,6 @@ Provide a comprehensive digital toolset for Kill Team players to:
 │   │   ├── common/            # Reusable UI components
 │   │   ├── datacard/          # Operative datacard components
 │   │   ├── equipment/         # Equipment selection components
-│   │   ├── event/             # Quick play event components
 │   │   ├── faction/           # Faction selection and display
 │   │   ├── game/              # Game mode components
 │   │   ├── rules/             # Rule expansion components
@@ -406,6 +405,7 @@ JSON Schema will validate all configuration files to ensure:
 
 5. **Nemesis Profile Manager**
    - Dedicated top-level tab for Nemesis operative creation and maintenance
+   - Nemesis operative selector supports editing existing operatives by name and creating new ones via an `Add new` option
    - Create Nemesis operatives with name and size (Small, Medium, Large, Custom)
    - Size presets assign Control/Move/Save/Wounds from mission-pack rules
    - Custom size allows manual Control/Move/Save/Wounds values
@@ -419,6 +419,7 @@ JSON Schema will validate all configuration files to ensure:
    - Consolidated ranged/melee pools are generated from operative weapon profiles to stay current as content expands
    - Official ranged/melee tables are the default source when available
    - Supports allegiance-trait and nemesis-trait selection pools
+   - Allegiance trait labels are faction-prefixed (for example `Necrons - Living Metal`) for faster identification
    - One allegiance trait and one nemesis trait are recommended, with override warnings when selecting multiple
    - Selected traits are persisted on Nemesis profiles and displayed in datacard summaries
    - Created Nemesis operatives are reusable in both player and NPO list builders

@@ -360,7 +360,7 @@ describe('SoloJointOpsView', () => {
       screen.getByRole('button', { name: 'Nemesis Profile Manager' })
     );
 
-    fireEvent.change(screen.getByLabelText('Nemesis name'), {
+    fireEvent.change(screen.getByLabelText('Nemesis display name'), {
       target: { value: 'Armoured Sentinel' },
     });
     fireEvent.change(screen.getByLabelText('Nemesis size'), {
@@ -420,7 +420,7 @@ describe('SoloJointOpsView', () => {
       screen.getByRole('button', { name: 'Nemesis Profile Manager' })
     );
 
-    fireEvent.change(screen.getByLabelText('Nemesis name'), {
+    fireEvent.change(screen.getByLabelText('Nemesis display name'), {
       target: { value: 'Overloaded Nemesis' },
     });
     fireEvent.change(screen.getByLabelText('Nemesis size'), {
@@ -474,7 +474,7 @@ describe('SoloJointOpsView', () => {
       screen.getByRole('button', { name: 'Nemesis Profile Manager' })
     );
 
-    fireEvent.change(screen.getByLabelText('Nemesis name'), {
+    fireEvent.change(screen.getByLabelText('Nemesis display name'), {
       target: { value: 'Weighted Nemesis' },
     });
     fireEvent.change(screen.getByLabelText('Nemesis size'), {
@@ -534,7 +534,7 @@ describe('SoloJointOpsView', () => {
       screen.getByRole('button', { name: 'Nemesis Profile Manager' })
     );
 
-    fireEvent.change(screen.getByLabelText('Nemesis name'), {
+    fireEvent.change(screen.getByLabelText('Nemesis display name'), {
       target: { value: 'Trait Nemesis' },
     });
 
@@ -604,7 +604,9 @@ describe('SoloJointOpsView', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Reset Deck' }));
     fireEvent.click(screen.getByRole('button', { name: 'Draw Activation' }));
 
-    expect(screen.getByText('Defenders of the Imperium')).toBeInTheDocument();
+    expect(
+      screen.getByText('Imperium - Defenders of the Imperium')
+    ).toBeInTheDocument();
     expect(screen.queryByText('Let the Galaxy Burn')).not.toBeInTheDocument();
     expect(screen.getByText('Focused Targeting')).toBeInTheDocument();
     expect(screen.getByText('Shielded')).toBeInTheDocument();
