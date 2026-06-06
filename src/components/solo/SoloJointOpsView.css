@@ -1113,6 +1113,116 @@
   background: color-mix(in srgb, var(--surface-color) 88%, black);
 }
 
+/* Compact weapon card used in view (non-editing) mode */
+.runner-weapon-compact {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.3rem 0.45rem;
+  display: grid;
+  gap: 0.18rem;
+  background: color-mix(in srgb, var(--surface-color) 88%, black);
+}
+
+.runner-weapon-compact-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.runner-weapon-compact-name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.runner-weapon-compact-stats {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* Nemesis trait grid: 2 columns on desktop */
+.nemesis-trait-grid {
+  display: grid;
+  gap: 0.35rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .nemesis-trait-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.nemesis-trait-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.38rem 0.5rem;
+  display: grid;
+  gap: 0.18rem;
+  background: color-mix(in srgb, var(--surface-color) 88%, black);
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.nemesis-trait-card.is-selected {
+  border-color: color-mix(in srgb, var(--accent-color) 80%, white);
+  background: color-mix(in srgb, var(--accent-color) 18%, var(--surface-color));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+.nemesis-trait-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.nemesis-trait-card-name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.nemesis-trait-card-desc {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.nemesis-trait-toggle {
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
+}
+
+.nemesis-trait-toggle:hover {
+  border-color: color-mix(in srgb, var(--accent-color) 55%, var(--border-color));
+  color: var(--text-primary);
+}
+
+.nemesis-trait-toggle.is-on {
+  border-color: color-mix(in srgb, var(--accent-color) 80%, white);
+  background: color-mix(in srgb, var(--accent-color) 28%, transparent);
+  color: color-mix(in srgb, var(--accent-color) 90%, white);
+}
+
 .allegiance-trait-focus-card {
   border-color: color-mix(
     in srgb,

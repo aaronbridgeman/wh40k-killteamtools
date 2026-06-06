@@ -5146,37 +5146,18 @@ export function SoloJointOpsView() {
                         );
                         return (
                           <article
-                            className="runner-weapon-card"
+                            className="runner-weapon-compact"
                             key={`selected-ranged-${weapon.id}`}
                           >
-                            <p className="runner-weapon-name">
-                              {weapon.profile.name}{' '}
-                              <small>({weapon.source})</small>
-                            </p>
-                            <div className="runner-weapon-metrics">
-                              <div className="runner-weapon-metric-chip is-attacks">
-                                <span className="runner-weapon-metric-label">
-                                  🎲 Attacks
-                                </span>
-                                <strong>{weapon.profile.attacks}</strong>
-                              </div>
-                              <div className="runner-weapon-metric-chip is-hit">
-                                <span className="runner-weapon-metric-label">
-                                  🎯 Hit
-                                </span>
-                                <strong>{weapon.profile.skill}</strong>
-                              </div>
-                              <div className="runner-weapon-metric-chip is-damage">
-                                <span className="runner-weapon-metric-label">
-                                  💥 Damage
-                                </span>
-                                <strong>
-                                  N {weapon.profile.damage} / C{' '}
-                                  {weapon.profile.criticalDamage}
-                                </strong>
-                              </div>
+                            <div className="runner-weapon-compact-header">
+                              <p className="runner-weapon-compact-name">
+                                {weapon.profile.name}
+                              </p>
+                              <span className="runner-weapon-compact-stats">
+                                A:{weapon.profile.attacks} · {weapon.profile.skill} · N{weapon.profile.damage}/C{weapon.profile.criticalDamage}
+                              </span>
                             </div>
-                            {rules.length > 0 ? (
+                            {rules.length > 0 && (
                               <div className="runner-weapon-rules">
                                 {rules.map((rule) => (
                                   <span
@@ -5187,10 +5168,6 @@ export function SoloJointOpsView() {
                                   </span>
                                 ))}
                               </div>
-                            ) : (
-                              <p className="runner-weapon-no-rules">
-                                No special rules
-                              </p>
                             )}
                           </article>
                         );
@@ -5357,37 +5334,18 @@ export function SoloJointOpsView() {
                         );
                         return (
                           <article
-                            className="runner-weapon-card"
+                            className="runner-weapon-compact"
                             key={`selected-melee-${weapon.id}`}
                           >
-                            <p className="runner-weapon-name">
-                              {weapon.profile.name}{' '}
-                              <small>({weapon.source})</small>
-                            </p>
-                            <div className="runner-weapon-metrics">
-                              <div className="runner-weapon-metric-chip is-attacks">
-                                <span className="runner-weapon-metric-label">
-                                  🎲 Attacks
-                                </span>
-                                <strong>{weapon.profile.attacks}</strong>
-                              </div>
-                              <div className="runner-weapon-metric-chip is-hit">
-                                <span className="runner-weapon-metric-label">
-                                  🎯 Hit
-                                </span>
-                                <strong>{weapon.profile.skill}</strong>
-                              </div>
-                              <div className="runner-weapon-metric-chip is-damage">
-                                <span className="runner-weapon-metric-label">
-                                  💥 Damage
-                                </span>
-                                <strong>
-                                  N {weapon.profile.damage} / C{' '}
-                                  {weapon.profile.criticalDamage}
-                                </strong>
-                              </div>
+                            <div className="runner-weapon-compact-header">
+                              <p className="runner-weapon-compact-name">
+                                {weapon.profile.name}
+                              </p>
+                              <span className="runner-weapon-compact-stats">
+                                A:{weapon.profile.attacks} · {weapon.profile.skill} · N{weapon.profile.damage}/C{weapon.profile.criticalDamage}
+                              </span>
                             </div>
-                            {rules.length > 0 ? (
+                            {rules.length > 0 && (
                               <div className="runner-weapon-rules">
                                 {rules.map((rule) => (
                                   <span
@@ -5398,10 +5356,6 @@ export function SoloJointOpsView() {
                                   </span>
                                 ))}
                               </div>
-                            ) : (
-                              <p className="runner-weapon-no-rules">
-                                No special rules
-                              </p>
                             )}
                           </article>
                         );
@@ -5592,30 +5546,35 @@ export function SoloJointOpsView() {
                   is allowed.
                 </p>
               )}
-              <div className="runner-weapon-list">
+              <div className="nemesis-trait-grid">
                 {NEMESIS_TRAITS.map((trait) => {
                   const selected = selectedNemesisTraitIds.includes(trait.id);
                   return (
-                    <article className="runner-weapon-card" key={trait.id}>
-                      <p className="runner-weapon-name">{trait.name}</p>
-                      <p className="runner-weapon-no-rules">
+                    <article
+                      className={`nemesis-trait-card${selected ? ' is-selected' : ''}`}
+                      key={trait.id}
+                    >
+                      <div className="nemesis-trait-card-header">
+                        <p className="nemesis-trait-card-name">{trait.name}</p>
+                        <button
+                          type="button"
+                          className={`nemesis-trait-toggle${selected ? ' is-on' : ''}`}
+                          onClick={() => {
+                            setSelectedNemesisTraitIds((prev) =>
+                              selected
+                                ? prev.filter((id) => id !== trait.id)
+                                : [...prev, trait.id]
+                            );
+                          }}
+                          aria-pressed={selected}
+                          aria-label={`Toggle nemesis trait ${trait.name}`}
+                        >
+                          {selected ? '✓ Selected' : 'Select'}
+                        </button>
+                      </div>
+                      <p className="nemesis-trait-card-desc">
                         {trait.description}
                       </p>
-                      <button
-                        type="button"
-                        className={`incap-toggle${selected ? ' is-on' : ''}`}
-                        onClick={() => {
-                          setSelectedNemesisTraitIds((prev) =>
-                            selected
-                              ? prev.filter((id) => id !== trait.id)
-                              : [...prev, trait.id]
-                          );
-                        }}
-                        aria-pressed={selected}
-                        aria-label={`Toggle nemesis trait ${trait.name}`}
-                      >
-                        {selected ? 'Selected' : 'Select'}
-                      </button>
                     </article>
                   );
                 })}
