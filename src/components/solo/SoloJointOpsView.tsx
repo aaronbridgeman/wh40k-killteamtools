@@ -1,4 +1,4 @@
-﻿import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+﻿import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import operativeCatalogData from '@/data/solo/operativeCatalog.json';
 import allegianceTraitsData from '@/data/solo/allegianceTraits.json';
 import './SoloJointOpsView.css';
@@ -2212,6 +2212,10 @@ export function SoloJointOpsView() {
     useState(false);
   const [isMeleeNemesisEditorOpen, setIsMeleeNemesisEditorOpen] =
     useState(false);
+  const [nemesisWeaponSearch, setNemesisWeaponSearch] = useState('');
+  const [nemesisRuleFilters, setNemesisRuleFilters] = useState<Set<string>>(
+    new Set()
+  );
   const [selectedNemesisRangedWeaponIds, setSelectedNemesisRangedWeaponIds] =
     useState<string[]>([]);
   const [selectedNemesisMeleeWeaponIds, setSelectedNemesisMeleeWeaponIds] =
@@ -3449,6 +3453,67 @@ export function SoloJointOpsView() {
           ),
     [allNemesisMeleeWeaponOptions, showExtendedNemesisWeapons]
   );
+
+  // Derive all unique rule names that appear across the current ranged+melee pools.
+  const allAvailableWeaponRules = useMemo(() => {
+    const rules = new Set<string>();
+    [
+      ...nemesisRangedWeaponOptions,
+      ...nemesisMeleeWeaponOptions,
+    ].forEach((option) => {
+      parseSpecialRules(option.profile.specialRules).forEach((rule) => {
+        // Normalise rules that carry a numeric parameter (e.g. "Blast 2\"" -> "Blast")
+        const baseRule = rule.replace(/\s+[\d"]+$/, '').trim();
+        if (baseRule) rules.add(baseRule);
+      });
+    });
+    return Array.from(rules).sort();
+  }, [nemesisRangedWeaponOptions, nemesisMeleeWeaponOptions]);
+
+  // Filter helpers: text search + rule filter applied together.
+  const filterWeaponOptions = useCallback(
+    (options: NemesisWeaponOption[]) => {
+      const query = nemesisWeaponSearch.trim().toLowerCase();
+      return options.filter((option) => {
+        if (
+          query &&
+          !option.profile.name.toLowerCase().includes(query) &&
+          !option.profile.specialRules.toLowerCase().includes(query)
+        ) {
+          return false;
+        }
+        if (nemesisRuleFilters.size > 0) {
+          const ruleNames = parseSpecialRules(
+            option.profile.specialRules
+          ).map((r) => r.replace(/\s+[\d"]+$/, '').trim());
+          for (const required of nemesisRuleFilters) {
+            if (!ruleNames.includes(required)) return false;
+          }
+        }
+        return true;
+      });
+    },
+    [nemesisWeaponSearch, nemesisRuleFilters]
+  );
+
+  const filteredNemesisRangedWeaponOptions = useMemo(
+    () => filterWeaponOptions(nemesisRangedWeaponOptions),
+    [filterWeaponOptions, nemesisRangedWeaponOptions]
+  );
+  const filteredNemesisMeleeWeaponOptions = useMemo(
+    () => filterWeaponOptions(nemesisMeleeWeaponOptions),
+    [filterWeaponOptions, nemesisMeleeWeaponOptions]
+  );
+
+  const toggleNemesisRuleFilter = useCallback((rule: string) => {
+    setNemesisRuleFilters((prev) => {
+      const next = new Set(prev);
+      if (next.has(rule)) next.delete(rule);
+      else next.add(rule);
+      return next;
+    });
+  }, []);
+
   const selectedNemesisPreset =
     newNemesisSize === 'custom' ? null : NEMESIS_SIZE_PRESETS[newNemesisSize];
   const nemesisPreviewStats = selectedNemesisPreset
@@ -5133,8 +5198,43 @@ export function SoloJointOpsView() {
                     </div>
                   )
                 ) : (
+                  <>
+                    <div className="nemesis-weapon-filter-bar">
+                      <input
+                        className="nemesis-weapon-search"
+                        type="search"
+                        placeholder="Search weapons…"
+                        value={nemesisWeaponSearch}
+                        onChange={(e) => setNemesisWeaponSearch(e.target.value)}
+                        aria-label="Search ranged weapons"
+                      />
+                      {allAvailableWeaponRules.length > 0 && (
+                        <div className="nemesis-rule-filter-chips" role="group" aria-label="Filter by weapon rule">
+                          {allAvailableWeaponRules.map((rule) => (
+                            <button
+                              key={rule}
+                              type="button"
+                              className={`nemesis-rule-chip${nemesisRuleFilters.has(rule) ? ' is-active' : ''}`}
+                              onClick={() => toggleNemesisRuleFilter(rule)}
+                              aria-pressed={nemesisRuleFilters.has(rule)}
+                            >
+                              {rule}
+                            </button>
+                          ))}
+                          {nemesisRuleFilters.size > 0 && (
+                            <button
+                              type="button"
+                              className="nemesis-rule-chip nemesis-rule-chip-clear"
+                              onClick={() => setNemesisRuleFilters(new Set())}
+                            >
+                              ✕ Clear
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   <div className="runner-weapon-list">
-                    {[...nemesisRangedWeaponOptions]
+                    {[...filteredNemesisRangedWeaponOptions]
                       .sort((a, b) => {
                         const aSelected =
                           selectedNemesisRangedWeaponIds.includes(a.id) ? 1 : 0;
@@ -5217,6 +5317,7 @@ export function SoloJointOpsView() {
                         );
                       })}
                   </div>
+                  </>
                 )}
               </section>
 
@@ -5308,8 +5409,43 @@ export function SoloJointOpsView() {
                     </div>
                   )
                 ) : (
+                  <>
+                    <div className="nemesis-weapon-filter-bar">
+                      <input
+                        className="nemesis-weapon-search"
+                        type="search"
+                        placeholder="Search weapons…"
+                        value={nemesisWeaponSearch}
+                        onChange={(e) => setNemesisWeaponSearch(e.target.value)}
+                        aria-label="Search melee weapons"
+                      />
+                      {allAvailableWeaponRules.length > 0 && (
+                        <div className="nemesis-rule-filter-chips" role="group" aria-label="Filter by weapon rule">
+                          {allAvailableWeaponRules.map((rule) => (
+                            <button
+                              key={rule}
+                              type="button"
+                              className={`nemesis-rule-chip${nemesisRuleFilters.has(rule) ? ' is-active' : ''}`}
+                              onClick={() => toggleNemesisRuleFilter(rule)}
+                              aria-pressed={nemesisRuleFilters.has(rule)}
+                            >
+                              {rule}
+                            </button>
+                          ))}
+                          {nemesisRuleFilters.size > 0 && (
+                            <button
+                              type="button"
+                              className="nemesis-rule-chip nemesis-rule-chip-clear"
+                              onClick={() => setNemesisRuleFilters(new Set())}
+                            >
+                              ✕ Clear
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   <div className="runner-weapon-list">
-                    {[...nemesisMeleeWeaponOptions]
+                    {[...filteredNemesisMeleeWeaponOptions]
                       .sort((a, b) => {
                         const aSelected =
                           selectedNemesisMeleeWeaponIds.includes(a.id) ? 1 : 0;
@@ -5393,6 +5529,7 @@ export function SoloJointOpsView() {
                         );
                       })}
                   </div>
+                  </>
                 )}
               </section>
             </div>

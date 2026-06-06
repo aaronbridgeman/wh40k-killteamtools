@@ -1496,3 +1496,70 @@
     align-items: flex-start;
   }
 }
+
+/* -- Nemesis weapon search + rule filter bar --------------------------- */
+.nemesis-weapon-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.55rem;
+}
+
+.nemesis-weapon-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.32rem 0.55rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--input-background, var(--surface-color));
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-family: inherit;
+}
+
+.nemesis-weapon-search:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 1px;
+}
+
+.nemesis-rule-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+}
+
+.nemesis-rule-chip {
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.72rem;
+  font-family: inherit;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-secondary);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  line-height: 1.4;
+}
+
+.nemesis-rule-chip:hover {
+  border-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+.nemesis-rule-chip.is-active {
+  background: color-mix(in srgb, var(--primary-color) 18%, transparent);
+  border-color: var(--primary-color);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.nemesis-rule-chip-clear {
+  border-color: color-mix(in srgb, var(--text-secondary) 50%, transparent);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.nemesis-rule-chip-clear:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
