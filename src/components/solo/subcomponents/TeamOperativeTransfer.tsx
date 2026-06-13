@@ -1,5 +1,10 @@
 import { useMemo } from 'react';
-import type { SoloTeam, SoloListOperative, TransferHint, TransferDirection } from '../SoloJointOpsView';
+import type {
+  SoloTeam,
+  SoloListOperative,
+  TransferHint,
+  TransferDirection,
+} from '../SoloJointOpsView';
 
 /**
  * TeamOperativeTransfer - UI for transferring operatives between available and selected lists.

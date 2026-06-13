@@ -580,7 +580,8 @@ export function generateMarkdownReport(
 
 const GOOGLE_IDENTITY_SCRIPT_URL = 'https://accounts.google.com/gsi/client';
 const GOOGLE_DRIVE_FILES_API = 'https://www.googleapis.com/drive/v3/files';
-const GOOGLE_DRIVE_UPLOAD_API = 'https://www.googleapis.com/upload/drive/v3/files';
+const GOOGLE_DRIVE_UPLOAD_API =
+  'https://www.googleapis.com/upload/drive/v3/files';
 const GOOGLE_DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
 const DRIVE_EVENT_FILE_NAME = 'kill-team-event.json';
 
@@ -680,7 +681,8 @@ async function ensureGoogleIdentityScriptLoaded(): Promise<void> {
       existingScript.addEventListener('load', () => resolve(), { once: true });
       existingScript.addEventListener(
         'error',
-        () => reject(new Error('Failed to load Google Identity Services script.')),
+        () =>
+          reject(new Error('Failed to load Google Identity Services script.')),
         { once: true }
       );
       return;
@@ -707,7 +709,9 @@ async function requestGoogleAccessToken(): Promise<string> {
   const googleGlobal = (window as Window & { google?: GoogleGlobal }).google;
   const oauth2 = googleGlobal?.accounts?.oauth2;
   if (!oauth2) {
-    throw new Error('Google Identity Services is unavailable. Please refresh and try again.');
+    throw new Error(
+      'Google Identity Services is unavailable. Please refresh and try again.'
+    );
   }
 
   const clientId = getGoogleClientId();
@@ -801,13 +805,18 @@ async function driveRequest(
 
   if (!response.ok) {
     const message = await response.text();
-    throw new Error(`Google Drive request failed (${response.status}): ${message}`);
+    throw new Error(
+      `Google Drive request failed (${response.status}): ${message}`
+    );
   }
 
   return response;
 }
 
-function buildMultipartBody(metadata: Record<string, unknown>, content: string): {
+function buildMultipartBody(
+  metadata: Record<string, unknown>,
+  content: string
+): {
   body: string;
   boundary: string;
 } {
@@ -826,10 +835,8 @@ function buildMultipartBody(metadata: Record<string, unknown>, content: string):
 }
 
 async function findEventFileIdInDrive(): Promise<string | null> {
-  const query =
-    `name='${DRIVE_EVENT_FILE_NAME}' and trashed=false and 'appDataFolder' in parents`;
-  const url =
-    `${GOOGLE_DRIVE_FILES_API}?spaces=appDataFolder&fields=files(id)&q=${encodeURIComponent(query)}`;
+  const query = `name='${DRIVE_EVENT_FILE_NAME}' and trashed=false and 'appDataFolder' in parents`;
+  const url = `${GOOGLE_DRIVE_FILES_API}?spaces=appDataFolder&fields=files(id)&q=${encodeURIComponent(query)}`;
 
   const response = await driveRequest(url, { method: 'GET' });
   const payload = (await response.json()) as GoogleDriveFileListResponse;
@@ -837,7 +844,9 @@ async function findEventFileIdInDrive(): Promise<string | null> {
   return file?.id ?? null;
 }
 
-function isQuickPlayEventStateShape(value: unknown): value is QuickPlayEventState {
+function isQuickPlayEventStateShape(
+  value: unknown
+): value is QuickPlayEventState {
   if (!value || typeof value !== 'object') {
     return false;
   }

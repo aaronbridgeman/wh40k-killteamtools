@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // Define the available voice commands
-const COMMANDS = ["reset", "next", "show card", "add wound", "remove wound"];
+const COMMANDS = ['reset', 'next', 'show card', 'add wound', 'remove wound'];
 
 interface SpeechRecognitionAlternativeLike {
   transcript: string;
@@ -45,9 +45,13 @@ declare global {
   }
 }
 
-export function useVoiceCommands(onCommand: (command: string, args?: string) => void) {
+export function useVoiceCommands(
+  onCommand: (command: string, args?: string) => void
+) {
   const [isListening, setIsListening] = useState(false);
-  const [recognition, setRecognition] = useState<SpeechRecognitionLike | null>(null);
+  const [recognition, setRecognition] = useState<SpeechRecognitionLike | null>(
+    null
+  );
 
   useEffect(() => {
     const SpeechRecognitionCtor = window.webkitSpeechRecognition;
@@ -63,7 +67,8 @@ export function useVoiceCommands(onCommand: (command: string, args?: string) => 
 
     speechRecognition.onstart = () => setIsListening(true);
     speechRecognition.onend = () => setIsListening(false);
-    speechRecognition.onerror = (event: Event) => console.error('Speech recognition error:', event);
+    speechRecognition.onerror = (event: Event) =>
+      console.error('Speech recognition error:', event);
 
     speechRecognition.onresult = (event: SpeechRecognitionEventLike) => {
       const lastResult = event.results[event.results.length - 1];

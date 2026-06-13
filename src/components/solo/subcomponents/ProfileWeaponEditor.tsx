@@ -122,7 +122,12 @@ export function ProfileWeaponEditor({
       ))}
       <button
         type="button"
-        onClick={() => onChange([...weapons, { ...weapons[0], id: `${title} Weapon ${weapons.length + 1}` }])}
+        onClick={() =>
+          onChange([
+            ...weapons,
+            { ...weapons[0], id: `${title} Weapon ${weapons.length + 1}` },
+          ])
+        }
       >
         Add {title} Weapon
       </button>
