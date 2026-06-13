@@ -1111,6 +1111,35 @@
   display: grid;
   gap: 0.28rem;
   background: color-mix(in srgb, var(--surface-color) 88%, black);
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
+}
+
+.runner-weapon-card[role='button'] {
+  cursor: pointer;
+}
+
+.runner-weapon-card[role='button']:hover {
+  border-color: color-mix(in srgb, var(--success-color) 60%, transparent);
+  background: color-mix(in srgb, var(--surface-color) 92%, black);
+}
+
+.runner-weapon-card[role='button']:focus-visible {
+  outline: 2px solid var(--success-color);
+  outline-offset: 2px;
+}
+
+.runner-weapon-card.is-selected {
+  border-color: color-mix(in srgb, var(--success-color) 80%, white);
+  background: color-mix(
+    in srgb,
+    var(--success-color) 14%,
+    var(--surface-color)
+  );
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--success-color) 30%, transparent);
 }
 
 /* Compact weapon card used in view (non-editing) mode */
@@ -1213,7 +1242,11 @@
 }
 
 .nemesis-trait-toggle:hover {
-  border-color: color-mix(in srgb, var(--accent-color) 55%, var(--border-color));
+  border-color: color-mix(
+    in srgb,
+    var(--accent-color) 55%,
+    var(--border-color)
+  );
   color: var(--text-primary);
 }
 
@@ -1647,7 +1680,10 @@
   cursor: pointer;
   background: transparent;
   color: var(--text-secondary);
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
   line-height: 1.4;
 }
 

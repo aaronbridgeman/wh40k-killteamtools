@@ -6,10 +6,16 @@ interface VoiceIndicatorProps {
   onToggle: () => void;
 }
 
-export const VoiceIndicator: React.FC<VoiceIndicatorProps> = ({ isListening, onToggle }) => {
+export const VoiceIndicator: React.FC<VoiceIndicatorProps> = ({
+  isListening,
+  onToggle,
+}) => {
   return (
     <div className={styles.voiceIndicator}>
-      <button onClick={onToggle} className={isListening ? styles.active : styles.inactive}>
+      <button
+        onClick={onToggle}
+        className={isListening ? styles.active : styles.inactive}
+      >
         {isListening ? '🎙️ Listening...' : '🎤 Voice Off'}
       </button>
     </div>

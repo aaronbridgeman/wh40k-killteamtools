@@ -72,9 +72,7 @@ function App() {
         );
         return;
       }
-      setGoogleLoginStatus(
-        errorMessage
-      );
+      setGoogleLoginStatus(errorMessage);
     } finally {
       if (timeoutId !== null) {
         window.clearTimeout(timeoutId);
@@ -96,7 +94,11 @@ function App() {
         <h1>Kill Team Dataslate</h1>
         <p className="subtitle">Warhammer 40,000 Kill Team Reference Tool</p>
 
-        <div className="auth-actions" role="region" aria-label="Google login controls">
+        <div
+          className="auth-actions"
+          role="region"
+          aria-label="Google login controls"
+        >
           <button
             className="auth-button"
             type="button"
@@ -114,7 +116,9 @@ function App() {
             Logout
           </button>
         </div>
-        {googleLoginStatus && <p className="auth-status">{googleLoginStatus}</p>}
+        {googleLoginStatus && (
+          <p className="auth-status">{googleLoginStatus}</p>
+        )}
 
         <nav className="nav-buttons">
           <button
