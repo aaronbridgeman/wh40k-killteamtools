@@ -423,6 +423,8 @@ JSON Schema will validate all configuration files to ensure:
    - One allegiance trait and one nemesis trait are recommended, with override warnings when selecting multiple
    - Selected traits are persisted on Nemesis profiles and displayed in datacard summaries
    - Created Nemesis operatives are reusable in both player and NPO list builders
+   - Supports print-ready Nemesis datacard export with `Export All` and `Export Selected` options
+   - Export layout is optimized for A4 printing at two readable datacards per page
 
 ## 5. Data Extraction Strategy
 

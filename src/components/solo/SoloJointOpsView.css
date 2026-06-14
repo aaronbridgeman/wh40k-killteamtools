@@ -1318,6 +1318,46 @@
   white-space: nowrap;
 }
 
+.nemesis-export-panel {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.85rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.nemesis-export-panel h5 {
+  margin: 0;
+}
+
+.nemesis-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.nemesis-export-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.nemesis-export-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
+  background: color-mix(in srgb, var(--surface-color) 90%, black);
+}
+
+.nemesis-export-option input {
+  margin: 0;
+}
+
 .runner-weapon-name {
   margin: 0;
   font-weight: 600;
