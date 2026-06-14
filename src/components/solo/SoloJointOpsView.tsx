@@ -179,6 +179,13 @@ export interface TransferHint {
   direction: TransferDirection;
 }
 
+interface NemesisDatacardExport {
+  nemesis: NemesisOperative;
+  profile: SoloProfile;
+  allegianceTraits: NemesisTraitOption[];
+  nemesisTraits: NemesisTraitOption[];
+}
+
 const STORAGE_KEY = 'kill-team-solo-joint-ops-v2';
 const LEGACY_STORAGE_KEY = 'kill-team-solo-joint-ops';
 
@@ -1313,6 +1320,14 @@ const parseSpecialRules = (specialRules: string): string[] =>
     .map((rule) => rule.trim())
     .filter(Boolean);
 
+const escapeHtml = (value: string): string =>
+  value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+
 const parseBehaviorRules = (
   behaviorRules: string
 ): { intro: string; steps: string[] } => {
@@ -2242,6 +2257,9 @@ export function SoloJointOpsView() {
     useState<string[]>([]);
   const [selectedNemesisMeleeWeaponIds, setSelectedNemesisMeleeWeaponIds] =
     useState<string[]>([]);
+  const [selectedNemesisExportIds, setSelectedNemesisExportIds] = useState<
+    string[]
+  >([]);
   const [
     selectedNemesisAllegianceTraitIds,
     setSelectedNemesisAllegianceTraitIds,
@@ -3215,6 +3233,196 @@ export function SoloJointOpsView() {
     });
   };
 
+  const resolveNemesisDatacardExports = (
+    nemesisIds: string[]
+  ): NemesisDatacardExport[] =>
+    nemesisIds
+      .map((nemesisId) =>
+        state.nemesisOperatives.find((nemesis) => nemesis.id === nemesisId)
+      )
+      .filter((nemesis): nemesis is NemesisOperative => Boolean(nemesis))
+      .map((nemesis) => {
+        const profile = profileLookup.get(nemesis.profileId);
+        if (!profile) return null;
+        const allegianceTraits =
+          (nemesis.allegianceTraits ?? profile.allegianceTraits ?? [])
+            .map((traitId) =>
+              NEMESIS_ALLEGIANCE_TRAITS.find((trait) => trait.id === traitId)
+            )
+            .filter((trait): trait is NemesisTraitOption => Boolean(trait));
+        const nemesisTraits =
+          (nemesis.nemesisTraits ?? profile.nemesisTraits ?? [])
+            .map((traitId) => NEMESIS_TRAITS.find((trait) => trait.id === traitId))
+            .filter((trait): trait is NemesisTraitOption => Boolean(trait));
+        return { nemesis, profile, allegianceTraits, nemesisTraits };
+      })
+      .filter((entry): entry is NemesisDatacardExport => Boolean(entry));
+
+  const buildNemesisDatacardHtml = (
+    exports: NemesisDatacardExport[],
+    mode: 'all' | 'selected'
+  ): string => {
+    const cards = exports
+      .map((entry, index) => {
+        const rangedRows =
+          entry.nemesis.rangedWeapons.length > 0
+            ? entry.nemesis.rangedWeapons
+                .map(
+                  (weapon) => `
+                <tr>
+                  <td>${escapeHtml(weapon.name)}</td>
+                  <td>${weapon.attacks}</td>
+                  <td>${escapeHtml(weapon.skill)}</td>
+                  <td>${escapeHtml(`N ${weapon.damage} / C ${weapon.criticalDamage}`)}</td>
+                  <td>${escapeHtml(weapon.specialRules || '—')}</td>
+                </tr>
+              `
+                )
+                .join('')
+            : '<tr><td colspan="5" class="empty-row">No ranged weapons</td></tr>';
+
+        const meleeRows =
+          entry.nemesis.meleeWeapons.length > 0
+            ? entry.nemesis.meleeWeapons
+                .map(
+                  (weapon) => `
+                <tr>
+                  <td>${escapeHtml(weapon.name)}</td>
+                  <td>${weapon.attacks}</td>
+                  <td>${escapeHtml(weapon.skill)}</td>
+                  <td>${escapeHtml(`N ${weapon.damage} / C ${weapon.criticalDamage}`)}</td>
+                  <td>${escapeHtml(weapon.specialRules || '—')}</td>
+                </tr>
+              `
+                )
+                .join('')
+            : '<tr><td colspan="5" class="empty-row">No melee weapons</td></tr>';
+
+        const allegianceTraits =
+          entry.allegianceTraits.length > 0
+            ? entry.allegianceTraits
+                .map((trait) =>
+                  escapeHtml(formatAllegianceTraitName(trait))
+                )
+                .join(' · ')
+            : 'None';
+        const nemesisTraits =
+          entry.nemesisTraits.length > 0
+            ? entry.nemesisTraits.map((trait) => escapeHtml(trait.name)).join(' · ')
+            : 'None';
+
+        const profile = entry.profile;
+        const pageBreak = (index + 1) % 2 === 0 ? '<div class="page-break"></div>' : '';
+
+        return `
+          <article class="nemesis-print-card">
+            <header class="card-header">
+              <h1>NEMESIS NPO DATACARD</h1>
+              <p class="card-meta">Card ${index + 1} / ${exports.length}</p>
+            </header>
+            <section class="card-top">
+              <p><strong>Name:</strong> ${escapeHtml(entry.nemesis.name)}</p>
+              <div class="stat-grid">
+                <div><span>Control</span><strong>${profile.apl}</strong></div>
+                <div><span>Move</span><strong>${escapeHtml(profile.move)}</strong></div>
+                <div><span>Save</span><strong>${escapeHtml(profile.save)}</strong></div>
+                <div><span>Wounds</span><strong>${profile.wounds}</strong></div>
+              </div>
+            </section>
+            <section>
+              <h2>Ranged Weapons</h2>
+              <table>
+                <thead>
+                  <tr><th>Name</th><th>ATK</th><th>HIT</th><th>DMG</th><th>WR</th></tr>
+                </thead>
+                <tbody>${rangedRows}</tbody>
+              </table>
+            </section>
+            <section>
+              <h2>Melee Weapons</h2>
+              <table>
+                <thead>
+                  <tr><th>Name</th><th>ATK</th><th>HIT</th><th>DMG</th><th>WR</th></tr>
+                </thead>
+                <tbody>${meleeRows}</tbody>
+              </table>
+            </section>
+            <section class="trait-block">
+              <p><strong>Allegiance Traits:</strong> ${allegianceTraits}</p>
+              <p><strong>Nemesis Traits:</strong> ${nemesisTraits}</p>
+              <p><strong>Behaviour:</strong> ${escapeHtml(profile.behaviorRules || 'None')}</p>
+            </section>
+          </article>
+          ${pageBreak}
+        `;
+      })
+      .join('');
+
+    return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Nemesis Datacards</title>
+    <style>
+      @page { size: A4 portrait; margin: 10mm; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: "Arial Narrow", Arial, sans-serif; color: #111827; background: #f3f4f6; }
+      .print-header { margin-bottom: 6mm; padding-bottom: 2mm; border-bottom: 1px solid #d1d5db; }
+      .print-header h1 { margin: 0; font-size: 14px; letter-spacing: 0.08em; }
+      .print-header p { margin: 4px 0 0; font-size: 11px; color: #4b5563; }
+      .nemesis-print-card { break-inside: avoid; min-height: 132mm; border: 1px solid #111827; background: #fff; border-radius: 6px; padding: 5mm; display: grid; gap: 3mm; margin-bottom: 4mm; }
+      .card-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #f97316; padding-bottom: 1.5mm; }
+      .card-header h1 { margin: 0; color: #ea580c; font-size: 12px; letter-spacing: 0.03em; }
+      .card-meta { margin: 0; font-size: 10px; color: #4b5563; }
+      .card-top p { margin: 0 0 2mm; font-size: 12px; }
+      .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2mm; }
+      .stat-grid div { border: 1px solid #d1d5db; border-radius: 4px; padding: 1.5mm; display: grid; gap: 1mm; }
+      .stat-grid span { font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; color: #4b5563; }
+      .stat-grid strong { font-size: 12px; }
+      h2 { margin: 0; font-size: 10px; color: #ea580c; text-transform: uppercase; letter-spacing: 0.04em; }
+      table { width: 100%; border-collapse: collapse; font-size: 9px; }
+      th, td { border: 1px solid #d1d5db; padding: 1mm 1.2mm; text-align: left; vertical-align: top; }
+      th { background: #f3f4f6; font-weight: 700; }
+      .empty-row { text-align: center; color: #6b7280; }
+      .trait-block { border-top: 2px solid #f97316; padding-top: 2mm; }
+      .trait-block p { margin: 0 0 1mm; font-size: 10px; line-height: 1.3; }
+      .page-break { break-after: page; height: 0; }
+    </style>
+  </head>
+  <body>
+    <header class="print-header">
+      <h1>Nemesis Datacards (${mode === 'all' ? 'All Operatives' : 'Selected Operatives'})</h1>
+      <p>Layout: 2 datacards per A4 page for readability.</p>
+    </header>
+    ${cards}
+  </body>
+</html>`;
+  };
+
+  const exportNemesisDatacards = (
+    mode: 'all' | 'selected',
+    nemesisIds: string[]
+  ) => {
+    const exports = resolveNemesisDatacardExports(nemesisIds);
+    if (exports.length === 0) {
+      setImportMessage('No valid Nemesis operatives available to export.');
+      return;
+    }
+
+    const printWindow = window.open('', '_blank', 'noopener,noreferrer');
+    if (!printWindow) {
+      setImportMessage(
+        'Unable to open print window. Please allow pop-ups to export datacards.'
+      );
+      return;
+    }
+
+    printWindow.document.write(buildNemesisDatacardHtml(exports, mode));
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => printWindow.print(), 120);
+  };
+
   const handleListsImport = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -3688,6 +3896,8 @@ export function SoloJointOpsView() {
   ]);
   const isNemesisTraitLimitExceeded =
     selectedNemesisTraitIds.length > NEMESIS_TRAIT_LIMIT;
+  const allNemesisExportIds = state.nemesisOperatives.map((nemesis) => nemesis.id);
+  const hasNemesisExportSelection = selectedNemesisExportIds.length > 0;
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
   const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
 
@@ -3741,6 +3951,13 @@ export function SoloJointOpsView() {
     const timeout = setTimeout(() => setTransferHint(null), 280);
     return () => clearTimeout(timeout);
   }, [transferHint]);
+
+  useEffect(() => {
+    const validIds = new Set(state.nemesisOperatives.map((nemesis) => nemesis.id));
+    setSelectedNemesisExportIds((prev) =>
+      prev.filter((nemesisId) => validIds.has(nemesisId))
+    );
+  }, [state.nemesisOperatives]);
 
   /**
    * Renders summary content for Datacard entries, resolved profiles,
@@ -5680,6 +5897,87 @@ export function SoloJointOpsView() {
                 Remove Selected Nemesis
               </button>
             )}
+
+            <section className="nemesis-export-panel">
+              <h5>Nemesis Datacard PDF Export</h5>
+              <p className="team-selection-meta">
+                Export uses a print-ready A4 layout with 2 readable datacards per
+                page.
+              </p>
+              {state.nemesisOperatives.length === 0 ? (
+                <p className="team-transfer-empty">
+                  Create at least one Nemesis operative to export datacards.
+                </p>
+              ) : (
+                <>
+                  <div className="nemesis-export-actions">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSelectedNemesisExportIds(allNemesisExportIds)
+                      }
+                    >
+                      Select All
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedNemesisExportIds([])}
+                      disabled={!hasNemesisExportSelection}
+                    >
+                      Clear Selection
+                    </button>
+                  </div>
+                  <ul className="nemesis-export-list">
+                    {state.nemesisOperatives.map((nemesis) => {
+                      const selected = selectedNemesisExportIds.includes(
+                        nemesis.id
+                      );
+                      return (
+                        <li key={`export-${nemesis.id}`}>
+                          <label className="nemesis-export-option">
+                            <input
+                              type="checkbox"
+                              checked={selected}
+                              onChange={() =>
+                                setSelectedNemesisExportIds((prev) =>
+                                  selected
+                                    ? prev.filter((id) => id !== nemesis.id)
+                                    : [...prev, nemesis.id]
+                                )
+                              }
+                              aria-label={`Select nemesis datacard ${nemesis.name}`}
+                            />
+                            <span>{nemesis.name}</span>
+                          </label>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <div className="nemesis-export-actions">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        exportNemesisDatacards('all', allNemesisExportIds)
+                      }
+                    >
+                      Export All Nemesis Datacards (PDF)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        exportNemesisDatacards(
+                          'selected',
+                          selectedNemesisExportIds
+                        )
+                      }
+                      disabled={!hasNemesisExportSelection}
+                    >
+                      Export Selected Nemesis Datacards (PDF)
+                    </button>
+                  </div>
+                </>
+              )}
+            </section>
           </section>
 
           <div className="backup-controls">

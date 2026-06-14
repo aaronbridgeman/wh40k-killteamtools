@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { SoloJointOpsView } from '@/components/solo/SoloJointOpsView';
 
 describe('SoloJointOpsView', () => {
@@ -610,5 +610,83 @@ describe('SoloJointOpsView', () => {
     expect(screen.queryByText('Let the Galaxy Burn')).not.toBeInTheDocument();
     expect(screen.getByText('Focused Targeting')).toBeInTheDocument();
     expect(screen.getByText('Shielded')).toBeInTheDocument();
+  });
+
+  it('exports all or selected nemesis datacards to a print-ready PDF layout', () => {
+    window.localStorage.clear();
+    vi.useFakeTimers();
+    const writeMock = vi.fn();
+    const closeMock = vi.fn();
+    const focusMock = vi.fn();
+    const printMock = vi.fn();
+    const openSpy = vi.spyOn(window, 'open').mockReturnValue({
+      document: {
+        write: writeMock,
+        close: closeMock,
+      },
+      focus: focusMock,
+      print: printMock,
+    } as unknown as Window);
+
+    try {
+      render(<SoloJointOpsView />);
+
+      fireEvent.click(
+        screen.getByRole('button', { name: 'NPO Profile Manager' })
+      );
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Nemesis Profile Manager' })
+      );
+
+      fireEvent.change(screen.getByLabelText('Nemesis display name'), {
+        target: { value: 'Export Nemesis One' },
+      });
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Create Nemesis Operative' })
+      );
+
+      fireEvent.change(screen.getByLabelText('Nemesis name'), {
+        target: { value: '__add-new-nemesis__' },
+      });
+      fireEvent.change(screen.getByLabelText('Nemesis display name'), {
+        target: { value: 'Export Nemesis Two' },
+      });
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Create Nemesis Operative' })
+      );
+
+      fireEvent.click(
+        screen.getByRole('button', {
+          name: 'Export All Nemesis Datacards (PDF)',
+        })
+      );
+      vi.runAllTimers();
+
+      expect(openSpy).toHaveBeenCalled();
+      const allExportHtml = writeMock.mock.calls[0]?.[0] as string;
+      expect(allExportHtml).toContain('Export Nemesis One');
+      expect(allExportHtml).toContain('Export Nemesis Two');
+      expect(allExportHtml).toContain('Layout: 2 datacards per A4 page');
+
+      fireEvent.click(
+        screen.getByLabelText('Select nemesis datacard Export Nemesis Two')
+      );
+      fireEvent.click(
+        screen.getByRole('button', {
+          name: 'Export Selected Nemesis Datacards (PDF)',
+        })
+      );
+      vi.runAllTimers();
+
+      const selectedExportHtml = writeMock.mock.calls[1]?.[0] as string;
+      expect(selectedExportHtml).toContain('Export Nemesis Two');
+      expect(selectedExportHtml).not.toContain('Export Nemesis One');
+      expect(printMock).toHaveBeenCalledTimes(2);
+      expect(closeMock).toHaveBeenCalledTimes(2);
+      expect(focusMock).toHaveBeenCalledTimes(2);
+    } finally {
+      openSpy.mockRestore();
+      vi.useRealTimers();
+    }
   });
 });
