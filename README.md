@@ -66,6 +66,7 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Nemesis Weapon Picker UX**: Ranged and melee editors are collapsed by default, edited independently, and use toggle buttons for selection (selected items are highlighted and sorted to the top)
 - **Default/Extended Weapon Sources**: `Default` shows official weapon tables only; `Extended` additionally includes auto-generated consolidated ranged/melee pools from operative profiles
 - **Nemesis Traits**: Select allegiance and nemesis traits for each Nemesis operative. Allegiance options are shown with faction-prefixed labels (for example `Necrons - Living Metal`) to make selection clearer. One from each category is recommended, but over-selection is allowed with warning messages (matching weapon-limit behavior), and selected traits are shown on datacard summaries
+- **Nemesis Datacard PDF Export**: Export print-ready Nemesis datacards from Nemesis Profile Manager with both **Export All** and **Export Selected** actions; layout targets 2 readable datacards per A4 page
 - **Backup/Restore**: Import and export lists and profiles as JSON backup files
 
 ### Reference Pages

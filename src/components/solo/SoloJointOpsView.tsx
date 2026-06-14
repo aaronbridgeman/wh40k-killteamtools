@@ -1322,11 +1322,11 @@ const parseSpecialRules = (specialRules: string): string[] =>
 
 const escapeHtml = (value: string): string =>
   value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
 const parseBehaviorRules = (
   behaviorRules: string
@@ -3244,16 +3244,24 @@ export function SoloJointOpsView() {
       .map((nemesis) => {
         const profile = profileLookup.get(nemesis.profileId);
         if (!profile) return null;
-        const allegianceTraits =
-          (nemesis.allegianceTraits ?? profile.allegianceTraits ?? [])
-            .map((traitId) =>
-              NEMESIS_ALLEGIANCE_TRAITS.find((trait) => trait.id === traitId)
-            )
-            .filter((trait): trait is NemesisTraitOption => Boolean(trait));
-        const nemesisTraits =
-          (nemesis.nemesisTraits ?? profile.nemesisTraits ?? [])
-            .map((traitId) => NEMESIS_TRAITS.find((trait) => trait.id === traitId))
-            .filter((trait): trait is NemesisTraitOption => Boolean(trait));
+        const allegianceTraits = (
+          nemesis.allegianceTraits ??
+          profile.allegianceTraits ??
+          []
+        )
+          .map((traitId) =>
+            NEMESIS_ALLEGIANCE_TRAITS.find((trait) => trait.id === traitId)
+          )
+          .filter((trait): trait is NemesisTraitOption => Boolean(trait));
+        const nemesisTraits = (
+          nemesis.nemesisTraits ??
+          profile.nemesisTraits ??
+          []
+        )
+          .map((traitId) =>
+            NEMESIS_TRAITS.find((trait) => trait.id === traitId)
+          )
+          .filter((trait): trait is NemesisTraitOption => Boolean(trait));
         return { nemesis, profile, allegianceTraits, nemesisTraits };
       })
       .filter((entry): entry is NemesisDatacardExport => Boolean(entry));
@@ -3301,18 +3309,19 @@ export function SoloJointOpsView() {
         const allegianceTraits =
           entry.allegianceTraits.length > 0
             ? entry.allegianceTraits
-                .map((trait) =>
-                  escapeHtml(formatAllegianceTraitName(trait))
-                )
+                .map((trait) => escapeHtml(formatAllegianceTraitName(trait)))
                 .join(' · ')
             : 'None';
         const nemesisTraits =
           entry.nemesisTraits.length > 0
-            ? entry.nemesisTraits.map((trait) => escapeHtml(trait.name)).join(' · ')
+            ? entry.nemesisTraits
+                .map((trait) => escapeHtml(trait.name))
+                .join(' · ')
             : 'None';
 
         const profile = entry.profile;
-        const pageBreak = (index + 1) % 2 === 0 ? '<div class="page-break"></div>' : '';
+        const pageBreak =
+          (index + 1) % 2 === 0 ? '<div class="page-break"></div>' : '';
 
         return `
           <article class="nemesis-print-card">
@@ -3896,7 +3905,9 @@ export function SoloJointOpsView() {
   ]);
   const isNemesisTraitLimitExceeded =
     selectedNemesisTraitIds.length > NEMESIS_TRAIT_LIMIT;
-  const allNemesisExportIds = state.nemesisOperatives.map((nemesis) => nemesis.id);
+  const allNemesisExportIds = state.nemesisOperatives.map(
+    (nemesis) => nemesis.id
+  );
   const hasNemesisExportSelection = selectedNemesisExportIds.length > 0;
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
   const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
@@ -3953,7 +3964,9 @@ export function SoloJointOpsView() {
   }, [transferHint]);
 
   useEffect(() => {
-    const validIds = new Set(state.nemesisOperatives.map((nemesis) => nemesis.id));
+    const validIds = new Set(
+      state.nemesisOperatives.map((nemesis) => nemesis.id)
+    );
     setSelectedNemesisExportIds((prev) =>
       prev.filter((nemesisId) => validIds.has(nemesisId))
     );
@@ -5901,8 +5914,8 @@ export function SoloJointOpsView() {
             <section className="nemesis-export-panel">
               <h5>Nemesis Datacard PDF Export</h5>
               <p className="team-selection-meta">
-                Export uses a print-ready A4 layout with 2 readable datacards per
-                page.
+                Export uses a print-ready A4 layout with 2 readable datacards
+                per page.
               </p>
               {state.nemesisOperatives.length === 0 ? (
                 <p className="team-transfer-empty">

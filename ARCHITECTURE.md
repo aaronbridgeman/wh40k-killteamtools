@@ -345,6 +345,7 @@ The root component that manages:
         - Uses separate collapsed ranged/melee editors with button toggles; selected weapons are highlighted and sorted to the top
         - Supports separate trait selections: allegiance trait is single-select, while nemesis traits remain manual-override capable with warnings when selecting multiple
         - Persists selected traits on the Nemesis profile so they render in datacard summaries
+        - Includes print-ready Nemesis datacard export controls (`Export All` and `Export Selected`) that open an A4 PDF print layout at 2 cards per page
 - Explicit domain separation:
   - **Profile**: complete stat block + weapon profiles + behavior rules
   - **List**: a pool of models with a selected profile per entry
