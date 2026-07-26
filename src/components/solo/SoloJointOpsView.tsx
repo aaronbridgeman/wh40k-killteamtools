@@ -3267,105 +3267,122 @@ export function SoloJointOpsView() {
       .filter((entry): entry is NemesisDatacardExport => Boolean(entry));
 
   const buildNemesisDatacardHtml = (
-    exports: NemesisDatacardExport[],
-    mode: 'all' | 'selected'
+    exports: NemesisDatacardExport[]
   ): string => {
-    const cards = exports
-      .map((entry, index) => {
-        const rangedRows =
-          entry.nemesis.rangedWeapons.length > 0
-            ? entry.nemesis.rangedWeapons
-                .map(
-                  (weapon) => `
-                <tr>
-                  <td>${escapeHtml(weapon.name)}</td>
-                  <td>${weapon.attacks}</td>
-                  <td>${escapeHtml(weapon.skill)}</td>
-                  <td>${escapeHtml(`N ${weapon.damage} / C ${weapon.criticalDamage}`)}</td>
-                  <td>${escapeHtml(weapon.specialRules || '—')}</td>
-                </tr>
-              `
-                )
-                .join('')
-            : '<tr><td colspan="5" class="empty-row">No ranged weapons</td></tr>';
+    const buildCard = (entry: NemesisDatacardExport): string => {
+      const profile = entry.profile;
 
-        const meleeRows =
-          entry.nemesis.meleeWeapons.length > 0
-            ? entry.nemesis.meleeWeapons
-                .map(
-                  (weapon) => `
-                <tr>
-                  <td>${escapeHtml(weapon.name)}</td>
-                  <td>${weapon.attacks}</td>
-                  <td>${escapeHtml(weapon.skill)}</td>
-                  <td>${escapeHtml(`N ${weapon.damage} / C ${weapon.criticalDamage}`)}</td>
-                  <td>${escapeHtml(weapon.specialRules || '—')}</td>
-                </tr>
-              `
-                )
-                .join('')
-            : '<tr><td colspan="5" class="empty-row">No melee weapons</td></tr>';
+      const rangedRows =
+        entry.nemesis.rangedWeapons.length > 0
+          ? entry.nemesis.rangedWeapons
+              .map(
+                (weapon) => `
+              <tr>
+                <td>${escapeHtml(weapon.name)}</td>
+                <td>${weapon.attacks}</td>
+                <td>${escapeHtml(weapon.skill)}</td>
+                <td>${escapeHtml(`N ${weapon.damage} / C ${weapon.criticalDamage}`)}</td>
+                <td>${escapeHtml(weapon.specialRules || '—')}</td>
+              </tr>
+            `
+              )
+              .join('')
+          : '<tr><td colspan="5" class="empty-row">No ranged weapons</td></tr>';
 
-        const allegianceTraits =
-          entry.allegianceTraits.length > 0
-            ? entry.allegianceTraits
-                .map((trait) => escapeHtml(formatAllegianceTraitName(trait)))
-                .join(' · ')
-            : 'None';
-        const nemesisTraits =
-          entry.nemesisTraits.length > 0
-            ? entry.nemesisTraits
-                .map((trait) => escapeHtml(trait.name))
-                .join(' · ')
-            : 'None';
+      const meleeRows =
+        entry.nemesis.meleeWeapons.length > 0
+          ? entry.nemesis.meleeWeapons
+              .map(
+                (weapon) => `
+              <tr>
+                <td>${escapeHtml(weapon.name)}</td>
+                <td>${weapon.attacks}</td>
+                <td>${escapeHtml(weapon.skill)}</td>
+                <td>${escapeHtml(`N ${weapon.damage} / C ${weapon.criticalDamage}`)}</td>
+                <td>${escapeHtml(weapon.specialRules || '—')}</td>
+              </tr>
+            `
+              )
+              .join('')
+          : '<tr><td colspan="5" class="empty-row">No melee weapons</td></tr>';
 
-        const profile = entry.profile;
-        const pageBreak =
-          (index + 1) % 2 === 0 ? '<div class="page-break"></div>' : '';
+      const allegianceTraitsHtml =
+        entry.allegianceTraits.length > 0
+          ? entry.allegianceTraits
+              .map(
+                (trait) => `
+              <div class="trait-entry">
+                <strong>${escapeHtml(formatAllegianceTraitName(trait))}</strong>
+                <span>${escapeHtml(trait.description)}</span>
+              </div>`
+              )
+              .join('')
+          : '<div class="trait-entry no-trait">None</div>';
 
-        return `
-          <article class="nemesis-print-card">
-            <header class="card-header">
-              <h1>NEMESIS NPO DATACARD</h1>
-              <p class="card-meta">Card ${index + 1} / ${exports.length}</p>
-            </header>
-            <section class="card-top">
-              <p><strong>Name:</strong> ${escapeHtml(entry.nemesis.name)}</p>
-              <div class="stat-grid">
-                <div><span>Control</span><strong>${profile.apl}</strong></div>
-                <div><span>Move</span><strong>${escapeHtml(profile.move)}</strong></div>
-                <div><span>Save</span><strong>${escapeHtml(profile.save)}</strong></div>
-                <div><span>Wounds</span><strong>${profile.wounds}</strong></div>
-              </div>
-            </section>
-            <section>
-              <h2>Ranged Weapons</h2>
-              <table>
-                <thead>
-                  <tr><th>Name</th><th>ATK</th><th>HIT</th><th>DMG</th><th>WR</th></tr>
-                </thead>
-                <tbody>${rangedRows}</tbody>
-              </table>
-            </section>
-            <section>
-              <h2>Melee Weapons</h2>
-              <table>
-                <thead>
-                  <tr><th>Name</th><th>ATK</th><th>HIT</th><th>DMG</th><th>WR</th></tr>
-                </thead>
-                <tbody>${meleeRows}</tbody>
-              </table>
-            </section>
-            <section class="trait-block">
-              <p><strong>Allegiance Traits:</strong> ${allegianceTraits}</p>
-              <p><strong>Nemesis Traits:</strong> ${nemesisTraits}</p>
-              <p><strong>Behaviour:</strong> ${escapeHtml(profile.behaviorRules || 'None')}</p>
-            </section>
-          </article>
-          ${pageBreak}
-        `;
-      })
-      .join('');
+      const nemesisTraitsHtml =
+        entry.nemesisTraits.length > 0
+          ? entry.nemesisTraits
+              .map(
+                (trait) => `
+              <div class="trait-entry">
+                <strong>${escapeHtml(trait.name)}</strong>
+                <span>${escapeHtml(trait.description)}</span>
+              </div>`
+              )
+              .join('')
+          : '<div class="trait-entry no-trait">None</div>';
+
+      return `
+        <article class="nemesis-print-card">
+          <header class="card-header">
+            <h1>${escapeHtml(entry.nemesis.name)}</h1>
+          </header>
+          <section class="card-top">
+            <div class="stat-grid">
+              <div><span>Control</span><strong>${profile.apl}</strong></div>
+              <div><span>Move</span><strong>${escapeHtml(profile.move)}</strong></div>
+              <div><span>Save</span><strong>${escapeHtml(profile.save)}</strong></div>
+              <div><span>Wounds</span><strong>${profile.wounds}</strong></div>
+            </div>
+          </section>
+          <section>
+            <h2>Ranged Weapons</h2>
+            <table>
+              <thead>
+                <tr><th>Name</th><th>ATK</th><th>HIT</th><th>DMG</th><th>WR</th></tr>
+              </thead>
+              <tbody>${rangedRows}</tbody>
+            </table>
+          </section>
+          <section>
+            <h2>Melee Weapons</h2>
+            <table>
+              <thead>
+                <tr><th>Name</th><th>ATK</th><th>HIT</th><th>DMG</th><th>WR</th></tr>
+              </thead>
+              <tbody>${meleeRows}</tbody>
+            </table>
+          </section>
+          <section class="trait-block">
+            <h2>Allegiance Traits</h2>
+            ${allegianceTraitsHtml}
+            <h2>Nemesis Traits</h2>
+            ${nemesisTraitsHtml}
+            <h2>Behaviour</h2>
+            <p class="behaviour-text">${escapeHtml(profile.behaviorRules || 'None')}</p>
+          </section>
+        </article>`;
+    };
+
+    // Group cards into pages of 4 (2×2 grid, landscape)
+    const pages: string[] = [];
+    for (let i = 0; i < exports.length; i += 4) {
+      const pageCards = exports
+        .slice(i, i + 4)
+        .map(buildCard)
+        .join('');
+      pages.push(`<div class="print-page">${pageCards}</div>`);
+    }
 
     return `<!doctype html>
 <html lang="en">
@@ -3373,37 +3390,32 @@ export function SoloJointOpsView() {
     <meta charset="utf-8" />
     <title>Nemesis Datacards</title>
     <style>
-      @page { size: A4 portrait; margin: 10mm; }
+      @page { size: A4 landscape; margin: 8mm; }
       * { box-sizing: border-box; }
       body { margin: 0; font-family: "Arial Narrow", Arial, sans-serif; color: #111827; background: #f3f4f6; }
-      .print-header { margin-bottom: 6mm; padding-bottom: 2mm; border-bottom: 1px solid #d1d5db; }
-      .print-header h1 { margin: 0; font-size: 14px; letter-spacing: 0.08em; }
-      .print-header p { margin: 4px 0 0; font-size: 11px; color: #4b5563; }
-      .nemesis-print-card { break-inside: avoid; min-height: 132mm; border: 1px solid #111827; background: #fff; border-radius: 6px; padding: 5mm; display: grid; gap: 3mm; margin-bottom: 4mm; }
-      .card-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px solid #f97316; padding-bottom: 1.5mm; }
-      .card-header h1 { margin: 0; color: #ea580c; font-size: 12px; letter-spacing: 0.03em; }
-      .card-meta { margin: 0; font-size: 10px; color: #4b5563; }
-      .card-top p { margin: 0 0 2mm; font-size: 12px; }
-      .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2mm; }
-      .stat-grid div { border: 1px solid #d1d5db; border-radius: 4px; padding: 1.5mm; display: grid; gap: 1mm; }
-      .stat-grid span { font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; color: #4b5563; }
-      .stat-grid strong { font-size: 12px; }
-      h2 { margin: 0; font-size: 10px; color: #ea580c; text-transform: uppercase; letter-spacing: 0.04em; }
-      table { width: 100%; border-collapse: collapse; font-size: 9px; }
-      th, td { border: 1px solid #d1d5db; padding: 1mm 1.2mm; text-align: left; vertical-align: top; }
+      .print-page { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4mm; width: 100%; height: calc(297mm - 16mm); break-after: page; }
+      .nemesis-print-card { border: 1px solid #111827; background: #fff; border-radius: 5px; padding: 3.5mm; display: grid; grid-template-rows: auto auto auto auto 1fr; gap: 2mm; overflow: hidden; }
+      .card-header { border-bottom: 2px solid #f97316; padding-bottom: 1mm; }
+      .card-header h1 { margin: 0; color: #ea580c; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5mm; }
+      .stat-grid div { border: 1px solid #d1d5db; border-radius: 3px; padding: 1mm; display: grid; gap: 0.5mm; }
+      .stat-grid span { font-size: 7.5px; text-transform: uppercase; letter-spacing: 0.04em; color: #4b5563; }
+      .stat-grid strong { font-size: 11px; }
+      h2 { margin: 0 0 1mm; font-size: 8.5px; color: #ea580c; text-transform: uppercase; letter-spacing: 0.04em; }
+      table { width: 100%; border-collapse: collapse; font-size: 8px; }
+      th, td { border: 1px solid #d1d5db; padding: 0.8mm 1mm; text-align: left; vertical-align: top; }
       th { background: #f3f4f6; font-weight: 700; }
       .empty-row { text-align: center; color: #6b7280; }
-      .trait-block { border-top: 2px solid #f97316; padding-top: 2mm; }
-      .trait-block p { margin: 0 0 1mm; font-size: 10px; line-height: 1.3; }
-      .page-break { break-after: page; height: 0; }
+      .trait-block { border-top: 1.5px solid #f97316; padding-top: 1.5mm; }
+      .trait-entry { margin-bottom: 1mm; font-size: 8px; line-height: 1.3; }
+      .trait-entry strong { display: block; font-size: 8px; }
+      .trait-entry span { color: #374151; }
+      .trait-entry.no-trait { color: #6b7280; }
+      .behaviour-text { margin: 0; font-size: 8px; line-height: 1.3; color: #374151; }
     </style>
   </head>
   <body>
-    <header class="print-header">
-      <h1>Nemesis Datacards (${mode === 'all' ? 'All Operatives' : 'Selected Operatives'})</h1>
-      <p>Layout: 2 datacards per A4 page for readability.</p>
-    </header>
-    ${cards}
+    ${pages.join('')}
     <script>window.addEventListener('load', () => window.print());</script>
   </body>
 </html>`;
@@ -3419,7 +3431,7 @@ export function SoloJointOpsView() {
       return;
     }
 
-    const html = buildNemesisDatacardHtml(exports, mode);
+    const html = buildNemesisDatacardHtml(exports);
     const blob = new Blob([html], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const opened = window.open(url, '_blank', 'noopener,noreferrer');
