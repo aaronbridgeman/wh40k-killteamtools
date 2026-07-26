@@ -18,6 +18,12 @@ type SoloTab =
   | 'nemesis-profile-manager';
 type NemesisSize = 'small' | 'medium' | 'large' | 'custom';
 type NemesisWeaponType = 'ranged' | 'melee';
+type BehaviorProfileOption =
+  | 'custom'
+  | 'brawler'
+  | 'marksman'
+  | 'battler'
+  | 'guardian';
 type NpoTeamSelectionRule =
   | 'manual'
   | 'random'
@@ -221,6 +227,32 @@ const NEMESIS_SIZE_PRESETS: Record<
 const CUSTOM_NEMESIS_WEAPON_LIMIT = 2;
 const NEMESIS_TRAIT_LIMIT = 1;
 const ADD_NEW_NEMESIS_OPTION = '__add-new-nemesis__';
+const CUSTOM_BEHAVIOR_PROFILE_OPTION = 'custom';
+
+const BEHAVIOR_PROFILE_RULES: Record<
+  Exclude<BehaviorProfileOption, 'custom'>,
+  string
+> = {
+  brawler:
+    'The NPO will move towards the enemy to fight them but will seek cover on its way. When activated, if it’s a NEMESIS NPO or will perform the Fight or Charge action during that activation, give it an Engage order. Otherwise, give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this). 4. Dash towards the closest player operative, to cover if possible.',
+  marksman:
+    'This NPO will move to the Ideal position to shoot the enemy. When activated, if it’s a NEMESIS NPO or will perform the Shoot action during that activation, give it an Engage order. Otherwise give it a Conceal order. 1. Fall Back. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission. 2. Shoot. 3. Reposition. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission (a subsequent Dash action can fulfil these). 4. Dash. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission.',
+  battler:
+    'This NPO will move towards the enemy to fight them, but will seek cover on its way, and will shoot if the need arises. When activated, if it’s a NEMESIS NPO or will perform the Fight, Charge or Shoot action during that activation, give it an Engage order. Otherwise give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this). 4. Shoot. 5. Dash towards the closest player operative, to cover if possible.',
+  guardian:
+    'This NPO will shoot the enemy as a priority, but will fight if the need arises. When activated, if it’s a NEMESIS NPO or will perform the Fight, Charge or Shoot action during that activation, give it an Engage order. Otherwise give it a Conceal order. 1. Fight. 2. Shoot. 3. Charge the closest player operative that’s within 4” of it via the shortest possible route. 4. Reposition. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission (a subsequent Dash action can fulfil these). 5. Dash. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission.',
+};
+
+const BEHAVIOR_PROFILE_OPTIONS: {
+  id: BehaviorProfileOption;
+  label: string;
+}[] = [
+  { id: CUSTOM_BEHAVIOR_PROFILE_OPTION, label: 'Custom' },
+  { id: 'brawler', label: 'BRAWLER' },
+  { id: 'marksman', label: 'MARKSMAN' },
+  { id: 'battler', label: 'BATTLER' },
+  { id: 'guardian', label: 'GUARDIAN' },
+];
 
 const NEMESIS_ALLEGIANCE_TRAITS = allegianceTraitsData as NemesisTraitOption[];
 
@@ -249,6 +281,25 @@ function getAllegianceFactionLabelFromTraitId(traitId: string): string {
 function formatAllegianceTraitName(trait: NemesisTraitOption): string {
   return `${getAllegianceFactionLabelFromTraitId(trait.id)} - ${trait.name}`;
 }
+
+const normalizeBehaviorRuleText = (value: string): string =>
+  value.replace(/\s+/g, ' ').trim();
+
+const resolveBehaviorProfileOption = (
+  behaviorRules: string
+): BehaviorProfileOption => {
+  const normalized = normalizeBehaviorRuleText(behaviorRules);
+  const matched = (
+    Object.keys(BEHAVIOR_PROFILE_RULES) as Exclude<
+      BehaviorProfileOption,
+      'custom'
+    >[]
+  ).find(
+    (option) =>
+      normalizeBehaviorRuleText(BEHAVIOR_PROFILE_RULES[option]) === normalized
+  );
+  return matched ?? CUSTOM_BEHAVIOR_PROFILE_OPTION;
+};
 
 const NEMESIS_TRAITS: NemesisTraitOption[] = [
   {
@@ -2239,6 +2290,7 @@ export function SoloJointOpsView() {
     ADD_NEW_NEMESIS_OPTION
   );
   const [newNemesisSize, setNewNemesisSize] = useState<NemesisSize>('small');
+  const [nemesisBehaviorRules, setNemesisBehaviorRules] = useState('');
   const [customNemesisControl, setCustomNemesisControl] = useState(5);
   const [customNemesisMove, setCustomNemesisMove] = useState('6"');
   const [customNemesisSave, setCustomNemesisSave] = useState('4+');
@@ -3038,6 +3090,30 @@ export function SoloJointOpsView() {
     }));
   };
 
+  const applyBehaviorProfileRules = (option: BehaviorProfileOption): string =>
+    option === CUSTOM_BEHAVIOR_PROFILE_OPTION
+      ? ''
+      : BEHAVIOR_PROFILE_RULES[option];
+
+  const handleNpoBehaviorProfileChange = (
+    profileId: string,
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selected = event.target.value as BehaviorProfileOption;
+    if (selected === CUSTOM_BEHAVIOR_PROFILE_OPTION) return;
+    updateProfile(profileId, {
+      behaviorRules: applyBehaviorProfileRules(selected),
+    });
+  };
+
+  const handleNemesisBehaviorProfileChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selected = event.target.value as BehaviorProfileOption;
+    if (selected === CUSTOM_BEHAVIOR_PROFILE_OPTION) return;
+    setNemesisBehaviorRules(applyBehaviorProfileRules(selected));
+  };
+
   const deleteProfile = (profileId: string) => {
     setState((prev) => {
       if (prev.profiles.length <= 1) return prev;
@@ -3122,7 +3198,7 @@ export function SoloJointOpsView() {
       wounds: resolvedStats.wounds,
       rangedWeapons: selectedRangedWeapons,
       meleeWeapons: selectedMeleeWeapons,
-      behaviorRules: '',
+      behaviorRules: nemesisBehaviorRules,
       usesControlStat: true,
       allegianceTraits: selectedNemesisAllegianceTraitIds,
       nemesisTraits: selectedNemesisTraitIds,
@@ -3609,6 +3685,11 @@ export function SoloJointOpsView() {
 
   const activeProfile =
     state.profiles.find((profile) => profile.id === editingProfileId) ?? null;
+  const activeBehaviorProfileOption = activeProfile
+    ? resolveBehaviorProfileOption(activeProfile.behaviorRules)
+    : CUSTOM_BEHAVIOR_PROFILE_OPTION;
+  const nemesisBehaviorProfileOption =
+    resolveBehaviorProfileOption(nemesisBehaviorRules);
   const consolidatedRangedWeaponPool = useMemo(
     () =>
       dedupeWeapons(
@@ -3859,6 +3940,7 @@ export function SoloJointOpsView() {
       setCustomNemesisMove('6"');
       setCustomNemesisSave('4+');
       setCustomNemesisWounds(50);
+      setNemesisBehaviorRules('');
       setSelectedNemesisAllegianceTraitIds([]);
       setSelectedNemesisTraitIds([]);
       return;
@@ -3891,6 +3973,7 @@ export function SoloJointOpsView() {
     setCustomNemesisMove(existingProfile?.move ?? '6"');
     setCustomNemesisSave(existingProfile?.save ?? '4+');
     setCustomNemesisWounds(existingProfile?.wounds ?? 50);
+    setNemesisBehaviorRules(existingProfile?.behaviorRules ?? '');
     setSelectedNemesisRangedWeaponIds(
       existingNemesis.rangedWeapons
         .map((weapon) => rangedByKey.get(toWeaponKey(weapon)) ?? null)
@@ -5164,6 +5247,22 @@ export function SoloJointOpsView() {
                 />
               </label>
               <label className="full-width">
+                Behavior Profile
+                <select
+                  value={activeBehaviorProfileOption}
+                  onChange={(event) =>
+                    handleNpoBehaviorProfileChange(activeProfile.id, event)
+                  }
+                  aria-label="NPO behavior profile"
+                >
+                  {BEHAVIOR_PROFILE_OPTIONS.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="full-width">
                 Behavior Rules
                 <textarea
                   value={activeProfile.behaviorRules}
@@ -5358,6 +5457,29 @@ export function SoloJointOpsView() {
                 </label>
               </div>
             )}
+
+            <label htmlFor="nemesis-behavior-profile">Behavior Profile</label>
+            <select
+              id="nemesis-behavior-profile"
+              value={nemesisBehaviorProfileOption}
+              onChange={handleNemesisBehaviorProfileChange}
+              aria-label="Nemesis behavior profile"
+            >
+              {BEHAVIOR_PROFILE_OPTIONS.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="nemesis-behavior-rules">Nemesis Behavior Rules</label>
+            <textarea
+              id="nemesis-behavior-rules"
+              value={nemesisBehaviorRules}
+              onChange={(event) => setNemesisBehaviorRules(event.target.value)}
+              rows={5}
+              aria-label="Nemesis behavior rules"
+            />
 
             <div className="solo-tabs" aria-label="Nemesis weapon source">
               <button
