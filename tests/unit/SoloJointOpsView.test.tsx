@@ -687,7 +687,7 @@ describe('SoloJointOpsView', () => {
       expect(capturedBlobs[0].content).toContain('Export Nemesis One');
       expect(capturedBlobs[0].content).toContain('Export Nemesis Two');
       expect(capturedBlobs[0].content).toContain(
-        'Layout: 2 datacards per A4 page'
+        'size: A4 landscape'
       );
       expect(capturedBlobs[0].content).toContain(
         "window.addEventListener('load'"
