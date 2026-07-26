@@ -615,18 +615,35 @@ describe('SoloJointOpsView', () => {
   it('exports all or selected nemesis datacards to a print-ready PDF layout', () => {
     window.localStorage.clear();
     vi.useFakeTimers();
-    const writeMock = vi.fn();
-    const closeMock = vi.fn();
-    const focusMock = vi.fn();
-    const printMock = vi.fn();
-    const openSpy = vi.spyOn(window, 'open').mockReturnValue({
-      document: {
-        write: writeMock,
-        close: closeMock,
-      },
-      focus: focusMock,
-      print: printMock,
-    } as unknown as Window);
+
+    interface CapturedBlob {
+      content: string;
+      type: string;
+    }
+    const capturedBlobs: CapturedBlob[] = [];
+    const OriginalBlob = global.Blob;
+    global.Blob = class MockBlob {
+      _content: string;
+      type: string;
+      constructor(parts: BlobPart[], options?: BlobPropertyBag) {
+        this._content = (parts as string[]).join('');
+        this.type = options?.type ?? '';
+        capturedBlobs.push({ content: this._content, type: this.type });
+      }
+    } as unknown as typeof Blob;
+
+    const createObjectURLMock = vi
+      .fn()
+      .mockImplementation((): string => `blob:mock-url-${capturedBlobs.length}`);
+    const revokeObjectURLMock = vi.fn();
+    const originalCreateObjectURL = URL.createObjectURL;
+    const originalRevokeObjectURL = URL.revokeObjectURL;
+    URL.createObjectURL = createObjectURLMock;
+    URL.revokeObjectURL = revokeObjectURLMock;
+
+    const openSpy = vi
+      .spyOn(window, 'open')
+      .mockReturnValue({} as unknown as Window);
 
     try {
       render(<SoloJointOpsView />);
@@ -660,13 +677,21 @@ describe('SoloJointOpsView', () => {
           name: 'Export All Nemesis Datacards (PDF)',
         })
       );
-      vi.runAllTimers();
 
-      expect(openSpy).toHaveBeenCalled();
-      const allExportHtml = writeMock.mock.calls[0]?.[0] as string;
-      expect(allExportHtml).toContain('Export Nemesis One');
-      expect(allExportHtml).toContain('Export Nemesis Two');
-      expect(allExportHtml).toContain('Layout: 2 datacards per A4 page');
+      expect(openSpy).toHaveBeenCalledWith(
+        'blob:mock-url-1',
+        '_blank',
+        'noopener,noreferrer'
+      );
+      expect(capturedBlobs[0].type).toBe('text/html');
+      expect(capturedBlobs[0].content).toContain('Export Nemesis One');
+      expect(capturedBlobs[0].content).toContain('Export Nemesis Two');
+      expect(capturedBlobs[0].content).toContain(
+        'Layout: 2 datacards per A4 page'
+      );
+      expect(capturedBlobs[0].content).toContain(
+        "window.addEventListener('load'"
+      );
 
       fireEvent.click(
         screen.getByLabelText('Select nemesis datacard Export Nemesis Two')
@@ -676,15 +701,17 @@ describe('SoloJointOpsView', () => {
           name: 'Export Selected Nemesis Datacards (PDF)',
         })
       );
-      vi.runAllTimers();
 
-      const selectedExportHtml = writeMock.mock.calls[1]?.[0] as string;
-      expect(selectedExportHtml).toContain('Export Nemesis Two');
-      expect(selectedExportHtml).not.toContain('Export Nemesis One');
-      expect(printMock).toHaveBeenCalledTimes(2);
-      expect(closeMock).toHaveBeenCalledTimes(2);
-      expect(focusMock).toHaveBeenCalledTimes(2);
+      expect(capturedBlobs[1].content).toContain('Export Nemesis Two');
+      expect(capturedBlobs[1].content).not.toContain('Export Nemesis One');
+
+      // Revoke timeouts should fire after 60 s
+      vi.runAllTimers();
+      expect(revokeObjectURLMock).toHaveBeenCalledTimes(2);
     } finally {
+      global.Blob = OriginalBlob;
+      URL.createObjectURL = originalCreateObjectURL;
+      URL.revokeObjectURL = originalRevokeObjectURL;
       openSpy.mockRestore();
       vi.useRealTimers();
     }
