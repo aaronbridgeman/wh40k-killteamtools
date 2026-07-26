@@ -3418,7 +3418,7 @@ export function SoloJointOpsView() {
       return;
     }
 
-    const printWindow = window.open('', '_blank', 'noopener,noreferrer');
+    const printWindow = window.open('', '_blank');
     if (!printWindow) {
       setImportMessage(
         'Unable to open print window. Please allow pop-ups to export datacards.'
@@ -3426,6 +3426,7 @@ export function SoloJointOpsView() {
       return;
     }
 
+    printWindow.opener = null;
     printWindow.document.write(buildNemesisDatacardHtml(exports, mode));
     printWindow.document.close();
     printWindow.focus();

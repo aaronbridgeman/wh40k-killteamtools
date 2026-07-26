@@ -662,7 +662,7 @@ describe('SoloJointOpsView', () => {
       );
       vi.runAllTimers();
 
-      expect(openSpy).toHaveBeenCalled();
+      expect(openSpy).toHaveBeenCalledWith('', '_blank');
       const allExportHtml = writeMock.mock.calls[0]?.[0] as string;
       expect(allExportHtml).toContain('Export Nemesis One');
       expect(allExportHtml).toContain('Export Nemesis Two');
