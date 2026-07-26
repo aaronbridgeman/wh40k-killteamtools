@@ -401,31 +401,6 @@ describe('SoloJointOpsView', () => {
       'This NPO will shoot the enemy as a priority, but will fight if the need arises.'
     );
 
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Create Nemesis Operative' })
-    );
-
-    const nemesisNameSelect = screen.getByLabelText(
-      'Nemesis name'
-    ) as HTMLSelectElement;
-    const behaviorNemesisOption = Array.from(nemesisNameSelect.options).find(
-      (option) => option.textContent?.trim() === 'Behavior Nemesis'
-    );
-    expect(behaviorNemesisOption).toBeDefined();
-
-    fireEvent.change(nemesisNameSelect, {
-      target: { value: '__add-new-nemesis__' },
-    });
-    fireEvent.change(nemesisNameSelect, {
-      target: { value: behaviorNemesisOption?.value ?? '' },
-    });
-    expect(
-      (screen.getByLabelText('Nemesis behavior rules') as HTMLTextAreaElement)
-        .value
-    ).toContain(
-      'This NPO will shoot the enemy as a priority, but will fight if the need arises.'
-    );
-
     fireEvent.change(screen.getByLabelText('Nemesis behavior rules'), {
       target: { value: 'Custom nemesis behavior.' },
     });

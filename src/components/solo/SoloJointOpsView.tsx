@@ -5475,7 +5475,9 @@ export function SoloJointOpsView() {
               ))}
             </select>
 
-            <label htmlFor="nemesis-behavior-rules">Nemesis Behavior Rules</label>
+            <label htmlFor="nemesis-behavior-rules">
+              Nemesis Behavior Rules
+            </label>
             <textarea
               id="nemesis-behavior-rules"
               value={nemesisBehaviorRules}
