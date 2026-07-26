@@ -3412,15 +3412,13 @@ export function SoloJointOpsView() {
         <article class="nemesis-print-card">
           <header class="card-header">
             <h1>${escapeHtml(entry.nemesis.name)}</h1>
-          </header>
-          <section class="card-top">
             <div class="stat-grid">
               <div><span>Control</span><strong>${profile.apl}</strong></div>
               <div><span>Move</span><strong>${escapeHtml(profile.move)}</strong></div>
               <div><span>Save</span><strong>${escapeHtml(profile.save)}</strong></div>
               <div><span>Wounds</span><strong>${profile.wounds}</strong></div>
             </div>
-          </section>
+          </header>
           <section>
             <h2>Ranged Weapons</h2>
             <table>
@@ -3469,14 +3467,14 @@ export function SoloJointOpsView() {
       @page { size: A4 landscape; margin: 8mm; }
       * { box-sizing: border-box; }
       body { margin: 0; font-family: "Arial Narrow", Arial, sans-serif; color: #111827; background: #f3f4f6; }
-      .print-page { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4mm; width: 100%; height: calc(297mm - 16mm); break-after: page; }
-      .nemesis-print-card { border: 1px solid #111827; background: #fff; border-radius: 5px; padding: 3.5mm; display: grid; grid-template-rows: auto auto auto auto 1fr; gap: 2mm; overflow: hidden; }
-      .card-header { border-bottom: 2px solid #f97316; padding-bottom: 1mm; }
-      .card-header h1 { margin: 0; color: #ea580c; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5mm; }
-      .stat-grid div { border: 1px solid #d1d5db; border-radius: 3px; padding: 1mm; display: grid; gap: 0.5mm; }
-      .stat-grid span { font-size: 7.5px; text-transform: uppercase; letter-spacing: 0.04em; color: #4b5563; }
-      .stat-grid strong { font-size: 11px; }
+      .print-page { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4mm; width: 100%; height: calc(210mm - 16mm); break-after: page; }
+      .nemesis-print-card { border: 1px solid #111827; background: #fff; border-radius: 5px; padding: 3.5mm; display: grid; grid-template-rows: auto auto auto 1fr; gap: 2mm; overflow: hidden; }
+      .card-header { border-bottom: 2px solid #f97316; padding-bottom: 1mm; display: flex; align-items: center; gap: 2mm; }
+      .card-header h1 { margin: 0; color: #ea580c; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+      .stat-grid { display: grid; grid-template-columns: repeat(4, 22mm); gap: 1mm; flex-shrink: 0; }
+      .stat-grid div { border: 1px solid #d1d5db; border-radius: 3px; padding: 0.8mm 1mm; display: grid; gap: 0.3mm; }
+      .stat-grid span { font-size: 6.5px; text-transform: uppercase; letter-spacing: 0.04em; color: #4b5563; }
+      .stat-grid strong { font-size: 10px; }
       h2 { margin: 0 0 1mm; font-size: 8.5px; color: #ea580c; text-transform: uppercase; letter-spacing: 0.04em; }
       table { width: 100%; border-collapse: collapse; font-size: 8px; }
       th, td { border: 1px solid #d1d5db; padding: 0.8mm 1mm; text-align: left; vertical-align: top; }
