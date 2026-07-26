@@ -3404,6 +3404,7 @@ export function SoloJointOpsView() {
       <p>Layout: 2 datacards per A4 page for readability.</p>
     </header>
     ${cards}
+    <script>window.addEventListener('load', () => window.print());</script>
   </body>
 </html>`;
   };
@@ -3418,19 +3419,18 @@ export function SoloJointOpsView() {
       return;
     }
 
-    const printWindow = window.open('', '_blank');
-    if (!printWindow) {
+    const html = buildNemesisDatacardHtml(exports, mode);
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const opened = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!opened) {
+      URL.revokeObjectURL(url);
       setImportMessage(
         'Unable to open print window. Please allow pop-ups to export datacards.'
       );
       return;
     }
-
-    printWindow.opener = null;
-    printWindow.document.write(buildNemesisDatacardHtml(exports, mode));
-    printWindow.document.close();
-    printWindow.focus();
-    setTimeout(() => printWindow.print(), 120);
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
   };
 
   const handleListsImport = async (event: ChangeEvent<HTMLInputElement>) => {
