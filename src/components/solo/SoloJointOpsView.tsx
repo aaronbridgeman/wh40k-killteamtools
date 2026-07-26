@@ -3503,7 +3503,10 @@ export function SoloJointOpsView() {
   ) => {
     const exports = resolveNemesisDatacardExports(nemesisIds);
     if (exports.length === 0) {
-      setImportMessage('No valid Nemesis operatives available to export.');
+      const scopeLabel = mode === 'all' ? 'all' : 'selected';
+      setImportMessage(
+        `No valid ${scopeLabel} Nemesis operatives available to export.`
+      );
       return;
     }
 
