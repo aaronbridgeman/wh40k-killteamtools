@@ -4001,7 +4001,7 @@
             "specialRules": ""
           }
         ],
-        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+        "behaviorRules": "The NPO will move towards the enemy to fight them but will seek cover on its way. When activated, if it’s a NEMESIS NPO or will perform the Fight or Charge action during that activation, give it an Engage order. Otherwise, give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this). 4. Dash towards the closest player operative, to cover if possible."
       }
     },
     {
@@ -4028,7 +4028,7 @@
             "specialRules": ""
           }
         ],
-        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+        "behaviorRules": "The NPO will move towards the enemy to fight them but will seek cover on its way. When activated, if it’s a NEMESIS NPO or will perform the Fight or Charge action during that activation, give it an Engage order. Otherwise, give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this). 4. Dash towards the closest player operative, to cover if possible."
       }
     },
     {
@@ -4055,7 +4055,7 @@
             "specialRules": ""
           }
         ],
-        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+        "behaviorRules": "The NPO will move towards the enemy to fight them but will seek cover on its way. When activated, if it’s a NEMESIS NPO or will perform the Fight or Charge action during that activation, give it an Engage order. Otherwise, give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this). 4. Dash towards the closest player operative, to cover if possible."
       }
     },
     {
@@ -4082,7 +4082,7 @@
           }
         ],
         "meleeWeapons": [],
-        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy. When activated, if it can perform the Shoot action during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover. If possible, to a location where there is a valid target that is not obscured. 2. Shoot . Prioritise targets out of cover or with an objective. 3. Reposition to cover. If possible, to a location where there is a valid target that is not obscured (a subsequent Dash action can fulfil this, if able). 4. Dash to cover. If possible, to a location where there is a valid target that is not obscured."
+        "behaviorRules": "This NPO will move to the Ideal position to shoot the enemy. When activated, if it’s a NEMESIS NPO or will perform the Shoot action during that activation, give it an Engage order. Otherwise give it a Conceal order. 1. Fall Back. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission. 2. Shoot. 3. Reposition. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission (a subsequent Dash action can fulfil these). 4. Dash. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission."
       }
     },
     {
@@ -4109,7 +4109,7 @@
           }
         ],
         "meleeWeapons": [],
-        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy. When activated, if it can perform the Shoot action during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover. If possible, to a location where there is a valid target that is not obscured. 2. Shoot . Prioritise targets out of cover or with an objective. 3. Reposition to cover. If possible, to a location where there is a valid target that is not obscured (a subsequent Dash action can fulfil this, if able). 4. Dash to cover. If possible, to a location where there is a valid target that is not obscured."
+        "behaviorRules": "This NPO will move to the Ideal position to shoot the enemy. When activated, if it’s a NEMESIS NPO or will perform the Shoot action during that activation, give it an Engage order. Otherwise give it a Conceal order. 1. Fall Back. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission. 2. Shoot. 3. Reposition. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission (a subsequent Dash action can fulfil these). 4. Dash. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission."
       }
     },
     {
@@ -4136,7 +4136,7 @@
           }
         ],
         "meleeWeapons": [],
-        "behaviorRules": "This NPO will move to an ideal position to shoot the enemy. When activated, if it can perform the Shoot action during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fall Back to cover. If possible, to a location where there is a valid target that is not obscured. 2. Shoot . Prioritise targets out of cover or with an objective. 3. Reposition to cover. If possible, to a location where there is a valid target that is not obscured (a subsequent Dash action can fulfil this, if able). 4. Dash to cover. If possible, to a location where there is a valid target that is not obscured."
+        "behaviorRules": "This NPO will move to the Ideal position to shoot the enemy. When activated, if it’s a NEMESIS NPO or will perform the Shoot action during that activation, give it an Engage order. Otherwise give it a Conceal order. 1. Fall Back. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission. 2. Shoot. 3. Reposition. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission (a subsequent Dash action can fulfil these). 4. Dash. If possible, to a location where there’s a valid target that isn’t obscured, if not, to a location that’s appropriate for the NPOs to better win the mission."
       }
     },
     {
@@ -17226,7 +17226,7 @@
             "specialRules": ""
           }
         ],
-        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+        "behaviorRules": "The NPO will move towards the enemy to fight them but will seek cover on its way. When activated, if it’s a NEMESIS NPO or will perform the Fight or Charge action during that activation, give it an Engage order. Otherwise, give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this). 4. Dash towards the closest player operative, to cover if possible."
       }
     },
     {
@@ -17253,7 +17253,7 @@
             "specialRules": ""
           }
         ],
-        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+        "behaviorRules": "The NPO will move towards the enemy to fight them but will seek cover on its way. When activated, if it’s a NEMESIS NPO or will perform the Fight or Charge action during that activation, give it an Engage order. Otherwise, give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this). 4. Dash towards the closest player operative, to cover if possible."
       }
     },
     {
@@ -17316,7 +17316,7 @@
             "specialRules": ""
           }
         ],
-        "behaviorRules": "This NPO will move towards the enemy to fight them, but will seek cover on its way. When activated, if it can perform either of its first two actions during that activation, give it an Engage order. If it cannot, give it a Conceal order. 1. Fight . 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this, if able). 4. Dash towards the closest player operative, to cover if possible."
+        "behaviorRules": "The NPO will move towards the enemy to fight them but will seek cover on its way. When activated, if it’s a NEMESIS NPO or will perform the Fight or Charge action during that activation, give it an Engage order. Otherwise, give it a Conceal order. 1. Fight. 2. Charge the closest player operative via the shortest possible route. 3. Reposition towards the closest player operative, to cover if possible (a subsequent Dash action can fulfil this). 4. Dash towards the closest player operative, to cover if possible."
       }
     },
     {

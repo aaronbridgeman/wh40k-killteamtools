@@ -350,6 +350,66 @@ describe('SoloJointOpsView', () => {
     expect(profileOptions).toContain('Marksman Trooper');
   });
 
+  it('supports selecting default and custom NPO behavior profiles', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'NPO Profile Manager' })
+    );
+
+    const behaviorProfileSelect = screen.getByLabelText(
+      'NPO behavior profile'
+    ) as HTMLSelectElement;
+    const behaviorRulesTextarea = screen.getByLabelText(
+      'Behavior Rules'
+    ) as HTMLTextAreaElement;
+
+    fireEvent.change(behaviorProfileSelect, {
+      target: { value: 'marksman' },
+    });
+    expect(behaviorRulesTextarea.value).toContain(
+      'This NPO will move to the Ideal position to shoot the enemy.'
+    );
+    expect(behaviorProfileSelect.value).toBe('marksman');
+
+    fireEvent.change(behaviorRulesTextarea, {
+      target: { value: 'Custom behavior text.' },
+    });
+    expect(behaviorProfileSelect.value).toBe('custom');
+  });
+
+  it('supports selecting default and custom nemesis behavior profiles', () => {
+    render(<SoloJointOpsView />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'NPO Profile Manager' })
+    );
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Nemesis Profile Manager' })
+    );
+
+    fireEvent.change(screen.getByLabelText('Nemesis display name'), {
+      target: { value: 'Behavior Nemesis' },
+    });
+    fireEvent.change(screen.getByLabelText('Nemesis behavior profile'), {
+      target: { value: 'guardian' },
+    });
+    expect(
+      (screen.getByLabelText('Nemesis behavior rules') as HTMLTextAreaElement)
+        .value
+    ).toContain(
+      'This NPO will shoot the enemy as a priority, but will fight if the need arises.'
+    );
+
+    fireEvent.change(screen.getByLabelText('Nemesis behavior rules'), {
+      target: { value: 'Custom nemesis behavior.' },
+    });
+    expect(
+      (screen.getByLabelText('Nemesis behavior profile') as HTMLSelectElement)
+        .value
+    ).toBe('custom');
+  });
+
   it('creates nemesis operatives and gives NPO nemesis two default activation cards', () => {
     render(<SoloJointOpsView />);
 

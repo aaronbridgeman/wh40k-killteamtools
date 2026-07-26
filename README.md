@@ -59,9 +59,10 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **Activation Deck Editor**: Compact deck summary with popup deck setup; per-card edit mode supports operative links and card instance counts (duplicates). Default generation gives NPO Nemesis operatives two cards
 - **NPO Selection Rules**: Manual, Random, Melee-heavy, Ranged-heavy, Elite (higher wounds first), and Horde (lower wounds first)
 - **Datacard Default Option**: Player list entries default to a `Datacard` profile option
-- **NPO Profile Manager**: Top-level tab for creating/editing/deleting profile stat blocks with ranged/melee weapon profiles and behavior rules
+- **NPO Profile Manager**: Top-level tab for creating/editing/deleting profile stat blocks with ranged/melee weapon profiles and behavior rules, including selectable default behavior profiles (BRAWLER, MARKSMAN, BATTLER, GUARDIAN) with custom text fallback
 - **Nemesis Profile Manager**: Top-level tab for creating and managing Nemesis operatives
 - **Nemesis Manager**: Select an existing Nemesis operative by name to edit it, or pick `Add new` to create one. Size presets (Small/Medium/Large/Custom) set Control, Move, Save, and Wounds automatically with datacard-style stat chips
+- **Nemesis Behavior Profiles**: Nemesis operatives support the same default behavior profile presets (BRAWLER, MARKSMAN, BATTLER, GUARDIAN) with editable custom behavior text
 - **Nemesis Weapon Selection Rules**: Size sets recommended weapon selection limits (Small 2, Medium 2, Large 3; Custom 2 default). Over-limit manual overrides are allowed with warning messages
 - **Nemesis Weapon Picker UX**: Ranged and melee editors are collapsed by default, edited independently, and use toggle buttons for selection (selected items are highlighted and sorted to the top)
 - **Default/Extended Weapon Sources**: `Default` shows official weapon tables only; `Extended` additionally includes auto-generated consolidated ranged/melee pools from operative profiles

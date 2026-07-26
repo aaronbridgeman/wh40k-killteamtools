@@ -401,6 +401,7 @@ JSON Schema will validate all configuration files to ensure:
    - Profile data includes APL (or Control for Nemesis), Move, Save, Wounds
    - Profile data includes ranged and melee weapon profiles
    - Profile data includes behavior rules where applicable
+   - Behavior rules support selectable default profiles (`BRAWLER`, `MARKSMAN`, `BATTLER`, `GUARDIAN`) plus custom text
    - Profiles are persisted and support backup/import
 
 5. **Nemesis Profile Manager**
@@ -419,6 +420,7 @@ JSON Schema will validate all configuration files to ensure:
    - Consolidated ranged/melee pools are generated from operative weapon profiles to stay current as content expands
    - Official ranged/melee tables are the default source when available
    - Supports allegiance-trait and nemesis-trait selection pools
+   - Supports selectable default behavior profiles (`BRAWLER`, `MARKSMAN`, `BATTLER`, `GUARDIAN`) plus custom text for Nemesis profiles
    - Allegiance trait labels are faction-prefixed (for example `Necrons - Living Metal`) for faster identification
    - One allegiance trait and one nemesis trait are recommended, with override warnings when selecting multiple
    - Selected traits are persisted on Nemesis profiles and displayed in datacard summaries
