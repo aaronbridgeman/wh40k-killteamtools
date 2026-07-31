@@ -734,7 +734,7 @@ describe('SoloJointOpsView', () => {
 
       fireEvent.click(
         screen.getByRole('button', {
-          name: 'Export All Nemesis Datacards (PDF)',
+          name: 'Print All Nemesis (2)',
         })
       );
 
@@ -753,12 +753,20 @@ describe('SoloJointOpsView', () => {
         "window.addEventListener('load'"
       );
 
+      // Select "Export Nemesis Two" in editor and mark it for export
+      fireEvent.change(screen.getByLabelText('Nemesis name'), {
+        target: {
+          value: screen
+            .getByRole('option', { name: 'Export Nemesis Two' })
+            .getAttribute('value'),
+        },
+      });
       fireEvent.click(
-        screen.getByLabelText('Select nemesis datacard Export Nemesis Two')
+        screen.getByRole('button', { name: 'Mark nemesis for export' })
       );
       fireEvent.click(
         screen.getByRole('button', {
-          name: 'Export Selected Nemesis Datacards (PDF)',
+          name: /^Print Marked Nemesis \(1\)/,
         })
       );
 

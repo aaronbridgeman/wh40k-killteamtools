@@ -2312,6 +2312,9 @@ export function SoloJointOpsView() {
   const [selectedNemesisExportIds, setSelectedNemesisExportIds] = useState<
     string[]
   >([]);
+  const [selectedNpoExportIds, setSelectedNpoExportIds] = useState<string[]>(
+    []
+  );
   const [
     selectedNemesisAllegianceTraitIds,
     setSelectedNemesisAllegianceTraitIds,
@@ -3522,6 +3525,194 @@ export function SoloJointOpsView() {
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   };
 
+  const buildNpoDatacardHtml = (profiles: SoloProfile[]): string => {
+    const buildCard = (profile: SoloProfile): string => {
+      const primaryStatLabel = profile.usesControlStat ? 'Control' : 'APL';
+
+      const rangedRows =
+        profile.rangedWeapons.length > 0
+          ? profile.rangedWeapons
+              .map(
+                (weapon) => `
+              <tr>
+                <td>${escapeHtml(weapon.name)}</td>
+                <td>${weapon.attacks}</td>
+                <td>${escapeHtml(weapon.skill)}</td>
+                <td>${escapeHtml(`N ${weapon.damage} / C ${weapon.criticalDamage}`)}</td>
+                <td>${escapeHtml(weapon.specialRules || '—')}</td>
+              </tr>
+            `
+              )
+              .join('')
+          : '<tr><td colspan="5" class="empty-row">No ranged weapons</td></tr>';
+
+      const meleeRows =
+        profile.meleeWeapons.length > 0
+          ? profile.meleeWeapons
+              .map(
+                (weapon) => `
+              <tr>
+                <td>${escapeHtml(weapon.name)}</td>
+                <td>${weapon.attacks}</td>
+                <td>${escapeHtml(weapon.skill)}</td>
+                <td>${escapeHtml(`N ${weapon.damage} / C ${weapon.criticalDamage}`)}</td>
+                <td>${escapeHtml(weapon.specialRules || '—')}</td>
+              </tr>
+            `
+              )
+              .join('')
+          : '<tr><td colspan="5" class="empty-row">No melee weapons</td></tr>';
+
+      const allegianceTraitsHtml =
+        (profile.allegianceTraits?.length ?? 0) > 0
+          ? (profile.allegianceTraits ?? [])
+              .map((traitId) =>
+                NEMESIS_ALLEGIANCE_TRAITS.find((t) => t.id === traitId)
+              )
+              .filter((t): t is NemesisTraitOption => Boolean(t))
+              .map(
+                (trait) => `
+              <div class="trait-entry">
+                <strong>${escapeHtml(formatAllegianceTraitName(trait))}</strong>
+                <span>${escapeHtml(trait.description)}</span>
+              </div>`
+              )
+              .join('')
+          : '<div class="trait-entry no-trait">None</div>';
+
+      const nemesisTraitsHtml =
+        (profile.nemesisTraits?.length ?? 0) > 0
+          ? (profile.nemesisTraits ?? [])
+              .map((traitId) => NEMESIS_TRAITS.find((t) => t.id === traitId))
+              .filter((t): t is NemesisTraitOption => Boolean(t))
+              .map(
+                (trait) => `
+              <div class="trait-entry">
+                <strong>${escapeHtml(trait.name)}</strong>
+                <span>${escapeHtml(trait.description)}</span>
+              </div>`
+              )
+              .join('')
+          : '';
+
+      const traitsBlock =
+        nemesisTraitsHtml ||
+        allegianceTraitsHtml !== '<div class="trait-entry no-trait">None</div>'
+          ? `<section class="trait-block">
+            <h2>Allegiance Traits</h2>
+            ${allegianceTraitsHtml}
+            ${nemesisTraitsHtml ? `<h2>Nemesis Traits</h2>${nemesisTraitsHtml}` : ''}
+          </section>`
+          : '';
+
+      return `
+        <article class="nemesis-print-card">
+          <header class="card-header">
+            <h1>${escapeHtml(profile.name)}</h1>
+            <div class="stat-grid">
+              <div><span>${escapeHtml(primaryStatLabel)}</span><strong>${profile.apl}</strong></div>
+              <div><span>Move</span><strong>${escapeHtml(profile.move)}</strong></div>
+              <div><span>Save</span><strong>${escapeHtml(profile.save)}</strong></div>
+              <div><span>Wounds</span><strong>${profile.wounds}</strong></div>
+            </div>
+          </header>
+          <section>
+            <h2>Ranged Weapons</h2>
+            <table>
+              <thead>
+                <tr><th>Name</th><th>ATK</th><th>HIT</th><th>DMG</th><th>WR</th></tr>
+              </thead>
+              <tbody>${rangedRows}</tbody>
+            </table>
+          </section>
+          <section>
+            <h2>Melee Weapons</h2>
+            <table>
+              <thead>
+                <tr><th>Name</th><th>ATK</th><th>HIT</th><th>DMG</th><th>WR</th></tr>
+              </thead>
+              <tbody>${meleeRows}</tbody>
+            </table>
+          </section>
+          ${traitsBlock}
+          <section class="trait-block">
+            <h2>Behaviour</h2>
+            <p class="behaviour-text">${escapeHtml(profile.behaviorRules || 'None')}</p>
+          </section>
+        </article>`;
+    };
+
+    // Group cards into pages of 4 (2×2 grid, landscape)
+    const pages: string[] = [];
+    for (let i = 0; i < profiles.length; i += 4) {
+      const pageCards = profiles
+        .slice(i, i + 4)
+        .map(buildCard)
+        .join('');
+      pages.push(`<div class="print-page">${pageCards}</div>`);
+    }
+
+    return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NPO Profile Datacards</title>
+    <style>
+      @page { size: A4 landscape; margin: 8mm; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: "Arial Narrow", Arial, sans-serif; color: #111827; background: #f3f4f6; }
+      .print-page { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4mm; width: 100%; height: calc(210mm - 16mm); break-after: page; }
+      .nemesis-print-card { border: 1px solid #111827; background: #fff; border-radius: 5px; padding: 3.5mm; display: grid; grid-template-rows: auto auto auto 1fr; gap: 2mm; overflow: hidden; }
+      .card-header { border-bottom: 2px solid #f97316; padding-bottom: 1mm; display: flex; align-items: center; gap: 2mm; }
+      .card-header h1 { margin: 0; color: #ea580c; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+      .stat-grid { display: grid; grid-template-columns: repeat(4, 22mm); gap: 1mm; flex-shrink: 0; }
+      .stat-grid div { border: 1px solid #d1d5db; border-radius: 3px; padding: 0.8mm 1mm; display: grid; gap: 0.3mm; }
+      .stat-grid span { font-size: 6.5px; text-transform: uppercase; letter-spacing: 0.04em; color: #4b5563; }
+      .stat-grid strong { font-size: 10px; }
+      h2 { margin: 0 0 1mm; font-size: 8.5px; color: #ea580c; text-transform: uppercase; letter-spacing: 0.04em; }
+      table { width: 100%; border-collapse: collapse; font-size: 8px; }
+      th, td { border: 1px solid #d1d5db; padding: 0.8mm 1mm; text-align: left; vertical-align: top; }
+      th { background: #f3f4f6; font-weight: 700; }
+      .empty-row { text-align: center; color: #6b7280; }
+      .trait-block { border-top: 1.5px solid #f97316; padding-top: 1.5mm; }
+      .trait-entry { margin-bottom: 1mm; font-size: 8px; line-height: 1.3; }
+      .trait-entry strong { display: block; font-size: 8px; }
+      .trait-entry span { color: #374151; }
+      .trait-entry.no-trait { color: #6b7280; }
+      .behaviour-text { margin: 0; font-size: 8px; line-height: 1.3; color: #374151; }
+    </style>
+  </head>
+  <body>
+    ${pages.join('')}
+    <script>window.addEventListener('load', () => window.print());</script>
+  </body>
+</html>`;
+  };
+
+  const exportNpoDatacards = (profileIds: string[]) => {
+    const profilesToExport = profileIds
+      .map((id) => state.profiles.find((p) => p.id === id))
+      .filter((p): p is SoloProfile => Boolean(p));
+
+    if (profilesToExport.length === 0) {
+      setImportMessage('No valid NPO profiles available to export.');
+      return;
+    }
+
+    const html = buildNpoDatacardHtml(profilesToExport);
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const opened = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!opened) {
+      URL.revokeObjectURL(url);
+      setImportMessage(
+        'Unable to open print window. Please allow pop-ups to export datacards.'
+      );
+      return;
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  };
+
   const handleListsImport = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -4006,6 +4197,16 @@ export function SoloJointOpsView() {
     (nemesis) => nemesis.id
   );
   const hasNemesisExportSelection = selectedNemesisExportIds.length > 0;
+  const nemesisProfileIdSet = useMemo(
+    () => new Set(state.nemesisOperatives.map((n) => n.profileId)),
+    [state.nemesisOperatives]
+  );
+  const npoOnlyProfiles = useMemo(
+    () => state.profiles.filter((p) => !nemesisProfileIdSet.has(p.id)),
+    [state.profiles, nemesisProfileIdSet]
+  );
+  const allNpoExportIds = npoOnlyProfiles.map((p) => p.id);
+  const hasNpoExportSelection = selectedNpoExportIds.length > 0;
   const selectedPlayerTeamSourceList = getTeamSourceList(selectedPlayerTeam);
   const selectedNpoTeamSourceList = getTeamSourceList(selectedNpoTeam);
 
@@ -5167,8 +5368,9 @@ export function SoloJointOpsView() {
               value={activeProfile?.id ?? ''}
               onChange={(event) => setEditingProfileId(event.target.value)}
             >
-              {state.profiles.map((profile) => (
+              {npoOnlyProfiles.map((profile) => (
                 <option key={profile.id} value={profile.id}>
+                  {selectedNpoExportIds.includes(profile.id) ? '🖨️ ' : ''}
                   {profile.name}
                 </option>
               ))}
@@ -5184,6 +5386,25 @@ export function SoloJointOpsView() {
             >
               Delete Profile
             </button>
+            {activeProfile && !nemesisProfileIdSet.has(activeProfile.id) && (
+              <button
+                type="button"
+                className={`mark-for-print-btn${selectedNpoExportIds.includes(activeProfile.id) ? ' is-marked' : ''}`}
+                onClick={() =>
+                  setSelectedNpoExportIds((prev) =>
+                    prev.includes(activeProfile.id)
+                      ? prev.filter((id) => id !== activeProfile.id)
+                      : [...prev, activeProfile.id]
+                  )
+                }
+                aria-pressed={selectedNpoExportIds.includes(activeProfile.id)}
+                aria-label={`Mark profile ${activeProfile.name} for print`}
+              >
+                {selectedNpoExportIds.includes(activeProfile.id)
+                  ? '🖨️ Marked for Print'
+                  : '🖨️ Mark for Print'}
+              </button>
+            )}
           </div>
 
           {activeProfile && (
@@ -5294,6 +5515,43 @@ export function SoloJointOpsView() {
               </div>
             </div>
           )}
+
+          <section className="nemesis-export-panel">
+            <h5>NPO Profile Datacard PDF Export</h5>
+            <p className="team-selection-meta">
+              Export uses a print-ready A4 layout with up to 4 datacards per
+              page. Mark profiles using the toolbar button above.
+            </p>
+            {npoOnlyProfiles.length === 0 ? (
+              <p className="team-transfer-empty">
+                Create at least one NPO profile to export datacards.
+              </p>
+            ) : (
+              <div className="nemesis-export-actions">
+                <button
+                  type="button"
+                  onClick={() => exportNpoDatacards(allNpoExportIds)}
+                >
+                  Print All Profiles ({npoOnlyProfiles.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => exportNpoDatacards(selectedNpoExportIds)}
+                  disabled={!hasNpoExportSelection}
+                >
+                  Print Marked Profiles ({selectedNpoExportIds.length})
+                </button>
+                {hasNpoExportSelection && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedNpoExportIds([])}
+                  >
+                    Clear Marks
+                  </button>
+                )}
+              </div>
+            )}
+          </section>
 
           <div className="backup-controls">
             <button type="button" onClick={exportProfiles}>
@@ -6040,93 +6298,79 @@ export function SoloJointOpsView() {
                 : 'Create Nemesis Operative'}
             </button>
             {isEditingExistingNemesis && (
-              <button
-                type="button"
-                className="danger-button"
-                onClick={() => deleteNemesisOperative(selectedNemesisEditorId)}
-              >
-                Remove Selected Nemesis
-              </button>
+              <>
+                <button
+                  type="button"
+                  className="danger-button"
+                  onClick={() =>
+                    deleteNemesisOperative(selectedNemesisEditorId)
+                  }
+                >
+                  Remove Selected Nemesis
+                </button>
+                <button
+                  type="button"
+                  className={`mark-for-print-btn${selectedNemesisExportIds.includes(selectedNemesisEditorId) ? ' is-marked' : ''}`}
+                  onClick={() =>
+                    setSelectedNemesisExportIds((prev) =>
+                      prev.includes(selectedNemesisEditorId)
+                        ? prev.filter((id) => id !== selectedNemesisEditorId)
+                        : [...prev, selectedNemesisEditorId]
+                    )
+                  }
+                  aria-pressed={selectedNemesisExportIds.includes(
+                    selectedNemesisEditorId
+                  )}
+                  aria-label={`Mark nemesis for export`}
+                >
+                  {selectedNemesisExportIds.includes(selectedNemesisEditorId)
+                    ? '🖨️ Marked for Export'
+                    : '🖨️ Mark for Export'}
+                </button>
+              </>
             )}
 
             <section className="nemesis-export-panel">
               <h5>Nemesis Datacard PDF Export</h5>
               <p className="team-selection-meta">
-                Export uses a print-ready A4 layout with 2 readable datacards
-                per page.
+                Export uses a print-ready A4 layout with up to 4 datacards per
+                page. Mark operatives using the button above while editing.
               </p>
               {state.nemesisOperatives.length === 0 ? (
                 <p className="team-transfer-empty">
                   Create at least one Nemesis operative to export datacards.
                 </p>
               ) : (
-                <>
-                  <div className="nemesis-export-actions">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setSelectedNemesisExportIds(allNemesisExportIds)
-                      }
-                    >
-                      Select All
-                    </button>
+                <div className="nemesis-export-actions">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      exportNemesisDatacards('all', allNemesisExportIds)
+                    }
+                  >
+                    Print All Nemesis ({state.nemesisOperatives.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      exportNemesisDatacards(
+                        'selected',
+                        selectedNemesisExportIds
+                      )
+                    }
+                    disabled={!hasNemesisExportSelection}
+                  >
+                    Print Marked Nemesis ({selectedNemesisExportIds.length})
+                  </button>
+                  {hasNemesisExportSelection && (
                     <button
                       type="button"
                       onClick={() => setSelectedNemesisExportIds([])}
-                      disabled={!hasNemesisExportSelection}
                     >
-                      Clear Selection
+                      Clear Marks
                     </button>
-                  </div>
-                  <ul className="nemesis-export-list">
-                    {state.nemesisOperatives.map((nemesis) => {
-                      const selected = selectedNemesisExportIds.includes(
-                        nemesis.id
-                      );
-                      return (
-                        <li key={`export-${nemesis.id}`}>
-                          <label className="nemesis-export-option">
-                            <input
-                              type="checkbox"
-                              checked={selected}
-                              onChange={() =>
-                                setSelectedNemesisExportIds((prev) =>
-                                  selected
-                                    ? prev.filter((id) => id !== nemesis.id)
-                                    : [...prev, nemesis.id]
-                                )
-                              }
-                              aria-label={`Select nemesis datacard ${nemesis.name}`}
-                            />
-                            <span>{nemesis.name}</span>
-                          </label>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <div className="nemesis-export-actions">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        exportNemesisDatacards('all', allNemesisExportIds)
-                      }
-                    >
-                      Export All Nemesis Datacards (PDF)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        exportNemesisDatacards(
-                          'selected',
-                          selectedNemesisExportIds
-                        )
-                      }
-                      disabled={!hasNemesisExportSelection}
-                    >
-                      Export Selected Nemesis Datacards (PDF)
-                    </button>
-                  </div>
-                </>
+                  )}
+                </div>
               )}
             </section>
           </section>
