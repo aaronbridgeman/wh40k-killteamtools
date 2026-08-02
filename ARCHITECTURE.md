@@ -15,7 +15,7 @@
 
 ## System Overview
 
-Kill Team Dataslate is a client-side React application built with TypeScript and Vite. It provides comprehensive tools for Warhammer 40K Kill Team players to view faction rules, build teams, and track game state.
+Kill Team Dataslate is a client-side React application built with TypeScript and Vite. It provides comprehensive tools for Warhammer 40K Kill Team players and now includes multi-system scaffolding so additional game systems can be integrated behind a shared selector.
 
 ### Technology Stack
 
@@ -29,6 +29,7 @@ Kill Team Dataslate is a client-side React application built with TypeScript and
 
 - **Fully Client-Side**: No backend server required
 - **Data-Driven**: All game data stored in JSON configuration files
+- **Multi-System Ready**: Root-level game-system selector with per-system config scaffolds
 - **Type-Safe**: Comprehensive TypeScript type system
 - **Tested**: 350+ unit tests with high coverage
 - **Responsive**: Mobile-first design approach
@@ -71,6 +72,8 @@ graph TB
 graph TD
     App[App.tsx - Root]
 
+    App --> GSS[GameSystem Selector]
+    App --> SSV[ScaffoldSystemView]
     App --> FS[FactionSelector]
     App --> FD[FactionDetails]
     App --> OS[OperativeSelector]
@@ -243,6 +246,7 @@ graph LR
 The root component that manages:
 
 - Global application state
+- Selected game system state
 - View mode navigation (Solo/Joint Ops and rules pages)
 - Team building workflow
 - Faction selection and loading
@@ -250,9 +254,18 @@ The root component that manages:
 **Key Responsibilities:**
 
 - Orchestrates view transitions
+- Switches between active and scaffolded game systems
 - Manages team state and persistence
 - Loads faction and equipment data
 - Provides context to child components
+
+#### Game System Components
+
+**ScaffoldSystemView** (`components/game-system/ScaffoldSystemView.tsx`)
+
+- Displays scaffold status for non-active game systems
+- Surfaces each system's configured reference-data sources
+- Provides a clear UI integration point before full feature implementation
 
 #### Faction Components
 
@@ -671,6 +684,7 @@ Located in `src/types/`:
 │   │   ├── equipment/      # Equipment selection components
 │   │   ├── faction/        # Faction selection/display
 │   │   ├── game/           # Game tracking components
+│   │   ├── game-system/    # Game system scaffold UI
 │   │   ├── rules/          # Rules reference components
 │   │   └── team/           # Team building components
 │   │
@@ -680,6 +694,9 @@ Located in `src/types/`:
 │   │   ├── factions/       # Faction data (JSON)
 │   │   │   ├── angels-of-death/
 │   │   │   └── plague-marines/
+│   │   ├── game-systems/   # Per-system configs/scaffolds
+│   │   │   ├── kill-team/
+│   │   │   └── space-weirdos/
 │   │   ├── rules/          # General rules data
 │   │   └── weapons/        # Weapon definitions
 │   │
@@ -758,6 +775,7 @@ Business logic is extracted into service modules:
 Game data is stored in JSON files:
 
 - Version-controlled faction data
+- Per-system metadata and scaffolds in `src/data/game-systems/`
 - Schema-validated configurations
 - Easy to update without code changes
 - Supports modular faction additions

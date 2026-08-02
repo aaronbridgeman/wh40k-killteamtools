@@ -24,6 +24,31 @@
   opacity: 0.9;
 }
 
+.game-system-selector {
+  margin-top: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.game-system-selector label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.game-system-selector select {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.22);
+  color: white;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.9rem;
+}
+
+.game-system-selector select option {
+  color: #111;
+}
+
 .auth-actions {
   margin-top: 0.7rem;
   display: flex;
@@ -271,6 +296,12 @@
   .subtitle {
     font-size: 1rem;
     margin-top: 0.2rem;
+  }
+
+  .game-system-selector {
+    margin-top: 0.6rem;
+    width: 100%;
+    justify-content: center;
   }
 
   .nav-buttons {
