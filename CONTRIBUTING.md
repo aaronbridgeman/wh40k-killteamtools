@@ -11,7 +11,8 @@ Thank you for your interest in contributing to Kill Team Dataslate! This documen
 5. [Testing Guidelines](#testing-guidelines)
 6. [Submitting Changes](#submitting-changes)
 7. [Adding New Factions](#adding-new-factions)
-8. [Documentation](#documentation)
+8. [Adding New Game Systems](#adding-new-game-systems)
+9. [Documentation](#documentation)
 
 ## Code of Conduct
 
@@ -344,6 +345,14 @@ Quick checklist:
 5. Update `AVAILABLE_FACTIONS` in `src/services/dataLoader.ts`
 6. Write unit tests for faction data
 7. Update documentation
+
+## Adding New Game Systems
+
+1. Add a config in `src/data/game-systems/{system-id}/config.ts`
+2. Add a reference-data scaffold file in the same folder
+3. Register the system in `src/data/game-systems/index.ts`
+4. Ensure non-ready systems use scaffold status until UI/features are implemented
+5. Update README, ARCHITECTURE, and SPEC to reflect availability/status
 
 ## Documentation
 

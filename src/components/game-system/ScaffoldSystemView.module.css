@@ -1,0 +1,33 @@
+.container {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.title {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.description {
+  margin: 0.75rem 0 0;
+  color: var(--text-secondary);
+}
+
+.sourceList {
+  margin: 1rem 0 0;
+  padding-left: 1rem;
+  color: var(--text-primary);
+}
+
+.sourceList li + li {
+  margin-top: 0.5rem;
+}
+
+.sourcePath {
+  margin-left: 0.3rem;
+  color: var(--text-secondary);
+  font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+}

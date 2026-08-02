@@ -11,3 +11,4 @@ export * from './team';
 export * from './equipment';
 export * from './event';
 export * from './opponent';
+export * from './gameSystem';

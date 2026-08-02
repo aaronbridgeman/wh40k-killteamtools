@@ -1,6 +1,6 @@
 # Kill Team Dataslate
 
-A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, providing comprehensive faction rules, operative datacards, and team building tools with offline support.
+A Progressive Web App (PWA) for tabletop skirmish gameplay assistance, with full Kill Team support plus multi-system scaffolding for future game integrations.
 
 ## 🔗 Live Application
 
@@ -19,6 +19,9 @@ A Progressive Web App (PWA) for Warhammer 40K Kill Team gameplay assistance, pro
 - **📲 App Shortcuts**: Quick access to common features from app launcher
 
 ### Current Implementation (All Iterations Complete)
+
+- **Game System Selector**: Switch between supported/scaffolded game systems in-app
+- **Multi-System Data Scaffolding**: Dedicated `src/data/game-systems/` configs and reference-data entry points
 
 **Iteration 1: Dataslate Viewer** ✅
 
@@ -158,6 +161,7 @@ The application will be available at `http://localhost:5173`
 │   │   └── rules/      # Rule expansion components
 │   ├── data/           # Configuration data
 │   │   ├── factions/   # Faction-specific configs
+│   │   ├── game-systems/ # Game system configs and integration scaffolds
 │   │   └── weapons/    # Weapon rule glossary
 │   ├── services/       # Business logic
 │   ├── types/          # TypeScript definitions
@@ -170,7 +174,12 @@ The application will be available at `http://localhost:5173`
 └── SPEC.md            # Detailed technical specification
 ```
 
-## 🎮 Currently Supported Factions
+## 🎲 Game Systems
+
+- **Kill Team** - Active and fully integrated
+- **Space Weirdos** - Scaffolded (config and reference-data placeholders in place)
+
+## 🎮 Currently Supported Kill Team Factions
 
 - **Angels of Death** - Elite Space Marine operatives
 - **Plague Marines** - Resilient Death Guard warriors
